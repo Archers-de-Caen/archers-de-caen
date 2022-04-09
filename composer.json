@@ -8,6 +8,8 @@
   "require": {
     "php": ">=8.1",
     "ext-ctype": "*",
+    "ext-curl": "*",
+    "ext-dom": "*",
     "ext-iconv": "*",
     "doctrine/annotations": "^1.0",
     "doctrine/doctrine-bundle": "^2.5",
@@ -40,15 +42,14 @@
     "symfony/string": "6.0.*",
     "symfony/translation": "6.0.*",
     "symfony/twig-bundle": "6.0.*",
+    "symfony/uid": "6.0.*",
     "symfony/validator": "6.0.*",
     "symfony/web-link": "6.0.*",
     "symfony/webpack-encore-bundle": "^1.13",
     "symfony/yaml": "6.0.*",
     "twig/extra-bundle": "^2.12|^3.0",
     "twig/twig": "^2.12|^3.0",
-    "vich/uploader-bundle": "^1.19",
-    "ext-curl": "*",
-    "ext-dom": "*"
+    "vich/uploader-bundle": "^1.19"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "*",
