@@ -1,0 +1,31 @@
+@import "../../styles/variable";
+
+.hamburger-menu {
+  height: 25px;
+  width: 25px;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+
+  .hamburger-menu-bar {
+    height: 15%;
+    width: 100%;
+    background-color: $color-grey;
+    border-radius: 10px;
+    transition: transform .5s ease;
+  }
+
+  &.-close {
+    .hamburger-menu-bar {
+      transform-origin: 31px;
+
+      &:nth-child(1) {
+        transform: rotate(-45deg);
+      }
+
+      &:nth-child(2) {
+        transform: rotate(45deg);
+      }
+    }
+  }
+}

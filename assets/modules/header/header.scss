@@ -1,0 +1,113 @@
+@import "../../styles/variable";
+
+.header {
+  width: 100%;
+  text-transform: uppercase;
+  z-index: 20;
+  position: relative;
+
+  .header-primary {
+    background-color: $color-white;
+    box-shadow: $box-shadow;
+    z-index: 20;
+    height: 100px;
+    transition: height .5s ease;
+
+    .header-content {
+      justify-content: space-between;
+      font-size: large;
+      height: 100%;
+
+      .header-image {
+        img {
+          max-height: 75px;
+          min-height: 25px;
+          transition: height .5s ease;
+        }
+      }
+
+      .menu-responsive-btn {
+        display: none;
+        cursor: pointer;
+
+        width: 40px;
+        height: 40px;
+      }
+    }
+  }
+
+  .header-secondary {
+    background: $linear-gradient-target;
+    z-index: 21; // For box-shadow of .header-primary
+
+    .header-content {
+      color: white;
+      justify-content: end;
+      font-size: small;
+    }
+  }
+
+  .header-primary, .header-secondary {
+    position: relative; // For box-shadow of .header-primary without box-show is below background an another div
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      margin: auto;
+      width: 80%;
+      padding: 10px;
+    }
+
+    ul {
+      display: flex;
+
+      li {
+        margin: 0 10px;
+      }
+    }
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .header {
+    .header-primary {
+      .header-content {
+        ul {
+          display: none;
+          flex-direction: column;
+          justify-content: space-around;
+
+          font-size: xx-large;
+          font-weight: bold;
+
+          padding-left: 20px;
+
+          position: fixed;
+          bottom: 100%;
+          top: 120px;
+          left: 0;
+          right: 0;
+          background: $color-white;
+
+          transition: bottom .5s ease;
+
+          li {
+            display: none; // For beautiful transition
+          }
+        }
+
+        .menu-responsive-btn {
+          display: flex;
+        }
+      }
+    }
+
+    .header-secondary {
+      .header-content {
+        ul {
+          display: none;
+        }
+      }
+    }
+  }
+}

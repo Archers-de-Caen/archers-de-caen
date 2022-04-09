@@ -1,0 +1,5 @@
+.body {
+  z-index: 1;
+
+  min-height: calc(100vh - 550px /* 550px size of footer */ - 137px /* 137px size of header */);
+}

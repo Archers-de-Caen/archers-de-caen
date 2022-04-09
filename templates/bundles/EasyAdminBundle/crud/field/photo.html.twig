@@ -1,0 +1,13 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+{% if field.value %}
+    {% set html_id = 'ea-lightbox-' ~ field.value.imageName|replace({'.': '-'}) %}
+    <div class="field-image ea-lightbox-thumbnail" data-ea-lightbox-content-selector="#{{ html_id }}">
+        <img src="{{ vich_uploader_asset(field.value) }}" alt="{{ field.value.imageName }}" class="img-fluid">
+    </div>
+
+    <div id="{{ html_id }}" class="ea-lightbox">
+        <img src="{{ vich_uploader_asset(field.value) }}">
+    </div>
+{% endif %}

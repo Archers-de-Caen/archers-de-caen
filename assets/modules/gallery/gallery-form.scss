@@ -1,0 +1,56 @@
+@import "../../styles/variable";
+
+.gallery-form {
+  .gallery-photo-previews {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+
+    .gallery-photo-preview {
+      margin: 10px;
+
+      max-width: 100px;
+      width: 100px;
+
+      max-height: 100px;
+      height: 100px;
+
+      position: relative;
+
+      .loading, .fa {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        color: $color-white;
+        display: flex;
+      }
+
+      .loading {
+        background-color: rgba(0, 0, 0, .75);
+        border-radius: 5px;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .fa {
+        justify-content: end;
+        align-items: start;
+        margin: 5px;
+        cursor: pointer;
+
+        &:hover {
+          color: $color-red;
+        }
+      }
+
+      img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+      }
+    }
+  }
+}

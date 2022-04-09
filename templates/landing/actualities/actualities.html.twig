@@ -1,0 +1,30 @@
+{% extends '/landing/base.html.twig' %}
+
+{% macro actualities(actualities) %}
+    <div class="thumbnails">
+        {% for actuality in actualities %}
+            <a class="thumbnail" href="{{ path('landing_page', { slug: actuality.slug, type: 'actu' }) }}" title="{{ actuality.title }}">
+                <header>
+                    <img src="{{ actuality.image is defined and actuality.image ? vich_uploader_asset(actuality.image) : asset('build/images/photo/cible.jpg') }}" alt="Photo de l'actualité: {{ actuality.title }}">
+                </header>
+                <footer>
+                    <p>{{ actuality.title }}</p>
+                </footer>
+            </a>
+        {% endfor %}
+    </div>
+{% endmacro %}
+
+{% block body %}
+    <div class="thumbnail-page">
+        <div class="bg-target shape-target"></div>
+
+        <div class="thumbnails-container">
+            <div class="title">
+                <h1 class="-white">L’actualité du Club</h1>
+            </div>
+
+            {{ _self.actualities(actualities) }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,64 @@
+@import "../variable";
+
+@font-face {
+  font-family: "Roboto";
+  src: url("../../fonts/Roboto-Regular.ttf") format("woff2"),
+  url("../../fonts/Roboto-Regular.ttf") format("woff2");
+}
+
+*:where(:not(iframe, canvas, img, svg, video, b, strong, center):not(svg *)) {
+  all: unset;
+  display: revert;
+}
+
+* {
+  font-family: Roboto, "Arial Black", Arial, Verdana, sans-serif;
+  font-weight: lighter;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+textarea {
+  white-space: revert;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  a {
+    color: $color-yellow;
+    text-decoration: underline;
+  }
+}
+
+a {
+  cursor: pointer;
+
+  &.highlighted {
+    color: $color-yellow;
+    text-decoration: underline;
+  }
+
+  &:hover {
+    color: $color-yellow;
+  }
+}

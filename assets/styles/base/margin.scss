@@ -1,0 +1,12 @@
+.m-a { margin: auto }
+@for $i from 0 through 15 {
+  $multiplier: 10px;
+  $props: m;
+  .#{$props}t-#{$i} { margin-top: $multiplier*$i!important; }
+  .#{$props}b-#{$i} { margin-bottom: $multiplier*$i!important; }
+  .#{$props}l-#{$i} { margin-left: $multiplier*$i!important; }
+  .#{$props}r-#{$i} { margin-right: $multiplier*$i!important; }
+  .#{$props}x-#{$i} { margin-right: $multiplier*$i!important;; margin-left: $multiplier*$i!important; }
+  .#{$props}y-#{$i} { margin-top: $multiplier*$i!important;; margin-bottom: $multiplier*$i!important; }
+  .#{$props}-#{$i} { margin: $multiplier*$i!important; }
+}

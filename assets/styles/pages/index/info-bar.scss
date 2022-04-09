@@ -1,0 +1,44 @@
+@import "../../variable";
+
+.index-page {
+  .info-bar {
+    background-color: $color-white;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100px;
+    padding: 20px;
+    box-shadow: $box-shadow;
+
+    .licensees {
+      text-align: center;
+      font-size: x-large;
+      text-transform: uppercase;
+    }
+
+    .label, .ffta {
+      height: 100%;
+
+      img {
+        height: 100%;
+        display: block;
+      }
+    }
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, md)) {
+  .index-page {
+    .info-bar {
+      .licensees {
+        display: none;
+      }
+    }
+
+    .shape-target {
+      &::after {
+        display: none;
+      }
+    }
+  }
+}

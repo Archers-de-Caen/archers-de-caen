@@ -1,0 +1,65 @@
+@import "../variable";
+
+.shape-target {
+  width: 100%;
+  background-color: $color-yellow;
+  position: relative;
+
+  &::after {
+    z-index: -1;
+    content: "";
+    position: absolute;
+    width: 100%;
+
+    background-image: url("../../images/shape/target-curve-large.svg");
+    height: 815px; // size of image
+    bottom: -745px; // size of image
+    left: 0;
+  }
+
+  &.-normal {
+    &::after {
+      background-image: url("../../images/shape/target-curve-normal.svg");
+      height: 333px; // size of image
+      bottom: -333px; // size of image
+    }
+  }
+
+  &.-small {
+    &::after {
+      background-image: url("../../images/shape/target-curve-small.svg");
+      height: 173px; // size of image
+      bottom: -173px; // size of image
+    }
+  }
+
+  &.bg-target {
+    height: 200px;
+    z-index: -1;
+    position: absolute;
+    width: 100%;
+
+    &.-small {
+      height: 20px;
+    }
+  }
+}
+
+@media (min-width: 1921px) { // 1921px size of target-curve-large.svg
+  .shape-target {
+    &::after {
+      height: 1080px;
+      min-height: 815px;
+
+      background-size: cover;
+    }
+
+    &.-small {
+      background-color: unset;
+
+      &::after {
+        display: none;
+      }
+    }
+  }
+}

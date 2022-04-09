@@ -1,0 +1,49 @@
+{% extends "landing/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <style>
+        body {
+            background-color: aliceblue;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="page-container style-guide-page">
+        <div class="page-title-container shape-target -small">
+            <div class="page-title">
+                <h1 class="title -white">
+                    Guide de style des archers de Caen
+                </h1>
+            </div>
+        </div>
+
+        <div class="page-content">
+            <h2>Télécharger le logo (PNG)</h2>
+            {% include 'landing/style-guide/_logo.html.twig' %}
+
+            <h2 class="mt-10">Couleurs principales</h2>
+            {% include 'landing/style-guide/_color-primary.html.twig' %}
+
+            <h2 class="mt-10">Toutes les couleurs</h2>
+            {% include 'landing/style-guide/_color-secondary.html.twig' %}
+
+            <h2 class="mt-10">Dégradés</h2>
+            {% include 'landing/style-guide/_gradients.html.twig' %}
+
+            <h2 class="mt-10">Typographie</h2>
+            {% include 'landing/style-guide/_typography.html.twig' %}
+
+            <h2 class="mt-10">Formulaire</h2>
+            {% include 'landing/style-guide/_form.html.twig' %}
+
+            <h2 class="mt-10">Bouton</h2>
+            {% include 'landing/style-guide/_button.html.twig' %}
+
+            <h2 class="mt-10">Tableau</h2>
+            {% include 'landing/style-guide/_table.html.twig' %}
+        </div>
+    </div>
+{% endblock %}

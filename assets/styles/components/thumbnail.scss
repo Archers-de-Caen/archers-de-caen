@@ -1,0 +1,46 @@
+@import "../variable";
+
+.thumbnail {
+  border-radius: 5px;
+  box-shadow: $box-shadow;
+  background-color: $color-white;
+
+  header {
+    height: 80%;
+
+    img {
+      display: block;
+      border-radius: 5px 5px 0 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &:only-child {
+      height: 100%;
+    }
+  }
+
+  footer {
+    padding: 10px;
+    height: 20%;
+
+    display: flex;
+    justify-content: start;
+    align-items: center;
+
+    p {
+      display: -webkit-box;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      line-clamp: 2;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      line-height: 1.5rem;
+    }
+
+    &:only-child {
+      height: 100%;
+    }
+  }
+}

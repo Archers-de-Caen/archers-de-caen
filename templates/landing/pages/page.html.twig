@@ -1,0 +1,15 @@
+{% extends '/landing/base.html.twig' %}
+
+{% block body %}
+    <div class="page-container">
+        <div class="bg-target page-title shape-target -small">
+            <h1>{{ page.title }}</h1>
+        </div>
+
+        <div class="page-title-container -white">
+            <div class="page-content ck-content">
+                {{ page.content|raw }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

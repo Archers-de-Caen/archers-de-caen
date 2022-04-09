@@ -1,0 +1,29 @@
+@import "../variable";
+
+table {
+  width: 100%;
+
+  tbody {
+    tr {
+      &:nth-child(odd) {
+        //background-color: lighten($color-yellow, 25);
+      }
+    }
+  }
+
+  tr {
+    border-bottom: 1px solid #FDD20E;
+
+    td, th {
+      padding: 10px 20px;
+    }
+
+    th {
+      font-weight: bold;
+    }
+
+    &:hover {
+      background-color: lighten($color-yellow, 25);;
+    }
+  }
+}

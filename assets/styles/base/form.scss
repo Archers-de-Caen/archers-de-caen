@@ -1,0 +1,138 @@
+@import "../variable";
+
+.form-groups {
+  color: $color-grey;
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    margin: 10px 0;
+    width: 100%;
+
+    &.-check {
+      flex-direction: row-reverse;
+      align-items: center;
+
+      label {
+        cursor: pointer;
+      }
+
+      input {
+        margin-right: 10px;
+      }
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input, textarea, select {
+      border: 2px solid $color-yellow;
+      border-radius: 10px;
+      box-shadow: $box-shadow;
+      margin: 5px 0;
+      background-color: $color-white;
+      width: 100%;
+
+      min-width: 200px;
+      height: 40px;
+      padding: 10px;
+
+      &[type="checkbox"], &[type="radio"] {
+        min-width: unset;
+        height: 25px;
+        width: 25px;
+        box-shadow: 0 0 0 0 $color-yellow inset;
+
+        cursor: pointer;
+        transition: box-shadow .5s ease;
+      }
+
+      &[type="radio"] {
+        border-radius: 100%;
+
+        &:checked {
+          box-shadow: 0 0 0 6px $color-yellow inset;
+        }
+      }
+
+      &[type="checkbox"] {
+        &:checked {
+          box-shadow: 0 0 0 15px $color-yellow inset;
+          position: relative;
+
+          &::before {
+            content: '✓';
+            color: $color-white;
+            position: absolute;
+            top: -2px;
+            left: 4px;
+            font-size: large;
+            font-weight: bold;
+          }
+        }
+      }
+
+      &:disabled {
+        border-color: lighten($color-grey, 50%);
+        cursor: not-allowed;
+      }
+
+      &:disabled + label {
+        color: lighten($color-grey, 50%);
+        cursor: not-allowed;
+      }
+    }
+
+    select {
+      position: relative;
+      cursor: pointer;
+      display: block;
+      appearance: auto;
+      //::-ms-expand
+      &::before {
+        display: block;
+        content: '';
+        width: 10px;
+        height: 10px;
+        background: url('../../images/symbole/down-arrow.svg') no-repeat right;
+        background-size: 100%;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+
+      &:active {
+        //background-
+      }
+    }
+
+    textarea {
+      min-height: 150px;
+    }
+
+    &.-error {
+      input, textarea {
+        border-color: $color-red;
+        background-color: lighten($color-red, 45%);
+      }
+
+      .error {
+        display: block;
+      }
+    }
+
+    .error {
+      display: none;
+      color: $color-red;
+    }
+  }
+
+  .flex {
+    .form-group {
+      width: 45%;
+    }
+  }
+}

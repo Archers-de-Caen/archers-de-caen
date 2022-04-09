@@ -1,0 +1,70 @@
+image: ganapatiformations/ganapati-core:8.1
+
+workflow:
+  rules: # this rule says that the entire pipeline
+    - if: '$CI_MERGE_REQUEST_TITLE =~ /^draft:.*/i'
+      when: never
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "development" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "production"'
+      when: always
+    - if: '$CI_COMMIT_BRANCH == "development"'
+      when: always
+
+stages:
+  - build
+  - test
+
+cache:
+  paths:
+    - vendor
+    - node_modules
+
+services:
+  - mysql:latest
+
+variables:
+  # Configure mysql environment variables (https://hub.docker.com/_/mysql/)
+  MYSQL_DATABASE: archers_de_caen_test
+  MYSQL_ROOT_PASSWORD: root
+  MYSQL_USER: runner
+  MYSQL_PASSWORD: gitlab
+
+build:
+  stage: build
+  script:
+    ## Install vendor
+    - php bin/composer.phar install -o --no-scripts
+
+    - node -v
+
+    # yarn
+    - yarn install
+    - yarn encore production
+  artifacts:
+    paths:
+      - vendor
+      - node_modules
+      - public/build
+
+static_analysis:
+  stage: test
+  dependencies:
+    - build
+  needs:
+    - build
+  script:
+    - php -d memory_limit=1G vendor/bin/phpstan analyse -c phpstan.neon
+
+phunit:
+  stage: test
+  dependencies:
+    - build
+  needs:
+    - build
+  script:
+    - php bin/console --env=test doctrine:schema:create --no-interaction
+    # - php bin/console --env=test doctrine:fixtures:load --no-interaction
+    - php -d memory_limit=1G vendor/phpunit/phpunit/phpunit --bootstrap tests/bootstrap.php --configuration phpunit.xml.dist --log-junit report.xml
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml

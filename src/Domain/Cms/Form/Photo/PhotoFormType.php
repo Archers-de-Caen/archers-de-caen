@@ -1,0 +1,30 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Domain\Cms\Form\Photo;
+
+use App\Domain\Cms\Model\Photo;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
+
+class PhotoFormType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('imageFile', VichImageType::class, [
+                'required' => true,
+            ])
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Photo::class,
+        ]);
+    }
+}

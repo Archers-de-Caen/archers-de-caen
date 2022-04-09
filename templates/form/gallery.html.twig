@@ -1,0 +1,21 @@
+{% block gallery_row %}
+    <div id="gallery-form" class="gallery-form">
+        <div class="form-group">
+            <label for="gallery-photo" class="form-control-label">{{ form.vars.label }}</label>
+            <div class="form-widget">
+                <input id="gallery-photo" type="file" multiple class="form-control" />
+            </div>
+            <output class="gallery-photo-previews">
+                {% for data in form.vars.data %}
+                    <div class="gallery-photo-preview" data-photo-token="{{ data.token }}">
+                        <img src="{{ vich_uploader_asset(data, 'imageFile') }}" title="{{ data.imageOriginalName }}" alt="{{ data.imageOriginalName }}">
+                        <i class="fa fa-trash"></i>
+                    </div>
+                    <input type="hidden" name="{{ form.vars.full_name }}[]" value="{{ data.token }}">
+                {% endfor %}
+            </output>
+        </div>
+
+        <input type="hidden" value="{{ form.vars.full_name }}" class="gallery-input-name">
+    </div>
+{% endblock %}

@@ -1,0 +1,312 @@
+@import "../../variable";
+
+.index-page {
+  .presentations {
+    margin-top: 25px;
+
+    .presentation-double {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .presentation {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+      text-align: center;
+      margin: auto;
+
+      &.row {
+        flex-direction: row;
+      }
+
+      h3, p {
+        margin: 30px 0;
+        color: $color-white;
+      }
+
+      h3 {
+        font-size: x-large;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      p {
+        font-size: medium;
+        letter-spacing: 1.5px;
+        line-height: 1.5;
+      }
+
+      img {
+        object-fit: cover;
+        border-radius: 5px;
+        box-shadow: $box-shadow;
+      }
+
+      .content {
+        width: 60%;
+      }
+
+      &.-first {
+        width: 700px;
+        margin-top: 100px;
+
+        .content {
+          margin: 100px auto auto;
+        }
+
+        img {
+          width: 100%;
+          height: 500px;
+        }
+
+        h3, p {
+          color: $color-grey;
+        }
+      }
+
+      &.-second {
+        width: 600px;
+        margin-top: 150px;
+
+        .content {
+          margin: auto;
+        }
+
+        img {
+          width: 100%;
+          height: 750px;
+          margin-top: 50px;
+        }
+      }
+
+      &.-third {
+        width: 70%;
+        margin: 100px auto auto;
+
+        img {
+          width: 450px;
+          height: 400px;
+        }
+
+        h3, p {
+          color: $color-grey;
+        }
+
+        .content {
+          width: 50%;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: map-get($grid-breakpoints, lg)) and (max-width: map-get($grid-breakpoints, xl)) {
+  .index-page {
+    .presentations {
+
+      .presentation {
+        &.-first {
+          width: 600px;
+          margin-top: 200px;
+
+          .content {
+            margin-top: 75px;
+            width: 90%;
+          }
+
+          img {
+            height: 500px;
+          }
+        }
+
+        &.-second {
+          width: 400px;
+          margin-top: 0;
+
+          .content {
+            width: 90%;
+          }
+
+          img {
+            height: 500px;
+          }
+        }
+
+        &.-third {
+          width: 90%;
+          justify-content: space-evenly;
+
+          .content {
+            width: 300px;
+            max-width: 400px;
+          }
+
+          img {
+            width: 450px;
+            height: 300px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: map-get($grid-breakpoints, md)) and (max-width: map-get($grid-breakpoints, lg)) {
+  .index-page {
+    .presentations {
+
+      .presentation {
+        &.-first {
+          width: 400px;
+          margin-top: 200px;
+
+          .content {
+            margin-top: 75px;
+            width: 100%;
+          }
+
+          img {
+            height: 350px;
+          }
+        }
+
+        &.-second {
+          width: 350px;
+          margin-top: 0;
+
+          .content {
+            width: 90%;
+          }
+
+          img {
+            height: 450px;
+          }
+        }
+
+        &.-third {
+          width: 90%;
+          justify-content: space-evenly;
+
+          .content {
+            width: 400px;
+          }
+
+          img {
+            height: 300px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: map-get($grid-breakpoints, sm)) and (max-width: map-get($grid-breakpoints, md)) {
+  .index-page {
+    .presentations {
+
+      .presentation {
+        .content {
+          width: 100%;
+        }
+
+        &.-first {
+          width: 300px;
+          margin-top: 30px;
+
+          .content {
+            margin-top: 75px;
+          }
+
+          img {
+            height: 300px;
+          }
+        }
+
+        &.-second {
+          width: 300px;
+          margin-top: 0;
+
+          h3, p {
+            color: $color-grey;
+          }
+
+          img {
+            height: 450px;
+          }
+        }
+
+        &.-third {
+          width: 90%;
+          justify-content: space-evenly;
+
+          .content {
+            width: 300px;
+          }
+
+          img {
+            width: 300px;
+            height: 300px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .index-page {
+    .presentations {
+      width: 90%;
+      margin: auto;
+
+      .presentation-double {
+        flex-direction: column;
+      }
+
+      .presentation {
+        width: 100%!important;
+
+        h3, p {
+          color: $color-grey;
+        }
+
+        img {
+          width: 100%;
+          margin-top: 30px;
+        }
+
+        .content {
+          width: 100%;
+        }
+
+        &.-first {
+          flex-direction: column-reverse;
+          color: white;
+          margin-top: 25px;
+
+          .content {
+            margin: 0 auto auto;
+          }
+        }
+
+        &.-second {
+          margin-top: 30px;
+        }
+
+        &.-third {
+          margin-top: 30px;
+          flex-direction: column-reverse;
+
+          .content {
+            width: 100%;
+          }
+
+          img {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

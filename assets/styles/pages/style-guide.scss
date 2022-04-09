@@ -1,0 +1,62 @@
+@import "../variable";
+
+.style-guide-page {
+  .colors {
+    display: grid;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+
+    &.-primary {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    &.-secondary {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    .color {
+      width: 100%;
+      height: 100%;
+
+      &.-yellow {
+        background-color: $color-yellow;
+      }
+
+      &.-red {
+        background-color: $color-red;
+      }
+
+      &.-blue {
+        background-color: $color-blue;
+      }
+
+      &.-grey {
+        background-color: $color-grey;
+      }
+
+      &.-white {
+        background-color: $color-white;
+      }
+    }
+  }
+
+  .gradiant {
+    width: 100%;
+    height: 50px;
+    background: $linear-gradient-target;
+  }
+
+  .typography-container {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-column-gap: 3rem;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    .typography-element {
+
+    }
+  }
+}

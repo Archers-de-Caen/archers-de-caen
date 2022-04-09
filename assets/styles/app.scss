@@ -1,0 +1,35 @@
+@import "./variable";
+
+:root {
+  // For use variable outside sass/scss file
+  --color-yellow: $color-yellow;
+  --color-red: $color-red;
+  --color-blue: $color-blue;
+  --color-black: $color-black;
+  --color-white: $color-white;
+  --color-grey: $color-grey;
+}
+
+@import "base/reset";
+@import "base/flex";
+@import "base/margin";
+@import "base/size";
+@import "base/form";
+@import "base/button";
+@import "base/title";
+@import "base/table";
+
+@import "../modules/header/header";
+@import "../modules/body/body";
+@import "../modules/footer/footer";
+
+@import "components/target";
+@import "components/thumbnail";
+@import "../modules/header/hamburger-menu";
+
+@import "pages/index/main";
+@import "pages/thumbnails";
+@import "pages/page";
+@import "pages/style-guide";
+
+//@import "assets/modules/ckeditor/ckeditor";

@@ -1,0 +1,31 @@
+@import "../variable";
+
+h1, h2, h3, h4 {
+  font-weight: bold;
+  color: $color-grey;
+
+  &.-white {
+    color: $color-white;
+  }
+}
+
+h1 {
+  font-size: xxx-large;
+  text-transform: uppercase;
+}
+
+h2 {
+  font-size: xx-large;
+  text-transform: uppercase;
+  margin: 25px 0;
+}
+
+h3 {
+  font-size: x-large;
+  margin: 15px 0;
+}
+
+h4 {
+  font-size: large;
+  margin: 10px 0;
+}

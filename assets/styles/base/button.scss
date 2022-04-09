@@ -1,0 +1,66 @@
+@import "../variable";
+
+.btn {
+  border-radius: 30px;
+  border: 2px solid $color-yellow;
+  padding: 10px 30px;
+  cursor: pointer;
+  font-weight: bold;
+  color: $color-yellow;
+
+  &:disabled {
+    background-color: lighten($color-grey, 20%) !important;
+    color: lighten($color-grey, 50%) !important;
+    border: unset !important;
+    cursor: not-allowed;
+  }
+
+  &:hover {
+    background-color: $color-yellow;
+    color: $color-white;
+  }
+
+  &.-primary {
+    background-color: $color-yellow;
+    color: $color-white;
+
+    &:hover {
+      background-color: unset;
+      color: $color-yellow;
+    }
+  }
+
+  &.-secondary {
+    background-color: $color-grey;
+    color: $color-white;
+    border-color: $color-grey;
+
+    &:hover {
+      background-color: unset;
+      color: $color-grey;
+    }
+  }
+
+  &.-danger {
+    background-color: $color-red;
+    color: $color-white;
+    border-color: $color-red;
+
+    &:hover {
+      background-color: unset;
+      color: $color-red;
+    }
+  }
+
+  &.-success {
+    background-color: $color-blue;
+    color: $color-white;
+    border-color: $color-blue;
+
+    &:hover {
+      background-color: unset;
+      color: $color-blue;
+    }
+  }
+
+}

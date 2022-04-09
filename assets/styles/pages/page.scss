@@ -1,0 +1,41 @@
+@import "../variable";
+
+.page-container {
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+  align-items: center;
+
+  .page-title-container {
+    background-color: $color-yellow;
+    width: 100%;
+
+    &.-white {
+      background-color: unset;
+    }
+  }
+
+  .page-content {
+    margin: 200px auto auto;
+    width: 80%;
+    max-width: 1000px;
+  }
+}
+
+.page-title {
+  text-align: center;
+  width: 100%;
+
+  h1 {
+    padding-top: 25px;
+    color: $color-white;
+  }
+}
+
+@media (min-width: 1921px) { // 1921px size of target-curve-large.svg
+  .page-title {
+    h1 {
+      color: $color-grey;
+    }
+  }
+}

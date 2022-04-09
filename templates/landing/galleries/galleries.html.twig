@@ -1,0 +1,27 @@
+{% extends '/landing/base.html.twig' %}
+
+{% block body %}
+    <div class="thumbnail-page">
+        <div class="bg-target shape-target"></div>
+
+        <div class="thumbnails-container">
+            <div class="title">
+                <h1 class="-white">Galeries photo</h1>
+            </div>
+
+            <div class="thumbnails">
+                {% for gallery in galleries %}
+                    <a class="thumbnail -horizontal" href="{{ path('landing_gallery', { slug: gallery.slug }) }}" title="{{ gallery.title }}">
+                        <header>
+                            <img src="{{ gallery.mainPhoto is defined and gallery.mainPhoto ? vich_uploader_asset(gallery.mainPhoto) : asset('build/images/photo/cible.jpg') }}" alt="Photo de la galerie: {{ gallery.title }}">
+                        </header>
+                        <footer>
+                            <p>{{ gallery.title }}</p>
+                        </footer>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
