@@ -13,6 +13,7 @@ use App\Domain\Shared\Model\SlugTrait;
 use App\Domain\Shared\Model\TimestampTrait;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PageRepository::class)]
 #[ORM\Table(options: ['collate' => 'utf8mb4_unicode_ci', 'charset' => 'utf8mb4'])]
@@ -23,19 +24,25 @@ class Page
     use SlugTrait;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
+    #[Assert\Length(max: 255)]
+    #[Assert\NotBlank]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank]
     private ?string $content = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, enumType: Category::class)]
+    #[Assert\NotNull]
     private ?Category $category = Category::PAGE;
 
     #[ORM\Column(type: Types::STRING, length: 255, enumType: Status::class)]
+    #[Assert\NotNull]
     private ?Status $status = Status::DRAFT;
 
     #[ORM\ManyToOne(targetEntity: Archer::class, inversedBy: 'pages')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull]
     private ?Archer $createdBy = null;
 
     #[ORM\OneToOne(targetEntity: Photo::class, cascade: ['persist'])]
@@ -113,8 +120,10 @@ class Page
         return $this->image;
     }
 
-    public function setImage(?Photo $image): void
+    public function setImage(?Photo $image): self
     {
         $this->image = $image;
+
+        return $this;
     }
 }

@@ -18,8 +18,12 @@ use Exception;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ArcherRepository::class)]
+#[UniqueEntity('email')]
+#[UniqueEntity('licenseNumber')]
 class Archer implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface
 {
     use IdTrait;
@@ -37,20 +41,32 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     ];
 
     #[ORM\Column(type: Types::STRING, length: 255)]
+    #[Assert\Length(max: 255)]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
     private ?string $firstName = null;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
+    #[Assert\Length(max: 255)]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
     private ?string $lastName = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, unique: true, nullable: true)]
+    #[Assert\Length(max: 255)]
+    #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::STRING, length: 12, nullable: true)]
+    #[Assert\Length(max: 12)]
     private ?string $phone = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    #[Assert\Length(max: 255)]
     private ?string $password = null;
 
+    #[Assert\Length(max: 255)]
+    #[Assert\NotCompromisedPassword]
     private ?string $plainPassword = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
@@ -69,6 +85,10 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     private Collection $pages;
 
     #[ORM\Column(type: Types::STRING, length: 7, unique: true)]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
+    #[Assert\Length(max: 7)]
+    #[Assert\Regex('/[0-9]{6}[A-Za-z]/')]
     private ?string $licenseNumber = null;
 
     /**
@@ -103,9 +123,9 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         return array_unique($this->roles);
     }
 
-    public function addRole(string $role): self
+    public function addRole(?string $role): self
     {
-        if (!in_array($role, $this->roles) && in_array($role, self::ROLES)) {
+        if ($role && !in_array($role, $this->roles) && in_array($role, self::ROLES)) {
             $this->roles[] = $role;
         }
 
@@ -153,7 +173,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): self
+    public function setFirstName(?string $firstName): self
     {
         $this->firstName = $firstName;
 
@@ -165,7 +185,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         return $this->lastName;
     }
 
-    public function setLastName(string $lastName): self
+    public function setLastName(?string $lastName): self
     {
         $this->lastName = $lastName;
 
@@ -304,7 +324,9 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
 
     public function setLicenseNumber(?string $licenseNumber): self
     {
-        $this->licenseNumber = $licenseNumber;
+        if ($licenseNumber) {
+            $this->licenseNumber = strtoupper($licenseNumber);
+        }
 
         return $this;
     }
