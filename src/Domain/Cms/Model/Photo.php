@@ -91,7 +91,7 @@ class Photo
      * must be able to accept an instance of 'File' as the bundle will inject one here
      * during Doctrine hydration.
      */
-    public function setImageFile(File|UploadedFile|null $imageFile = null): void
+    public function setImageFile(File|UploadedFile|null $imageFile = null): self
     {
         $this->imageFile = $imageFile;
 
@@ -100,6 +100,8 @@ class Photo
             // otherwise the event listeners won't be called and the file is lost
             $this->updatedAt = new \DateTimeImmutable();
         }
+
+        return $this;
     }
 
     public function getImageFile(): ?File
@@ -112,9 +114,11 @@ class Photo
         return $this->imageName;
     }
 
-    public function setImageName(?string $imageName): void
+    public function setImageName(?string $imageName): self
     {
         $this->imageName = $imageName;
+
+        return $this;
     }
 
     public function getImageSize(): ?int
@@ -122,9 +126,11 @@ class Photo
         return $this->imageSize;
     }
 
-    public function setImageSize(?int $imageSize): void
+    public function setImageSize(?int $imageSize): self
     {
         $this->imageSize = $imageSize;
+
+        return $this;
     }
 
     public function getImageMimeType(): ?string
@@ -132,9 +138,11 @@ class Photo
         return $this->imageMimeType;
     }
 
-    public function setImageMimeType(?string $imageMimeType): void
+    public function setImageMimeType(?string $imageMimeType): self
     {
         $this->imageMimeType = $imageMimeType;
+
+        return $this;
     }
 
     public function getImageOriginalName(): ?string
@@ -142,9 +150,11 @@ class Photo
         return $this->imageOriginalName;
     }
 
-    public function setImageOriginalName(?string $imageOriginalName): void
+    public function setImageOriginalName(?string $imageOriginalName): self
     {
         $this->imageOriginalName = $imageOriginalName;
+
+        return $this;
     }
 
     public function getImageDimension(): ?array
@@ -152,9 +162,11 @@ class Photo
         return $this->imageDimension;
     }
 
-    public function setImageDimension(?array $imageDimension): void
+    public function setImageDimension(?array $imageDimension): self
     {
         $this->imageDimension = $imageDimension;
+
+        return $this;
     }
 
     public function getGallery(): ?Gallery
@@ -162,9 +174,11 @@ class Photo
         return $this->gallery;
     }
 
-    public function setGallery(?Gallery $gallery): void
+    public function setGallery(?Gallery $gallery): self
     {
         $this->gallery = $gallery;
+
+        return $this;
     }
 
     public function getGalleryMainPhoto(): ?Gallery
@@ -172,8 +186,10 @@ class Photo
         return $this->galleryMainPhoto;
     }
 
-    public function setGalleryMainPhoto(?Gallery $galleryMainPhoto): void
+    public function setGalleryMainPhoto(?Gallery $galleryMainPhoto): self
     {
         $this->galleryMainPhoto = $galleryMainPhoto;
+
+        return $this;
     }
 }
