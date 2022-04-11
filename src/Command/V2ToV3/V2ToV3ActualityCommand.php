@@ -6,19 +6,25 @@ use App\Command\ArcherTrait;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Config\Status;
+use App\Domain\Cms\Form\Photo\PhotoFormType;
 use App\Domain\Cms\Model\Page;
 use App\Domain\Cms\Model\Photo;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Types\DateTimeType;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMapping;
 use DOMElement;
+use Exception;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -62,7 +68,6 @@ class V2ToV3ActualityCommand extends Command
         $rsm->addScalarResult('post_content', 'content');
         $rsm->addScalarResult('post_status', 'status');
         $rsm->addScalarResult('post_type', 'type');
-        $rsm->addScalarResult('post_name', 'slug');
 
         /** @var array<array> $posts */
         $posts = $nativeQuery->getArrayResult();
@@ -103,7 +108,6 @@ class V2ToV3ActualityCommand extends Command
                     }
 
                     $name = explode('/', $src)[count(explode('/', $src)) - 1];
-                    $extension = explode('.', $name)[count(explode('.', $name)) - 1];
 
                     if (!$filePath = tempnam(sys_get_temp_dir(), 'adc_image')) {
                         $io->error('tempnam bug');
@@ -120,7 +124,7 @@ class V2ToV3ActualityCommand extends Command
                     fwrite($file, @file_get_contents($src) ?: ''); /** @ for ignore warning like http 404 error */
                     fclose($file);
 
-                    $uploadedImage = new UploadedFile($filePath, $name);
+                    $uploadedImage = new UploadedFile($filePath, $name, test: true);
 
                     $image = (new Photo())->setImageFile($uploadedImage);
 
@@ -144,7 +148,6 @@ class V2ToV3ActualityCommand extends Command
                 ->setTitle($post['title'])
                 ->setCreatedAt($post['createdAt'])
                 ->setCreatedBy($archer)
-                ->setSlug($post['slug'])
                 ->setStatus($status)
                 ->setContent($crawler->html())
                 ->setImage($mainImage);
@@ -167,6 +170,8 @@ class V2ToV3ActualityCommand extends Command
 
             $this->em->persist($newPage);
         }
+
+        $this->em->getUnitOfWork(); // TODO
 
         $io->progressFinish();
 

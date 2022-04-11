@@ -42,7 +42,6 @@ class Page
 
     #[ORM\ManyToOne(targetEntity: Archer::class, inversedBy: 'pages')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotNull]
     private ?Archer $createdBy = null;
 
     #[ORM\OneToOne(targetEntity: Photo::class, cascade: ['persist'])]

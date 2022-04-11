@@ -35,7 +35,7 @@ class SlugSubscriber implements EventSubscriberInterface
             property_exists($entity, 'slug') && method_exists($entity, 'setSlug') &&
             property_exists($entity, 'title') && method_exists($entity, 'getTitle')
         ) {
-            $slug = $this->slugger->slug($entity->getTitle());
+            $slug = $this->slugger->slug(strtolower($entity->getTitle()));
             $suffix = 0;
 
             while ($this->em->getRepository($entity::class)->findBy(['slug' => $slug.($suffix > 0 ? '-'.$suffix : '')])) {
