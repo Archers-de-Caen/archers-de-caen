@@ -6,22 +6,25 @@ namespace App\Domain\Cms\Model;
 
 use App\Domain\Cms\Repository\GalleryRepository;
 use App\Domain\Shared\Model\IdTrait;
-use App\Domain\Shared\Model\SlugTrait;
 use App\Domain\Shared\Model\TimestampTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Slug;
 
 #[ORM\Entity(repositoryClass: GalleryRepository::class)]
 class Gallery
 {
     use IdTrait;
     use TimestampTrait;
-    use SlugTrait;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $title;
+
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
+    #[Slug(fields: ['title'], unique: true)]
+    private ?string $slug = null;
 
     #[ORM\OneToOne(inversedBy: 'galleryMainPhoto', targetEntity: Photo::class, cascade: ['persist'])]
     private ?Photo $mainPhoto = null;
@@ -45,6 +48,19 @@ class Gallery
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

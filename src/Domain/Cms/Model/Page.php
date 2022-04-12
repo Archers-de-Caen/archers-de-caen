@@ -9,10 +9,10 @@ use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Repository\PageRepository;
 use App\Domain\Shared\Model\IdTrait;
-use App\Domain\Shared\Model\SlugTrait;
 use App\Domain\Shared\Model\TimestampTrait;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Slug;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PageRepository::class)]
@@ -21,12 +21,15 @@ class Page
 {
     use IdTrait;
     use TimestampTrait;
-    use SlugTrait;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
     #[Assert\Length(max: 255)]
     #[Assert\NotBlank]
     private ?string $title = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
+    #[Slug(fields: ['title'], unique: true)]
+    private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
@@ -42,7 +45,6 @@ class Page
 
     #[ORM\ManyToOne(targetEntity: Archer::class, inversedBy: 'pages')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotNull]
     private ?Archer $createdBy = null;
 
     #[ORM\OneToOne(targetEntity: Photo::class, cascade: ['persist'])]
@@ -63,6 +65,18 @@ class Page
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

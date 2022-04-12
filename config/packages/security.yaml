@@ -7,7 +7,7 @@ security:
     providers:
         app_user_provider:
             entity:
-                class: App\Entity\Archer\Archer
+                class: App\Domain\Archer\Model\Archer
                 property: email
     firewalls:
         dev:

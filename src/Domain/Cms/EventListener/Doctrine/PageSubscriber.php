@@ -36,6 +36,8 @@ class PageSubscriber implements EventSubscriberInterface
         /** @var Archer $archer */
         $archer = $this->security->getUser();
 
-        $entity->setCreatedBy($archer);
+        if (!$entity->getCreatedBy()) {
+            $entity->setCreatedBy($archer);
+        }
     }
 }
