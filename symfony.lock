@@ -1,4 +1,7 @@
 {
+    "behat/transliterator": {
+        "version": "v1.5.0"
+    },
     "composer/pcre": {
         "version": "3.0.0"
     },
@@ -109,6 +112,9 @@
     },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
+    },
+    "gedmo/doctrine-extensions": {
+        "version": "v3.6.0"
     },
     "jms/metadata": {
         "version": "2.6.1"
