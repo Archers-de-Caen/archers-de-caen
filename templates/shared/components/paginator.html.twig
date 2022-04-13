@@ -1,0 +1,18 @@
+{#
+    for include need:
+        elementByPage
+        maxElement
+        currentPage
+#}
+
+<div class="paginator-container">
+    <div class="paginator-prev"><</div>
+
+    {% for page in range(0, maxElement / elementByPage) %}
+        {% if page < 3 or page - 2 < currentPage or page + 2 > currentPage or page %}
+            <div class="paginator-page {{ page == currentPage ? 'active' : '' }}">{{ page }}</div>
+        {% endif %}
+    {% endfor %}
+
+    <div class="paginator-next">></div>
+</div>

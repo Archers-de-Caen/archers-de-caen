@@ -1,0 +1,34 @@
+@import "../../styles/variable";
+
+.paginator-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .paginator-prev, .paginator-next, .paginator-page {
+    cursor: pointer;
+    padding: 10px 15px;
+
+    &.active, &:hover {
+      border: $color-yellow 1px solid;
+      border-radius: 30px;
+    }
+
+    &.active {
+      background-color: $color-yellow;
+      color: $color-white;
+    }
+  }
+
+  .paginator-prev {
+    margin-right: 10px;
+  }
+
+  .paginator-next {
+    margin-left: 10px;
+  }
+
+  .paginator-page {
+    margin: 0 5px;
+  }
+}
