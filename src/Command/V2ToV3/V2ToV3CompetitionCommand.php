@@ -54,8 +54,10 @@ class V2ToV3CompetitionCommand extends Command
 
         foreach ($competitions as $competition) {
             $newCompetition = (new Competition())
+                ->setOldId($competition['id'])
                 ->setDateStart($competition['dateDebut'])
                 ->setDateEnd($competition['dateFin'])
+                ->setLocation($competition['lieu'])
                 ->setLocation($competition['lieu'])
                 ->setType($competition['type']);
 

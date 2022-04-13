@@ -19,6 +19,16 @@ class Competition
     use IdTrait;
     use TimestampTrait;
 
+    /**
+     * @deprecated
+     *
+     * TODO: a supprimer après la migration
+     *
+     * L'id utilisé sur l'ancienne version du site
+     */
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $oldId = null;
+
     #[ORM\Column(type: Types::STRING)]
     private ?string $location = null;
 
@@ -116,6 +126,28 @@ class Competition
                 $resultCompetition->setCompetition(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @deprecated
+     *
+     * TODO: a supprimer après la migration
+     */
+    public function getOldId(): ?int
+    {
+        return $this->oldId;
+    }
+
+    /**
+     * @deprecated
+     *
+     * TODO: a supprimer après la migration
+     */
+    public function setOldId(?int $oldId): self
+    {
+        $this->oldId = $oldId;
 
         return $this;
     }

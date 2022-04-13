@@ -171,8 +171,6 @@ class V2ToV3ActualityCommand extends Command
             $this->em->persist($newPage);
         }
 
-        $this->em->getUnitOfWork(); // TODO
-
         $io->progressFinish();
 
         $this->em->flush();
