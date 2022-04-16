@@ -16,6 +16,7 @@
     "doctrine/doctrine-migrations-bundle": "^3.2",
     "doctrine/orm": "^2.11",
     "easycorp/easyadmin-bundle": "^4.0",
+    "fakerphp/faker": "^1.19",
     "gedmo/doctrine-extensions": "^3.6",
     "phpdocumentor/reflection-docblock": "^5.3",
     "phpstan/phpdoc-parser": "^1.2",
@@ -54,6 +55,7 @@
     "vich/uploader-bundle": "^1.19"
   },
   "require-dev": {
+    "doctrine/doctrine-fixtures-bundle": "^3.4",
     "friendsofphp/php-cs-fixer": "*",
     "phpstan/phpstan": "^1.4",
     "phpstan/phpstan-symfony": "^1.1",
