@@ -51,14 +51,18 @@ p {
 }
 
 a {
-  cursor: pointer;
+  cursor: unset;
 
-  &.highlighted {
-    color: $color-yellow;
-    text-decoration: underline;
-  }
+  &:not([disabled]) {
+    cursor: pointer;
 
-  &:hover {
-    color: $color-yellow;
+    &.highlighted {
+      color: $color-yellow;
+      text-decoration: underline;
+    }
+
+    &:hover {
+      color: $color-yellow;
+    }
   }
 }

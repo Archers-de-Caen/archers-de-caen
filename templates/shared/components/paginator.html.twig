@@ -1,18 +1,40 @@
-{#
-    for include need:
-        elementByPage
-        maxElement
-        currentPage
-#}
+{# for include need: paginator, currentPage #}
 
 <div class="paginator-container">
-    <div class="paginator-prev"><</div>
-
-    {% for page in range(0, maxElement / elementByPage) %}
-        {% if page < 3 or page - 2 < currentPage or page + 2 > currentPage or page %}
-            <div class="paginator-page {{ page == currentPage ? 'active' : '' }}">{{ page }}</div>
+    <a
+        class="paginator-prev"
+        {% if not app.request.query.has('page') or app.request.query.get('page') == 1 %}
+            disabled
+        {% else %}
+            href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({page: app.request.query.has('page') ? app.request.query.get('page') - 1 : 0 })) }}"
         {% endif %}
+    >
+        «
+    </a>
+
+    {% for page in paginator %}
+        {% set parameters = app.request.query.all|merge({page: page}) %}
+
+        <a
+            class="paginator-page {{ page == currentPage or (not app.request.query.has('page') and page == 1) ? 'active' : '' }}"
+            {% if page != '...' %}
+                href="{{ path(app.request.attributes.get('_route'), parameters) }}"
+            {% else %}
+                disabled
+            {% endif %}
+        >
+            {{ page }}
+        </a>
     {% endfor %}
 
-    <div class="paginator-next">></div>
+    <a
+        class="paginator-next"
+        {% if app.request.query.get('page') == paginator|last %}
+            disabled
+        {% else %}
+            href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({page: app.request.query.get('page') ? app.request.query.get('page') + 1 : 2 })) }}"
+        {% endif %}
+    >
+        »
+    </a>
 </div>

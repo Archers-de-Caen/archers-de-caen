@@ -26,6 +26,10 @@
 
             {{ _self.actualities(actualities) }}
         </div>
+
+        <div class="mt-3">
+            {{ include('/shared/components/paginator.html.twig', { paginator, currentPage }) }}
+        </div>
     </div>
 
 {% endblock %}
