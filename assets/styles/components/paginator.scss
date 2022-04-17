@@ -2,8 +2,8 @@
 
 .paginator-container {
   display: flex;
-  justify-content: center;
   align-items: center;
+  overflow: auto;
 
   .paginator-prev, .paginator-next, .paginator-page {
     padding: 10px 15px;
@@ -22,11 +22,13 @@
   }
 
   .paginator-prev {
+    margin-left: auto;
     margin-right: 10px;
   }
 
   .paginator-next {
     margin-left: 10px;
+    margin-right: auto;
   }
 
   .paginator-page {

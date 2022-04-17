@@ -33,10 +33,11 @@ class PageController extends AbstractController
                 ->setMaxResults((int) ($elementByPage * ($request->query->get('page') ?: 1))) // 24, car sur un écran 1080p la dernière ligne est complete
         );
 
+        PaginatorHelper::pagination(5, 100);
+
         return $this->render('/landing/actualities/actualities.html.twig', [
             'actualities' => $actualities,
             'paginator' => PaginatorHelper::pagination($currentPage, (int) ceil($elementByPage / $actualities->count()) + 1),
-            'currentPage' => $currentPage,
         ]);
     }
 

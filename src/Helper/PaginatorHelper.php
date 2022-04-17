@@ -12,30 +12,30 @@ class PaginatorHelper
 {
     public static function pagination(int $current, int $last): array
     {
-        $delta = 2;
+        $delta = 1;
         $left = $current - $delta;
         $right = $current + $delta + 1;
         $range = [];
         $rangeWithDots = [];
         $l = null;
 
-        for ($i = 1; $i <= $last; $i++) {
-            if ($i === 1 || $i === $last || ($i >= $left && $i < $right)) {
-                $range[] = $i;
+        for ($page = 1; $page <= $last; $page++) {
+            if ($page === 1 || $page === $last || ($page >= $left && $page < $right)) {
+                $range[] = $page;
             }
         }
 
-        foreach ($range as $i) {
+        foreach ($range as $page) {
             if ($l) {
-                if ($i - $l === 2) {
+                if ($page - $l === 2) {
                     $rangeWithDots[] = $l + 1;
-                } else if ($i - $l !== 1) {
+                } else if ($page - $l !== 1) {
                     $rangeWithDots[] = '...';
                 }
             }
 
-            $rangeWithDots[] = $i;
-            $l = $i;
+            $rangeWithDots[] = $page;
+            $l = $page;
         }
 
         return $rangeWithDots;

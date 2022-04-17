@@ -6,7 +6,9 @@ namespace App\Http\Landing\Controller;
 
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Repository\PageRepository;
+use App\Helper\PaginatorHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -31,8 +33,10 @@ class DefaultController extends AbstractController
     }
 
     #[Route('/style-guide', name: 'landing_style_guide')]
-    public function styleGuide(): Response
+    public function styleGuide(Request $request): Response
     {
-        return $this->render('/landing/style-guide/style-guide.html.twig');
+        return $this->render('/landing/style-guide/style-guide.html.twig', [
+            'paginator' => PaginatorHelper::pagination((int) ($request->query->get('page') ?: 1), 100)
+        ]);
     }
 }

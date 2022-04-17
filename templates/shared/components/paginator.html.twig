@@ -1,4 +1,4 @@
-{# for include need: paginator, currentPage #}
+{# for include need: paginator #}
 
 <div class="paginator-container">
     <a
@@ -16,7 +16,7 @@
         {% set parameters = app.request.query.all|merge({page: page}) %}
 
         <a
-            class="paginator-page {{ page == currentPage or (not app.request.query.has('page') and page == 1) ? 'active' : '' }}"
+            class="paginator-page {{ page == app.request.query.get('page') or (not app.request.query.has('page') and page == 1) ? 'active' : '' }}"
             {% if page != '...' %}
                 href="{{ path(app.request.attributes.get('_route'), parameters) }}"
             {% else %}
