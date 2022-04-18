@@ -59,7 +59,7 @@ p {
 a {
   cursor: unset;
 
-  &:not([disabled]) {
+  &:not([disabled]):not([class="btn"]) {
     cursor: pointer;
 
     &.highlighted {
