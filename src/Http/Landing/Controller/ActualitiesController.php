@@ -30,7 +30,7 @@ class ActualitiesController extends AbstractController
                 ->andWhere("p.status = '" . Status::PUBLISH->value . "'")
                 ->orderBy('p.createdAt', 'DESC')
                 ->setFirstResult($currentPage * $elementByPage)
-                ->setMaxResults($currentPage * $elementByPage + $elementByPage) // 24, car sur un écran 1080p la dernière ligne est complete
+                ->setMaxResults(24) // 24, car sur un écran 1080p la dernière ligne est complete
         );
 
         return $this->render('/landing/actualities/actualities.html.twig', [
