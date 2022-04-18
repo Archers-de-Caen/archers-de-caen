@@ -44,9 +44,15 @@ body {
 }
 
 p {
+  line-height: 1.7;
+
   a {
     color: $color-yellow;
     text-decoration: underline;
+
+    &:hover {
+      font-weight: bold;
+    }
   }
 }
 

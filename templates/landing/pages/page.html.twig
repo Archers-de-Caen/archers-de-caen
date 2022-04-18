@@ -1,15 +1,25 @@
 {% extends '/landing/base.html.twig' %}
+{# @var page \App\Domain\Cms\Model\Page #}
 
 {% block body %}
     <div class="page-container">
-        <div class="bg-target page-title shape-target -small">
-            <h1>{{ page.title }}</h1>
-        </div>
+        <main class="page-container-content">
+            <div class="page-title">
+                <header class="page-info">
+                <span>
+                    {{ page.createdBy.firstName }} {{ page.createdBy.lastName }}
+                </span>
+                    <div class="separator"></div>
+                    <span>
+                    {{ page.createdAt|date('d') }} {{ page.createdAt|date('F')|trans({}, 'date') }} {{ page.createdAt|date('Y') }}
+                </span>
+                </header>
+                <h1>{{ page.title }}</h1>
+            </div>
 
-        <div class="page-title-container -white">
             <div class="page-content ck-content">
                 {{ page.content|raw }}
             </div>
-        </div>
+        </main>
     </div>
 {% endblock %}

@@ -2,11 +2,16 @@
 
 table {
   width: 100%;
+  margin: 25px 0;
 
   tbody {
     tr {
       &:nth-child(odd) {
-        //background-color: lighten($color-yellow, 25);
+        background-color: lighten($color-yellow, 40);
+
+        &:hover {
+          background-color: lighten($color-yellow, 25);
+        }
       }
     }
   }
@@ -23,7 +28,7 @@ table {
     }
 
     &:hover {
-      background-color: lighten($color-yellow, 25);;
+      background-color: lighten($color-yellow, 25);
     }
   }
 }

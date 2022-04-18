@@ -1,4 +1,16 @@
 {% block ckeditor_row %}
+    <style>
+        .ck-editor {
+            max-width: 700px;
+
+            margin-bottom: 30px!important;
+        }
+
+        .ck-editor__editable_inline {
+            min-height: 500px;
+        }
+    </style>
+
     <label for="editor"></label>
 
     <textarea id="editor" name="{{ form.vars.full_name }}">

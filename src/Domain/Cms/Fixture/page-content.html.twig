@@ -1,0 +1,130 @@
+<p>
+    I’ve been involved in the addition of enumerations support in the Symfony framework. Why? Because I’m mad at love
+    with this new feature. I waited them for years in PHP. And I also love to contribute to the framework, so why not
+    blend these two pleasures?
+</p>
+<p>
+    A news has been posted on Symfony blog about enumerations in the framework. You may
+    read it before this article! This article is just a little supplement with additional code snippets and
+    information.
+</p>
+<p>
+    If you never heard of PHP enumerations, here is a code snippet to show them in action:
+</p>
+<figure class="image">
+    <img class="lazyload lazy loaded"
+         src="https://miro.medium.com/max/1400/1*36BowV5z18Fwu1RW5BExhQ.png" alt=""
+         data-was-processed="true" loading="lazy">
+</figure>
+<p>
+    Pretty nit. You’re able to define typed
+    values without having to bother to their real value. Those are called Unit Enums. You’re also able to define a value
+    for each enum case. By doing this, they’re called Backed Enums.
+</p>
+<p>
+    You’re able to use this in Symfony with ease.
+    Without wondering if it will work “because the feature is so new”. Let’s see this together!
+</p>
+<hr>
+<h2>Forms</h2>
+<p>
+    <a href="http://192.168.1.51/style-guide">Alexander M. Turek</a>
+    (known as <a href="http://192.168.1.51/style-guide">@derrabus</a>
+    on Twitter, Symfony Core Team member) contributed the new
+    EnumType which allows you to create an form entry limited to an enumeration values. Here is how you’ll use it:
+</p>
+<p>
+    <img class="lazyload lazy loaded" src="https://miro.medium.com/max/1400/1*ykm58d0RkANb51zoD-8XbA.png" alt=""
+         data-was-processed="true" loading="lazy">
+</p>
+<p>
+    By doing this, you’re limiting user to the enumeration possible
+    values. It is also way simpler to validate it!
+</p>
+<p>
+    About the HTML representation, it will simply display a select
+    input. You can also pass the expanded option to the form. By doing so, the input will now show as radio buttons. And
+    as the parent type of this new EnumType is a ChoiceType, you can also use options like multiple.
+</p>
+<p>
+    Find the
+    complete pull request by Alexander M. Turek here.
+</p>
+<h2>Serializer</h2>
+<p>
+    The Serializer component of Symfony is
+    amazing when it comes to convert your objects and variables to formats like JSON, XML or even YAML. It is also super
+    handy as it allows you to deserialize these formats back to PHP objects and variables. Because of this, it was
+    important to add support of enumerations to the Serializer.
+</p>
+<p>
+    But warning, this is only possible on Backed
+    Enums. Indeed, as Unit Enums doesn’t define any value for their case, it is not (yet?) possible to serialize them in
+    any way.
+</p>
+<figure class="image">
+    <img class="lazyload lazy loaded"
+         src="https://miro.medium.com/max/1400/1*VxTIjCthE3onbypkWXyETQ.png" alt=""
+         data-was-processed="true" loading="lazy">
+</figure>
+<p>
+    Again, it’s simple as that. No extra step.
+</p>
+<h2>Dependency Injection</h2>
+<p>
+    One thing you should know is that enumerations work pretty much like
+    constants. I mean, they’re really similar. At a point you can even use the constant() method from PHP standard
+    library to get the value of an enumeration case, if you’re passing one as the argument (if you don’t know this
+    method, it’s super simple).
+</p>
+<p>
+    This means that with just little tweaks in the framework internals allows us to
+    use enumerations like constants in the dependency injection and the configuration of our application’s services.
+</p>
+<p>
+    Using XML to configure your services? Just use the usual argument tag with constant as its type:
+</p>
+<figure class="image">
+    <img class="lazyload lazy loaded"
+         src="https://miro.medium.com/max/1400/1*zQU7HBemZQ6Vny0DtyoWLg.png" alt=""
+         data-was-processed="true" loading="lazy">
+</figure>
+<p>
+    Same story if you’re using YAML:
+</p>
+<figure class="image">
+    <img class="lazyload lazy loaded"
+         src="https://miro.medium.com/max/1400/1*5x2pcmKFYgC0V64HUIAE9g.png" alt=""
+         data-was-processed="true" loading="lazy">
+</figure>
+<p>
+    Of course it’s even more easier if
+    you’re using PHP to configure your services. This feature is compatible with Backed Enums as well as Unit Enums.
+    Yay!
+</p>
+<h2>VarExporter</h2>
+<p>
+    Alright so you may not really notice this change because the VarExporter component is
+    not necessarily the most famous Symfony part. Simply, this component allows you to export objects and variables to
+    plain PHP code. This way and thanks to a simple require, you’re able to instantiate your data structure without
+    calling any constructor. It may be a bit blurry but here is an code snippet that will show you this mechanism in
+    action with enumerations:
+</p>
+<figure class="image">
+    <img class="lazyload lazy loaded"
+         src="https://miro.medium.com/max/1400/1*vdE9w8snHKYcBWG2TzKv1Q.png" alt=""
+         data-was-processed="true" loading="lazy">
+</figure>
+<p>
+    Nothing disruptive or revolutionary
+    here. But you’ll be able to use enumerations without wondering if it’s OK to use them with this component. That’s
+    all we’re asking for as developers!
+</p>
+<hr>
+<p>Symfony is always pushing boundaries to be compatible with the top-end versions of PHP. Thanks to this, you’re
+    able to use the full power of the language’s new features.
+</p>
+<p>Did you know the first pull-request to be fully
+    compatible with PHP 8.2 (yes, the version scheduled for end 2022) has already been merged into Symfony, thanks to
+    Nicolas Grekas?
+</p>

@@ -29,7 +29,7 @@
 
     <a
         class="paginator-next"
-        {% if app.request.query.get('page') == paginator|last %}
+        {% if app.request.query.get('page') == paginator|last or paginator|length == 1 %}
             disabled
         {% else %}
             href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({page: app.request.query.get('page') ? app.request.query.get('page') + 1 : 2 })) }}"

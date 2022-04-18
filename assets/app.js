@@ -10,5 +10,14 @@ import './styles/app.scss';
 import './modules/header/header'
 import './modules/gallery/gallery'
 
+import './js/share-btn'
+import './js/copy'
+
+// feather-icons a plugin for the open-source icon set, show https://feathericons.com/ for complete icons list
+const feather = require('feather-icons')
+window.onload = function () {
+    feather.replace()
+}
+
 // start the Stimulus application
-import './bootstrap';
+// import './bootstrap';

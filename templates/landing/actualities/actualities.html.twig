@@ -3,7 +3,7 @@
 {% macro actualities(actualities) %}
     <div class="thumbnails">
         {% for actuality in actualities %}
-            <a class="thumbnail" href="{{ path('landing_page', { slug: actuality.slug, type: 'actu' }) }}" title="{{ actuality.title }}">
+            <a class="thumbnail" href="{{ path('landing_actuality', { slug: actuality.slug }) }}" title="{{ actuality.title }}">
                 <header>
                     <img src="{{ actuality.image is defined and actuality.image ? vich_uploader_asset(actuality.image) : asset('build/images/photo/cible.jpg') }}" alt="Photo de l'actualité: {{ actuality.title }}">
                 </header>

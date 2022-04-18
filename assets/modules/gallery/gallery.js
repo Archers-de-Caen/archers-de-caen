@@ -6,7 +6,9 @@ import Viewer from 'viewerjs';
 // Note: All images within the container will be found by calling `element.querySelectorAll('img')`.
 
 window.onload = function () {
-    new Viewer(document.getElementById('galleries'))
+    if (document.getElementById('galleries')) {
+        new Viewer(document.getElementById('galleries'))
+    }
 }
 
 

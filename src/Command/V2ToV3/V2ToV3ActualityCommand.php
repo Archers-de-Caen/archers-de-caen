@@ -39,9 +39,9 @@ class V2ToV3ActualityCommand extends Command
     use ArcherTrait;
 
     public function __construct(
-        private EntityManagerInterface $em,
-        private ValidatorInterface $validator,
-        private UploaderHelper $uploaderHelper,
+        private readonly EntityManagerInterface $em,
+        private readonly ValidatorInterface $validator,
+        private readonly UploaderHelper $uploaderHelper,
         string $name = null
     ) {
         parent::__construct($name);
@@ -51,7 +51,7 @@ class V2ToV3ActualityCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $archer = $this->em->getRepository(Archer::class)->findOneBy(['licenseNumber' => '123459A']); // TODO: A changer
+        $archer = $this->em->getRepository(Archer::class)->findOneBy(['licenseNumber' => '210212D']); // TODO: A changer
 
         if (!$archer) {
             $io->error('Archer introuvable');
@@ -115,7 +115,7 @@ class V2ToV3ActualityCommand extends Command
                         return self::FAILURE;
                     }
 
-                    if (!$file = fopen($filePath, 'w')) {
+                    if (!$file = fopen($filePath, 'wb')) {
                         $io->error('fopen bug');
 
                         return self::FAILURE;
@@ -136,6 +136,8 @@ class V2ToV3ActualityCommand extends Command
 
                     $crawler->html($node->nodeValue);
 
+                    $crawler->getNode(0)?->parentNode?->insertBefore(new DOMElement('br'), $node->nextSibling);
+
                     if ($i === 0) {
                         $mainImage = $image;
                     }
@@ -144,12 +146,16 @@ class V2ToV3ActualityCommand extends Command
                 return $crawler;
             });
 
+            $content = $crawler->html();
+
+            $content = str_replace('center', 'p', $content);
+
             $newPage = (new Page())
                 ->setTitle($post['title'])
                 ->setCreatedAt($post['createdAt'])
                 ->setCreatedBy($archer)
                 ->setStatus($status)
-                ->setContent($crawler->html())
+                ->setContent($content)
                 ->setImage($mainImage);
 
             if ('page' === $post['type']) {

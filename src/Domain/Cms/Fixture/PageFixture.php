@@ -23,11 +23,18 @@ class PageFixture extends AbstractFixtures implements DependentFixtureInterface
     {
         $this->createMany(Page::class, self::LOAD_DATA_MAX, function (Page $page) {
             /** @var Archer $archer */
-            $archer = $this->getReference(ArcherFixture::REFERENCE.'_'.$this->faker->numberBetween(0, ArcherFixture::LOAD_DATA_MAX - 1));
+            $archer = $this->getReference(ArcherFixture::REFERENCE . '_' . $this->faker->numberBetween(0, ArcherFixture::LOAD_DATA_MAX - 1));
 
             self::create($page, $archer);
 
             $this->setReference($this->generateReference(self::REFERENCE), $page);
+        });
+
+        $this->createOne(Page::class, function (Page $page) {
+            /** @var Archer $archer */
+            $archer = $this->getReference(ArcherFixture::REFERENCE . '_' . $this->faker->numberBetween(0, ArcherFixture::LOAD_DATA_MAX - 1));
+
+            self::createWithTrueContent($page, $archer);
         });
 
         $manager->flush();
@@ -38,7 +45,7 @@ class PageFixture extends AbstractFixtures implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
 
         $page->setTitle($faker->sentence());
-        $page->setContent($faker->randomHtml());
+        $page->setContent($faker->randomHtml(6, 10));
         $page->setCreatedBy($createdBy);
 
         /** @var Category $category */
@@ -48,6 +55,17 @@ class PageFixture extends AbstractFixtures implements DependentFixtureInterface
         /** @var Status $status */
         $status = $faker->randomElement([Status::PUBLISH, Status::DELETE, Status::DRAFT]);
         $page->setStatus($status);
+
+        return $page;
+    }
+
+    public function createWithTrueContent(Page $page, Archer $createdBy): Page
+    {
+        $page->setTitle('Using PHP 8.1 enumerations in Symfony');
+        $page->setContent((string) file_get_contents(__DIR__ . '/page-content.html.twig'));
+        $page->setCategory(Category::ACTUALITY);
+        $page->setStatus(Status::PUBLISH);
+        $page->setCreatedBy($createdBy);
 
         return $page;
     }

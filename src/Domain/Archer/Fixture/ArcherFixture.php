@@ -50,6 +50,7 @@ class ArcherFixture extends AbstractFixtures
     {
         $archer = self::create($archer);
 
+        $archer->setEmail('admin@admin.fr');
         $archer->setPlainPassword('Pwd123');
         $archer->addRole(Archer::ROLE_ADMIN);
 

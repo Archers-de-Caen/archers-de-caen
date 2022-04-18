@@ -101,8 +101,14 @@
         }
 
         .show-all-actualities {
+          display: flex;
+          align-items: center;
           margin-top: 15px;
           color: $color-grey;
+
+          &:hover {
+            text-decoration: underline;
+          }
         }
       }
     }

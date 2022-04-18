@@ -43,6 +43,7 @@
         "@ckeditor/ckeditor5-undo": "^32.0.0",
         "@ckeditor/ckeditor5-upload": "^32.0.0",
         "css-loader": "^6.6.0",
+        "feather-icons": "^4.29.0",
         "postcss": "^7.0.0",
         "postcss-loader": "^6.2.1",
         "raw-loader": "^4.0.2",

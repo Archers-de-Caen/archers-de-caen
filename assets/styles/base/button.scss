@@ -24,9 +24,16 @@
     background-color: $color-yellow;
     color: $color-white;
 
-    &:hover {
+    &:hover, &.-outline {
       background-color: unset;
       color: $color-yellow;
+    }
+
+    &.-outline {
+      &:hover {
+        background-color: $color-yellow;
+        color: $color-white;
+      }
     }
   }
 
@@ -35,9 +42,16 @@
     color: $color-white;
     border-color: $color-grey;
 
-    &:hover {
+    &:hover, &.-outline {
       background-color: unset;
       color: $color-grey;
+    }
+
+    &.-outline {
+      &:hover {
+        background-color: $color-grey;
+        color: $color-white;
+      }
     }
   }
 
@@ -46,7 +60,7 @@
     color: $color-white;
     border-color: $color-red;
 
-    &:hover {
+    &:hover, &.-outline {
       background-color: unset;
       color: $color-red;
     }
@@ -57,10 +71,9 @@
     color: $color-white;
     border-color: $color-blue;
 
-    &:hover {
+    &:hover, &.-outline {
       background-color: unset;
       color: $color-blue;
     }
   }
-
 }
