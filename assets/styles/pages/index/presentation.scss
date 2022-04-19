@@ -4,25 +4,16 @@
   .presentations {
     margin-top: 25px;
 
-    .presentation-double {
-      display: flex;
-      justify-content: space-between;
-    }
-
     .presentation {
       display: flex;
-      justify-content: space-between;
-      flex-direction: column;
-      text-align: center;
+      justify-content: center;
+      flex-direction: row;
       margin: auto;
-
-      &.row {
-        flex-direction: row;
-      }
+      width: 100%;
 
       h3, p {
         margin: 30px 0;
-        color: $color-white;
+        color: $color-grey;
       }
 
       h3 {
@@ -32,7 +23,7 @@
       }
 
       p {
-        font-size: medium;
+        font-size: large;
         letter-spacing: 1.5px;
         line-height: 1.5;
       }
@@ -44,57 +35,56 @@
       }
 
       .content {
-        width: 60%;
+        .call-to-action {
+          display: flex;
+          justify-content: end;
+        }
       }
 
       &.-first {
-        width: 700px;
-        margin-top: 100px;
+        margin-top: 75px;
 
         .content {
-          margin: 100px auto auto;
+          margin-left: 100px;
+          margin-top: 25px;
+          width: 400px;
         }
 
         img {
-          width: 100%;
+          width: 600px;
           height: 500px;
-        }
-
-        h3, p {
-          color: $color-grey;
         }
       }
 
       &.-second {
-        width: 600px;
-        margin-top: 150px;
+        margin-top: 100px;
+        flex-direction: row-reverse;
 
         .content {
-          margin: auto;
+          margin-right: 150px;
+          margin-top: 250px;
+          width: 400px;
         }
 
         img {
-          width: 100%;
+          width: 400px;
           height: 750px;
-          margin-top: 50px;
+          margin-left: 50px;
         }
       }
 
       &.-third {
-        width: 70%;
         margin: 100px auto auto;
 
         img {
           width: 450px;
           height: 400px;
-        }
 
-        h3, p {
-          color: $color-grey;
+          margin-right: 100px;
         }
 
         .content {
-          width: 50%;
+          width: 450px;
         }
       }
     }
@@ -107,12 +97,11 @@
 
       .presentation {
         &.-first {
-          width: 600px;
-          margin-top: 200px;
+          margin-top: 75px;
 
           .content {
-            margin-top: 75px;
-            width: 90%;
+            margin-top: 10px;
+            width: 300px;
           }
 
           img {
@@ -121,11 +110,12 @@
         }
 
         &.-second {
-          width: 400px;
-          margin-top: 0;
+          margin-top: 100px;
 
           .content {
-            width: 90%;
+            width: 400px;
+            margin-top: 180px;
+            margin-right: 100px;
           }
 
           img {
@@ -134,17 +124,14 @@
         }
 
         &.-third {
-          width: 90%;
-          justify-content: space-evenly;
-
           .content {
-            width: 300px;
+            width: 400px;
             max-width: 400px;
           }
 
           img {
             width: 450px;
-            height: 300px;
+            height: 400px;
           }
         }
       }
@@ -158,25 +145,26 @@
 
       .presentation {
         &.-first {
-          width: 400px;
-          margin-top: 200px;
+          margin-top: 75px;
 
           .content {
-            margin-top: 75px;
-            width: 100%;
+            margin-top: 0;
+            width: 275px;
           }
 
           img {
-            height: 350px;
+            height: 500px;
+            width: 450px;
           }
         }
 
         &.-second {
-          width: 350px;
-          margin-top: 0;
+          margin-top: 200px;
 
           .content {
-            width: 90%;
+            width: 350px;
+            margin-right: 75px;
+            margin-top: 75px;
           }
 
           img {
@@ -185,15 +173,13 @@
         }
 
         &.-third {
-          width: 90%;
-          justify-content: space-evenly;
-
           .content {
-            width: 400px;
+            width: 350px;
           }
 
           img {
-            height: 300px;
+            height: 400px;
+            width: 400px;
           }
         }
       }
@@ -203,50 +189,49 @@
 
 @media (min-width: map-get($grid-breakpoints, sm)) and (max-width: map-get($grid-breakpoints, md)) {
   .index-page {
+    .bg-target {
+      display: none;
+    }
+
     .presentations {
-
       .presentation {
-        .content {
-          width: 100%;
-        }
-
         &.-first {
-          width: 300px;
-          margin-top: 30px;
+          margin-top: 50px;
 
           .content {
-            margin-top: 75px;
+            margin-top: 0;
+            margin-left: 25px;
           }
 
           img {
             height: 300px;
+            width: 300px;
           }
         }
 
         &.-second {
-          width: 300px;
-          margin-top: 0;
+          margin-top: 75px;
 
-          h3, p {
-            color: $color-grey;
+          .content {
+            width: 300px;
+            margin-top: 25px;
+            margin-right: 50px;
           }
 
           img {
             height: 450px;
+            width: 300px;
           }
         }
 
         &.-third {
-          width: 90%;
-          justify-content: space-evenly;
-
           .content {
             width: 300px;
           }
 
           img {
-            width: 300px;
-            height: 300px;
+            width: 350px;
+            height: 450px;
           }
         }
       }
@@ -256,20 +241,16 @@
 
 @media (max-width: map-get($grid-breakpoints, sm)) {
   .index-page {
+    .bg-target {
+      display: none;
+    }
+
     .presentations {
       width: 90%;
       margin: auto;
 
-      .presentation-double {
-        flex-direction: column;
-      }
-
       .presentation {
         width: 100%!important;
-
-        h3, p {
-          color: $color-grey;
-        }
 
         img {
           width: 100%;
@@ -282,16 +263,31 @@
 
         &.-first {
           flex-direction: column-reverse;
-          color: white;
           margin-top: 25px;
 
           .content {
             margin: 0 auto auto;
+            width: 100%;
+          }
+
+          img {
+            width: 100%;
           }
         }
 
         &.-second {
           margin-top: 30px;
+          flex-direction: column-reverse;
+
+          .content {
+            margin: 0 auto auto;
+            width: 100%;
+          }
+
+          img {
+            margin: 40px 0;
+            width: 100%;
+          }
         }
 
         &.-third {
@@ -303,6 +299,7 @@
           }
 
           img {
+            margin: 40px 0;
             width: 100%;
           }
         }
