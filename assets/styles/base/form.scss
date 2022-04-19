@@ -38,13 +38,14 @@
 
       min-width: 200px;
       height: 40px;
-      padding: 10px;
+      padding: 10px 15px;
 
       &[type="checkbox"], &[type="radio"] {
         min-width: unset;
         height: 25px;
         width: 25px;
         box-shadow: 0 0 0 0 $color-yellow inset;
+        padding: 10px;
 
         cursor: pointer;
         transition: box-shadow .5s ease;
@@ -91,7 +92,8 @@
       cursor: pointer;
       display: block;
       appearance: auto;
-      //::-ms-expand
+      padding: 5px 15px;
+
       &::before {
         display: block;
         content: '';
