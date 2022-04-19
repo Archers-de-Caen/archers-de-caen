@@ -6,6 +6,7 @@ namespace App\Http\Landing\Controller;
 
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Repository\PageRepository;
+use App\Entity\Archer\Archer;
 use App\Helper\PaginatorHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,6 +36,10 @@ class DefaultController extends AbstractController
     #[Route('/style-guide', name: 'landing_style_guide')]
     public function styleGuide(Request $request): Response
     {
+        if (!$this->isGranted(Archer::ROLE_DEVELOPER) && $request->server->get('APP_ENV') !== 'dev') {
+            throw $this->createAccessDeniedException();
+        }
+
         return $this->render('/landing/style-guide/style-guide.html.twig', [
             'paginator' => PaginatorHelper::pagination((int) ($request->query->get('page') ?: 1), 100)
         ]);
