@@ -11,7 +11,7 @@
     margin: 10px 0;
     width: 100%;
 
-    &.-check {
+    &.--check {
       flex-direction: row-reverse;
       align-items: center;
 
@@ -24,7 +24,7 @@
       }
     }
 
-    &.-btn {
+    &.--btn {
       input[type="radio"] {
         display: none;
       }

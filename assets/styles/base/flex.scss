@@ -29,7 +29,15 @@
     }
   }
 
-  &.wrap {
+  &.--wrap {
     flex-wrap: wrap;
+  }
+
+  @for $i from 0 through 15 {
+    $multiplier: 10px;
+    $props: m;
+    &.--gap-#{$i} {
+      gap: $multiplier*$i!important;
+    }
   }
 }
