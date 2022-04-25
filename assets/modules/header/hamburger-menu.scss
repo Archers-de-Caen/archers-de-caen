@@ -11,7 +11,7 @@
     height: 15%;
     width: 100%;
     background-color: $color-grey;
-    border-radius: 10px;
+    border-radius: $border-radius-normal;
     transition: transform .5s ease;
   }
 

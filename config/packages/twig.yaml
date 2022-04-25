@@ -3,6 +3,13 @@ twig:
     form_themes:
         - 'form/ckeditor.html.twig'
         - 'form/gallery.html.twig'
+        - 'form/theme.html.twig'
+
+    globals:
+        parameters:
+            email: '%email%'
+            phone: '%phone%'
+            postal_address: '%postal_address%'
 
 when@test:
     twig:

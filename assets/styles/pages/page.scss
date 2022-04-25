@@ -15,7 +15,7 @@
       height: 400px;
       width: 100%;
       object-fit: cover;
-      border-radius: 0 0 10px 10px;
+      border-radius: 0 0 $border-radius-normal $border-radius-normal;
       box-shadow: $box-shadow;
     }
   }
@@ -25,7 +25,7 @@
     max-width: 1000px;
     padding: 20px 50px;
     margin-top: -200px;
-    border-radius: 10px 10px 0 0;
+    border-radius: $border-radius-normal $border-radius-normal 0 0;
     background-color: $color-white;
 
     .page-title {
@@ -87,7 +87,7 @@
     text-align: right;
     padding: 20px 50px;
     background-color: $color-white;
-    border-radius: 0 0 10px 10px;
+    border-radius: 0 0 $border-radius-normal $border-radius-normal;
 
     a {
       display: flex;

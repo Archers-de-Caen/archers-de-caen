@@ -27,12 +27,6 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    #[Route('/contact', name: 'landing_contact')]
-    public function contact(): Response
-    {
-        return $this->render('/landing/contact/contact.html.twig');
-    }
-
     #[Route('/style-guide', name: 'landing_style_guide')]
     public function styleGuide(Request $request): Response
     {

@@ -17,6 +17,12 @@
         {% endblock %}
     </head>
     <body>
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <input type="hidden" value="{{ message }}" data-type="{{ label }}" class="flash">
+            {% endfor %}
+        {% endfor %}
+
         <header class="header">
             <div class="header-secondary">
                 <div class="header-content">

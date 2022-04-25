@@ -12,6 +12,7 @@ import './modules/gallery/gallery'
 
 import './js/share-btn'
 import './js/copy'
+import './js/flash'
 
 // feather-icons a plugin for the open-source icon set, show https://feathericons.com/ for complete icons list
 const feather = require('feather-icons')

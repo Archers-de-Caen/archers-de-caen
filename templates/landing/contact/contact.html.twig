@@ -1,10 +1,63 @@
 {% extends 'landing/base.html.twig' %}
 
+{% block title %}Formulaire de contact{% endblock %}
+
 {% block body %}
 
     <div class="contact-page">
 
+        <header>
+            <h1>Entrons en contact</h1>
+            <h2>Mais attention, on est armé !</h2>
 
+            <div class="contact-items">
+                <div class="contact-item border --rounded bg-yellow">
+                    <i data-feather="map-pin"></i>
+                    <span>{{ parameters.postal_address }}</span>
+                </div>
+
+                <div class="contact-item border --rounded bg-yellow">
+                    <i data-feather="phone"></i>
+                    <span>{{ parameters.phone }}</span>
+                </div>
+
+                <div class="contact-item border --rounded bg-yellow">
+                    <i data-feather="mail"></i>
+                    <span>{{ parameters.email }}</span>
+                </div>
+            </div>
+        </header>
+
+        {{ form_start(form) }}
+
+            <div class="row">
+                <div class="col -first">
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.email) }}
+                </div>
+
+                <div class="col -second">
+                    {{ form_row(form.content) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col form-group">
+                    {{ form_label(form.subject) }}
+
+                    <div class="choice">
+                        {% for subject in form.subject %}
+                            {{ form_row(subject, { row_attr: { class: '-btn' } }) }}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex jc-center mt-2">
+                {{ form_row(form.send) }}
+            </div>
+
+        {{ form_end(form) }}
 
     </div>
 

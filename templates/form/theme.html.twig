@@ -1,0 +1,30 @@
+{# base: https://github.com/symfony/symfony/blob/6.1/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig #}
+
+{% use 'form_div_layout.html.twig' %}
+
+{%- block form_row -%}
+    {%- set row_attr = row_attr|merge({class: 'form-group ' ~ (row_attr.class is defined ? row_attr.class : '')}) -%}
+
+    {%- set widget_attr = {} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+    {%- endif -%}
+    <div{% with {attr: row_attr} %}{{ block('attributes') }}{% endwith %}>
+        {% if row_attr.class is defined and '-btn' not in row_attr.class %}
+            {{- form_label(form) -}}
+            {{- form_errors(form) -}}
+            {{- form_widget(form, widget_attr) -}}
+        {% else %}
+            {{- form_widget(form, widget_attr) -}}
+            {{- form_label(form) -}}
+            {{- form_errors(form) -}}
+        {% endif %}
+        {{- form_help(form) -}}
+    </div>
+{%- endblock form_row -%}
+
+{%- block form_start -%}
+    {%- set attr = attr|merge({class: 'form-groups ' ~ (attr.class is defined ? attr.class : '')}) -%}
+
+    {{- parent() -}}
+{%- endblock form_start -%}

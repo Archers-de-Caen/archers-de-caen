@@ -1,0 +1,27 @@
+@import "../variable";
+
+.bg {
+  &-primary, &-yellow {
+    background-color: $color-yellow;
+  }
+
+  &-secondary, &-grey {
+    background-color: $color-grey;
+  }
+
+  &-red {
+    background-color: $color-red;
+  }
+
+  &-blue {
+    background-color: $color-blue;
+  }
+
+  &-black {
+    background-color: $color-black;
+  }
+
+  &-white {
+    background-color: $color-white;
+  }
+}

@@ -8,7 +8,7 @@ $color-grey: #3B3D3F;
 
 $linear-gradient-target: linear-gradient(to right, $color-white, $color-black, $color-blue, $color-red, $color-yellow);
 
-$box-shadow: rgba(0, 0, 0, 0.05) 2px 2px 10px 0;
+$box-shadow: rgba(0, 0, 0, 0.05) 2px 2px 20px 0;
 
 $grid-breakpoints: (
   xs: 576px,
@@ -17,3 +17,7 @@ $grid-breakpoints: (
   lg: 1200px,
   xl: 1400px
 );
+
+$border-radius-small: 5px;
+$border-radius-normal: 10px;
+$border-radius-big: 30px;

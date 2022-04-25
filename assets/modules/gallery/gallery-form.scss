@@ -29,7 +29,7 @@
 
       .loading {
         background-color: rgba(0, 0, 0, .75);
-        border-radius: 5px;
+        border-radius: $border-radius-small;
         justify-content: center;
         align-items: center;
       }
@@ -49,7 +49,7 @@
         object-fit: cover;
         width: 100%;
         height: 100%;
-        border-radius: 5px;
+        border-radius: $border-radius-small;
       }
     }
   }

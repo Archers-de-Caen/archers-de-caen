@@ -1,0 +1,9 @@
+@import "../variable";
+
+.border {
+  border: 2px solid $color-yellow;
+
+  &.--rounded {
+    border-radius: $border-radius-normal;
+  }
+}

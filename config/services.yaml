@@ -4,12 +4,20 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    email: "archers-caen@gmail.com"
+    phone: "+33 93 789 3921"
+    postal_address: "Avenue Albert 1er, 14000 Caen"
 
 services:
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            $email: '%email%'
+            $phone: '%postal_address%'
+            $postalAddress: '%postal_address%'
+            $env: '%kernel.environment%'
 
     _instanceof:
         Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface:

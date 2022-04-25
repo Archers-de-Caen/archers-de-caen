@@ -1,0 +1,97 @@
+@import "../variable";
+
+.contact-page {
+  width: 80%;
+  max-width: 800px;
+  margin: auto;
+
+  header {
+    text-align: center;
+    margin-top: 30px;
+
+    .contact-items {
+      display: flex;
+      justify-content: space-between;
+      margin: 50px 0;
+
+      .contact-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+
+        width: 30%;
+        height: 100px;
+
+        padding: 10px 0;
+      }
+    }
+  }
+
+  form {
+    .row {
+      display: flex;
+      width: 100%;
+      margin-top: 30px;
+
+      .col {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        &:not(:last-child) {
+          margin-right: 50px;
+        }
+
+        textarea {
+          height: 200px;
+        }
+
+        .choice {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
+          width: 100%;
+
+          .form-group {
+            flex: 1;
+            min-width: 125px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .contact-page {
+    width: 90%;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, xs)) {
+  .contact-page {
+    header {
+      .contact-items {
+        flex-direction: column;
+
+        .contact-item {
+          width: 100%;
+          margin-bottom: 20px;
+        }
+      }
+    }
+
+    form {
+      .row {
+        flex-direction: column;
+
+        .col {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
+

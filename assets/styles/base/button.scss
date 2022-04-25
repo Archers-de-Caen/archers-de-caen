@@ -1,7 +1,7 @@
 @import "../variable";
 
 .btn {
-  border-radius: 30px;
+  border-radius: $border-radius-big;
   border: 2px solid $color-yellow;
   padding: 10px 30px;
   cursor: pointer;
