@@ -30,6 +30,9 @@
                         <li><a href="{{ path('landing_index') }}">La gazette</a></li>
                         <li><a href="{{ path('landing_contact') }}">Contact</a></li>
                         <li><a href="{{ path('app_index') }}">Espace licencié</a></li>
+                        {% if app.environment == 'dev' or is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_ADMIN')) %}
+                            <li><a href="{{ path('admin_index') }}">Admin</a></li>
+                        {% endif %}
                         <li><a href="#">🔍</a></li>
                     </ul>
                 </div>
