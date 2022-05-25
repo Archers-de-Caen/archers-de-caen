@@ -62,6 +62,19 @@
           height: fit-content;
 
           .thumbnail {
+            width: unset;
+            height: unset;
+            display: unset;
+            margin: unset;
+
+            header {
+              height: 75%;
+            }
+
+            footer {
+              height: 25%;
+            }
+
             &:nth-child(1) {
               grid-column-start: 1;
               grid-column-end: 2;
@@ -69,11 +82,11 @@
               grid-row-end: 3;
 
               header {
-                height: 90%;
+                height: 88%;
               }
 
               footer {
-                height: 10%;
+                height: 12%;
               }
             }
 
@@ -175,11 +188,11 @@
                 grid-row-end: 2;
 
                 header {
-                  height: 80%;
+                  height: 75%;
                 }
 
                 footer {
-                  height: 20%;
+                  height: 25%;
                 }
               }
 
