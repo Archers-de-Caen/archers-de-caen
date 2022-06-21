@@ -14,7 +14,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 #[AsCommand(
     name: 'app:v2-to-v3:wp-posts-shortcut',
@@ -27,7 +26,6 @@ class V2ToV3ActualityShortcutWpCommand extends Command
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly UploaderHelper $uploaderHelper,
         string $name = null
     ) {
         parent::__construct($name);

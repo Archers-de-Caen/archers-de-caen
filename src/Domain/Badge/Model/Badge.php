@@ -47,9 +47,9 @@ class Badge
 
     /**
      * @var array{
-     *    'type': string,
-     *    'score': int,
-     *    'weapon': string
+     *    type: string,
+     *    score: int,
+     *    weapon?: string
      * }|null
      */
     #[ORM\Column(type: Types::JSON)]
@@ -170,9 +170,9 @@ class Badge
 
     /**
      * @return array{
-     *    'type': string,
-     *    'score': int,
-     *    'weapon': string
+     *    type: string,
+     *    score: int,
+     *    weapon?: string
      * }|null
      */
     public function getConditions(): ?array
@@ -182,9 +182,9 @@ class Badge
 
     /**
      * @param array{
-     *    'type': string,
-     *    'score': int,
-     *    'weapon': string
+     *    type: string,
+     *    score: int,
+     *    weapon?: string
      * }|null $conditions
      *
      * @return $this

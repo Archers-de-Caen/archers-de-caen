@@ -21,8 +21,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 final class CreateArcher extends Command
 {
     public function __construct(
-        private ValidatorInterface $validator,
-        private EntityManagerInterface $em,
+        private readonly ValidatorInterface $validator,
+        private readonly EntityManagerInterface $em,
         string $name = null
     ) {
         parent::__construct($name);
@@ -34,6 +34,7 @@ final class CreateArcher extends Command
 
         $archer = new Archer();
 
+        /** @var array<string, array> $properties */
         $properties = [
             'firstName' => [
                 'value' => null,
@@ -74,6 +75,7 @@ final class CreateArcher extends Command
 
         foreach ($properties as $property => $details) {
             do {
+                /** @var string $value */
                 if ($details['hidden'] ?? false) {
                     $value = $io->askHidden($details['sentence']);
                 } elseif (!empty($details['choices'])) {
@@ -82,14 +84,17 @@ final class CreateArcher extends Command
                     $value = $io->ask($details['sentence']);
                 }
 
-                $properties[$property]['value'] = $value ? strval($value) : null;
+                $properties[$property]['value'] = $value;
 
                 $violations = $this->validator->validatePropertyValue(Archer::class, $property, $properties[$property]['value']);
 
                 if ($violations->count()) {
                     /** @var ConstraintViolationInterface $violation */
                     foreach ($violations as $violation) {
-                        $io->error($violation->getMessage());
+                        /** @var string $message */
+                        $message = $violation->getMessage();
+
+                        $io->error($message);
                     }
                 }
             } while ($violations->count());

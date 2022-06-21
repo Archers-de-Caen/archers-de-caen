@@ -270,7 +270,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
 
     public function getArcherLicenseActive(): ?ArcherLicense
     {
-        return $this->archerLicenses->filter(fn (ArcherLicense $archerLicense) => $archerLicense->isActive())->first() ?: null;
+        return $this->archerLicenses->filter(static fn (ArcherLicense $archerLicense): bool => (bool) $archerLicense->isActive())->first() ?: null;
     }
 
     public function addArcherLicense(ArcherLicense $archerLicense): self

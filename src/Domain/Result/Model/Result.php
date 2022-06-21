@@ -10,7 +10,6 @@ use App\Domain\Archer\Model\Archer;
 use App\Domain\Result\Repository\ResultRepository;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
-use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -57,7 +56,7 @@ abstract class Result
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     #[Assert\NotNull]
     #[Assert\NotBlank]
-    private ?DateTimeImmutable $completionDate = null;
+    private ?DateTimeInterface $completionDate = null;
 
     public function __toString(): string
     {
@@ -117,7 +116,7 @@ abstract class Result
         return $this->record;
     }
 
-    public function setRecord(?bool $record): self
+    public function setRecord(bool $record): self
     {
         $this->record = $record;
 
