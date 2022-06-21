@@ -1,10 +1,10 @@
 @import "../../variable";
 
 .index-page {
-  .title-actualities-container {
+  .hero-container {
     background-color: $color-yellow;
 
-    .title-actualities {
+    .hero {
       width: 80%;
       height: 700px;
       margin: auto;
@@ -130,8 +130,8 @@
 
 @media (max-width: map-get($grid-breakpoints, lg)) {
   .index-page {
-    .title-actualities-container {
-      .title-actualities {
+    .hero-container {
+      .hero {
         flex-direction: column;
         height: 815px;
 
@@ -167,8 +167,8 @@
 
 @media (max-width: map-get($grid-breakpoints, sm)) {
   .index-page {
-    .title-actualities-container {
-      .title-actualities {
+    .hero-container {
+      .hero {
         .thumbnails-container {
           .thumbnails {
             grid-template-rows: repeat(3, calc(500px / 3));
@@ -226,7 +226,7 @@
 
 @media (min-width: map-get($grid-breakpoints, sm)) and (max-width: map-get($grid-breakpoints, md)) {
   .index-page {
-    .title-actualities-container {
+    .hero-container {
       .thumbnails-container {
         .thumbnails {
           //grid-template-columns: repeat(2, calc((80vw - 75px) / 2))!important;
@@ -239,8 +239,8 @@
 
 @media (min-width: map-get($grid-breakpoints, xs)) and (max-width: map-get($grid-breakpoints, sm)) {
   .index-page {
-    .title-actualities-container {
-      .title-actualities {
+    .hero-container {
+      .hero {
         .thumbnails-container {
           .thumbnails {
             grid-template-columns: repeat(2, calc((80vw - 75px) / 2)) !important;
@@ -253,8 +253,8 @@
 
 @media (max-width: map-get($grid-breakpoints, xs)) {
   .index-page {
-    .title-actualities-container {
-      .title-actualities {
+    .hero-container {
+      .hero {
         .thumbnails-container {
           .thumbnails {
             grid-template-columns: repeat(2, calc((100vw - 75px) / 2)) !important;
