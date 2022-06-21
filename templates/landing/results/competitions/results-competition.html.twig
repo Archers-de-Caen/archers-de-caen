@@ -13,7 +13,12 @@
             <h1>{{ block('title') }}</h1>
         </section>
 
-        {{ include('/landing/results/competitions/_parts/results-competition-table.html.twig', {results: results}) }}
+        {{ include('/landing/results/competitions/_parts/results-competition-table.html.twig', {
+            results: results,
+            participantCount: participantCount,
+            recordCount: recordCount,
+            podiumCount: podiumCount
+        }) }}
 
         {% set season = competition.dateStart|date('m') >= 9 ? competition.dateStart|date('Y') + 1 : competition.dateStart|date('Y') %}
         <a href="{{ path('landing_results_competitions_season', { season: season }) }}"

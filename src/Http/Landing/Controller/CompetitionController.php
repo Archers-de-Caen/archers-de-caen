@@ -100,6 +100,9 @@ final class CompetitionController extends AbstractController
     public function resultsCompetitions(Request $request, Competition $competition): Response
     {
         $results = [];
+        $participants = [];
+        $recordCount = 0;
+        $podiumCount = 0;
 
         foreach (Weapon::toChoices() as $WeaponToString => $weapon) {
             foreach (Category::toChoices() as $categoryToString => $category) {
@@ -111,6 +114,18 @@ final class CompetitionController extends AbstractController
 
                         if (!isset($results[$WeaponToString][$categoryToString])) {
                             $results[$WeaponToString][$categoryToString] = [];
+                        }
+
+                        if (($archer = $result->getArcher()) && !in_array($archer, $participants, true)) {
+                            $participants[] = $archer;
+                        }
+
+                        if ($result->getRecord()) {
+                            $recordCount++;
+                        }
+
+                        if ($result->getRank() <= 3) {
+                            $podiumCount++;
                         }
 
                         $results[$WeaponToString][$categoryToString][] = $result;
@@ -127,6 +142,9 @@ final class CompetitionController extends AbstractController
         return $this->render($template, [
             'competition' => $competition,
             'results' => $results,
+            'participantCount' => count($participants),
+            'recordCount' => $recordCount,
+            'podiumCount' => $podiumCount,
         ]);
     }
 

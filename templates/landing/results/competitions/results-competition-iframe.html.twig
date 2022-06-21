@@ -7,7 +7,12 @@
 {% endblock %}
 
 {% block body %}
-    {{ include('/landing/results/competitions/_parts/results-competition-table.html.twig', {results: results}) }}
+    {{ include('/landing/results/competitions/_parts/results-competition-table.html.twig', {
+        results: results,
+        participantCount: participantCount,
+        recordCount: recordCount,
+        podiumCount: podiumCount
+    }) }}
 
     <div class="text-right w-100">
         <a

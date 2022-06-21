@@ -77,6 +77,10 @@ b {
   font-weight: bold;
 }
 
+i {
+  font-style: italic;
+}
+
 hr {
   border-top: 1px solid $color-yellow;
   width: 100%;
@@ -85,4 +89,19 @@ hr {
 iframe {
   border: none;
   width: 100%;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
 }

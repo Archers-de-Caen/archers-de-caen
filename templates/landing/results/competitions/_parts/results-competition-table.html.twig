@@ -2,7 +2,7 @@
 
     <h2>{{ weapon }}</h2>
 
-    <table class="">
+    <table>
         <thead>
             <tr>
                 <th>Categories</th>
@@ -12,21 +12,48 @@
             </tr>
         </thead>
         <tbody>
-                {% for category, results in categories %}
-                    {% for result in results %}
-                        <tr>
-                            {% if loop.first %}
-                                <td rowspan="{{ results|length }}">{{ category }}</td>
-                            {% endif %}
+            {% for category, results in categories %}
+                {% for result in results %}
+                    <tr>
+                        {% if loop.first %}
+                            <td rowspan="{{ results|length }}">
+                                {{ category }}
+                            </td>
+                        {% endif %}
 
-                            <td>{{ result.archer.fullName }}</td>
-                            <td>{{ result.score }}</td>
-                            <td>{{ result.rank }}</td>
-                        </tr>
-                    {% endfor %}
+                        <td>
+                            {{ result.archer.fullName }}
+                        </td>
+                        <td>
+                            {{ result.score }}
+                        </td>
+                        <td>
+                            <div class="flex jc-space-between">
+                                <p>
+                                    {{ result.rank }}<sup>{% if result.rank == 1 %}er{% else %}e{% endif %}</sup>
+                                </p>
+
+                                {% if result.rank <= 3 %}
+                                    <i class="text-small">Podium</i>{% if result.record %}, {% endif %}
+                                {% endif %}
+                                {% if result.record %}
+                                    <i class="text-small">Record personnel</i>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
                 {% endfor %}
+            {% endfor %}
         </tbody>
     </table>
+
+    <div class="text-right">
+        <p>
+            Bilan: {{ participantCount }} participant{% if participantCount > 1%}s{% endif%},
+            {{ recordCount }} record{% if recordCount > 1%}s{% endif%},
+            {{ podiumCount }} podium{% if podiumCount > 1%}s{% endif%}
+        </p>
+    </div>
 
 {% endfor %}
 
