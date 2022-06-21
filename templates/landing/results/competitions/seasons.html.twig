@@ -1,0 +1,25 @@
+{% extends '/landing/base.html.twig' %}
+
+{% block title %}Résultats des Compétitions{% endblock %}
+
+
+{% block body %}
+    <div class="bg-target shape-target"></div>
+
+    <main class="thumbnails-container result-competition-season">
+
+        <section class="title">
+            <h1>{{ block('title') }}</h1>
+        </section>
+
+        <section class="thumbnails">
+            {% for season in seasons %}
+                <a class="thumbnail -horizontal" href="{{ path('landing_results_competitions_season', { season: season }) }}">
+                    <header>
+                        <h2>{{ season }}</h2>
+                    </header>
+                </a>
+            {% endfor %}
+        </section>
+    </main>
+{% endblock %}

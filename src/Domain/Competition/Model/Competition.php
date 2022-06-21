@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace App\Domain\Competition\Model;
 
+use App\Domain\Competition\Config\Type;
 use App\Domain\Competition\Repository\CompetitionRepository;
-use App\Domain\Shared\Model\IdTrait;
-use App\Domain\Shared\Model\TimestampTrait;
+use App\Domain\Result\Model\ResultCompetition;
+use App\Infrastructure\Model\IdTrait;
+use App\Infrastructure\Model\TimestampTrait;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Slug;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CompetitionRepository::class)]
 class Competition
@@ -38,18 +42,36 @@ class Competition
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?DateTimeImmutable $dateEnd = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    private ?string $type = null;
+    #[ORM\Column(type: Types::STRING, length: 255, enumType: Type::class)]
+    #[Assert\NotNull]
+    private ?Type $type = null;
+
+    #[ORM\Column(type: Types::STRING, unique: true, nullable: false)]
+    #[Slug(fields: ['location'])]
+    private ?string $slug = null;
 
     /**
      * @var Collection<int, ResultCompetition>
      */
     #[ORM\OneToMany(mappedBy: 'competition', targetEntity: ResultCompetition::class, cascade: ['ALL'], orphanRemoval: true)]
+    #[Assert\Valid]
     private Collection $results;
 
     public function __construct()
     {
         $this->results = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return sprintf(
+            'concours %s d%s%s du %s au %s',
+            $this->getType()?->toString(),
+            in_array(strtolower($this->getLocation() ?? '')[0], ['a', 'e', 'i', 'o', 'u', 'y', 'h']) ? "'" : "e",
+            $this->getLocation(),
+            $this->getDateStart()?->format('d/m/Y'),
+            $this->getDateEnd()?->format('d/m/Y')
+        );
     }
 
     public function getLocation(): ?string
@@ -88,12 +110,12 @@ class Competition
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): ?Type
     {
         return $this->type;
     }
 
-    public function setType(?string $type): self
+    public function setType(Type $type): self
     {
         $this->type = $type;
 
@@ -150,5 +172,25 @@ class Competition
         $this->oldId = $oldId;
 
         return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Le vrai slug sera accessible après le persist.
+     */
+    public function autoSetSlug(): void
+    {
+        $this->slug = $this->__toString();
     }
 }

@@ -4,8 +4,8 @@ namespace App\Domain\Contact\Model;
 
 use App\Domain\Contact\Config\Subject;
 use App\Domain\Contact\Repository\ContactRequestRepository;
-use App\Domain\Shared\Model\IdTrait;
-use App\Domain\Shared\Model\TimestampTrait;
+use App\Infrastructure\Model\IdTrait;
+use App\Infrastructure\Model\TimestampTrait;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\IpUtils;

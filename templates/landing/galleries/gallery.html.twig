@@ -1,23 +1,21 @@
 {% extends '/landing/base.html.twig' %}
 
 {% block body %}
-    <div class="thumbnail-page">
-        <div class="bg-target shape-target"></div>
+    <div class="bg-target shape-target"></div>
 
-        <div class="thumbnails-container">
-            <div class="title">
-                <h1 class="-white">{{ gallery.title }}</h1>
-            </div>
+    <div class="thumbnails-container">
+        <div class="title">
+            <h1 class="-white">{{ gallery.title }}</h1>
+        </div>
 
-            <div class="thumbnails" id="galleries">
-                {% for photo in gallery.photos %}
-                    <div class="thumbnail -horizontal">
-                        <header>
-                            <img src="{{ vich_uploader_asset(photo) }}" alt="Photo">
-                        </header>
-                    </div>
-                {% endfor %}
-            </div>
+        <div class="thumbnails" id="galleries">
+            {% for photo in gallery.photos %}
+                <div class="thumbnail -horizontal">
+                    <header>
+                        <img src="{{ vich_uploader_asset(photo) }}" alt="Photo">
+                    </header>
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

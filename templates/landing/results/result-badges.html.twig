@@ -1,0 +1,170 @@
+{% extends '/landing/base.html.twig' %}
+
+{% block title %}Distinctions Federales{% endblock %}
+
+{% block body %}
+    <main class="page-container">
+        <section class="title">
+            <h1>{{ block('title') }}</h1>
+        </section>
+
+        <section class="page-content result-badges-page">
+            <div class="thumbnails-container weapons">
+                <h2 class="mt-5">Arme</h2>
+                <div class="thumbnails form-groups">
+                    {% for weapon in weapons %}
+                        <div class="weapon form-group --check --btn --white">
+                            <input type="radio" id="{{ weapon.value }}" name="weapon" value="{{ weapon.value }}">
+                            <label for="{{ weapon.value }}">{{ weapon.toString }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="thumbnails-container competition-types">
+                <hr class="mt-2 mb-2">
+
+                <h2>Type de concours</h2>
+
+                <div class="thumbnails form-groups">
+                    {% for competitionType in competitionTypes %}
+                        {% if badges|filter(badge => badge.conditions.weapon is defined and badge.competitionType == competitionType)|length %}
+                            <div class="competition-type form-group --check --btn --white">
+                                <input type="radio" id="{{ competitionType.value }}" name="competition-type" value="{{ competitionType.value }}">
+                                <label for="{{ competitionType.value }}">
+                                    {{ competitionType.toString }}
+                                </label>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="thumbnails-container badges">
+                <hr class="mt-2 mb-2">
+
+                <h2>Distinctions</h2>
+
+                <div class="thumbnails form-groups">
+                    {# @var badge App\Domain\Badge\Model\Badge #}
+                    {% for badge in badges|filter(badge => badge.conditions.weapon is defined) %}
+                        <div class="badge form-group --check --btn --white" data-weapon="{{ badge.conditions.weapon }}" data-competition-type="{{ badge.competitionType.value }}">
+                            <input type="radio" id="{{ badge.id }}" name="badge" value="{{ badge.id }}">
+
+                            <label for="{{ badge.id }}">
+                                {% if badge.image %}
+                                    <img src="{{ vich_uploader_asset(badge.image) }}" alt="{{ badge.name }}">
+                                {% else %}
+                                    {{ badge.name }}
+                                {% endif %}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="thumbnails-container results">
+                <hr class="mt-2 mb-2">
+
+                <h2>Résultat</h2>
+
+                <div class="">
+                    {% for badge in badges|filter(badge => badge.conditions.weapon is defined) %}
+                        {# @var result App\Domain\Result\Model\ResultBadge #}
+                        {% for result in badge.resultBadges|sort((resultA, resultB) => resultA.score < resultB.score) %}
+                            <div class="result" data-badge="{{ badge.id }}">
+                                <b>{{ result.archer.fullName }}</b> ({{ result.category.toShortString }} {{ result.score }}){% if not loop.last %} -{% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        function hideAllCompetitionType() {
+            document.querySelector('.competition-types').style.display = 'none'
+
+            document.querySelectorAll('.competition-type').forEach((competitionType) => {
+                competitionType.style.display = 'none'
+            })
+        }
+
+        function hideAllBadges() {
+            document.querySelector('.badges').style.display = 'none'
+
+            document.querySelectorAll('.badge').forEach((badge) => {
+                badge.style.display = 'none'
+            })
+        }
+
+        function hideAllResults() {
+            document.querySelector('.results').style.display = 'none'
+
+            document.querySelectorAll('.result').forEach((badge) => {
+                badge.style.display = 'none'
+            })
+        }
+
+        let weaponValue = null
+
+        document.querySelectorAll('.badge').forEach((badge) => {
+            badge.style.display = 'none'
+
+            badge.addEventListener('click', (e) => {
+                console.log(e)
+            })
+        })
+
+        hideAllCompetitionType()
+        hideAllBadges()
+        hideAllResults()
+
+        document.querySelectorAll('input[name="weapon"]').forEach((weapon) => {
+            weapon.addEventListener('change', (e) => {
+                hideAllCompetitionType()
+                hideAllBadges()
+                hideAllResults()
+
+                const target = e.currentTarget
+                weaponValue = target.value
+
+                document.querySelector('.competition-types').style.display = 'flex'
+                document.querySelectorAll(`.competition-type`).forEach((badge) => {
+                    badge.style.display = 'block'
+                })
+            })
+        })
+
+        document.querySelectorAll('input[name="competition-type"]').forEach((competitionType) => {
+            competitionType.addEventListener('change', (e) => {
+                hideAllBadges()
+                hideAllResults()
+
+                const target = e.currentTarget
+
+                document.querySelector('.badges').style.display = 'flex'
+                document.querySelectorAll(`.badge[data-competition-type="${target.value}"][data-weapon="${weaponValue}"]`).forEach((result) => {
+                    result.style.display = 'inline-block'
+                })
+            })
+        })
+
+        document.querySelectorAll('input[name="badge"]').forEach((badge) => {
+            badge.addEventListener('change', (e) => {
+                hideAllResults()
+
+                const target = e.currentTarget
+                const badgeValue = target.value
+
+                document.querySelector('.results').style.display = 'flex'
+                document.querySelectorAll(`.result[data-badge="${badgeValue}"]`).forEach((result) => {
+                    result.style.display = 'inline-block'
+                })
+            })
+        })
+    </script>
+{% endblock %}
+

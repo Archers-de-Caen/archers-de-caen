@@ -51,6 +51,12 @@
       }
     }
 
+    &.--white {
+      label {
+        background-color: $color-white;
+      }
+    }
+
     label {
       font-weight: bold;
     }

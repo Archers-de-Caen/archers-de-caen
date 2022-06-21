@@ -1,0 +1,131 @@
+.results-page {
+  min-height: 1000px;
+
+  .thumbnails {
+    display: grid;
+
+    grid-template-columns: repeat(3, 300px);
+    grid-template-rows: repeat(2, 300px);
+    column-gap: 15px;
+    row-gap: 15px;
+
+    width: unset;
+    height: fit-content;
+
+    .thumbnail {
+      width: unset;
+      height: unset;
+      display: unset;
+      margin: unset;
+
+      footer {
+        justify-content: center;
+
+        p {
+          font-weight: bold;
+        }
+      }
+
+      &:nth-child(1) {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 1;
+        grid-row-end: 3;
+      }
+
+      &:nth-child(2) {
+        grid-column-start: 2;
+        grid-column-end: 4;
+        grid-row-start: 1;
+        grid-row-end: 2;
+      }
+
+      &:nth-child(3) {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 2;
+        grid-row-end: 3;
+      }
+
+      &:nth-child(4) {
+        grid-column-start: 3;
+        grid-column-end: 4;
+        grid-row-start: 2;
+        grid-row-end: 3;
+      }
+    }
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, md)) {
+  .results-page {
+    .thumbnails {
+      grid-template-rows: repeat(3, calc(650px / 3));
+      grid-template-columns: repeat(2, calc(500px / 2));
+
+      .thumbnail {
+        &:nth-child(1) {
+          grid-column-start: 1;
+          grid-column-end: 3;
+          grid-row-start: 1;
+          grid-row-end: 2;
+        }
+
+        &:nth-child(2) {
+          grid-column-start: 1;
+          grid-column-end: 2;
+          grid-row-start: 2;
+          grid-row-end: 3;
+        }
+
+        &:nth-child(3) {
+          grid-column-start: 2;
+          grid-column-end: 3;
+          grid-row-start: 2;
+          grid-row-end: 3;
+        }
+
+        &:nth-child(4) {
+          grid-column-start: 1;
+          grid-column-end: 3;
+          grid-row-start: 3;
+          grid-row-end: 4;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .results-page {
+    .thumbnails {
+      grid-template-rows: repeat(4, calc(800px / 4));
+      grid-template-columns: repeat(1, 450px);
+
+      .thumbnail {
+        grid-column-start: 1!important;
+        grid-column-end: 2!important;
+
+        &:nth-child(1) {
+          grid-row-start: 1;
+          grid-row-end: 2;
+        }
+
+        &:nth-child(2) {
+          grid-row-start: 2;
+          grid-row-end: 3;
+        }
+
+        &:nth-child(3) {
+          grid-row-start: 3;
+          grid-row-end: 4;
+        }
+
+        &:nth-child(4) {
+          grid-row-start: 4;
+          grid-row-end: 5;
+        }
+      }
+    }
+  }
+}

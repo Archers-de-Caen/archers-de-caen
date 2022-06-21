@@ -9,7 +9,7 @@ use App\Domain\Archer\Model\Archer;
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Model\Page;
-use App\Domain\Shared\Fixture\AbstractFixtures;
+use App\Infrastructure\Fixture\AbstractFixtures;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;

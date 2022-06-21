@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Domain\Archer\Model;
 
 use App\Domain\Archer\Repository\LicenseRepository;
-use App\Domain\Shared\Model\IdTrait;
-use App\Domain\Shared\Model\TimestampTrait;
+use App\Infrastructure\Model\IdTrait;
+use App\Infrastructure\Model\TimestampTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;

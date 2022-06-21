@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Cms\Config;
 
-use App\Domain\Shared\Config\Enum;
+use App\Infrastructure\Config\Enum;
 
 enum Category: string implements Enum
 {

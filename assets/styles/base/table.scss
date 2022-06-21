@@ -3,32 +3,118 @@
 table {
   width: 100%;
   margin: 25px 0;
+  background-color: $color-white;
+  border-radius: $border-radius-normal;
 
-  tbody {
-    tr {
-      &:nth-child(odd) {
-        background-color: lighten($color-yellow, 40);
+  thead {
+    background-color: $color-white;
+    border-radius: $border-radius-normal;
 
-        &:hover {
-          background-color: lighten($color-yellow, 25);
+    th {
+      font-weight: bold;
+    }
+  }
+
+  tr {
+    td, th {
+      padding: 10px 20px;
+      border: 1px solid $color-yellow;
+    }
+
+    &:first-child {
+      border-radius: $border-radius-normal $border-radius-normal 0 0;
+
+      td, th {
+        &:first-child {
+          border-radius: $border-radius-normal 0 0 0;
+        }
+
+        &:last-child {
+          border-radius: 0 $border-radius-normal 0 0;
+        }
+      }
+    }
+
+    &:last-child {
+      border-radius: 0 0 $border-radius-normal $border-radius-normal;
+
+      td, th {
+        &:first-child {
+          border-radius: 0 0 0 $border-radius-normal;
+        }
+
+        &:last-child {
+          border-radius: 0 0  0;
         }
       }
     }
   }
 
-  tr {
-    border-bottom: 1px solid #FDD20E;
+  &.list {
+    thead {
+      &.--header-sticky {
+        position: sticky;
+        top: 50px;
+        z-index: 100;
+      }
+    }
 
+    tbody {
+      tr {
+        &:nth-child(odd) {
+          td {
+            background-color: lighten($color-yellow, 40);
+          }
+        }
+
+        &:nth-child(even) {
+          td {
+            background-color: $color-white;
+          }
+        }
+
+        &:hover {
+          background-color: lighten($color-yellow, 25);
+
+          td {
+            background-color: unset;
+          }
+
+          td:first-child {
+            background-color: lighten($color-yellow, 25);
+          }
+        }
+      }
+    }
+
+    tr {
+      border-bottom: 1px solid #FDD20E;
+
+      td, th {
+        border-top: unset;
+        border-left: unset;
+        border-right: unset;
+
+        &:first-child {
+          position: sticky;
+          left: 0;
+          z-index: 99;
+        }
+      }
+
+      th {
+        &:first-child {
+          z-index: 101;
+          background-color: $color-white;
+        }
+      }
+    }
+  }
+
+  &.--center {
     td, th {
-      padding: 10px 20px;
-    }
-
-    th {
-      font-weight: bold;
-    }
-
-    &:hover {
-      background-color: lighten($color-yellow, 25);
+      text-align: center;
+      vertical-align: middle;
     }
   }
 }

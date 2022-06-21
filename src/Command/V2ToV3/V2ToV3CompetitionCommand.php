@@ -6,9 +6,11 @@ use App\Command\ArcherTrait;
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Weapon;
 use App\Domain\Archer\Model\Archer;
+use App\Domain\Competition\Config\Type;
 use App\Domain\Competition\Model\Competition;
-use App\Domain\Competition\Model\ResultCompetition;
+use App\Domain\Result\Model\ResultCompetition;
 use DateTime;
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMapping;
@@ -27,7 +29,7 @@ class V2ToV3CompetitionCommand extends Command
 {
     use ArcherTrait;
 
-    public function __construct(private EntityManagerInterface $em, string $name = null)
+    public function __construct(private readonly EntityManagerInterface $em, string $name = null)
     {
         parent::__construct($name);
     }
@@ -39,33 +41,59 @@ class V2ToV3CompetitionCommand extends Command
         $rsm = new ResultSetMapping();
         $nativeQuery = $this->em->createNativeQuery("SELECT * FROM adc_results", $rsm);
 
-        $rsm->addScalarResult('id', 'id');
+        $rsm->addScalarResult('id', 'id', Types::INTEGER);
         $rsm->addScalarResult('type', 'type');
-        $rsm->addScalarResult('lieu', 'lieu');
-        $rsm->addScalarResult('dateDebut', 'dateDebut', Types::DATE_IMMUTABLE);
-        $rsm->addScalarResult('dateFin', 'dateFin', Types::DATE_IMMUTABLE);
+        $rsm->addScalarResult('lieu', 'location');
+        $rsm->addScalarResult('dateDebut', 'dateStart', Types::DATE_IMMUTABLE);
+        $rsm->addScalarResult('dateFin', 'dateEnd', Types::DATE_IMMUTABLE);
         $rsm->addScalarResult('noRecords', 'noRecords', Types::INTEGER);
         $rsm->addScalarResult('csv', 'csv');
 
-        /** @var array<array{'id': string, 'csv': string, 'type': string, 'lieu': string, 'dateDebut': \DateTimeImmutable, 'dateFin': \DateTimeImmutable, 'noRecords': int}> $competitions */
+        /** @var array<array{
+         *     'id': int,
+         *     'csv': string,
+         *     'type': string,
+         *     'location': string,
+         *     'dateStart': DateTimeImmutable,
+         *     'dateEnd': DateTimeImmutable,
+         *     'noRecords': int
+         * }> $competitions
+         */
         $competitions = $nativeQuery->getArrayResult();
 
         $archers = $this->reformatArchersArray($this->em->getRepository(Archer::class)->findAll());
 
         foreach ($competitions as $competition) {
-            $newCompetition = (new Competition())
-                ->setOldId($competition['id'])
-                ->setDateStart($competition['dateDebut'])
-                ->setDateEnd($competition['dateFin'])
-                ->setLocation($competition['lieu'])
-                ->setLocation($competition['lieu'])
-                ->setType($competition['type']);
+            $newCompetition = (new Competition());
+            $newCompetition->setOldId($competition['id']);
+            $newCompetition->setDateStart($competition['dateStart']);
+            $newCompetition->setDateEnd($competition['dateEnd']);
+            $newCompetition->setLocation($competition['location']);
+
+            if (str_contains($competition['type'], 'Challenge de la Pomme d\'Or')) {
+                $newCompetition->setType(Type::GOLDEN_APPLE_CHALLENGE);
+            } else if ($competition['type'] === '4 x 70m') {
+                $newCompetition->setType(Type::FITA_4x70_M);
+            } else if (str_contains(strtolower($competition['type']), 'jeune')) {
+                $newCompetition->setType(Type::SPECIAL_YOUNG);
+            } else if ($competition['type'] === 'Salle 2x25m + 2x18m') {
+                $newCompetition->setType(Type::INDOOR_2x18_M_2x25_M);
+            } else {
+                $newCompetition->setType(Type::createFromString($competition['type']));
+            }
+
+            $newCompetition->setSlug(sprintf('Concours de %s %s du %s au %s',
+                $competition['location'],
+                $competition['type'],
+                $competition['dateStart']->format('d-m-Y'),
+                $competition['dateEnd']->format('d-m-Y')
+            ));
 
             foreach (explode('|', $competition['csv']) as $csv) {
-                $result = $this->convertCsvColumnInArray($csv);
+                $resultData = $this->convertCsvColumnInArray($csv);
 
                 try {
-                    $archer = $this->getArcher($archers, $result['licence'], $result['name']);
+                    $archer = $this->getArcher($archers, $resultData['licence'], $resultData['name']);
                 } catch (Exception $e) {
                     $io->error($e->getMessage());
 
@@ -75,17 +103,20 @@ class V2ToV3CompetitionCommand extends Command
                 /** @var ResultCompetition $result */
                 $result = (new ResultCompetition())
                     ->setArcher($archer)
-                    ->setCategory(Category::createFromString($result['category']))
-                    ->setRank($result['rank'])
+                    ->setCategory(Category::createFromString($resultData['category']))
+                    ->setRank($resultData['rank'])
                     ->setRecord(false)
-                    ->setScore($result['score'])
-                    ->setWeapon(Weapon::createFromString($result['weapon']))
-                ;
+                    ->setScore($resultData['score'])
+                    ->setWeapon(Weapon::createFromString($resultData['weapon']));
+
+                if ($resultData['date'] && $date = DateTimeImmutable::createFromFormat('U', $resultData['date']->format('U'))) {
+                    $result->setCompletionDate($date);
+                }
 
                 $newCompetition->addResult($result);
-
-                $this->em->persist($newCompetition);
             }
+
+            $this->em->persist($newCompetition);
         }
 
         $this->em->flush();
@@ -99,8 +130,16 @@ class V2ToV3CompetitionCommand extends Command
      * @param string $csv
      *
      * @return array{
-     *      'name': string, 'category': string, 'weapon': string, 'shot': int, 'score': int, 'date': Datetime|null,
-     *      'rank': int, 'duel': string, 'html': string, 'licence': string|null
+     *     'name': string,
+     *     'category': string,
+     *     'weapon': string,
+     *     'shot': int,
+     *     'score': int,
+     *     'date': Datetime|null,
+     *     'rank': int,
+     *     'duel': string,
+     *     'html': string,
+     *     'licence': string|null
      * }
      */
     private function convertCsvColumnInArray(string $csv): array

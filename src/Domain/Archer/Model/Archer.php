@@ -6,20 +6,22 @@ namespace App\Domain\Archer\Model;
 
 use App\Domain\Archer\Repository\ArcherRepository;
 use App\Domain\Cms\Model\Page;
-use App\Domain\Competition\Model\Result;
-use App\Domain\Shared\Model\IdTrait;
-use App\Domain\Shared\Model\TimestampTrait;
+use App\Domain\Result\Model\Result;
+use App\Domain\Result\Model\ResultBadge;
+use App\Domain\Result\Model\ResultCompetition;
+use App\Infrastructure\Model\IdTrait;
+use App\Infrastructure\Model\TimestampTrait;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ArcherRepository::class)]
 #[UniqueEntity('email')]
@@ -98,7 +100,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     private array $roles = [];
 
     /**
-     * @var Collection<int, Result>
+     * @var Collection<int, Result|ResultBadge|ResultCompetition>
      */
     #[ORM\OneToMany(mappedBy: 'archer', targetEntity: Result::class, cascade: ['ALL'], orphanRemoval: true)]
     private Collection $results;
@@ -111,7 +113,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
 
     public function __toString(): string
     {
-        return $this->getFirstName().' '.$this->getLastName();
+        return $this->getLicenseNumber().' | '.$this->getFirstName().' '.$this->getLastName();
     }
 
     // UserInterface
@@ -125,7 +127,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
 
     public function addRole(?string $role): self
     {
-        if ($role && !in_array($role, $this->roles) && in_array($role, self::ROLES)) {
+        if ($role && !in_array($role, $this->roles, true) && in_array($role, self::ROLES)) {
             $this->roles[] = $role;
         }
 
@@ -134,7 +136,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
 
     public function removeRole(string $role): self
     {
-        $key = array_search($role, $this->roles);
+        $key = array_search($role, $this->roles, true);
 
         if (false !== $key) {
             unset($this->roles[$key]);
@@ -167,6 +169,12 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     }
 
     // Getter / Setter
+
+    public function getFullName(): string
+    {
+        return $this->getFirstName().' '.$this->getLastName();
+    }
+
 
     public function getFirstName(): ?string
     {
@@ -329,6 +337,53 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Result|ResultBadge|ResultCompetition>
+     */
+    public function getResults(): Collection
+    {
+        return $this->results;
+    }
+
+    /**
+     * @return Collection<int, Result|ResultBadge>
+     */
+    public function getResultsProgressArrow(): Collection
+    {
+        return $this->results->filter(static function (Result $result) {
+            return $result instanceof ResultBadge && $result->getBadge()?->getType() === 'progress_arrow';
+        });
+    }
+
+    public function getBestProgressArrowObtained(): ?ResultBadge
+    {
+        /** @var ResultBadge[] $resultProgressArrows */
+        $resultProgressArrows = $this->getResultsProgressArrow()->toArray();
+
+        usort(
+            $resultProgressArrows,
+            static fn (ResultBadge $one, ResultBadge $two): int => $one->getBadge()?->getLevel() > $two->getBadge()?->getLevel() ? -1 : 1
+        );
+
+        return count($resultProgressArrows) ? $resultProgressArrows[0] : null;
+    }
+
+    /**
+     * @return Collection<int, Result|ResultCompetition>
+     */
+    public function getResultsCompetition(): Collection
+    {
+        return $this->results->filter(static fn (Result $result) => $result instanceof ResultCompetition);
+    }
+
+    /**
+     * @return Collection<int, Result|ResultBadge>
+     */
+    public function getResultsBadge(): Collection
+    {
+        return $this->results->filter(static fn (Result $result) => $result instanceof ResultBadge);
     }
 
     public function addResult(Result $result): self

@@ -13,6 +13,7 @@ import './modules/gallery/gallery'
 import './js/share-btn'
 import './js/copy'
 import './js/flash'
+import './js/iframe-fit-content'
 
 // feather-icons a plugin for the open-source icon set, show https://feathericons.com/ for complete icons list
 const feather = require('feather-icons')

@@ -22,7 +22,7 @@ use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class PhotoCrudController extends AbstractCrudController
 {
-    public function __construct(private EntityRepository $entityRepository)
+    public function __construct(private readonly EntityRepository $entityRepository)
     {
     }
 

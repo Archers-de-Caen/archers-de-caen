@@ -3,13 +3,13 @@
 .header {
   width: 100%;
   text-transform: uppercase;
-  z-index: 20;
+  z-index: 1000;
   position: relative;
 
   .header-primary {
     background-color: $color-white;
     box-shadow: $box-shadow;
-    z-index: 20;
+    z-index: 1000;
     height: 100px;
     transition: height .5s ease;
 
@@ -38,7 +38,7 @@
 
   .header-secondary {
     background: $linear-gradient-target;
-    z-index: 21; // For box-shadow of .header-primary
+    z-index: 1001; // For box-shadow of .header-primary
 
     .header-content {
       color: white;

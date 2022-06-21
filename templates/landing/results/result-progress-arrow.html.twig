@@ -1,0 +1,238 @@
+{% extends '/landing/base.html.twig' %}
+
+{% from '/shared/components/thumbnail.html.twig' import thumbnail %}
+
+{% block title %}Résultats des fleches de progression{% endblock %}
+
+{% block body %}
+    <main class="page-container">
+        <section class="title">
+            <h1>{{ block('title') }}</h1>
+        </section>
+
+        <section class="page-content">
+            <p>
+                Les flèches de progression sont des badges accordés aux archers ayant réussi l’examen du « passage de flèches ». <br>
+                Elles symbolisent la progression de l’archer au fil de son entraînement.
+            </p>
+
+            <p>
+                Il existe 8 flèches différentes, 5 en intérieur (blanche, noire, bleue, rouge, jaune) et 3 en extérieur (bronze, argent et or)
+            </p>
+
+            <table class="--center">
+                <thead>
+                    <tr>
+                        <th rowspan="3">Flèche</th>
+                        <th colspan="12">Conditions d’obtention</th>
+                    </tr>
+                    <tr>
+                        <th colspan="4">Jusqu’au 31/12/2005</th>
+                        <th colspan="4">Jusqu’au 31/08/2016</th>
+                        <th colspan="4">Depuis le 01/09/2016</th>
+                    </tr>
+                    <tr>
+                        <th>Distance</th>
+                        <th>Score requis</th>
+                        <th>Nb. flèches</th>
+                        <th>Blason</th>
+                        <th>Distance</th>
+                        <th>Score requis</th>
+                        <th>Nb. flèches</th>
+                        <th>Blason</th>
+                        <th>Distance</th>
+                        <th>Score requis</th>
+                        <th>Nb. flèches</th>
+                        <th>Blason</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Blanche<br><img loading="lazy" src="{{ asset('build/images/progress-arrow/white.jpg') }}" alt="" width="130" height="38"></td>
+                        <td>10 m</td>
+                        <td>140</td>
+                        <td>6 x 3</td>
+                        <td>Ø 80</td>
+                        <td>10 m</td>
+                        <td>140</td>
+                        <td>6 x 3</td>
+                        <td>Ø 80</td>
+                        <td>10 m</td>
+                        <td>280</td>
+                        <td>6 x 6</td>
+                        <td>Ø 80</td>
+                    </tr>
+                    <tr>
+                        <td>Noire<br><img loading="lazy" src="{{ asset('build/images/progress-arrow/black.jpg') }}" alt="" width="129" height="39"></td>
+                        <td>15 m</td>
+                        <td>140</td>
+                        <td>6 x 3</td>
+                        <td>Ø 80</td>
+                        <td>15 m</td>
+                        <td>140</td>
+                        <td>6 x 3</td>
+                        <td>Ø 80</td>
+                        <td>15 m</td>
+                        <td>280</td>
+                        <td>6 x 6</td>
+                        <td>Ø 80</td>
+                    </tr>
+                    <tr>
+                        <td>Bleue<br><img loading="lazy" src="{{ asset('build/images/progress-arrow/blue.jpg') }}" alt="" width="129" height="39"></td>
+                        <td>20 m</td>
+                        <td>140</td>
+                        <td>6 x 3</td>
+                        <td>Ø 80</td>
+                        <td>20 m</td>
+                        <td>140</td>
+                        <td>6 x 3</td>
+                        <td>Ø 80</td>
+                        <td>20 m</td>
+                        <td>280</td>
+                        <td>6 x 6</td>
+                        <td>Ø 80</td>
+                    </tr>
+                    <tr>
+                        <td>Rouge<br><img loading="lazy" src="{{ asset('build/images/progress-arrow/red.jpg') }}" alt="" width="129" height="39"></td>
+                        <td>25 m</td>
+                        <td>140</td>
+                        <td>6 x 3</td>
+                        <td>Ø 80</td>
+                        <td>25 m</td>
+                        <td>140</td>
+                        <td>6 x 3</td>
+                        <td>Ø 80</td>
+                        <td>25 m</td>
+                        <td>280</td>
+                        <td>6 x 6</td>
+                        <td>Ø 80</td>
+                    </tr>
+                    <tr>
+                        <td>Jaune<br><img loading="lazy" src="{{ asset('build/images/progress-arrow/yellow.jpg') }}" alt="" width="129" height="39"></td>
+                        <td>30 m</td>
+                        <td>140</td>
+                        <td>6 x 3</td>
+                        <td>Ø 80</td>
+                        <td>30 m</td>
+                        <td>140</td>
+                        <td>6 x 3</td>
+                        <td>Ø 80</td>
+                        <td>30 m</td>
+                        <td>280</td>
+                        <td>6 x 6</td>
+                        <td>Ø 80</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">Bronze<br><img loading="lazy" src="{{ asset('build/images/progress-arrow/bronze.jpg') }}" alt="" width="146" height="46"></td>
+                        <td rowspan="3">45 + 35 + 25 m</td>
+                        <td rowspan="2">CL/BB : 430</td>
+                        <td rowspan="3">3 x 18</td>
+                        <td rowspan="3">Ø 122</td>
+                        <td rowspan="3">30 m</td>
+                        <td rowspan="3">310</td>
+                        <td rowspan="3">6 x 6</td>
+                        <td rowspan="3">Ø 122</td>
+                        <td rowspan="3">40 m</td>
+                        <td rowspan="2">280</td>
+                        <td rowspan="3">6 x 6</td>
+                        <td rowspan="2">Ø 80</td>
+                    </tr>
+                    <tr></tr>
+                    <tr>
+                        <td>CO : 460</td>
+
+                        <td>310</td>
+
+                        <td>Ø 80 FITA</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">Argent<br><img loading="lazy" src="{{ asset('build/images/progress-arrow/silver.jpg') }}" alt="" width="142" height="44" class="alignnone wp-image-742"></td>
+                        <td rowspan="3">55 + 45 + 35 m</td>
+                        <td rowspan="2">CL/BB : 430</td>
+                        <td rowspan="3">3 x 18</td>
+                        <td rowspan="3">Ø 122</td>
+                        <td rowspan="3">50 m</td>
+                        <td rowspan="3">310</td>
+                        <td rowspan="3">6 x 6</td>
+                        <td rowspan="3">Ø 122</td>
+                        <td rowspan="2">60 m</td>
+                        <td rowspan="2">280</td>
+                        <td rowspan="3">6 x 6</td>
+                        <td rowspan="2">Ø 122</td>
+                    </tr>
+                    <tr></tr>
+                    <tr><!--td--><!--td-->
+                        <td>CO : 460</td>
+
+                        <td>50 m</td>
+                        <td>310</td>
+
+                        <td>Ø 80 FITA</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">Or<br><img loading="lazy" src="{{ asset('build/images/progress-arrow/gold.jpg') }}" alt="" width="146" height="46"></td>
+                        <td rowspan="3">65 + 55 + 45 m</td>
+                        <td rowspan="2">CL/BB : 430</td>
+                        <td rowspan="3">3 x 12</td>
+                        <td rowspan="3">Ø 122</td>
+                        <td rowspan="3">70 m</td>
+                        <td rowspan="3">310</td>
+                        <td rowspan="3">6 x 6</td>
+                        <td rowspan="3">Ø 122</td>
+                        <td rowspan="2">70 m</td>
+                        <td rowspan="2">280</td>
+                        <td rowspan="3">6 x 6</td>
+                        <td rowspan="2">Ø 122</td>
+                    </tr>
+                    <tr></tr>
+                    <tr>
+                        <td>CO : 460</td>
+
+                        <td>50 m</td>
+                        <td>330</td>
+
+                        <td>Ø 80 FITA</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="list-container">
+                <table class="list">
+                    <thead class="--header-sticky">
+                        <tr>
+                            <th>Archer</th>
+                            {% for progressArrow in progressArrows %}
+                                <th>{{ progressArrow.name }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {# @var archers \App\Domain\Archer\Model\Archer[] #}
+                    {% for archer in archers %}
+                        <tr>
+                            <td>{{ archer.fullName }}</td>
+
+                            {% for progressArrow in progressArrows %}
+                                {% set find = false %}
+
+                                {% for result in archer.resultsProgressArrow %}
+                                    {% if progressArrow == result.badge %}
+                                        <td>{{ result.score }}</td>
+
+                                        {% set find = true %}
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if not find %}
+                                    <td></td>
+                                {% endif %}
+
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+{% endblock %}

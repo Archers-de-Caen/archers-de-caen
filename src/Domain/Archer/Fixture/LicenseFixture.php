@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Archer\Fixture;
 
 use App\Domain\Archer\Model\License;
-use App\Domain\Shared\Fixture\AbstractFixtures;
+use App\Infrastructure\Fixture\AbstractFixtures;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 

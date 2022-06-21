@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}{% endblock %}{% if block('title') %} | {% endif %}Les Archers de Caen</title>
+
+        <link rel="icon" href="/favicon/16x16.png" sizes="16x16">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+        <div class="body">
+            {% block body %}{% endblock %}
+        </div>
+    </body>
+</html>

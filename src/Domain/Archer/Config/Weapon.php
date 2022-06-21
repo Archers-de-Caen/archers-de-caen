@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Archer\Config;
 
-use App\Domain\Shared\Config\Enum;
+use App\Infrastructure\Config\Enum;
 use ValueError;
 
 enum Weapon: string implements Enum
@@ -34,16 +34,16 @@ enum Weapon: string implements Enum
     public static function toChoices(): array
     {
         return array_combine(
-            array_map(fn (Weapon $category) => $category->toString(), Weapon::cases()),
-            array_map(fn (Weapon $category) => $category->toArrayValue(), Weapon::cases())
+            array_map(static fn (Weapon $category) => $category->toString(), self::cases()),
+            array_map(static fn (Weapon $category) => $category->toArrayValue(), self::cases())
         );
     }
 
     public static function toChoicesWithEnumValue(): array
     {
         return array_combine(
-            array_map(fn (Weapon $category) => $category->toString(), Weapon::cases()),
-            array_map(fn (Weapon $category) => $category, Weapon::cases())
+            array_map(static fn (Weapon $category) => $category->toString(), self::cases()),
+            array_map(static fn (Weapon $category) => $category, self::cases())
         );
     }
 
@@ -56,5 +56,14 @@ enum Weapon: string implements Enum
 
             default => throw new ValueError($weapon . ' not found'),
         };
+    }
+
+    public static function getInOrder(): array
+    {
+        return [
+            self::RECURVE_BOW,
+            self::COMPOUND_BOW,
+            self::BARE_BOW,
+        ];
     }
 }

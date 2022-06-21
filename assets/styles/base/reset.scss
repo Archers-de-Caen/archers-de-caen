@@ -72,3 +72,17 @@ a {
     }
   }
 }
+
+b {
+  font-weight: bold;
+}
+
+hr {
+  border-top: 1px solid $color-yellow;
+  width: 100%;
+}
+
+iframe {
+  border: none;
+  width: 100%;
+}

@@ -6,8 +6,9 @@ use App\Command\ArcherTrait;
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Weapon;
 use App\Domain\Archer\Model\Archer;
-use App\Domain\Competition\Model\ProgressArrow;
-use App\Domain\Competition\Model\ResultProgressArrow;
+use App\Domain\Badge\Model\Badge;
+use App\Domain\Result\Model\ResultBadge;
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMapping;
@@ -26,7 +27,7 @@ class V2ToV3ProgressArrowCommand extends Command
 {
     use ArcherTrait;
 
-    public function __construct(private EntityManagerInterface $em, string $name = null)
+    public function __construct(private readonly EntityManagerInterface $em, string $name = null)
     {
         parent::__construct($name);
     }
@@ -36,14 +37,86 @@ class V2ToV3ProgressArrowCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $colors = [
-            'blanche' => (new ProgressArrow())->setName('Banche'),
-            'noire' => (new ProgressArrow())->setName('Noir'),
-            'bleue' => (new ProgressArrow())->setName('Bleue'),
-            'rouge' => (new ProgressArrow())->setName('Rouge'),
-            'jaune' => (new ProgressArrow())->setName('Jaune'),
-            'bronze' => (new ProgressArrow())->setName('Bronze'),
-            'argent' => (new ProgressArrow())->setName('Argent'),
-            'or' => (new ProgressArrow())->setName('Or'),
+            'blanche' => (new Badge())
+                ->setName('Flèches Banche')
+                ->setOfficial(true)
+                ->setType('progress_arrow')
+                ->setLevel(1)
+                ->setCode('arrow_white')
+                ->setConditions([
+                    'type' => 'minScore',
+                    'score' => 0,
+                ]),
+            'noire' => (new Badge())
+                ->setName('Flèches Noir')
+                ->setOfficial(true)
+                ->setType('progress_arrow')
+                ->setLevel(2)
+                ->setCode('arrow_black')
+                ->setConditions([
+                    'type' => 'minScore',
+                    'score' => 0,
+                ]),
+            'bleue' => (new Badge())
+                ->setName('Flèches Bleue')
+                ->setOfficial(true)
+                ->setType('progress_arrow')
+                ->setLevel(3)
+                ->setCode('arrow_blue')
+                ->setConditions([
+                    'type' => 'minScore',
+                    'score' => 0,
+                ]),
+            'rouge' => (new Badge())
+                ->setName('Flèches Rouge')
+                ->setOfficial(true)
+                ->setType('progress_arrow')
+                ->setLevel(4)
+                ->setCode('arrow_red')
+                ->setConditions([
+                    'type' => 'minScore',
+                    'score' => 0,
+                ]),
+            'jaune' => (new Badge())
+                ->setName('Flèches Jaune')
+                ->setOfficial(true)
+                ->setType('progress_arrow')
+                ->setLevel(5)
+                ->setCode('arrow_yellow')
+                ->setConditions([
+                    'type' => 'minScore',
+                    'score' => 0,
+                ]),
+            'bronze' => (new Badge())
+                ->setName('Flèches de Bronze')
+                ->setOfficial(true)
+                ->setType('progress_arrow')
+                ->setLevel(6)
+                ->setCode('arrow_bronze')
+                ->setConditions([
+                    'type' => 'minScore',
+                    'score' => 0,
+                ]),
+            'argent' => (new Badge())
+                ->setName('Flèches d\'Argent')
+                ->setOfficial(true)
+                ->setType('progress_arrow')
+                ->setLevel(7)
+                ->setCode('arrow_silver')
+                ->setConditions([
+                    'type' => 'minScore',
+                    'score' => 0,
+                ]),
+            'or' => (new Badge())
+                ->setName('Flèches d\'Or')
+                ->setOfficial(true)
+                ->setType('progress_arrow')
+                ->setLevel(8)
+                ->setCode('arrow_god')
+                ->setConditions([
+                    'type' => 'minScore',
+                    'score' => 0,
+                ]),
         ];
 
         $rsm = new ResultSetMapping();
@@ -79,13 +152,18 @@ class V2ToV3ProgressArrowCommand extends Command
 
             foreach ($colors as $color => $progressArrow) {
                 if ($progressArrowResult[$color . '_score']) {
-                    $result = (new ResultProgressArrow());
+                    $result = (new ResultBadge());
                     $result->setArcher($archer);
                     $result->setCategory(Category::createFromString($progressArrowResult['categorie']));
                     $result->setRecord(false);
                     $result->setScore($progressArrowResult[$color . '_score']);
-                    $result->setProgressArrow($progressArrow);
+                    $result->setBadge($progressArrow);
                     $result->setWeapon(Weapon::createFromString($progressArrowResult[$color . '_arme']));
+                    $result->setCompletionDate($progressArrowResult[$color . '_date']);
+
+                    if ($progressArrowResult[$color . '_date'] && ($date = DateTimeImmutable::createFromFormat('U', $progressArrowResult[$color . '_date']->format('U')))) {
+                        $result->setCompletionDate($date);
+                    }
 
                     $this->em->persist($result);
                 }

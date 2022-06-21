@@ -30,7 +30,7 @@
                         <li><a href="{{ path('landing_index') }}">La gazette</a></li>
                         <li><a href="{{ path('landing_contact') }}">Contact</a></li>
                         <li><a href="{{ path('app_index') }}">Espace licencié</a></li>
-                        {% if app.environment == 'dev' or is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_ADMIN')) %}
+                        {% if is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_ADMIN')) %}
                             <li><a href="{{ path('admin_index') }}">Admin</a></li>
                         {% endif %}
                         <li><a href="#">🔍</a></li>
@@ -45,7 +45,7 @@
                     <ul>
                         <li><a href="{{ path('landing_actualities') }}">Actualités</a></li>
                         <li><a href="{{ path('landing_page', { slug: 'le-club', type: 'p' }) }}">Le club</a></li>
-                        <li><a href="{{ path('landing_page', { slug: 'les-resultats', type: 'p' }) }}">Les résultats</a></li>
+                        <li><a href="{{ path('landing_results') }}">Les résultats</a></li>
                         <li><a href="{{ path('landing_page', { slug: 'le-sport', type: 'p' }) }}">Le sport</a></li>
                         <li><a href="{{ path('landing_galleries') }}">Photo</a></li>
                     </ul>

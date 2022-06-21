@@ -1,0 +1,21 @@
+{% extends '/landing/iframe.html.twig' %}
+
+{# @var competition \App\Domain\Competition\Model\Competition #}
+
+{% block title %}
+    Résultats du {{ competition }}
+{% endblock %}
+
+{% block body %}
+    {{ include('/landing/results/competitions/_parts/results-competition-table.html.twig', {results: results}) }}
+
+    <div class="text-right w-100">
+        <a
+            href="{{ path(constant('App\\Http\\Landing\\Controller\\CompetitionController::ROUTE_LANDING_RESULTS_COMPETITION'), { slug: competition.slug }) }}"
+            target="_blank"
+            class="highlighted"
+        >
+            Agrandir les résultats
+        </a>
+    </div>
+{% endblock %}

@@ -3,18 +3,18 @@
 
 {% block body %}
     <div class="shape-target"></div>
-    <div class="page-container">
-        <header class="page-container-header">
+    <div class="actuality-container">
+        <header class="actuality-container-header">
             {% if page.category.value == 'actuality' %} {# TODO: a remplace par enum #}
                 {% if page.image %}
                     <img
-                        class="page-main-image"
+                        class="actuality-main-image"
                         src="{{ vich_uploader_asset(page.image, 'imageFile') }}"
                         alt="Image par défaut représentant une fleche dans une cible"
                     >
                 {% else %}
                     <img
-                        class="page-main-image"
+                        class="actuality-main-image"
                         src="{{ asset('build/images/photo/cible.jpg') }}"
                         alt="Image par défaut représentant une fleche dans une cible"
                     >
@@ -22,9 +22,9 @@
             {% endif %}
         </header>
 
-        <main class="page-container-content">
-            <div class="page-title">
-                <header class="page-info">
+        <main class="actuality-container-content">
+            <div class="actuality-title">
+                <header class="actuality-info">
                 <span>
                     {{ page.createdBy.firstName }} {{ page.createdBy.lastName }}
                 </span>
@@ -36,10 +36,10 @@
                 <h1>{{ page.title }}</h1>
             </div>
 
-            <div class="page-share">
+            <div class="actuality-share">
                 {% set facebookLink = 'https://www.facebook.com/sharer.php?u=' ~ absolute_url(path('landing_actuality', { slug: page.slug }))|url_encode %}
                 <a
-                    class="page-share-btn btn -secondary -outline"
+                    class="actuality-share-btn btn -secondary -outline"
                     href="{{ facebookLink }}"
                     onclick="openInNewTab(this.href); return false;"
                 >
@@ -48,7 +48,7 @@
 
                 {% set twitterLink = 'https://twitter.com/share?text=' ~ page.title ~ '&url=' ~ absolute_url(path('landing_actuality', { slug: page.slug }))|url_encode %}
                 <a
-                    class="page-share-btn btn -secondary -outline"
+                    class="actuality-share-btn btn -secondary -outline"
                     href="{{ twitterLink }}"
                     onclick="openInNewTab(this.href); return false;"
                 >
@@ -57,7 +57,7 @@
 
                 {% set emailLink = 'mailto:?subject=' ~ page.title ~ '&body=' ~ absolute_url(path('landing_actuality', { slug: page.slug }))|url_encode ~ ' ' ~ page.title %}
                 <a
-                    class="page-share-btn btn -secondary -outline"
+                    class="actuality-share-btn btn -secondary -outline"
                     href="{{ emailLink }}"
                     onclick="openInNewTab(this.href); return false;"
                 >
@@ -65,19 +65,19 @@
                 </a>
 
                 <a
-                    class="page-share-btn copy-btn btn -secondary -outline"
+                    class="actuality-share-btn copy-btn btn -secondary -outline"
                     href="{{ absolute_url(path('landing_actuality', { slug: page.slug })) }}"
                 >
                     <i data-feather="clipboard"></i>
                 </a>
             </div>
 
-            <div class="page-content ck-content">
+            <div class="actuality-content ck-content">
                 {{ page.content|raw }}
             </div>
         </main>
 
-        <footer class="page-container-footer">
+        <footer class="actuality-container-footer">
             {% if nextPage %}
                 <a href="{{ absolute_url(path('landing_actuality', { slug: nextPage.slug })) }}">
                     <span>{{ nextPage.title }}</span>

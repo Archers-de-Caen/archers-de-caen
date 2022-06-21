@@ -1,0 +1,68 @@
+.result-badges-page {
+  min-height: 1000px;
+
+  .thumbnail {
+    text-align: center;
+    cursor: pointer;
+
+    img {
+      object-fit: none;
+    }
+  }
+
+  .weapons, .competition-types, .badges {
+    .thumbnails {
+      .weapon, .competition-type, .badge {
+        width: 200px;
+        height: 100px;
+
+        label {
+          font-size: xx-large;
+          display: block;
+        }
+      }
+
+      .competition-type {
+        height: 75px;
+
+        label {
+          font-size: x-large;
+        }
+      }
+
+      .badge {
+        height: 100px;
+
+        label {
+          font-size: large;
+
+          img {
+            height: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  .badges {
+    .thumbnails {
+
+    }
+  }
+
+  .form-groups {
+    .form-group {
+      margin: 5px;
+
+      p {
+        vertical-align: middle;
+      }
+    }
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, md)) {
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+}

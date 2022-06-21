@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Domain\Cms\Model;
 
 use App\Domain\Cms\Repository\PhotoRepository;
-use App\Domain\Shared\Model\IdTrait;
-use App\Domain\Shared\Model\TimestampTrait;
-use App\Domain\Shared\Model\TokenTrait;
+use App\Infrastructure\Model\IdTrait;
+use App\Infrastructure\Model\TimestampTrait;
+use App\Infrastructure\Model\TokenTrait;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
@@ -23,7 +23,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: PhotoRepository::class)]
-class Photo
+class Photo implements UploadableInterface
 {
     use IdTrait;
     use TimestampTrait;

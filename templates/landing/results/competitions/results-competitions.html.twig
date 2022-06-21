@@ -1,0 +1,50 @@
+{% extends '/landing/base.html.twig' %}
+
+{% block title %}Compétitions de la saison {{ season - 1 }} - {{ season }}{% endblock %}
+
+{% block body %}
+    <main class="page-container">
+
+        <section class="title">
+            <h1>{{ block('title') }}</h1>
+        </section>
+
+        <table class="list">
+            <thead>
+                <tr>
+                    <th>Lieu</th>
+                    <th>Dates</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                {# @var competitions \App\Domain\Competition\Model\Competition[] #}
+                {% for competition in competitions %}
+                    {% set url = path('landing_results_competition', { slug: competition.slug }) %}
+
+                    <tr class="cursor-pointer" onclick="document.location.href = '{{ url }}'; return">
+                        <td>
+                            <a href="{{ url }}">{{ competition.location }}</a>
+                        </td>
+                        <td>
+                            <a href="{{ url }}">
+                                {{ competition.dateStart|date('d/m/Y') }}
+                                {% if competition.dateStart|date('d/m/Y') != competition.dateEnd|date('d/m/Y') %}
+                                    - {{ competition.dateEnd|date('d/m/Y') }}
+                                {% endif %}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ url }}">{{ competition.type.toString }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('landing_results_competitions_seasons') }}" class="show-all-actualities">
+            <i data-feather="arrow-left"></i>
+            <span>Revenir a la liste des saisons</span>
+        </a>
+    </main>
+{% endblock %}

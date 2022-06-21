@@ -15,7 +15,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
-    #[Route('/', name: 'landing_index')]
+    public const ROUTE_LANDING_INDEX = 'landing_index';
+
+    #[Route('/', name: self::ROUTE_LANDING_INDEX)]
     public function index(PageRepository $pageRepository): Response
     {
         return $this->render('/landing/index/index.html.twig', [
@@ -27,7 +29,9 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    #[Route('/style-guide', name: 'landing_style_guide')]
+    public const ROUTE_LANDING_STYLE_GUIDE = 'landing_style_guide';
+
+    #[Route('/style-guide', name: self::ROUTE_LANDING_STYLE_GUIDE)]
     public function styleGuide(Request $request): Response
     {
         if (!$this->isGranted(Archer::ROLE_DEVELOPER) && $request->server->get('APP_ENV') !== 'dev') {

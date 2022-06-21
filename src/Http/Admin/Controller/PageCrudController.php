@@ -52,7 +52,12 @@ class PageCrudController extends AbstractCrudController
 
         $status = ChoiceField::new('status')
             ->setLabel('Statut')
-            ->setChoices(array_combine(array_map(fn (Status $status) => $status->toString(), Status::cases()), array_map(fn (Status $status) => $status->value, Status::cases()))); // TODO: provisoire le temps que le bundle EasyAdmin ce met a jours
+            ->setChoices(
+                array_combine(
+                    array_map(static fn (Status $status) => $status->toString(), Status::cases()),
+                    array_map(static fn (Status $status) => $status->value, Status::cases())
+                )
+            ); // TODO: provisoire le temps que le bundle EasyAdmin ce met a jours
 
         $image = PhotoField::new('image')
             ->setLabel('Image')

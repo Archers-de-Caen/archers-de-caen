@@ -37,6 +37,7 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 class V2ToV3ActualityCommand extends Command
 {
     use ArcherTrait;
+    use DownloadTrait;
 
     public function __construct(
         private readonly EntityManagerInterface $em,
@@ -90,7 +91,7 @@ class V2ToV3ActualityCommand extends Command
             /**
              * Permet de récupérer les images du poste est de les enregistrer
              */
-            $crawler->filter('img')->each(function (Crawler $crawler, $i) use (&$mainImage, $io) {
+            $crawler->filter('img')->each(function (Crawler $crawler, $i) use (&$mainImage) {
                 /** @var DOMElement $node */
                 foreach ($crawler as $node) {
                     $src = $crawler->attr('src') ?? '';
@@ -107,26 +108,8 @@ class V2ToV3ActualityCommand extends Command
                         $src = 'https://www.archers-caen.fr' . $src;
                     }
 
-                    $name = explode('/', $src)[count(explode('/', $src)) - 1];
-
-                    if (!$filePath = tempnam(sys_get_temp_dir(), 'adc_image')) {
-                        $io->error('tempnam bug');
-
-                        return self::FAILURE;
-                    }
-
-                    if (!$file = fopen($filePath, 'wb')) {
-                        $io->error('fopen bug');
-
-                        return self::FAILURE;
-                    }
-
-                    fwrite($file, @file_get_contents($src) ?: ''); /** @ for ignore warning like http 404 error */
-                    fclose($file);
-
-                    $uploadedImage = new UploadedFile($filePath, $name, test: true);
-
-                    $image = (new Photo())->setImageFile($uploadedImage);
+                    /** @var Photo $image */
+                    $image = $this->downloadFile($src);
 
                     $this->em->persist($image);
 

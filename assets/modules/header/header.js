@@ -4,7 +4,17 @@ window.onscroll = headerSize
 
 function headerSize() {
     const headerPrimary = document.querySelector(".header .header-primary")
+
+    if (!headerPrimary) {
+        return
+    }
+
     const headerSecondary = document.querySelector(".header .header-secondary")
+
+    if (headerSecondary) {
+        return
+    }
+
     const menuResponsiveBtn = headerPrimary.querySelector('.menu-responsive-btn')
 
     headerPrimary.querySelector('ul').style.top = headerPrimary.style.height
@@ -36,8 +46,9 @@ function headerSize() {
     }
 }
 
-document.querySelector(".header .header-primary .menu-responsive-btn")
-    .addEventListener('click', (e) => {
+const btn = document.querySelector(".header .header-primary .menu-responsive-btn")
+if (btn) {
+    btn.addEventListener('click', (e) => {
         const target = e.currentTarget
         const menu = document.querySelector(".header .header-primary ul")
         const body = document.querySelector('body')
@@ -68,9 +79,15 @@ document.querySelector(".header .header-primary .menu-responsive-btn")
             }, 10) // For trigger/see css transition
         }
     })
+}
 
 window.onresize = () => {
     const menu = document.querySelector(".header .header-primary ul")
+
+    if (!menu) {
+        return
+    }
+
     const menuStyle = menu.style
     document.querySelector('body').style.overflow = 'auto'
     menuStyle.removeProperty('display')

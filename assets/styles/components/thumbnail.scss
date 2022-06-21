@@ -16,7 +16,19 @@
       object-fit: cover;
     }
 
+    h2 {
+      margin: 0;
+      font-size: 6em;
+
+      &.-small {
+        font-size: 2em;
+      }
+    }
+
     &:only-child {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       height: 100%;
     }
   }

@@ -1,0 +1,32 @@
+{% for weapon, categories in results %}
+
+    <h2>{{ weapon }}</h2>
+
+    <table class="">
+        <thead>
+            <tr>
+                <th>Categories</th>
+                <th>Archer</th>
+                <th>Score</th>
+                <th>Classement</th>
+            </tr>
+        </thead>
+        <tbody>
+                {% for category, results in categories %}
+                    {% for result in results %}
+                        <tr>
+                            {% if loop.first %}
+                                <td rowspan="{{ results|length }}">{{ category }}</td>
+                            {% endif %}
+
+                            <td>{{ result.archer.fullName }}</td>
+                            <td>{{ result.score }}</td>
+                            <td>{{ result.rank }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+        </tbody>
+    </table>
+
+{% endfor %}
+

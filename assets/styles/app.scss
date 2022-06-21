@@ -20,21 +20,29 @@
 @import "base/table";
 @import "base/border";
 @import "base/background";
+@import "base/pointer";
+@import "base/alignment";
 
 @import "../modules/header/header";
 @import "../modules/body/body";
 @import "../modules/footer/footer";
+@import "../modules/header/hamburger-menu";
 
 @import "components/target";
 @import "components/thumbnail";
 @import "components/paginator";
-@import "../modules/header/hamburger-menu";
 
 @import "pages/index/main";
 @import "pages/thumbnails";
-@import "pages/page";
 @import "pages/style-guide";
-@import "pages/actualities";
 @import "pages/contact";
+@import "pages/page";
+
+@import "pages/actualities/actualities";
+@import "pages/actualities/actuality";
+
+@import "pages/results/results";
+@import "pages/results/result-badges";
+@import "pages/results/result-competition-season";
 
 //@import "assets/modules/ckeditor/ckeditor";

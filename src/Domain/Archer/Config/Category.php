@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Archer\Config;
 
-use App\Domain\Shared\Config\Enum;
+use App\Infrastructure\Config\Enum;
 use ValueError;
 
 enum Category: string implements Enum
@@ -84,6 +84,44 @@ enum Category: string implements Enum
         };
     }
 
+    public function toShortString(): string
+    {
+        return match ($this) {
+            self::PEEWEE_MAN => 'PH',
+            self::PEEWEE_WOMAN => 'PF',
+
+            self::BENJAMIN_MAN => 'BH',
+            self::BENJAMIN_WOMAN => 'BF',
+
+            self::JUNIOR_MAN => 'JH',
+            self::JUNIOR_WOMAN => 'JF',
+
+            self::CUB_MAN => 'MH',
+            self::CUB_WOMAN => 'MF',
+
+            self::CADET_MAN => 'CH',
+            self::CADET_WOMAN => 'CF',
+
+            self::SENIOR_ONE_MAN => 'S1H',
+            self::SENIOR_ONE_WOMAN => 'S1F',
+
+            self::SENIOR_TWO_MAN => 'S2H',
+            self::SENIOR_TWO_WOMAN => 'S2F',
+
+            self::SENIOR_THREE_MAN => 'S3H',
+            self::SENIOR_THREE_WOMAN => 'S3F',
+
+            self::SENIOR_MAN => 'SH',
+            self::SENIOR_WOMAN => 'SF',
+
+            self::VETERAN_MAN => 'VH',
+            self::VETERAN_WOMAN => 'VF',
+
+            self::GREAT_VETERAN_MAN => 'SVH',
+            self::GREAT_VETERAN_WOMAN => 'SVF',
+        };
+    }
+
     public function toArrayValue(): string
     {
         return match ($this) {
@@ -127,16 +165,16 @@ enum Category: string implements Enum
     public static function toChoices(): array
     {
         return array_combine(
-            array_map(fn (Category $category) => $category->toString(), Category::cases()),
-            array_map(fn (Category $category) => $category->toArrayValue(), Category::cases())
+            array_map(static fn (Category $category) => $category->toString(), self::cases()),
+            array_map(static fn (Category $category) => $category->toArrayValue(), self::cases())
         );
     }
 
     public static function toChoicesWithEnumValue(): array
     {
         return array_combine(
-            array_map(fn (Category $category) => $category->toString(), Category::cases()),
-            array_map(fn (Category $category) => $category, Category::cases())
+            array_map(static fn (Category $category) => $category->toString(), self::cases()),
+            array_map(static fn (Category $category) => $category, self::cases())
         );
     }
 

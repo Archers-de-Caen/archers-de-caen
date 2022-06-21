@@ -1,0 +1,22 @@
+{% extends '/landing/base.html.twig' %}
+
+{% from '/shared/components/thumbnail.html.twig' import thumbnail %}
+
+{% block title %}Résultats{% endblock %}
+
+{% block body %}
+    <div class="bg-target shape-target"></div>
+
+    <main class="thumbnails-container results-page">
+        <section class="title">
+            <h1>{{ block('title') }}</h1>
+        </section>
+
+        <div class="page-content thumbnails">
+            {{ thumbnail(path('landing_results_arrow'), asset('build/images/photo/cible.jpg'), 'Fleches de progression') }}
+            {{ thumbnail(path('landing_results_competitions_seasons'), asset('build/images/photo/cible.jpg'), 'Concours') }}
+            {{ thumbnail(path('landing_results_record'), asset('build/images/photo/cible.jpg'), 'Record') }}
+            {{ thumbnail(path('landing_results_federal_honors'), asset('build/images/photo/cible.jpg'), 'Distinctions fédérales') }}
+        </div>
+    </main>
+{% endblock %}
