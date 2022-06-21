@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command\V2ToV3;
 
 use App\Domain\Cms\Model\Document;
@@ -25,7 +27,7 @@ trait DownloadTrait
             throw new RuntimeException('fopen bug');
         }
 
-        fwrite($file, @file_get_contents($src) ?: ''); /** @ for ignore warning like http 404 error */
+        fwrite($file, @file_get_contents($src) ?: ''); /* @ for ignore warning like http 404 error */
         fclose($file);
 
         $uploadedFile = new UploadedFile($filePath, $name, test: true);

@@ -16,7 +16,7 @@ class LicenseFixture extends AbstractFixtures
 
     public function loadData(ObjectManager $manager): void
     {
-        $this->createMany(License::class, self::LOAD_DATA_MAX, function (License $license) {
+        $this->createMany(License::class, self::LOAD_DATA_MAX, function (License $license): void {
             self::create($license);
 
             $this->setReference($this->generateReference(self::REFERENCE), $license);

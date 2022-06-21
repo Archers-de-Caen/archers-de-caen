@@ -12,7 +12,6 @@ enum Weapon: string implements Enum
     case RECURVE_BOW = 'recurve_bow';
     case COMPOUND_BOW = 'compound_bow';
     case BARE_BOW = 'bare_bow';
-
     public function toString(): string
     {
         return match ($this) {
@@ -54,7 +53,7 @@ enum Weapon: string implements Enum
             'CO' => self::COMPOUND_BOW,
             'BB' => self::BARE_BOW,
 
-            default => throw new ValueError($weapon . ' not found'),
+            default => throw new ValueError($weapon.' not found'),
         };
     }
 

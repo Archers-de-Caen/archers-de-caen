@@ -9,7 +9,6 @@ use App\Domain\Result\Model\Result;
 use App\Domain\Result\Model\ResultBadge;
 use App\Domain\Result\Model\ResultCompetition;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 class ResultCompetitionManager
 {
@@ -65,9 +64,10 @@ class ResultCompetitionManager
             })
             ->toArray();
 
-        uasort($resultsBadgeFiltered, static function (Result $first, Result $second) {
-            return $first->getScore() < $second->getScore() ? -1 : 1;
-        });
+        uasort(
+            $resultsBadgeFiltered,
+            static fn (Result $first, Result $second) => $first->getScore() < $second->getScore() ? -1 : 1
+        );
 
         /** @var ResultBadge|null $bestResultBadge */
         $bestResultBadge = $resultsBadgeFiltered[0] ?? null;

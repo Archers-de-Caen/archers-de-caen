@@ -63,12 +63,11 @@ class BadgeCrudController extends AbstractCrudController
         } else {
             $competitionType->setChoices(
                 array_combine(
-                    array_map(static fn(Type $competitionType) => $competitionType->toString(), Type::cases()),
-                    array_map(static fn(Type $competitionType) => $competitionType->value, Type::cases())
+                    array_map(static fn (Type $competitionType) => $competitionType->toString(), Type::cases()),
+                    array_map(static fn (Type $competitionType) => $competitionType->value, Type::cases())
                 )
             ); // TODO : provisoire le temps que le bundle EasyAdmin ce met a jours
         }
-
 
         if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {
             if ($this->isGranted(Archer::ROLE_DEVELOPER)) {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\Contact\Service;
 
 use App\Domain\Contact\Model\ContactRequest;
@@ -23,7 +25,7 @@ class ContactService
     }
 
     /**
-     * @throws TooManyContactException if the number of contact requests is too high (last message 1 hour ago)
+     * @throws TooManyContactException     if the number of contact requests is too high (last message 1 hour ago)
      * @throws TransportExceptionInterface
      */
     public function send(ContactRequest $contactRequest, ?string $ip): void
@@ -47,7 +49,7 @@ class ContactService
             ->replyTo(new Address($contactRequest->getEmail(), $contactRequest->getName()))
             ->to($this->email);
 
-        if ($this->env !== 'prod') {
+        if ('prod' !== $this->env) {
             return;
         }
 

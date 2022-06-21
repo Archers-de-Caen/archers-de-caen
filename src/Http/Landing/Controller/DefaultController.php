@@ -34,12 +34,12 @@ class DefaultController extends AbstractController
     #[Route('/style-guide', name: self::ROUTE_LANDING_STYLE_GUIDE)]
     public function styleGuide(Request $request): Response
     {
-        if (!$this->isGranted(Archer::ROLE_DEVELOPER) && $request->server->get('APP_ENV') !== 'dev') {
+        if (!$this->isGranted(Archer::ROLE_DEVELOPER) && 'dev' !== $request->server->get('APP_ENV')) {
             throw $this->createAccessDeniedException();
         }
 
         return $this->render('/landing/style-guide/style-guide.html.twig', [
-            'paginator' => PaginatorHelper::pagination((int) ($request->query->get('page') ?: 1), 100)
+            'paginator' => PaginatorHelper::pagination((int) ($request->query->get('page') ?: 1), 100),
         ]);
     }
 }

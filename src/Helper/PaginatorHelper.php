@@ -15,17 +15,17 @@ class PaginatorHelper
         $rangeWithDots = [];
         $l = null;
 
-        for ($page = 1; $page <= $last; $page++) {
-            if ($page === 1 || $page === $last || ($page >= $left && $page < $right)) {
+        for ($page = 1; $page <= $last; ++$page) {
+            if (1 === $page || $page === $last || ($page >= $left && $page < $right)) {
                 $range[] = $page;
             }
         }
 
         foreach ($range as $page) {
             if ($l) {
-                if ($page - $l === 2) {
+                if (2 === $page - $l) {
                     $rangeWithDots[] = $l + 1;
-                } else if ($page - $l !== 1) {
+                } elseif (1 !== $page - $l) {
                     $rangeWithDots[] = '...';
                 }
             }

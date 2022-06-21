@@ -72,7 +72,8 @@ class ArcherCrudController extends AbstractCrudController
                     ['_switch_user' => $archer->getEmail()],
                     UrlGeneratorInterface::ABSOLUTE_URL
                 );
-            });
+            }
+        );
 
         return $actions
             ->add(Crud::PAGE_INDEX, $impersonation)

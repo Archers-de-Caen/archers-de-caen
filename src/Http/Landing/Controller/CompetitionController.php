@@ -46,14 +46,17 @@ final class CompetitionController extends AbstractController
         usort(
             $archers,
             static function (Archer $one, Archer $two): int {
-                return $one->getBestProgressArrowObtained()?->getBadge()?->getLevel() > $two->getBestProgressArrowObtained()?->getBadge()?->getLevel() ? -1 : 1;
+                $levelOne = $one->getBestProgressArrowObtained()?->getBadge()?->getLevel();
+                $levelTwo = $two->getBestProgressArrowObtained()?->getBadge()?->getLevel();
+
+                return $levelOne > $levelTwo ? -1 : 1;
             }
         );
 
         return $this->render('/landing/results/result-progress-arrow.html.twig', [
             'archers' => $archers,
             'progressArrows' => $em->getRepository(Badge::class)->findBy([
-                'type' => 'progress_arrow'
+                'type' => 'progress_arrow',
             ]),
         ]);
     }
@@ -71,7 +74,7 @@ final class CompetitionController extends AbstractController
         ;
 
         return $this->render('/landing/results/competitions/seasons.html.twig', [
-            'seasons' => $seasons
+            'seasons' => $seasons,
         ]);
     }
 

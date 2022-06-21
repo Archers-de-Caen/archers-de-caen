@@ -29,7 +29,6 @@ enum Type: string implements Enum
     case GOLDEN_APPLE_CHALLENGE = 'golden_apple_challenge';
     case PROMOTIONAL = 'promotional';
     case SPECIAL_YOUNG = 'special_young';
-
     public function toString(): string
     {
         return match ($this) {
@@ -85,16 +84,16 @@ enum Type: string implements Enum
     public static function toChoices(): array
     {
         return array_combine(
-            array_map(static fn(self $type) => $type->toString(), self::cases()),
-            array_map(static fn(self $type) => $type->toArrayValue(), self::cases())
+            array_map(static fn (self $type) => $type->toString(), self::cases()),
+            array_map(static fn (self $type) => $type->toArrayValue(), self::cases())
         );
     }
 
     public static function toChoicesWithEnumValue(): array
     {
         return array_combine(
-            array_map(static fn(self $type) => $type->toString(), self::cases()),
-            array_map(static fn(self $type) => $type, self::cases())
+            array_map(static fn (self $type) => $type->toString(), self::cases()),
+            array_map(static fn (self $type) => $type, self::cases())
         );
     }
 
@@ -123,7 +122,7 @@ enum Type: string implements Enum
             strtolower('Challenge de la Pomme d\'Or') => self::GOLDEN_APPLE_CHALLENGE,
             strtolower('Promotionnel') => self::PROMOTIONAL,
 
-            default => throw new ValueError($type . ' not found'),
+            default => throw new ValueError($type.' not found'),
         };
     }
 

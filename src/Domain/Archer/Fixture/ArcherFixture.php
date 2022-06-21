@@ -17,13 +17,13 @@ class ArcherFixture extends AbstractFixtures
 
     public function loadData(ObjectManager $manager): void
     {
-        $this->createMany(Archer::class, self::LOAD_DATA_MAX, function (Archer $archer) {
+        $this->createMany(Archer::class, self::LOAD_DATA_MAX, function (Archer $archer): void {
             self::create($archer);
 
             $this->setReference($this->generateReference(self::REFERENCE), $archer);
         });
 
-        $this->createOne(Archer::class, function (Archer $archerAdmin) {
+        $this->createOne(Archer::class, function (Archer $archerAdmin): void {
             self::createAdmin($archerAdmin);
 
             $this->setReference($this->generateReference(self::REFERENCE_ADMIN), $archerAdmin);
@@ -38,7 +38,7 @@ class ArcherFixture extends AbstractFixtures
 
         $archer->setFirstName($faker->firstName());
         $archer->setLastName($faker->lastName());
-        $archer->setLicenseNumber($faker->numberBetween(100000, 999999) . $faker->randomLetter());
+        $archer->setLicenseNumber($faker->numberBetween(100000, 999999).$faker->randomLetter());
         $archer->setPlainPassword($faker->password());
         $archer->setEmail($faker->email());
         $archer->setPhone($faker->e164PhoneNumber());

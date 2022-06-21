@@ -11,39 +11,28 @@ enum Category: string implements Enum
 {
     case PEEWEE_MAN = 'peewee_man'; // Poussin
     case PEEWEE_WOMAN = 'peewee_woman';
-
     case BENJAMIN_MAN = 'benjamin_man'; // Benjamin
     case BENJAMIN_WOMAN = 'benjamin_woman';
-
     case CUB_MAN = 'cub_man'; // Minime
     case CUB_WOMAN = 'cub_woman';
-
     case CADET_MAN = 'cadet_man';
     case CADET_WOMAN = 'cadet_woman';
-
     case JUNIOR_MAN = 'junior_man';
     case JUNIOR_WOMAN = 'junior_woman';
-
     case SENIOR_ONE_MAN = 'senior_one_man';
     case SENIOR_ONE_WOMAN = 'senior_one_woman';
-
     case SENIOR_TWO_MAN = 'senior_two_man';
     case SENIOR_TWO_WOMAN = 'senior_two_woman';
-
     case SENIOR_THREE_MAN = 'senior_three_man';
     case SENIOR_THREE_WOMAN = 'senior_three_woman';
-
     // Anciennes catégories
 
     case SENIOR_MAN = 'senior_man';
     case SENIOR_WOMAN = 'senior_woman';
-
     case VETERAN_MAN = 'veteran_man';
     case VETERAN_WOMAN = 'veteran_woman';
-
     case GREAT_VETERAN_MAN = 'great_veteran_man';
     case GREAT_VETERAN_WOMAN = 'great_veteran_woman';
-
     public function toString(): string
     {
         return match ($this) {
@@ -217,7 +206,7 @@ enum Category: string implements Enum
              'SVH' => self::GREAT_VETERAN_MAN,
              'SVF' => self::GREAT_VETERAN_WOMAN,
 
-            default => throw new ValueError($category . ' not found'),
+            default => throw new ValueError($category.' not found'),
         };
     }
 }

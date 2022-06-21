@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command\Cron;
 
 use App\Command\ArcherTrait;
@@ -52,14 +54,14 @@ class FftaArcherUpdateCommand extends Command
 
         $this->curl = curl_init();
 
-        $season = (int) date('m') < 9 ? date('Y') : (string)((int) date('Y') + 1);
+        $season = (int) date('m') < 9 ? date('Y') : (string) ((int) date('Y') + 1);
 
         // On se connecte à l'espace dirigeant
         $this->connect();
 
         $licensesResponse = $this->getLicenses($season);
 
-        if ($licensesResponse['status'] != 'success') {
+        if ('success' != $licensesResponse['status']) {
             foreach ($licensesResponse['errors'] as $error) {
                 $io->writeln($error);
             }
@@ -85,7 +87,7 @@ class FftaArcherUpdateCommand extends Command
             }
 
             if (!$archer->getArcherLicenseActive()) {
-                $license = array_filter($licenses, fn (License $license) => $license->getTitle() === '');
+                $license = array_filter($licenses, fn (License $license) => '' === $license->getTitle());
 
                 if (!count($license)) {
                     $io->error('Licence not found');
@@ -111,7 +113,7 @@ class FftaArcherUpdateCommand extends Command
     }
 
     /**
-     * Récupère le token de connexion ainsi que les cookies de session
+     * Récupère le token de connexion ainsi que les cookies de session.
      */
     private function getToken(): ?string
     {
@@ -131,7 +133,7 @@ class FftaArcherUpdateCommand extends Command
 
         /** @var DOMElement $node */
         foreach ($nodes as $node) {
-            if ($node->getAttribute('name') == 'authenticityToken') {
+            if ('authenticityToken' == $node->getAttribute('name')) {
                 return $node->getAttribute('value');
             }
         }
@@ -166,11 +168,11 @@ class FftaArcherUpdateCommand extends Command
         curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($this->curl, CURLOPT_COOKIEFILE, $this->cookieFile);
         curl_setopt($this->curl, CURLOPT_HTTPHEADER, [
-            "X-Requested-With: XMLHttpRequest",
-            "Host: ffta-goal.multimediabs.com",
-            "Accept: application/json, text/javascript, */*; q=0.01",
-            "Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3",
-            "Connection: keep-alive",
+            'X-Requested-With: XMLHttpRequest',
+            'Host: ffta-goal.multimediabs.com',
+            'Accept: application/json, text/javascript, */*; q=0.01',
+            'Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+            'Connection: keep-alive',
         ]);
         curl_setopt($this->curl, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($this->curl, CURLOPT_REFERER, 'https://ffta-goal.multimediabs.com/licences/listerLicencies?idStructure=636');
@@ -178,9 +180,7 @@ class FftaArcherUpdateCommand extends Command
         $json = curl_exec($this->curl);
 
         // Conversion des caractères UTF8
-        return (array) json_decode((string) preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function ($match) {
-            return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UTF-16BE');
-        }, (string) $json));
+        return (array) json_decode((string) preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', fn ($match) => mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UTF-16BE'), (string) $json));
     }
 
     private function reformatLicencesArray(array $licenses): array

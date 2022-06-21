@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\Contact\Model;
 
 use App\Domain\Contact\Config\Subject;
@@ -20,20 +22,20 @@ class ContactRequest
     use IdTrait;
     use TimestampTrait;
 
-    #[ORM\Column(type:Types::STRING, length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $ip = '';
 
-    #[ORM\Column(type:Types::STRING, length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     #[Assert\NotBlank()]
     #[Assert\Length(min: 3, max: 255)]
     private string $name;
 
-    #[ORM\Column(type:Types::STRING, length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     #[Assert\NotBlank()]
     #[Assert\Email()]
     private string $email;
 
-    #[ORM\Column(type:Types::STRING)]
+    #[ORM\Column(type: Types::STRING)]
     #[Assert\NotBlank()]
     #[Assert\Length(min: 10)]
     private string $content;

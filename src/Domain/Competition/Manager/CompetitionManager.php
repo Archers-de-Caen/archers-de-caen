@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\Competition\Manager;
 
 use App\Domain\Cms\Config\Category;
@@ -16,18 +18,18 @@ class CompetitionManager
 
     /**
      * Créer une actualité depuis une compétition.
-     * L'actualité est créée en brouillon, elle doit être persist et flush
+     * L'actualité est créée en brouillon, elle doit être persist et flush.
      */
     public function createActuality(Competition $competition): Page
     {
         $iframeUrl = $this->urlGenerator->generate(CompetitionController::ROUTE_LANDING_RESULTS_COMPETITION, [
             'slug' => $competition->getSlug(),
-        ]) . '?iframe=true';
+        ]).'?iframe=true';
 
         return (new Page())
             ->setCategory(Category::ACTUALITY)
             ->setTitle('Résultat du '.$competition->__toString())
-            ->setContent('<iframe src="' . $iframeUrl . '" class="fit-height-content"></iframe>')
+            ->setContent('<iframe src="'.$iframeUrl.'" class="fit-height-content"></iframe>')
         ;
     }
 }

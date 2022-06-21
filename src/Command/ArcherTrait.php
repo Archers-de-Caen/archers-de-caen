@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Domain\Archer\Model\Archer;
@@ -32,7 +34,7 @@ trait ArcherTrait
     {
         if ($license && isset($archers[$license])) {
             $archer = $archers[$license];
-        } else if ($license) {
+        } elseif ($license) {
             $archerName = explode(' ', trim($name), 2);
 
             $archer = (new Archer())

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command\V2ToV3;
 
 use App\Domain\Cms\Model\Page;
@@ -59,18 +61,18 @@ class V2ToV3ActualityShortcutWpCommand extends Command
 
                 $pattern = '/\[video .+=\"(http.+)\"\]\[\/video]/m';
                 if (preg_match_all($pattern, $content, $matches)) {
-                    $io->writeln('video => ' . $post->getSlug() . ' a gérer manuellement');
+                    $io->writeln('video => '.$post->getSlug().' a gérer manuellement');
                 }
 
                 $pattern = '/\[pdf src=[\'"](.+)[\'"].*\]/m';
                 if (preg_match_all($pattern, $content, $matches)) {
-                    $io->writeln('pdf => ' . $post->getSlug() . ' a gérer manuellement');
+                    $io->writeln('pdf => '.$post->getSlug().' a gérer manuellement');
                 }
 
-                 $pattern = '/\[resequipe.*\]/m';
-                 if (preg_match_all($pattern, $content, $matches)) {
-                     $io->writeln('resequipe => ' . $post->getSlug() . ' a gérer manuellement');
-                 }
+                $pattern = '/\[resequipe.*\]/m';
+                if (preg_match_all($pattern, $content, $matches)) {
+                    $io->writeln('resequipe => '.$post->getSlug().' a gérer manuellement');
+                }
 
                 $pattern = '/\[caption.+\](.+)\[\/caption\]/m';
                 if (preg_match_all($pattern, $content, $matches)) {
@@ -80,7 +82,6 @@ class V2ToV3ActualityShortcutWpCommand extends Command
                 $pattern = '/\[adc_reservation_concours id=(\d+)\]/m';
                 if (preg_match_all($pattern, $content, $matches)) {
                     $content = preg_replace($pattern, "L'inscription n'est plus disponible pour ce concours", $content);
-
                 }
 
                 $pattern = '/\[inscription_concours.+\]/m';
@@ -102,7 +103,7 @@ class V2ToV3ActualityShortcutWpCommand extends Command
             $content = $post->getContent();
 
             if ($content && preg_match_all('/\[(.+)\]/m', $content, $matches)) {
-                $io->writeln($matches[1][0] . ' => ' . $post->getId());
+                $io->writeln($matches[1][0].' => '.$post->getId());
             }
         }
 
@@ -139,9 +140,9 @@ class V2ToV3ActualityShortcutWpCommand extends Command
             if (isset($competitions[$id])) {
                 $iframeUrl = $this->urlGenerator->generate(CompetitionController::ROUTE_LANDING_RESULTS_COMPETITION, [
                     'slug' => $competitions[$id]->getSlug(),
-                ], UrlGeneratorInterface::ABSOLUTE_URL) . '?iframe=true';
+                ], UrlGeneratorInterface::ABSOLUTE_URL).'?iframe=true';
 
-                $iframe = '<iframe src="' . $iframeUrl . '" class="fit-height-content"></iframe>';
+                $iframe = '<iframe src="'.$iframeUrl.'" class="fit-height-content"></iframe>';
 
                 $content = preg_replace($pattern, $iframe, $content);
             }

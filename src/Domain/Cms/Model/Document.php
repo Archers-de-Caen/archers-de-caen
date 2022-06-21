@@ -90,9 +90,6 @@ class Document implements UploadableInterface
         return $this;
     }
 
-    /**
-     * @return File|null
-     */
     public function getDocumentFile(): ?File
     {
         return $this->documentFile;

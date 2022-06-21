@@ -67,7 +67,7 @@ class Competition
         return sprintf(
             'concours %s d%s%s du %s au %s',
             $this->getType()?->toString(),
-            in_array(strtolower($this->getLocation() ?? '')[0], ['a', 'e', 'i', 'o', 'u', 'y', 'h']) ? "'" : "e",
+            in_array(strtolower($this->getLocation() ?? '')[0], ['a', 'e', 'i', 'o', 'u', 'y', 'h']) ? "'" : 'e',
             $this->getLocation(),
             $this->getDateStart()?->format('d/m/Y'),
             $this->getDateEnd()?->format('d/m/Y')

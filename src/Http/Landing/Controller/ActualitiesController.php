@@ -26,8 +26,8 @@ class ActualitiesController extends AbstractController
         $actualities = new Paginator(
             $pageRepository
                 ->createQueryBuilder('p')
-                ->where("p.category = '" . Category::ACTUALITY->value . "'")
-                ->andWhere("p.status = '" . Status::PUBLISH->value . "'")
+                ->where("p.category = '".Category::ACTUALITY->value."'")
+                ->andWhere("p.status = '".Status::PUBLISH->value."'")
                 ->orderBy('p.createdAt', 'DESC')
                 ->setFirstResult($currentPage * $elementByPage)
                 ->setMaxResults(24) // 24, car sur un écran 1080p la dernière ligne est complete

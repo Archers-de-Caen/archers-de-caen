@@ -151,7 +151,8 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     }
 
     /**
-     * TODO: a vérifier
+     * TODO: a vérifier.
+     *
      * @throws Exception
      */
     public function getUserIdentifier(): string
@@ -174,7 +175,6 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     {
         return $this->getFirstName().' '.$this->getLastName();
     }
-
 
     public function getFirstName(): ?string
     {
@@ -352,9 +352,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
      */
     public function getResultsProgressArrow(): Collection
     {
-        return $this->results->filter(static function (Result $result) {
-            return $result instanceof ResultBadge && $result->getBadge()?->getType() === 'progress_arrow';
-        });
+        return $this->results->filter(static fn (Result $result) => $result instanceof ResultBadge && 'progress_arrow' === $result->getBadge()?->getType());
     }
 
     public function getBestProgressArrowObtained(): ?ResultBadge

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command\V2ToV3;
 
 use App\Command\ArcherTrait;
@@ -39,7 +41,7 @@ class V2ToV3CompetitionCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $rsm = new ResultSetMapping();
-        $nativeQuery = $this->em->createNativeQuery("SELECT * FROM adc_results", $rsm);
+        $nativeQuery = $this->em->createNativeQuery('SELECT * FROM adc_results', $rsm);
 
         $rsm->addScalarResult('id', 'id', Types::INTEGER);
         $rsm->addScalarResult('type', 'type');
@@ -72,17 +74,18 @@ class V2ToV3CompetitionCommand extends Command
 
             if (str_contains($competition['type'], 'Challenge de la Pomme d\'Or')) {
                 $newCompetition->setType(Type::GOLDEN_APPLE_CHALLENGE);
-            } else if ($competition['type'] === '4 x 70m') {
+            } elseif ('4 x 70m' === $competition['type']) {
                 $newCompetition->setType(Type::FITA_4x70_M);
-            } else if (str_contains(strtolower($competition['type']), 'jeune')) {
+            } elseif (str_contains(strtolower($competition['type']), 'jeune')) {
                 $newCompetition->setType(Type::SPECIAL_YOUNG);
-            } else if ($competition['type'] === 'Salle 2x25m + 2x18m') {
+            } elseif ('Salle 2x25m + 2x18m' === $competition['type']) {
                 $newCompetition->setType(Type::INDOOR_2x18_M_2x25_M);
             } else {
                 $newCompetition->setType(Type::createFromString($competition['type']));
             }
 
-            $newCompetition->setSlug(sprintf('Concours de %s %s du %s au %s',
+            $newCompetition->setSlug(sprintf(
+                'Concours de %s %s du %s au %s',
                 $competition['location'],
                 $competition['type'],
                 $competition['dateStart']->format('d-m-Y'),
@@ -127,8 +130,6 @@ class V2ToV3CompetitionCommand extends Command
     }
 
     /**
-     * @param string $csv
-     *
      * @return array{
      *     'name': string,
      *     'category': string,

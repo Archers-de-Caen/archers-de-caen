@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Admin\Controller;
 
 use App\Domain\Archer\Model\Archer;
@@ -66,8 +68,8 @@ class CompetitionCrudController extends AbstractCrudController
         } else {
             $type->setChoices(
                 array_combine(
-                    array_map(static fn(Type $type) => $type->toString(), Type::cases()),
-                    array_map(static fn(Type $type) => $type->value, Type::cases())
+                    array_map(static fn (Type $type) => $type->toString(), Type::cases()),
+                    array_map(static fn (Type $type) => $type->value, Type::cases())
                 )
             ); // TODO: provisoire le temps que le bundle EasyAdmin ce met a jours
         }
@@ -122,10 +124,10 @@ class CompetitionCrudController extends AbstractCrudController
         parent::persistEntity($entityManager, $entityInstance);
 
         $competitionUrl = $this->urlGenerator->generate(CompetitionController::ROUTE_LANDING_RESULTS_COMPETITION, [
-            'slug' => $entityInstance->getSlug()
+            'slug' => $entityInstance->getSlug(),
         ], UrlGeneratorInterface::ABSOLUTE_URL);
 
-        $this->addFlash('success', 'Compétition créer, lien public <a href="' . $competitionUrl . '">ici</a>');
+        $this->addFlash('success', 'Compétition créer, lien public <a href="'.$competitionUrl.'">ici</a>');
 
         $context = $this->getContext();
         $competitionData = $context?->getRequest()->request->all()['Competition'];
@@ -142,7 +144,7 @@ class CompetitionCrudController extends AbstractCrudController
                 ->generateUrl()
             ;
 
-            $this->addFlash('success', 'Actualité créer, modifiable <a href="' . $actualityAdminUrl . '">ici</a>');
+            $this->addFlash('success', 'Actualité créer, modifiable <a href="'.$actualityAdminUrl.'">ici</a>');
         }
     }
 
@@ -151,9 +153,7 @@ class CompetitionCrudController extends AbstractCrudController
      */
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        $resultsNotPersisted = $entityInstance->getResults()->filter(static function (ResultCompetition $resultCompetition) {
-            return !$resultCompetition->getId();
-        });
+        $resultsNotPersisted = $entityInstance->getResults()->filter(static fn (ResultCompetition $resultCompetition) => !$resultCompetition->getId());
 
         foreach ($resultsNotPersisted as $result) {
             $this->resultCompetitionManager->awardingBadges($result);
@@ -163,9 +163,9 @@ class CompetitionCrudController extends AbstractCrudController
         parent::updateEntity($entityManager, $entityInstance);
 
         $competitionUrl = $this->urlGenerator->generate(CompetitionController::ROUTE_LANDING_RESULTS_COMPETITION, [
-            'slug' => $entityInstance->getSlug()
+            'slug' => $entityInstance->getSlug(),
         ], UrlGeneratorInterface::ABSOLUTE_URL);
 
-        $this->addFlash('success', 'Compétition mise à jour, lien public <a href="' . $competitionUrl . '">ici</a>');
+        $this->addFlash('success', 'Compétition mise à jour, lien public <a href="'.$competitionUrl.'">ici</a>');
     }
 }

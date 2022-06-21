@@ -11,7 +11,7 @@ class SecurityHelper
     public static function generateApiKey(string $prefix = null): string
     {
         // pattern key "xxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-        $random = join('-', [
+        $random = implode('-', [
             substr(strtolower(md5(microtime().random_int(1000, 9999))), 0, 8),
             substr(strtolower(md5(microtime().random_int(1000, 9999))), 0, 4),
             substr(strtolower(md5(microtime().random_int(1000, 9999))), 0, 4),

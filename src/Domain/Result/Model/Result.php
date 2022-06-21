@@ -18,12 +18,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ResultRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[ORM\Cache(usage: "NONSTRICT_READ_WRITE")]
-#[ORM\InheritanceType("JOINED")]
-#[ORM\DiscriminatorColumn(name: "type", type: Types::STRING)]
+#[ORM\Cache(usage: 'NONSTRICT_READ_WRITE')]
+#[ORM\InheritanceType('JOINED')]
+#[ORM\DiscriminatorColumn(name: 'type', type: Types::STRING)]
 #[ORM\DiscriminatorMap(value: [
-    "result_competition" => ResultCompetition::class,
-    "result_badge" => ResultBadge::class,
+    'result_competition' => ResultCompetition::class,
+    'result_badge' => ResultBadge::class,
 ])]
 abstract class Result
 {
@@ -41,11 +41,11 @@ abstract class Result
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $rank = null;
 
-    # Categories de l'archer
+    // Categories de l'archer
     #[ORM\Column(type: Types::STRING, nullable: true, enumType: Category::class)]
     private ?Category $category = null;
 
-    # Est-ce un record personnel de l'archer, ce n'est pas forcément son dernier record
+    // Est-ce un record personnel de l'archer, ce n'est pas forcément son dernier record
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $record = false;
 

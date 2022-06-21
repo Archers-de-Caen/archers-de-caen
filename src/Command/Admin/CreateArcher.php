@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command\Admin;
 
 use App\Domain\Archer\Model\Archer;
@@ -70,7 +72,6 @@ final class CreateArcher extends Command
             ],
         ];
 
-
         foreach ($properties as $property => $details) {
             do {
                 if ($details['hidden'] ?? false) {
@@ -86,7 +87,6 @@ final class CreateArcher extends Command
                 $violations = $this->validator->validatePropertyValue(Archer::class, $property, $properties[$property]['value']);
 
                 if ($violations->count()) {
-
                     /** @var ConstraintViolationInterface $violation */
                     foreach ($violations as $violation) {
                         $io->error($violation->getMessage());
@@ -106,10 +106,9 @@ final class CreateArcher extends Command
         $violations = $this->validator->validate($archer);
 
         if ($violations->count()) {
-
             /** @var ConstraintViolationInterface $violation */
             foreach ($violations as $violation) {
-                $io->error($violation->getPropertyPath() . ' : ' . $violation->getMessage());
+                $io->error($violation->getPropertyPath().' : '.$violation->getMessage());
             }
 
             return self::FAILURE;

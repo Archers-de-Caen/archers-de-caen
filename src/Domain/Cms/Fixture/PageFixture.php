@@ -21,18 +21,18 @@ class PageFixture extends AbstractFixtures implements DependentFixtureInterface
 
     public function loadData(ObjectManager $manager): void
     {
-        $this->createMany(Page::class, self::LOAD_DATA_MAX, function (Page $page) {
+        $this->createMany(Page::class, self::LOAD_DATA_MAX, function (Page $page): void {
             /** @var Archer $archer */
-            $archer = $this->getReference(ArcherFixture::REFERENCE . '_' . $this->faker->numberBetween(0, ArcherFixture::LOAD_DATA_MAX - 1));
+            $archer = $this->getReference(ArcherFixture::REFERENCE.'_'.$this->faker->numberBetween(0, ArcherFixture::LOAD_DATA_MAX - 1));
 
             self::create($page, $archer);
 
             $this->setReference($this->generateReference(self::REFERENCE), $page);
         });
 
-        $this->createOne(Page::class, function (Page $page) {
+        $this->createOne(Page::class, function (Page $page): void {
             /** @var Archer $archer */
-            $archer = $this->getReference(ArcherFixture::REFERENCE . '_' . $this->faker->numberBetween(0, ArcherFixture::LOAD_DATA_MAX - 1));
+            $archer = $this->getReference(ArcherFixture::REFERENCE.'_'.$this->faker->numberBetween(0, ArcherFixture::LOAD_DATA_MAX - 1));
 
             self::createWithTrueContent($page, $archer);
         });
@@ -62,7 +62,7 @@ class PageFixture extends AbstractFixtures implements DependentFixtureInterface
     public function createWithTrueContent(Page $page, Archer $createdBy): Page
     {
         $page->setTitle('Using PHP 8.1 enumerations in Symfony');
-        $page->setContent((string) file_get_contents(__DIR__ . '/page-content.html.twig'));
+        $page->setContent((string) file_get_contents(__DIR__.'/page-content.html.twig'));
         $page->setCategory(Category::ACTUALITY);
         $page->setStatus(Status::PUBLISH);
         $page->setCreatedBy($createdBy);

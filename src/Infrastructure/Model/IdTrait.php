@@ -12,7 +12,7 @@ trait IdTrait
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\Column(type: 'uuid', unique: true)]
-    #[ORM\CustomIdGenerator(class: "doctrine.uuid_generator")]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
     public function getId(): ?Uuid

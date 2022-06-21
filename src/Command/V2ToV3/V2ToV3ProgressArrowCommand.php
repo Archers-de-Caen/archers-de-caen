@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command\V2ToV3;
 
 use App\Command\ArcherTrait;
@@ -120,7 +122,7 @@ class V2ToV3ProgressArrowCommand extends Command
         ];
 
         $rsm = new ResultSetMapping();
-        $nativeQuery = $this->em->createNativeQuery("SELECT * FROM adc_fleches", $rsm);
+        $nativeQuery = $this->em->createNativeQuery('SELECT * FROM adc_fleches', $rsm);
 
         $rsm->addScalarResult('id', 'id');
         $rsm->addScalarResult('licence', 'licence');
@@ -128,9 +130,9 @@ class V2ToV3ProgressArrowCommand extends Command
         $rsm->addScalarResult('categorie', 'categorie');
 
         foreach ($colors as $color => $progressArrow) {
-            $rsm->addScalarResult($color . '_date', $color . '_date', Types::DATE_IMMUTABLE);
-            $rsm->addScalarResult($color . '_score', $color . '_score', Types::INTEGER);
-            $rsm->addScalarResult($color . '_arme', $color . '_arme');
+            $rsm->addScalarResult($color.'_date', $color.'_date', Types::DATE_IMMUTABLE);
+            $rsm->addScalarResult($color.'_score', $color.'_score', Types::INTEGER);
+            $rsm->addScalarResult($color.'_arme', $color.'_arme');
 
             $this->em->persist($progressArrow);
         }
@@ -141,7 +143,6 @@ class V2ToV3ProgressArrowCommand extends Command
         $archers = $this->reformatArchersArray($this->em->getRepository(Archer::class)->findAll());
 
         foreach ($progressArrowResults as $progressArrowResult) {
-
             try {
                 $archer = $this->getArcher($archers, $progressArrowResult['licence'], $progressArrowResult['nom']);
             } catch (Exception $e) {
@@ -151,17 +152,17 @@ class V2ToV3ProgressArrowCommand extends Command
             }
 
             foreach ($colors as $color => $progressArrow) {
-                if ($progressArrowResult[$color . '_score']) {
+                if ($progressArrowResult[$color.'_score']) {
                     $result = (new ResultBadge());
                     $result->setArcher($archer);
                     $result->setCategory(Category::createFromString($progressArrowResult['categorie']));
                     $result->setRecord(false);
-                    $result->setScore($progressArrowResult[$color . '_score']);
+                    $result->setScore($progressArrowResult[$color.'_score']);
                     $result->setBadge($progressArrow);
-                    $result->setWeapon(Weapon::createFromString($progressArrowResult[$color . '_arme']));
-                    $result->setCompletionDate($progressArrowResult[$color . '_date']);
+                    $result->setWeapon(Weapon::createFromString($progressArrowResult[$color.'_arme']));
+                    $result->setCompletionDate($progressArrowResult[$color.'_date']);
 
-                    if ($progressArrowResult[$color . '_date'] && ($date = DateTimeImmutable::createFromFormat('U', $progressArrowResult[$color . '_date']->format('U')))) {
+                    if ($progressArrowResult[$color.'_date'] && ($date = DateTimeImmutable::createFromFormat('U', $progressArrowResult[$color.'_date']->format('U')))) {
                         $result->setCompletionDate($date);
                     }
 

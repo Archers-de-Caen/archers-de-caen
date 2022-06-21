@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\App\Controller;
 
-use App\Domain\Archer\Model\Archer;
 use App\Domain\Archer\Form\RegistrationFormType;
+use App\Domain\Archer\Model\Archer;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

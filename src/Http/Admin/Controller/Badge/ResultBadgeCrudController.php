@@ -53,9 +53,12 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         return $actions
-            ->update(Crud::PAGE_INDEX, Action::NEW, fn (Action $action) => $action->setIcon('fa fa-bullseye')
+            ->update(
+                Crud::PAGE_INDEX,
+                Action::NEW,
+                fn (Action $action) => $action->setIcon('fa fa-bullseye')
                 ->setLabel('Ajouter un nouveau résultat')
-        );
+            );
     }
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
@@ -73,14 +76,13 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
             ->setLabel('Date de création');
 
         $badge = AssociationField::new('badge')
-            ->setLabel(match($this->badgeType) {
+            ->setLabel(match ($this->badgeType) {
                 'competition' => 'Distinction fédérale',
                 'progress_arrow' => 'Flèche de progression',
                 default => 'wut ?'
             })
             ->setQueryBuilder(
-                fn (QueryBuilder $queryBuilder) =>
-                    $queryBuilder
+                fn (QueryBuilder $queryBuilder) => $queryBuilder
                         ->where(sprintf("entity.type = '%s'", $this->badgeType))
             );
 
@@ -99,15 +101,15 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
         } else {
             $category->setChoices(
                 array_combine(
-                    array_map(static fn(Category $category) => $category->toString(), Category::cases()),
-                    array_map(static fn(Category $category) => $category->value, Category::cases())
+                    array_map(static fn (Category $category) => $category->toString(), Category::cases()),
+                    array_map(static fn (Category $category) => $category->value, Category::cases())
                 )
             ); // TODO : provisoire le temps que le bundle EasyAdmin ce met a jours
 
             $weapon->setChoices(
                 array_combine(
-                    array_map(static fn(Weapon $weapon) => $weapon->toString(), Weapon::cases()),
-                    array_map(static fn(Weapon $weapon) => $weapon->value, Weapon::cases())
+                    array_map(static fn (Weapon $weapon) => $weapon->toString(), Weapon::cases()),
+                    array_map(static fn (Weapon $weapon) => $weapon->value, Weapon::cases())
                 )
             ); // TODO : provisoire le temps que le bundle EasyAdmin ce met a jours
         }

@@ -1,32 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command\V2ToV3;
 
 use App\Command\ArcherTrait;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Config\Status;
-use App\Domain\Cms\Form\Photo\PhotoFormType;
 use App\Domain\Cms\Model\Page;
 use App\Domain\Cms\Model\Photo;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Doctrine\DBAL\Types\DateTimeType;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMapping;
 use DOMElement;
-use Exception;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
@@ -88,7 +81,7 @@ class V2ToV3ActualityCommand extends Command
 
             $crawler = new Crawler($post['content']);
 
-            /**
+            /*
              * Permet de récupérer les images du poste est de les enregistrer
              */
             $crawler->filter('img')->each(function (Crawler $crawler, $i) use (&$mainImage) {
@@ -105,7 +98,7 @@ class V2ToV3ActualityCommand extends Command
                     }
 
                     if (str_starts_with($src, '/')) {
-                        $src = 'https://www.archers-caen.fr' . $src;
+                        $src = 'https://www.archers-caen.fr'.$src;
                     }
 
                     /** @var Photo $image */
@@ -121,7 +114,7 @@ class V2ToV3ActualityCommand extends Command
 
                     $crawler->getNode(0)?->parentNode?->insertBefore(new DOMElement('br'), $node->nextSibling);
 
-                    if ($i === 0) {
+                    if (0 === $i) {
                         $mainImage = $image;
                     }
                 }
@@ -152,7 +145,7 @@ class V2ToV3ActualityCommand extends Command
             }
 
             if ($this->validator->validate($newPage)->count()) {
-                $io->error('La validation de la page "' . $post['title'] . '" a échoué');
+                $io->error('La validation de la page "'.$post['title'].'" a échoué');
 
                 continue;
             }
