@@ -23,6 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\DiscriminatorMap(value: [
     'result_competition' => ResultCompetition::class,
     'result_badge' => ResultBadge::class,
+    'result_team' => ResultTeam::class,
 ])]
 abstract class Result
 {

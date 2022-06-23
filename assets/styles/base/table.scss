@@ -6,6 +6,15 @@ table {
   background-color: $color-white;
   border-radius: $border-radius-normal;
 
+  .highlighted {
+    background-color: lighten($color-yellow, 25);
+    font-weight: bold;
+
+    td, th {
+      font-weight: bold;
+    }
+  }
+
   thead {
     background-color: $color-white;
     border-radius: $border-radius-normal;

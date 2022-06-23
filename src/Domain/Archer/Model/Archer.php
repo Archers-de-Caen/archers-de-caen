@@ -9,6 +9,7 @@ use App\Domain\Cms\Model\Page;
 use App\Domain\Result\Model\Result;
 use App\Domain\Result\Model\ResultBadge;
 use App\Domain\Result\Model\ResultCompetition;
+use App\Domain\Result\Model\ResultTeam;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
 use DateTimeInterface;
@@ -105,10 +106,17 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     #[ORM\OneToMany(mappedBy: 'archer', targetEntity: Result::class, cascade: ['ALL'], orphanRemoval: true)]
     private Collection $results;
 
+    /**
+     * @var Collection<int, Result|ResultTeam>
+     */
+    #[ORM\ManyToMany(targetEntity: ResultTeam::class, mappedBy: 'teammates')]
+    private Collection $resultsTeams;
+
     public function __construct()
     {
         $this->archerLicenses = new ArrayCollection();
         $this->pages = new ArrayCollection();
+        $this->resultsTeams = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -402,6 +410,31 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
                 $result->setArcher(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Result|ResultTeam>
+     */
+    public function getResultsTeams(): Collection
+    {
+        return $this->resultsTeams;
+    }
+
+    public function addResultTeam(ResultTeam $resultTeam): self
+    {
+        if (!$this->resultsTeams->contains($resultTeam)) {
+            $this->resultsTeams[] = $resultTeam;
+            $resultTeam->addTeammate($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResultTeam(ResultTeam $resultTeam): self
+    {
+        $this->resultsTeams->removeElement($resultTeam);
 
         return $this;
     }

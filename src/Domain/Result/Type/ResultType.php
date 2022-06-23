@@ -2,13 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Result\Form;
+namespace App\Domain\Result\Type;
 
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Weapon;
-use App\Domain\Archer\Model\Archer;
-use App\Domain\Result\Model\ResultCompetition;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Domain\Result\Model\Result;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
@@ -16,19 +14,11 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ResultCompetitionFormType extends AbstractType
+abstract class ResultType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('archer', EntityType::class, [
-                'class' => Archer::class,
-                'attr' => [
-                    'data-ea-widget' => 'ea-autocomplete',
-                    'data-ea-autocomplete-allow-item-create' => 'true',
-                ],
-                'required' => true,
-            ])
             ->add('category', EnumType::class, [
                 'class' => Category::class,
                 'label' => 'Catégorie',
@@ -39,9 +29,11 @@ class ResultCompetitionFormType extends AbstractType
             ])
             ->add('score', IntegerType::class, [
                 'required' => true,
+                'label' => 'Score',
             ])
             ->add('weapon', EnumType::class, [
                 'class' => Weapon::class,
+                'label' => 'Arme',
                 'choice_label' => static fn (Weapon $weapon) => $weapon->toString(),
                 'required' => true,
             ])
@@ -57,7 +49,7 @@ class ResultCompetitionFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => ResultCompetition::class,
+            'data_class' => Result::class,
         ]);
     }
 }

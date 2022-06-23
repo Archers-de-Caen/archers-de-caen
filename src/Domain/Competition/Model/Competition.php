@@ -7,6 +7,7 @@ namespace App\Domain\Competition\Model;
 use App\Domain\Competition\Config\Type;
 use App\Domain\Competition\Repository\CompetitionRepository;
 use App\Domain\Result\Model\ResultCompetition;
+use App\Domain\Result\Model\ResultTeam;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
 use DateTimeImmutable;
@@ -57,9 +58,14 @@ class Competition
     #[Assert\Valid]
     private Collection $results;
 
+    #[ORM\OneToMany(mappedBy: 'competition', targetEntity: ResultTeam::class, cascade: ['ALL'], orphanRemoval: true)]
+    #[Assert\Valid]
+    private Collection $resultsTeams;
+
     public function __construct()
     {
         $this->results = new ArrayCollection();
+        $this->resultsTeams = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -192,5 +198,24 @@ class Competition
     public function autoSetSlug(): void
     {
         $this->slug = $this->__toString();
+    }
+
+    public function getResultsTeams(): Collection
+    {
+        return $this->resultsTeams;
+    }
+
+    public function addResultsTeam(ResultTeam $resultTeam): void
+    {
+        if (!$this->resultsTeams->contains($resultTeam)) {
+            $this->resultsTeams[] = $resultTeam;
+            $resultTeam->setCompetition($this);
+        }
+    }
+
+    public function removeResultsTeam(ResultTeam $resultTeam): void
+    {
+        $this->resultsTeams->removeElement($resultTeam);
+        $resultTeam->setCompetition(null);
     }
 }

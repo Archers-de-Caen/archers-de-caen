@@ -8,12 +8,15 @@ use App\Domain\Archer\Model\Archer;
 use App\Domain\Competition\Config\Type;
 use App\Domain\Competition\Manager\CompetitionManager;
 use App\Domain\Competition\Model\Competition;
-use App\Domain\Result\Form\ResultCompetitionFormType;
+use App\Domain\Result\Form\ResultCompetitionForm;
+use App\Domain\Result\Form\ResultTeamForm;
 use App\Domain\Result\Manager\ResultCompetitionManager;
 use App\Domain\Result\Model\ResultCompetition;
 use App\Http\Landing\Controller\CompetitionController;
+use App\Http\Landing\Controller\DefaultController;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
@@ -48,6 +51,22 @@ class CompetitionCrudController extends AbstractCrudController
         ;
     }
 
+    public function configureActions(Actions $actions): Actions
+    {
+        $publicLink = Action::new('Page public')->linkToUrl(
+            function (Competition $competition): string {
+                return $this->urlGenerator->generate(
+                    CompetitionController::ROUTE_LANDING_RESULTS_COMPETITION,
+                    ['slug' => $competition->getSlug()],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                );
+            }
+        );
+
+        return $actions
+            ->add(Crud::PAGE_INDEX, $publicLink);
+    }
+
     public function configureFields(string $pageName): iterable
     {
         $id = IdField::new('id');
@@ -78,7 +97,12 @@ class CompetitionCrudController extends AbstractCrudController
             ->setLabel('Date de création');
 
         $results = CollectionField::new('results')
-            ->setEntryType(ResultCompetitionFormType::class);
+            ->setEntryType(ResultCompetitionForm::class)
+            ->setLabel('Résultat individuel');
+
+        $resultsTeams = CollectionField::new('resultsTeams')
+            ->setEntryType(ResultTeamForm::class)
+            ->setLabel('Résultat d\'équipe');
 
         $autoCreateActuality = BooleanField::new('autoCreateActuality')
             ->setLabel('Créer automatiquement l\'article ?')
@@ -102,6 +126,7 @@ class CompetitionCrudController extends AbstractCrudController
 
         if (Crud::PAGE_NEW === $pageName || Crud::PAGE_EDIT === $pageName) {
             yield $results;
+            yield $resultsTeams;
         }
 
         if (Crud::PAGE_NEW === $pageName) {
