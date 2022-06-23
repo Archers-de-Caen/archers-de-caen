@@ -24,13 +24,10 @@ autorisé !
 
 ## Stack technique
 
-Je vais parler à titre personnel, le site aurait pu être fait sur un Wordpress,
-ce qui aurait surement permit de gagner du temps de développement,
-mais ce n'est pas une techno qui m'attire, de plus ayant encore beaucoup de chose
-à apprendre, ce site va me permettre de tenter des choses différentes, j'ai donc fait
-le choix de Symfony de plus si vous avez l'habitude de la structure de symfony
-vous pouvez vous rendre compte que le projet ne la suit pas, cf. `docs/structure.md`
-pour plus de détails.
+Symfony avec une structure réadaptée, cf. `docs/structure.md`pour plus de détails.
+Twig pour le front
+EasyAdmin pour le back-office
+MariaDB pour la base de donnée
 
 ## Get started
 
@@ -42,8 +39,9 @@ pour plus de détails.
 
 ### Lancer le projet
 
-- copy .env to .env.sample and edit him
+- Copier `.env` vers `.env.local` et éditer avec les bonnes valeurs
 - `php -S localhost:80 -t public`
+- `yarn dev-server`
 
 ## Contributeur
 
