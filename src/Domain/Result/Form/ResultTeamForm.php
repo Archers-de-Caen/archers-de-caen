@@ -39,10 +39,10 @@ class ResultTeamForm extends ResultType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'prototype' => true,
-                'prototype_name'=> '__duels__',
+                'prototype_name' => '__duels__',
                 'constraints' => [
                     new Valid(),
-                ]
+                ],
             ])
             ->add('finalRankings', CollectionType::class, [
                 'label' => 'Classement final',
@@ -50,10 +50,10 @@ class ResultTeamForm extends ResultType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'prototype' => true,
-                'prototype_name'=> '__finalRankings__',
+                'prototype_name' => '__finalRankings__',
                 'constraints' => [
                     new Valid(),
-                ]
+                ],
             ])
         ;
     }
@@ -61,7 +61,7 @@ class ResultTeamForm extends ResultType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => ResultTeam::class
+            'data_class' => ResultTeam::class,
         ]);
     }
 }

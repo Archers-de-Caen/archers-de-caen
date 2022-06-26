@@ -75,7 +75,7 @@ final class CreateArcher extends Command
 
         foreach ($properties as $property => $details) {
             do {
-                /** @var string $value */
+                /* @var string $value */
                 if ($details['hidden'] ?? false) {
                     $value = $io->askHidden($details['sentence']);
                 } elseif (!empty($details['choices'])) {

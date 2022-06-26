@@ -121,11 +121,11 @@ final class CompetitionController extends AbstractController
                         }
 
                         if ($result->getRecord()) {
-                            $recordCount++;
+                            ++$recordCount;
                         }
 
                         if ($result->getRank() <= 3) {
-                            $podiumCount++;
+                            ++$podiumCount;
                         }
 
                         $results[$WeaponToString][$categoryToString][] = $result;

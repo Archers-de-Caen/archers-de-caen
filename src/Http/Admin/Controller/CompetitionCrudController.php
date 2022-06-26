@@ -13,7 +13,6 @@ use App\Domain\Result\Form\ResultTeamForm;
 use App\Domain\Result\Manager\ResultCompetitionManager;
 use App\Domain\Result\Model\ResultCompetition;
 use App\Http\Landing\Controller\CompetitionController;
-use App\Http\Landing\Controller\DefaultController;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;

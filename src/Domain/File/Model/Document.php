@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\File\Model;
 
-use App\Domain\Archer\Config\Category;
 use App\Domain\File\Config\DocumentType;
 use App\Domain\File\Repository\DocumentRepository;
 use App\Infrastructure\Model\IdTrait;
