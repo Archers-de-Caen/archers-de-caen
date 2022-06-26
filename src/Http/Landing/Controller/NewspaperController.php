@@ -14,7 +14,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class NewspaperController extends AbstractController
 {
     public const ROUTE_LANDING_NEWSPAPERS = 'route_landing_newspapers';
-    public const ROUTE_LANDING_NEWSPAPER = 'route_landing_newspaper';
 
     #[Route('/gazettes', name: self::ROUTE_LANDING_NEWSPAPERS)]
     public function newspapers(DocumentRepository $documentRepository): Response
@@ -25,14 +24,6 @@ class NewspaperController extends AbstractController
             ], [
                 'createdAt' => 'DESC',
             ]),
-        ]);
-    }
-
-    #[Route('/gazette/{documentName}', name: self::ROUTE_LANDING_NEWSPAPER)]
-    public function newspaper(Document $document): Response
-    {
-        return $this->render('/landing/newspapers/newspapers.html.twig', [
-            'document' => $document,
         ]);
     }
 }
