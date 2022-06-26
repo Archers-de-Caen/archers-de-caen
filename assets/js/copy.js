@@ -5,12 +5,21 @@ document.querySelectorAll('.copy-btn').forEach(function (btn) {
         e.preventDefault()
 
         copyToClipboard(target.getAttribute('data-copy') ? target.getAttribute('data-copy') : target.getAttribute('href')).then(function () {
-            const innerHtml = target.innerHTML
-            target.innerHTML = '<span>✔</span>'
+            let validateCopy
 
-            setTimeout(function () {
-                target.innerHTML = innerHtml
-            }, 2000)
+            if (target.getAttribute('data-hover')) {
+                const dataHover = target.getAttribute('data-hover')
+                target.setAttribute('data-hover', '✔')
+
+                validateCopy = () => target.setAttribute('data-hover', dataHover)
+            } else {
+                const innerHtml = target.innerHTML
+                target.innerHTML = '<span>✔</span>'
+
+                validateCopy = () => target.innerHTML = innerHtml
+            }
+
+            setTimeout(validateCopy, 2000)
         })
     })
 })
