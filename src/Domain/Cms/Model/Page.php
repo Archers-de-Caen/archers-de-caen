@@ -8,6 +8,7 @@ use App\Domain\Archer\Model\Archer;
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Repository\PageRepository;
+use App\Domain\File\Model\Photo;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
 use Doctrine\DBAL\Types\Types;

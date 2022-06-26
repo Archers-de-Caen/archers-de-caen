@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Cms\Model;
+namespace App\Domain\File\Model;
 
-use App\Domain\Cms\Repository\PhotoRepository;
+use App\Domain\Cms\Model\Gallery;
+use App\Domain\File\Repository\PhotoRepository;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
 use App\Infrastructure\Model\TokenTrait;

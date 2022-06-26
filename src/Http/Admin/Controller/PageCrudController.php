@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Admin\Controller;
 
 use App\Domain\Cms\Admin\Field\CKEditorField;
-use App\Domain\Cms\Admin\Field\PhotoField;
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Config\Status;
-use App\Domain\Cms\Form\Photo\PhotoFormType;
 use App\Domain\Cms\Model\Page;
+use App\Domain\File\Admin\Field\PhotoField;
+use App\Domain\File\Form\PhotoFormType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;

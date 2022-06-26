@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Domain\Badge\Model;
 
 use App\Domain\Badge\Repository\BadgeRepository;
-use App\Domain\Cms\Model\Photo;
 use App\Domain\Competition\Config\Type;
+use App\Domain\File\Model\Photo;
 use App\Domain\Result\Model\ResultBadge;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;

@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Cms\Model;
+namespace App\Domain\File\Model;
 
-use App\Domain\Cms\Repository\DocumentRepository;
+use App\Domain\Archer\Config\Category;
+use App\Domain\File\Config\DocumentType;
+use App\Domain\File\Repository\DocumentRepository;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
 use App\Infrastructure\Model\TokenTrait;
@@ -26,7 +28,12 @@ class Document implements UploadableInterface
     use IdTrait;
     use TimestampTrait;
     use TokenTrait;
+
     public const PREFIX_TOKEN = 'doc';
+
+    #[ORM\Column(type: Types::STRING)]
+    #[Groups(['Document'])]
+    private ?string $displayText = null;
 
     /**
      * @Vich\UploadableField(
@@ -65,9 +72,23 @@ class Document implements UploadableInterface
     #[Groups(['Document'])]
     private ?string $documentOriginalName = null;
 
+    #[ORM\Column(type: Types::STRING, enumType: DocumentType::class)]
+    #[Groups(['Document'])]
+    private DocumentType $type = DocumentType::OTHER;
+
     public function __toString(): string
     {
         return $this->documentName ?? '';
+    }
+
+    public function getDisplayText(): ?string
+    {
+        return $this->displayText;
+    }
+
+    public function setDisplayText(?string $displayText): void
+    {
+        $this->displayText = $displayText;
     }
 
     /**
@@ -133,5 +154,15 @@ class Document implements UploadableInterface
     public function setDocumentOriginalName(?string $documentOriginalName): void
     {
         $this->documentOriginalName = $documentOriginalName;
+    }
+
+    public function getType(): DocumentType
+    {
+        return $this->type;
+    }
+
+    public function setType(DocumentType $type): void
+    {
+        $this->type = $type;
     }
 }

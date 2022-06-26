@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Admin\Controller;
 
 use App\Domain\Cms\Admin\Field\GalleryField;
-use App\Domain\Cms\Admin\Field\PhotoField;
 use App\Domain\Cms\Model\Gallery;
+use App\Domain\File\Admin\Field\PhotoField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;

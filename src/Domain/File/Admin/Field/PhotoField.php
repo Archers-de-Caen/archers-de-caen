@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Cms\Admin\Field;
+namespace App\Domain\File\Admin\Field;
 
-use App\Domain\Cms\Form\Photo\PhotoFormType;
+use App\Domain\File\Form\PhotoFormType;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 

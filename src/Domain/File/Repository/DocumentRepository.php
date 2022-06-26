@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Cms\Repository;
+namespace App\Domain\File\Repository;
 
-use App\Domain\Cms\Model\Document;
+use App\Domain\File\Model\Document;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

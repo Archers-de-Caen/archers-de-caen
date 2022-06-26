@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Cms\Form\Photo;
+namespace App\Domain\File\Form;
 
-use App\Domain\Cms\Model\Photo;
+use App\Domain\File\Model\Photo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

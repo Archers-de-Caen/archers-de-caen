@@ -42,6 +42,7 @@
         "@ckeditor/ckeditor5-theme-lark": "^32.0.0",
         "@ckeditor/ckeditor5-undo": "^32.0.0",
         "@ckeditor/ckeditor5-upload": "^32.0.0",
+        "@fortawesome/fontawesome-free": "^6.1.1",
         "css-loader": "^6.6.0",
         "feather-icons": "^4.29.0",
         "postcss": "^7.0.0",

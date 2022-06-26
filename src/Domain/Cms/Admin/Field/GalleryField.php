@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Cms\Admin\Field;
 
-use App\Domain\Cms\Form\Photo\GalleryType;
+use App\Domain\Cms\Form\GalleryType;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 

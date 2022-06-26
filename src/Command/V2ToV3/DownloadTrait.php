@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Command\V2ToV3;
 
-use App\Domain\Cms\Model\Document;
-use App\Domain\Cms\Model\Photo;
-use App\Domain\Cms\Model\UploadableInterface;
+use App\Domain\File\Model\Document;
+use App\Domain\File\Model\Photo;
+use App\Domain\File\Model\UploadableInterface;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 

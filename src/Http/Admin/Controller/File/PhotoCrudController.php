@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Admin\Controller;
+namespace App\Http\Admin\Controller\File;
 
-use App\Domain\Cms\Model\Photo;
+use App\Domain\File\Model\Photo;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
@@ -58,10 +58,12 @@ class PhotoCrudController extends AbstractCrudController
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $title, $upload, $createdAt];
-        } elseif (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $title, $image, $createdAt];
-        } else {
-            return [$upload];
         }
+
+        if (Crud::PAGE_DETAIL === $pageName) {
+            return [$id, $title, $image, $createdAt];
+        }
+
+        return [$upload];
     }
 }

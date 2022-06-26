@@ -6,9 +6,9 @@ namespace App\Http\Admin\Controller\Badge;
 
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Badge\Model\Badge;
-use App\Domain\Cms\Admin\Field\PhotoField;
-use App\Domain\Cms\Form\Photo\PhotoFormType;
 use App\Domain\Competition\Config\Type;
+use App\Domain\File\Admin\Field\PhotoField;
+use App\Domain\File\Form\PhotoFormType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;

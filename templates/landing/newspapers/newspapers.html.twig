@@ -1,0 +1,40 @@
+{% extends '/landing/base.html.twig' %}
+
+{% block title %}La gazette{% endblock %}
+
+{% block body %}
+    <main class="page-container">
+        <section class="title">
+            <h1>{{ block('title') }}</h1>
+        </section>
+
+        <p>
+            Le club des Archers de Caen proposent depuis 2006 une gazette mensuelle nommée Cœur de Cible retraçant les différents résultats,
+            activités et faits marquants du club. Vous pouvez retrouver sur cette page les différents numéros déjà parus.
+        </p>
+
+        <p class="mt-2">
+            Un grand merci aux rédacteurs de cette gazette :
+        </p>
+
+        <ul class="mt-2">
+            <li><b>Jean-Pierre MARC</b> du n° 1 au n° 54</li>
+            <li><b>William CARVILLE</b> du n° 55 au n° 75</li>
+            <li><b>Paul LANGLOIS</b> du n° 76 au 105</li>
+            <li><b>Valérie MAISERET</b> depuis le n°107</li>
+        </ul>
+
+        <div class="files mt-2">
+            {% for newspaper in newspapers %}
+                <a class="file" href="{{ vich_uploader_asset(newspaper) }}" target="_blank">
+                    <span>
+                        <i class="fa-solid fa-file-pdf"></i>
+                        {{ newspaper.displayText }}
+                    </span>
+                    <i class="fa-solid fa-eye"></i>
+                </a>
+            {% endfor %}
+        </div>
+    </main>
+
+{% endblock %}

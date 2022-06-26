@@ -9,7 +9,7 @@ use App\Domain\Archer\Model\Archer;
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Model\Page;
-use App\Domain\Cms\Model\Photo;
+use App\Domain\File\Model\Photo;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMapping;

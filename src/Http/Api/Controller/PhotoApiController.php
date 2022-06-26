@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Api\Controller;
 
 use App\Domain\Archer\Model\Archer;
-use App\Domain\Cms\Form\Photo\PhotoFormType;
-use App\Domain\Cms\Model\Photo;
+use App\Domain\File\Form\PhotoFormType;
+use App\Domain\File\Model\Photo;
 use App\Helper\FormHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

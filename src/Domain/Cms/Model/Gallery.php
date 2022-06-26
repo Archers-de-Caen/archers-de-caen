@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Cms\Model;
 
 use App\Domain\Cms\Repository\GalleryRepository;
+use App\Domain\File\Model\Photo;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
 use Doctrine\Common\Collections\ArrayCollection;

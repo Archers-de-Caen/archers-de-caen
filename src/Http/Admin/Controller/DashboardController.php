@@ -10,12 +10,15 @@ use App\Domain\Badge\Model\Badge;
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Model\Gallery;
 use App\Domain\Cms\Model\Page;
-use App\Domain\Cms\Model\Photo;
 use App\Domain\Competition\Model\Competition;
 use App\Domain\Competition\Model\CompetitionRegister;
+use App\Domain\File\Model\Document;
+use App\Domain\File\Model\Photo;
 use App\Domain\Result\Model\ResultBadge;
 use App\Http\Admin\Controller\Badge\ResultBadgeFederalHonorCrudController;
 use App\Http\Admin\Controller\Badge\ResultBadgeProgressArrowCrudController;
+use App\Http\Admin\Controller\File\DocumentCrudController;
+use App\Http\Admin\Controller\File\NewspaperCrudController;
 use App\Http\Landing\Controller\DefaultController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -64,6 +67,10 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section();
         yield MenuItem::linkToCrud('Galerie', 'fas fa-images', Gallery::class);
         yield MenuItem::linkToCrud('Photo', 'fas fa-image', Photo::class);
+        yield MenuItem::linkToCrud('Document', 'fas fa-file', Document::class)
+            ->setController(DocumentCrudController::class);
+        yield MenuItem::linkToCrud('Gazette', 'fas fa-newspaper', Document::class)
+            ->setController(NewspaperCrudController::class);
 
         yield MenuItem::section();
         yield MenuItem::linkToCrud('Page', 'fas fa-pager', Page::class)
