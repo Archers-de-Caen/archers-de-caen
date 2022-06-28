@@ -21,7 +21,8 @@
       .header-image {
         img {
           max-height: 80px;
-          min-height: 80px;
+          min-height: 20px;
+          height: 80px;
           transition: height .5s ease;
         }
       }
