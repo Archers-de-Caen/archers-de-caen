@@ -42,14 +42,14 @@ abstract class Result
     private ?int $rank = null;
 
     // Categories de l'archer
-    #[ORM\Column(type: Types::STRING, nullable: true, enumType: Category::class)]
+    #[ORM\Column(type: Types::STRING, length: 191, nullable: true, enumType: Category::class)]
     private ?Category $category = null;
 
     // Est-ce un record personnel de l'archer, ce n'est pas forcément son dernier record
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $record = false;
 
-    #[ORM\Column(type: Types::STRING, enumType: Weapon::class)]
+    #[ORM\Column(type: Types::STRING, length: 191, enumType: Weapon::class)]
     #[Assert\NotNull]
     #[Assert\NotBlank]
     private ?Weapon $weapon = null;

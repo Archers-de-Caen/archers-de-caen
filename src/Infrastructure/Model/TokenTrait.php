@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 trait TokenTrait
 {
-    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING, length: 191)]
     #[Groups(['Token'])]
     private ?string $token;
 

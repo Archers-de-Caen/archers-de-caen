@@ -34,7 +34,7 @@ class Competition
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $oldId = null;
 
-    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING, length: 191)]
     private ?string $location = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
@@ -47,7 +47,7 @@ class Competition
     #[Assert\NotNull]
     private ?Type $type = null;
 
-    #[ORM\Column(type: Types::STRING, unique: true, nullable: false)]
+    #[ORM\Column(type: Types::STRING, length: 191, unique: true, nullable: false)]
     #[Slug(fields: ['location'])]
     private ?string $slug = null;
 

@@ -21,19 +21,19 @@ class Badge
     use IdTrait;
     use TimestampTrait;
 
-    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING, length: 191)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::STRING, unique: true, nullable: false)]
+    #[ORM\Column(type: Types::STRING, length: 191, unique: true, nullable: false)]
     private ?string $code = null;
 
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $official = false;
 
-    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING, length: 191)]
     private ?string $type = null;
 
-    #[ORM\Column(type: Types::STRING, nullable: true, enumType: Type::class)]
+    #[ORM\Column(type: Types::STRING, length: 191, nullable: true, enumType: Type::class)]
     private ?Type $competitionType = null;
 
     #[ORM\Column(type: Types::INTEGER)]

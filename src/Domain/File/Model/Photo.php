@@ -54,7 +54,7 @@ class Photo implements UploadableInterface
     #[Image(maxSize: 2000000, maxSizeMessage: 'Image trop lourde')]
     private ?File $imageFile = null;
 
-    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING, length: 191)]
     #[Groups(['Photo'])]
     private ?string $imageName = null;
 
@@ -62,11 +62,11 @@ class Photo implements UploadableInterface
     #[Groups(['Photo'])]
     private ?int $imageSize = null;
 
-    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING, length: 191)]
     #[Groups(['Photo'])]
     private ?string $imageMimeType = null;
 
-    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING, length: 191)]
     #[Groups(['Photo'])]
     private ?string $imageOriginalName = null;
 

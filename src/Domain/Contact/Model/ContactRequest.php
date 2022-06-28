@@ -35,7 +35,7 @@ class ContactRequest
     #[Assert\Email()]
     private string $email;
 
-    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING, length: 191)]
     #[Assert\NotBlank()]
     #[Assert\Length(min: 10)]
     private string $content;

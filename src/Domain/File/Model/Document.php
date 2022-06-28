@@ -30,7 +30,7 @@ class Document implements UploadableInterface
 
     public const PREFIX_TOKEN = 'doc';
 
-    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING, length: 191)]
     #[Groups(['Document'])]
     private ?string $displayText = null;
 
@@ -55,7 +55,7 @@ class Document implements UploadableInterface
     #[Assert\File(maxSize: 2000000, maxSizeMessage: 'Document trop lourde')]
     private ?File $documentFile = null;
 
-    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING, length: 191)]
     #[Groups(['Document'])]
     private ?string $documentName = null;
 
@@ -63,11 +63,11 @@ class Document implements UploadableInterface
     #[Groups(['Document'])]
     private ?int $documentSize = null;
 
-    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING, length: 191)]
     #[Groups(['Document'])]
     private ?string $documentMimeType = null;
 
-    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING, length: 191)]
     #[Groups(['Document'])]
     private ?string $documentOriginalName = null;
 
