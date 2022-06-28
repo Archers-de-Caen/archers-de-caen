@@ -77,7 +77,7 @@ final class V2ToV3BadgeCommand extends Command
                         $result = (new ResultBadge());
                         $result->setArcher($archer);
                         $result->setRecord(false);
-                        $result->setScore($recordResult['score']);
+                        $result->setScore((int) $recordResult['score']);
                         $result->setWeapon(
                             Weapon::createFromString(substr($recordResult['category'], strlen($recordResult['category']) - 2, 2))
                         );
