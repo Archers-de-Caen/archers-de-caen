@@ -23,12 +23,12 @@ class Page
     use IdTrait;
     use TimestampTrait;
 
-    #[ORM\Column(type: Types::STRING, length: 255)]
-    #[Assert\Length(max: 255)]
+    #[ORM\Column(type: Types::STRING, length: 191)]
+    #[Assert\Length(max: 191)]
     #[Assert\NotBlank]
     private ?string $title = null;
 
-    #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
+    #[ORM\Column(type: Types::STRING, length: 191, unique: true)]
     #[Slug(fields: ['title'], unique: true)]
     private ?string $slug = null;
 
@@ -36,11 +36,11 @@ class Page
     #[Assert\NotBlank]
     private ?string $content = null;
 
-    #[ORM\Column(type: Types::STRING, length: 255, enumType: Category::class)]
+    #[ORM\Column(type: Types::STRING, length: 191, enumType: Category::class)]
     #[Assert\NotNull]
     private ?Category $category = Category::PAGE;
 
-    #[ORM\Column(type: Types::STRING, length: 255, enumType: Status::class)]
+    #[ORM\Column(type: Types::STRING, length: 191, enumType: Status::class)]
     #[Assert\NotNull]
     private ?Status $status = Status::DRAFT;
 

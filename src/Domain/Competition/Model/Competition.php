@@ -43,7 +43,7 @@ class Competition
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?DateTimeImmutable $dateEnd = null;
 
-    #[ORM\Column(type: Types::STRING, length: 255, enumType: Type::class)]
+    #[ORM\Column(type: Types::STRING, length: 191, enumType: Type::class)]
     #[Assert\NotNull]
     private ?Type $type = null;
 

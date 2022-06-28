@@ -22,15 +22,15 @@ class ContactRequest
     use IdTrait;
     use TimestampTrait;
 
-    #[ORM\Column(type: Types::STRING, length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 191)]
     private string $ip = '';
 
-    #[ORM\Column(type: Types::STRING, length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 191)]
     #[Assert\NotBlank()]
-    #[Assert\Length(min: 3, max: 255)]
+    #[Assert\Length(min: 3, max: 191)]
     private string $name;
 
-    #[ORM\Column(type: Types::STRING, length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 191)]
     #[Assert\NotBlank()]
     #[Assert\Email()]
     private string $email;
@@ -40,7 +40,7 @@ class ContactRequest
     #[Assert\Length(min: 10)]
     private string $content;
 
-    #[ORM\Column(type: Types::STRING, length: 255, enumType: Subject::class)]
+    #[ORM\Column(type: Types::STRING, length: 191, enumType: Subject::class)]
     #[Assert\NotBlank()]
     private Subject $subject;
 

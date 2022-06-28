@@ -25,10 +25,10 @@ class License
     #[ORM\OneToMany(mappedBy: 'license', targetEntity: ArcherLicense::class, orphanRemoval: true)]
     private Collection $archerLicenses;
 
-    #[ORM\Column(type: Types::STRING, length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 191)]
     #[Assert\NotNull]
     #[Assert\NotBlank]
-    #[Assert\Length(max: 255)]
+    #[Assert\Length(max: 191)]
     private ?string $title = null;
 
     /**
@@ -40,7 +40,7 @@ class License
     #[Assert\PositiveOrZero]
     private ?int $price = null;
 
-    #[ORM\Column(type: Types::STRING, length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 191)]
     #[Assert\NotNull]
     #[Assert\NotBlank]
     private ?string $type = null;

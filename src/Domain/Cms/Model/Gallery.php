@@ -20,10 +20,10 @@ class Gallery
     use IdTrait;
     use TimestampTrait;
 
-    #[ORM\Column(type: Types::STRING, length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 191)]
     private ?string $title;
 
-    #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
+    #[ORM\Column(type: Types::STRING, length: 191, unique: true)]
     #[Slug(fields: ['title'], unique: true)]
     private ?string $slug = null;
 

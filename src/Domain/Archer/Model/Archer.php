@@ -43,20 +43,20 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         self::ROLE_DEVELOPER,
     ];
 
-    #[ORM\Column(type: Types::STRING, length: 255)]
-    #[Assert\Length(max: 255)]
+    #[ORM\Column(type: Types::STRING, length: 191)]
+    #[Assert\Length(max: 191)]
     #[Assert\NotBlank]
     #[Assert\NotNull]
     private ?string $firstName = null;
 
-    #[ORM\Column(type: Types::STRING, length: 255)]
-    #[Assert\Length(max: 255)]
+    #[ORM\Column(type: Types::STRING, length: 191)]
+    #[Assert\Length(max: 191)]
     #[Assert\NotBlank]
     #[Assert\NotNull]
     private ?string $lastName = null;
 
-    #[ORM\Column(type: Types::STRING, length: 255, unique: true, nullable: true)]
-    #[Assert\Length(max: 255)]
+    #[ORM\Column(type: Types::STRING, length: 191, unique: true, nullable: true)]
+    #[Assert\Length(max: 191)]
     #[Assert\Email]
     private ?string $email = null;
 
@@ -64,8 +64,8 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     #[Assert\Length(max: 12)]
     private ?string $phone = null;
 
-    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    #[Assert\Length(max: 255)]
+    #[ORM\Column(type: Types::STRING, length: 191, nullable: true)]
+    #[Assert\Length(max: 191)]
     private ?string $password = null;
 
     #[Assert\Length(max: 255)]
