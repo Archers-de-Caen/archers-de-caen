@@ -1,0 +1,174 @@
+{% extends "landing/base.html.twig" %}
+
+{% block title %}Créneaux d’entraînement{% endblock %}
+
+{% block body %}
+    <div class="page-container">
+        <div class="page-title-container">
+            <div class="page-title">
+                <h1 class="title">
+                    {{ block('title') }}
+                </h1>
+            </div>
+        </div>
+
+        <div class="page-content mt-3">
+
+            <h2>En salle, de septembre à juin</h2>
+
+            <div class="wrapper-planning">
+                <div class="planning">
+                    <div class="planning__row planning__row--hours">
+                        <div class="planning__row-first"></div>
+                        <span>17h</span>
+                        <span>18h</span>
+                        <span>19h</span>
+                        <span>20h</span>
+                        <span>21h</span>
+                        <span>22h</span>
+                    </div>
+                    <div class="planning__row planning__row--lines" data-month="5">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                    <div class="planning__row">
+                        <div class="planning__row-first">
+                            Lundi
+                        </div>
+                        <ul class="planning__row-bars">
+                            <li style="grid-column: 5/12" class="bg-yellow text-grey">
+                                <b>18h00 - 19h45</b>
+                                <br>
+                                <span>Entraînement 2<sup>e</sup> et 3<sup>e</sup> années jeunes et adultes + compétition</span>
+                            </li>
+                            <li style="grid-column: 13/23" class="bg-blue">
+                                <b>20h00 - 21h30</b>
+                                <br>
+                                <span>Entraînement 1<sup>er</sup> années adultes</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="planning__row">
+                        <div class="planning__row-first">
+                            Mardi
+                        </div>
+                        <ul class="planning__row-bars">
+                            <li style="grid-column: 5/11" class="bg-blue">
+                                <b>18h00 - 19h30</b>
+                                <br>
+                                <span>Entraînement 1<sup>er</sup> années jeunes</span>
+                            </li>
+                            <li style="grid-column: 12/21" class="text-grey bg-yellow">
+                                <b>19h45 - 21h00</b>
+                                <br>
+                                <span>Entraînement compétition</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="planning__row">
+                        <div class="planning__row-first">
+                            Mercredi
+                        </div>
+                        <ul class="planning__row-bars">
+                            <li style="grid-column: 2/21" class="bg-red">
+                                <b>17h30 - 21h00</b>
+                                <br>
+                                <span>Entraînement libre</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="planning__row">
+                        <div class="planning__row-first">
+                            Jeudi
+                        </div>
+                        <ul class="planning__row-bars">
+                            <li style="grid-column: 3/21" class="bg-red">
+                                <b>17h45 - 21h00</b>
+                                <br>
+                                <span>Entraînement libre</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="planning__row">
+                        <div class="planning__row-first">
+                            Vendredi
+                        </div>
+                        <ul class="planning__row-bars">
+                            <li style="grid-column: 2/11" class="bg-red">
+                                <b>17h30 - 19h30</b>
+                                <br>
+                                <span>Entraînement libre</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="planning__row planning__row--hours">
+                        <div class="planning__row-first"></div>
+                        <span>10h</span>
+                        <span>11h</span>
+                        <span>12h</span>
+                        <span>13h</span>
+                        <span>14h</span>
+                        <span>15h</span>
+                    </div>
+
+                    <div class="planning__row">
+                        <div class="planning__row-first">
+                            Samedi
+                        </div>
+                        <ul class="planning__row-bars">
+                            <li style="grid-column: 1/9" class="bg-red">
+                                <b>10h00 - 12h00</b>
+                                <br>
+                                <span>Entraînement libre</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <ul class="mt-3">
+                <li class="mb-1">
+                    Les créneaux dits <span class="bg-blue text-white rounded p-1">« Entraînement 1<sup>er</sup> années »</span> offrent un suivi particulier en présence d’un Entraîneur diplômé.
+                    Ils sont réservés aux archers faisant partie de cette catégorie.
+                </li>
+                <li>
+                    Les créneaux dits <span class="bg-yellow rounded p-1">« Entraînement 2<sup>e</sup> et 3<sup>e</sup> années »</span>
+                    offrent un suivi particulier en présence d’un Entraîneur diplômé.
+                    Une partie de la salle est réservée aux archers faisant partie de cette catégorie, ce qui permet de cohabiter avec d’autres créneaux.
+                    Les archers de cette catégorie peuvent également, une fois équipés de leur propre matériel, participer à d’autres créneaux librement.
+                </li>
+                <li class="mb-1">
+                    Les créneaux dits <span class="bg-yellow rounded p-1">« Compétition »</span> accordent la priorité sur la disposition de la salle et l’organisation
+                    du temps de tir aux archers préparant une compétition, sous la supervision d’un Entraîneur diplômé.
+                    Les autres archers peuvent également s’entraîner pendant ce créneau, mais devront suivre l’organisation mise en place.
+                </li>
+                <li class="mb-1">
+                    Les créneaux dits <span class="bg-red text-white rounded p-1">« Libres »</span> permettent de suivre une organisation de salle et de temps aux choix des archers présents.
+                    Il n’y a pas d’entraîneur attitré à ces créneaux.
+                </li>
+            </ul>
+
+            <h2>En extérieur, de mars à septembre</h2>
+
+            <p>
+                Tous les jours, de 7 h à 22 h, en autonomie. L’accès au terrain extérieur se fait à l’aide d’une clé,
+                confiée par le président du club contre une caution de 15€. Le niveau « flèche bleue » est également demandé,
+                afin de s’assurer de l’autonomie de l’archer. Si vous n’avez pas ce niveau, il est toutefois possible
+                de venir accompagné d’un archer détenant une clé.
+            </p>
+        </div>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,11 @@
+@for $i from 0 through 15 {
+  $multiplier: 5px;
+  $props: p;
+  .#{$props}t-#{$i} { padding-top: $multiplier*$i!important; }
+  .#{$props}b-#{$i} { padding-bottom: $multiplier*$i!important; }
+  .#{$props}l-#{$i} { padding-left: $multiplier*$i!important; }
+  .#{$props}r-#{$i} { padding-right: $multiplier*$i!important; }
+  .#{$props}x-#{$i} { padding-right: $multiplier*$i!important;; padding-left: $multiplier*$i!important; }
+  .#{$props}y-#{$i} { padding-top: $multiplier*$i!important;; padding-bottom: $multiplier*$i!important; }
+  .#{$props}-#{$i} { padding: $multiplier*$i!important; }
+}

@@ -2,26 +2,26 @@
 
 .bg {
   &-primary, &-yellow {
-    background-color: $color-yellow;
+    background-color: $color-yellow !important;
   }
 
   &-secondary, &-grey {
-    background-color: $color-grey;
+    background-color: $color-grey !important;
   }
 
   &-red {
-    background-color: $color-red;
+    background-color: $color-red !important;
   }
 
   &-blue {
-    background-color: $color-blue;
+    background-color: $color-blue !important;
   }
 
   &-black {
-    background-color: $color-black;
+    background-color: $color-black !important;
   }
 
   &-white {
-    background-color: $color-white;
+    background-color: $color-white !important;
   }
 }
