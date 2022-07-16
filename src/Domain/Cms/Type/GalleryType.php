@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Cms\Form;
+namespace App\Domain\Cms\Type;
 
 use App\Domain\File\Model\Photo;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

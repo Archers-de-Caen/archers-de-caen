@@ -44,7 +44,7 @@ class Page
     #[Assert\NotNull]
     private ?Status $status = Status::DRAFT;
 
-    #[ORM\ManyToOne(targetEntity: Archer::class, inversedBy: 'pages')]
+    #[ORM\ManyToOne(targetEntity: Archer::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?Archer $createdBy = null;
 

@@ -6,16 +6,13 @@ namespace App\Domain\Result\Form;
 
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Result\Model\ResultTeam;
-use App\Domain\Result\Type\ResultTeamDuelType;
-use App\Domain\Result\Type\ResultTeamFinalRankType;
-use App\Domain\Result\Type\ResultType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Valid;
 
-class ResultTeamForm extends ResultType
+class ResultTeamForm extends ResultForm
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -35,7 +32,7 @@ class ResultTeamForm extends ResultType
             ])
             ->add('duels', CollectionType::class, [
                 'label' => 'Duels',
-                'entry_type' => ResultTeamDuelType::class,
+                'entry_type' => ResultTeamDuelForm::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'prototype' => true,
@@ -46,7 +43,7 @@ class ResultTeamForm extends ResultType
             ])
             ->add('finalRankings', CollectionType::class, [
                 'label' => 'Classement final',
-                'entry_type' => ResultTeamFinalRankType::class,
+                'entry_type' => ResultTeamFinalRankForm::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'prototype' => true,

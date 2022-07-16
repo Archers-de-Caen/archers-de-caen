@@ -1,0 +1,94 @@
+@import "../../styles/variable";
+
+.carousels-container {
+  position: relative;
+
+  .carousels {
+    display: flex;
+    justify-content: left;
+    gap: 10px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+
+    &::-webkit-scrollbar {
+      display: none;  /* Safari and Chrome */
+    }
+
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+
+    .element {
+      width: 250px;
+      scroll-snap-align: center;
+      flex-shrink: 0;
+
+      main {
+        img {
+          width: 250px;
+          min-width: 250px;
+          height: 250px;
+          object-fit: cover;
+          border-radius: $border-radius-normal;
+        }
+      }
+
+      footer {
+        p {
+          font-weight: bold;
+          font-size: x-large;
+        }
+
+        span {
+          font-weight: lighter;
+        }
+      }
+    }
+  }
+
+  .carousels-prev, .carousels-next {
+    width: 50px;
+    height: 50px;
+
+    border-radius: 100%;
+    box-shadow: $box-shadow;
+
+    background-color: $color-white;
+    color: $color-grey;
+
+    position: absolute;
+    top: 125px;
+    transform: translateY(-50%);
+
+    font-weight: bold;
+    font-size: xx-large;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+    -moz-user-select: none; /* Firefox */
+    -webkit-user-select: none; /* Chrome, Safari, Opéra depuis la version 15 */
+    -ms-user-select: none; /* Internet explorer depuis la version 10 et Edge */
+    user-select: none; /* Propriété standard */
+
+    img {
+      height: 50%;
+    }
+  }
+
+  .carousels-prev {
+    left: -25px;
+
+    img {
+      transform: rotate(90deg);
+    }
+  }
+
+  .carousels-next {
+    right: -25px;
+
+    img {
+      transform: rotate(-90deg);
+    }
+  }
+}

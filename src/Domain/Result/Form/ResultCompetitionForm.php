@@ -6,12 +6,11 @@ namespace App\Domain\Result\Form;
 
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Result\Model\ResultCompetition;
-use App\Domain\Result\Type\ResultType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ResultCompetitionForm extends ResultType
+class ResultCompetitionForm extends ResultForm
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

@@ -8,6 +8,7 @@ use App\Domain\Archer\Model\Archer;
 use App\Domain\Archer\Model\License;
 use App\Domain\Badge\Model\Badge;
 use App\Domain\Cms\Config\Category;
+use App\Domain\Cms\Model\Data;
 use App\Domain\Cms\Model\Gallery;
 use App\Domain\Cms\Model\Page;
 use App\Domain\Competition\Model\Competition;
@@ -77,6 +78,7 @@ class DashboardController extends AbstractDashboardController
                 ->setQueryParameter('filters', ['category' => ['value' => Category::PAGE->value, 'comparison' => '=']]);
         yield MenuItem::linkToCrud('Actualité', 'fas fa-newspaper', Page::class)
                 ->setQueryParameter('filters', ['category' => ['value' => Category::ACTUALITY->value, 'comparison' => '=']]);
+        yield MenuItem::linkToCrud('Data', 'fas fa-newspaper', Data::class);
 
         yield MenuItem::section();
         yield MenuItem::linkToRoute('Revenir au site', 'fas fa-left-long', DefaultController::ROUTE_LANDING_INDEX);

@@ -1,0 +1,23 @@
+<div class="carousels-container">
+    <div class="carousels-prev">
+        <img src="{{ asset('build/images/symbole/down-arrow-grey.svg') }}" alt="Fleche vers la droite">
+    </div>
+
+    <div class="carousels">
+        {% for element in range(0, 10) %}
+            <div class="element">
+                <main>
+                    <img src="https://source.unsplash.com/random/300×300?archer" alt="Photo de aléatoire d'unsplash">
+                </main>
+                <footer>
+                    <p class="text-">Lorem ipsum</p>
+                    <span>dolor sit amet, consectetur adipiscing elit.</span>
+                </footer>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="carousels-next">
+        <img src="{{ asset('build/images/symbole/down-arrow-grey.svg') }}" alt="Fleche vers la droite">
+    </div>
+</div>

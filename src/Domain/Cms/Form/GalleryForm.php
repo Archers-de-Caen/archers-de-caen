@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace App\Domain\Cms\Form;
 
 use App\Domain\Cms\Model\Gallery;
+use App\Domain\Cms\Type\GalleryType;
 use App\Domain\File\Model\Photo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
-class GalleryFormType extends AbstractType
+class GalleryForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

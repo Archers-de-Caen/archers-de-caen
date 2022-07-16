@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Domain\Archer\Model;
 
 use App\Domain\Archer\Repository\ArcherRepository;
-use App\Domain\Cms\Model\Page;
 use App\Domain\Result\Model\Result;
 use App\Domain\Result\Model\ResultBadge;
 use App\Domain\Result\Model\ResultCompetition;
@@ -80,12 +79,6 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
      */
     #[ORM\OneToMany(mappedBy: 'archer', targetEntity: ArcherLicense::class, cascade: ['ALL'], orphanRemoval: true)]
     private Collection $archerLicenses;
-
-    /**
-     * @var Collection<int, Page>
-     */
-    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Page::class)]
-    private Collection $pages;
 
     #[ORM\Column(type: Types::STRING, length: 7, unique: true)]
     #[Assert\NotBlank]
@@ -297,36 +290,6 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
             // set the owning side to null (unless already changed)
             if ($archerLicense->getArcher() === $this) {
                 $archerLicense->setArcher(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Page>
-     */
-    public function getPages(): Collection
-    {
-        return $this->pages;
-    }
-
-    public function addPage(Page $page): self
-    {
-        if (!$this->pages->contains($page)) {
-            $this->pages[] = $page;
-            $page->setCreatedBy($this);
-        }
-
-        return $this;
-    }
-
-    public function removePage(Page $page): self
-    {
-        if ($this->pages->removeElement($page)) {
-            // set the owning side to null (unless already changed)
-            if ($page->getCreatedBy() === $this) {
-                $page->setCreatedBy(null);
             }
         }
 

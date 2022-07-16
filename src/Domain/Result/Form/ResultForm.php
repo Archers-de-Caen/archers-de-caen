@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Result\Type;
+namespace App\Domain\Result\Form;
 
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Weapon;
@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-abstract class ResultType extends AbstractType
+abstract class ResultForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
