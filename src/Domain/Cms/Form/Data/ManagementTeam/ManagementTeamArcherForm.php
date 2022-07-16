@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Cms\Form\ManagementTeam;
+namespace App\Domain\Cms\Form\Data\ManagementTeam;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

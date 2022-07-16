@@ -39,73 +39,38 @@
         <div class="shape-target bg-target"></div>
 
         <div class="presentations">
-            <div class="presentation -first">
-                <img src="https://source.unsplash.com/random/300×300?arrow" alt="">
+            {% for content in contents %}
+                <div class="presentation">
+                    <img src="{{ content.image }}" alt="">
 
-                <div class="content">
-                    <h3>L’optique que vous souhaitez</h3>
-                    <p>
-                        La structure et ses bénévoles permettent la formation et l’entraînement à la pratique de ce
-                        sport olympique avec plusieurs optiques possibles : la compétition ou le loisir sportif
-                    </p>
-                </div>
-            </div>
+                    <div class="content">
+                        <h3>{{ content.title }}</h3>
+                        <p>{{ content.description }}</p>
 
-            <div class="presentation -second">
-                <img src="https://source.unsplash.com/random/300×300?arc" alt="">
-
-                <div class="content">
-                    <h3>L’experience</h3>
-                    <p>
-                        Depuis 1964, il forme de nombreuses personnes à la pratique de ce sport olympique. Chaque année,
-                        de nombreux archers caennais participent à diverses compétitions et championnats à l’échelle
-                        départementale, régionale et même nationale.
-                    </p>
-                    <div class="call-to-action">
-                        <a class="btn -primary" href="#">
-                            Call to action
-                        </a>
+                        {% if content.button.text %}
+                            <div class="call-to-action">
+                                <a class="btn -primary" href="{{ content.button.url }}">
+                                    {{ content.button.text }}
+                                </a>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
-            </div>
-
-            <div class="presentation -third">
-                <img src="https://source.unsplash.com/random/300×300?archery" alt="">
-
-                <div class="content">
-                    <h3>Quand vous-voulez</h3>
-                    <p>
-                        Avec 6 créneaux d’entraînement en salle - soit plus de 14 heures par semaine -
-                        et 4 entraîneurs diplomés, les Archers de Caen offrent une structure et organisation idéales pour
-                        découvrir le tir à l’arc, le pratiquer en loisir, ou s’entraîner activement en vue de compétitions.
-                    </p>
-                    <div class="call-to-action">
-                        <a class="btn -primary" href="#">
-                            Call to action
-                        </a>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
 
         <div class="partners-container">
             <h2>Nos partenaires</h2>
             <div class="partners">
-                <a href="{{ path('landing_page', { slug: 'partenaires', type: 'p' }) }}" class="partner">
-                    <img src="{{ asset('build/images/partners/caen.png') }}" alt="Logo de la ville de Caen">
-                </a>
-                <a href="{{ path('landing_page', { slug: 'partenaires', type: 'p' }) }}" class="partner">
-                    <img src="{{ asset('build/images/partners/nll.png') }}" alt="Logo de Nll">
-                </a>
-                <a href="{{ path('landing_page', { slug: 'partenaires', type: 'p' }) }}" class="partner">
-                    <img src="{{ asset('build/images/partners/barillon-optique.png') }}" alt="Logo Barillon optique">
-                </a>
-                <a href="{{ path('landing_page', { slug: 'partenaires', type: 'p' }) }}" class="partner">
-                    <img src="{{ asset('build/images/partners/maxiviande.png') }}" alt="Logo maxiviande">
-                </a>
-                <a href="{{ path('landing_page', { slug: 'partenaires', type: 'p' }) }}" class="partner">
-                    Crêperie <br> O’p’tit chef
-                </a>
+                {% for partner in partners %}
+                    <a href="{{ path('landing_page', { slug: 'partenaires' }) }}" class="partner">
+                        {% if partner.image %}
+                            <img src="{{ partner.image }}" alt="Logo de {{ partner.name }}">
+                        {% else %}
+                            {{ partner.name }}
+                        {% endif %}
+                    </a>
+                {% endfor %}
             </div>
         </div>
     </div>

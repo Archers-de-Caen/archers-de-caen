@@ -6,6 +6,7 @@ namespace App\Http\Landing\Controller;
 
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Cms\Config\Category;
+use App\Domain\Cms\Repository\DataRepository;
 use App\Domain\Cms\Repository\PageRepository;
 use App\Helper\PaginatorHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,7 +19,7 @@ class DefaultController extends AbstractController
     public const ROUTE_LANDING_INDEX = 'landing_index';
 
     #[Route('/', name: self::ROUTE_LANDING_INDEX)]
-    public function index(PageRepository $pageRepository): Response
+    public function index(PageRepository $pageRepository, DataRepository $dataRepository): Response
     {
         return $this->render('/landing/index/index.html.twig', [
             'actualities' => $pageRepository->findBy(
@@ -26,6 +27,8 @@ class DefaultController extends AbstractController
                 ['createdAt' => 'DESC'],
                 4
             ),
+            'contents' => $dataRepository->findOneBy(['code' => 'INDEX_PAGE_ELEMENT'])?->getContent(),
+            'partners' => $dataRepository->findOneBy(['code' => 'PARTNER'])?->getContent(),
         ]);
     }
 

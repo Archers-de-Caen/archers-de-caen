@@ -41,7 +41,7 @@
         }
       }
 
-      &.-first {
+      &:nth-child(1) {
         margin-top: 75px;
 
         .content {
@@ -56,7 +56,7 @@
         }
       }
 
-      &.-second {
+      &:nth-child(2) {
         margin-top: 100px;
         flex-direction: row-reverse;
 
@@ -73,7 +73,7 @@
         }
       }
 
-      &.-third {
+      &:nth-child(3) {
         margin: 100px auto auto;
 
         img {
@@ -96,7 +96,7 @@
     .presentations {
 
       .presentation {
-        &.-first {
+        &:nth-child(1) {
           margin-top: 75px;
 
           .content {
@@ -109,7 +109,7 @@
           }
         }
 
-        &.-second {
+        &:nth-child(2) {
           margin-top: 100px;
 
           .content {
@@ -123,7 +123,7 @@
           }
         }
 
-        &.-third {
+        &:nth-child(3) {
           .content {
             width: 400px;
             max-width: 400px;
@@ -144,7 +144,7 @@
     .presentations {
 
       .presentation {
-        &.-first {
+        &:nth-child(1) {
           margin-top: 75px;
 
           .content {
@@ -158,7 +158,7 @@
           }
         }
 
-        &.-second {
+        &:nth-child(2) {
           margin-top: 200px;
 
           .content {
@@ -172,7 +172,7 @@
           }
         }
 
-        &.-third {
+        &:nth-child(3) {
           .content {
             width: 350px;
           }
@@ -195,7 +195,7 @@
 
     .presentations {
       .presentation {
-        &.-first {
+        &:nth-child(1) {
           margin-top: 50px;
 
           .content {
@@ -209,7 +209,7 @@
           }
         }
 
-        &.-second {
+        &:nth-child(2) {
           margin-top: 75px;
 
           .content {
@@ -224,7 +224,7 @@
           }
         }
 
-        &.-third {
+        &:nth-child(3) {
           .content {
             width: 300px;
           }
@@ -261,7 +261,7 @@
           width: 100%;
         }
 
-        &.-first {
+        &:nth-child(1) {
           flex-direction: column-reverse;
           margin-top: 25px;
 
@@ -275,7 +275,7 @@
           }
         }
 
-        &.-second {
+        &:nth-child(2) {
           margin-top: 30px;
           flex-direction: column-reverse;
 
@@ -290,7 +290,7 @@
           }
         }
 
-        &.-third {
+        &:nth-child(3) {
           margin-top: 30px;
           flex-direction: column-reverse;
 

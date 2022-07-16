@@ -78,7 +78,7 @@ class DashboardController extends AbstractDashboardController
                 ->setQueryParameter('filters', ['category' => ['value' => Category::PAGE->value, 'comparison' => '=']]);
         yield MenuItem::linkToCrud('Actualité', 'fas fa-newspaper', Page::class)
                 ->setQueryParameter('filters', ['category' => ['value' => Category::ACTUALITY->value, 'comparison' => '=']]);
-        yield MenuItem::linkToCrud('Data', 'fas fa-newspaper', Data::class);
+        yield MenuItem::linkToCrud('Element de page', 'fas fa-database', Data::class);
 
         yield MenuItem::section();
         yield MenuItem::linkToRoute('Revenir au site', 'fas fa-left-long', DefaultController::ROUTE_LANDING_INDEX);

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Admin\Controller;
 
 use App\Domain\Archer\Model\Archer;
-use App\Domain\Cms\Form\ManagementTeam\ManagementTeamForm;
 use App\Domain\Cms\Model\Data;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -16,7 +15,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\HiddenField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -34,6 +32,7 @@ class DataCrudController extends AbstractCrudController
             ->setPageTitle('new', 'Ajouter une donnée structuré au site')
             ->setPageTitle('detail', fn (Data $data) => (string) $data)
             ->setPageTitle('edit', fn (Data $data) => sprintf('Edition d\'une donnée structuré <b>%s</b>', $data))
+            ->setSearchFields(['description', 'code'])
             ->setDefaultSort(['createdAt' => 'DESC'])
         ;
     }
@@ -69,11 +68,11 @@ class DataCrudController extends AbstractCrudController
         /** @var Data $data */
         $data = $entityDto->getInstance();
 
-        if ($data->getFormType()) {
+        if ($formType = $data->getFormType()) {
             $entityDto
                 ->getFields()
                 ?->getByProperty('content')
-                ?->setFormTypeOption('entry_type', ManagementTeamForm::class);
+                ?->setFormTypeOption('entry_type', $formType);
         }
 
         return parent::createEditFormBuilder($entityDto, $formOptions, $context);
