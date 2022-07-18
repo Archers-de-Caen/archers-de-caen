@@ -10,6 +10,7 @@ enum DocumentType: string implements Enum
 {
     case NEWSPAPER = 'newspaper';
     case OTHER = 'other';
+
     public function toString(): string
     {
         return match ($this) {

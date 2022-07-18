@@ -26,15 +26,20 @@ class CompetitionRegister
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?DateTimeImmutable $dateEnd = null;
 
-    #[ORM\Column(type: Types::STRING, length: 191, enumType: Type::class)]
+    #[ORM\Column(type: Types::ARRAY)]
     #[Assert\NotNull]
-    private ?Type $type = null;
+    private array $types = [];
 
     #[ORM\Column(type: Types::JSON)]
-    private array $departure = [];
+    private array $departures = [];
 
     #[ORM\OneToOne(targetEntity: Document::class)]
     private ?Document $mandate = null;
+
+    public function __toString(): string
+    {
+        return sprintf('Concours du %s au %s', $this->getDateStart()?->format('d/m/Y'), $this->getDateEnd()?->format('d/m/y'));
+    }
 
     public function getDateStart(): ?DateTimeImmutable
     {
@@ -60,14 +65,34 @@ class CompetitionRegister
         return $this;
     }
 
-    public function getType(): ?Type
+    public function getTypes(): array
     {
-        return $this->type;
+        return $this->types;
     }
 
-    public function setType(?Type $type): self
+    public function setTypes(array $types): self
     {
-        $this->type = $type;
+        $this->types = $types;
+
+        return $this;
+    }
+
+    public function addType(Type $type): self
+    {
+        if (!in_array($type, $this->types, true)) {
+            $this->types[] = $type;
+        }
+
+        return $this;
+    }
+
+    public function removeType(Type $type): self
+    {
+        $key = array_search($type, $this->types, true);
+
+        if (false !== $key) {
+            unset($this->types[$key]);
+        }
 
         return $this;
     }
@@ -82,13 +107,13 @@ class CompetitionRegister
         $this->mandate = $mandate;
     }
 
-    public function getDeparture(): array
+    public function getDepartures(): array
     {
-        return $this->departure;
+        return $this->departures;
     }
 
-    public function setDeparture(array $departure): void
+    public function setDepartures(array $departures): void
     {
-        $this->departure = $departure;
+        $this->departures = $departures;
     }
 }
