@@ -8,6 +8,8 @@ use App\Domain\Archer\Model\Archer;
 use App\Domain\Competition\Config\Type;
 use App\Domain\Competition\Form\CompetitionRegisterDepartureForm;
 use App\Domain\Competition\Model\CompetitionRegister;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -25,10 +27,17 @@ class CompetitionRegisterCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setPageTitle('index', 'Inscription au concours d e Caen')
-            ->setPageTitle('new', 'Ajouter un concours de Caen')
+            ->setPageTitle('index', "Formulaire d'inscription au concours de Caen")
+            ->setPageTitle('new', "Ajouter un formulaire d'inscription")
             ->setPageTitle('detail', fn (CompetitionRegister $competitionRegister) => (string) $competitionRegister)
-            ->setPageTitle('edit', fn (CompetitionRegister $competitionRegister) => sprintf('Edition de l\'inscription <b>%s</b>', $competitionRegister))
+            ->setPageTitle('edit', fn (CompetitionRegister $competitionRegister) => sprintf("Edition du formulaire l'inscription <b>%s</b>", $competitionRegister))
+        ;
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->update(Crud::PAGE_INDEX, 'new', fn (Action $action) => $action->setLabel("Créer un formulaire d'inscription"))
         ;
     }
 

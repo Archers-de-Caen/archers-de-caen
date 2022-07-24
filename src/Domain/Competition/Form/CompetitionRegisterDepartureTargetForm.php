@@ -54,10 +54,6 @@ class CompetitionRegisterDepartureTargetForm extends AbstractType
                     '70 m' => 70,
                 ],
             ])
-            ->add('maxRegistrations', NumberType::class, [
-                'required' => true,
-                'label' => 'Quota'
-            ])
         ;
     }
 }
