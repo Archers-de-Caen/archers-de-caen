@@ -12,6 +12,7 @@ use App\Infrastructure\Model\TimestampTrait;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Slug;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CompetitionRegisterRepository::class)]
@@ -35,6 +36,10 @@ class CompetitionRegister
 
     #[ORM\OneToOne(targetEntity: Document::class)]
     private ?Document $mandate = null;
+
+    #[ORM\Column(type: Types::STRING, length: 191, unique: true)]
+    #[Slug(fields: ['slug'], unique: true)]
+    private ?string $slug = null;
 
     public function __toString(): string
     {
@@ -115,5 +120,25 @@ class CompetitionRegister
     public function setDepartures(array $departures): void
     {
         $this->departures = $departures;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Le vrai slug sera accessible après le persist.
+     */
+    public function autoSetSlug(): void
+    {
+        $this->slug = $this->__toString();
     }
 }

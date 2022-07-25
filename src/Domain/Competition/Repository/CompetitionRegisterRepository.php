@@ -22,4 +22,11 @@ class CompetitionRegisterRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, CompetitionRegister::class);
     }
+
+    public function findOneArcherByLicenseNumber(string $licenseNumber)
+    {
+        $this->createQueryBuilder('cr')
+            ->where('cr.departures')
+        ;
+    }
 }

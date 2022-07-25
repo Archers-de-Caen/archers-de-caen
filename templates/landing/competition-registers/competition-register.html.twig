@@ -1,0 +1,179 @@
+{% extends 'landing/base.html.twig' %}
+
+{% block title %}Formulaire d'inscription {{ competitionRegister }}{% endblock %}
+
+{% block body %}
+    {{ dump(competitionRegister) }}
+
+    <main class="page-container">
+        <section class="title">
+            <h1>{{ block('title') }}</h1>
+        </section>
+
+        {{ form_start(form) }}
+
+            {{ form_row(form.licenseNumber) }}
+
+            <div id="archer-already-exist">
+                <div class="border --rounded p-3">
+                    <div class="flex jc-space-between">
+                        <p class="text-large text-bold" id="archer-name"></p>
+                        <i class="fa-solid fa-edit cursor-pointer" id="edit-archer"></i>
+                    </div>
+                    <p class="mt-2" id="archer-contact"></p>
+                    <p class="mt-2" id="archer-category"></p>
+                    <p id="archer-club"></p>
+                </div>
+            </div>
+
+            <div id="archer" class="mt-2">
+                <div class="flex jc-space-between">
+                    {{ form_row(form.firstName) }}
+                    {{ form_row(form.lastName) }}
+                </div>
+
+                <div class="form-groups">
+                    <div class="form-group">
+                        {{ form_label(form.gender) }}
+                        <div class="flex jc-space-between w-100">
+                            {% for gender in form.gender %}
+                                {{ form_row(gender, { row_attr: { class: '--btn' } }) }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex jc-space-between">
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.phone) }}
+                </div>
+
+                {{ form_row(form.category) }}
+
+                <div class="">
+                    {{ form_row(form.club) }}
+                </div>
+            </div>
+
+            {{ form_row(form.submit) }}
+
+        {{ form_end(form) }}
+    </main>
+{% endblock %}
+
+{% block javascript_footer %}
+    <script>
+        function hide(element) {
+            element.style.display = 'none'
+
+            element.querySelectorAll('input, select').forEach((input) => {
+                input.required = false
+            })
+        }
+
+        function show(element) {
+            element.style.display = 'block'
+
+            element.querySelectorAll('input, select').forEach((input) => {
+                input.required = true
+            })
+        }
+
+        function translateGender(gender) {
+            if ('man' === gender) {
+                return 'M. '
+            } else if ('woman' === gender) {
+                return 'Mme. '
+            }
+
+            return ''
+        }
+
+        function setArcherInputValue(selector, value) {
+            const input = document.querySelector(archerFormPrefix + selector)
+
+            if (input) {
+                input.value = value
+            }
+        }
+
+        function handleLicenseInput(target) {
+            if (target.value && target.value.match(/\d{6}[a-zA-Z]/g)) {
+                fetch('/api/competition-registers/archers/' + target.value)
+                    .then((response) => {
+                        if (200 === response.status) {
+                            return response.json()
+                        }
+
+                        show(archerContainer)
+                        hide(archerAlreadyExistContainer)
+                    })
+                    .then((body) => {
+                        if (body) {
+                            hide(archerContainer)
+                            show(archerAlreadyExistContainer)
+                        } else {
+                            show(archerContainer)
+                            hide(archerAlreadyExistContainer)
+
+                            setArcherInputValue('firstName', null)
+                            setArcherInputValue('lastName', null)
+                            setArcherInputValue('club', null)
+                            setArcherInputValue('category', null)
+
+                            return
+                        }
+
+                        setArcherInputValue('firstName', body.firstName)
+                        setArcherInputValue('lastName', body.lastName)
+                        setArcherInputValue('club', body.club)
+                        setArcherInputValue('category', body.category)
+
+                        const genderInput = document.querySelector(`input[name="competition_register_departure_target_archer_form[gender]"][value="${body.gender}"]`)
+                        if (genderInput) {
+                            genderInput.checked = true
+                        }
+
+                        if (body.firstName && body.lastName && body.email && body.phone && body.club && body.category && body.gender) {
+
+                            archerAlreadyExistContainer.querySelector('#edit-archer').addEventListener('click', () => {
+                                show(archerContainer)
+                                hide(archerAlreadyExistContainer)
+                            })
+
+                            archerAlreadyExistContainer.querySelector('#archer-name').innerText = translateGender(body.gender) + body.firstName + '' + body.lastName
+                            archerAlreadyExistContainer.querySelector('#archer-contact').innerText = body.email + ' | ' + body.phone
+                            archerAlreadyExistContainer.querySelector('#archer-category').innerText = body.category
+                            archerAlreadyExistContainer.querySelector('#archer-club').innerText = body.club
+                        }
+                    })
+            }
+        }
+
+        const archerContainer = document.querySelector('#archer')
+        const archerAlreadyExistContainer = document.querySelector('#archer-already-exist')
+        const archerFormPrefix = '#competition_register_departure_target_archer_form_'
+        const licenseInput = document.querySelector(archerFormPrefix + 'licenseNumber')
+
+        let typingTimer
+        const doneTypingInterval = 500
+
+        hide(archerContainer)
+        hide(archerAlreadyExistContainer)
+
+        licenseInput.addEventListener('input', (e) => {
+            const target = e.currentTarget
+
+            clearTimeout(typingTimer)
+
+            typingTimer = setTimeout(() => {
+                handleLicenseInput(target)
+            }, doneTypingInterval)
+        })
+
+        if (licenseInput.value) {
+            show(archerContainer)
+        }
+
+    </script>
+{% endblock javascript_footer %}

@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Archer\Model;
 
+use App\Domain\Archer\Config\Category;
+use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Repository\ArcherRepository;
+use App\Domain\Competition\Config\Type;
 use App\Domain\Result\Model\Result;
 use App\Domain\Result\Model\ResultBadge;
 use App\Domain\Result\Model\ResultCompetition;
@@ -80,6 +83,12 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     #[ORM\OneToMany(mappedBy: 'archer', targetEntity: ArcherLicense::class, cascade: ['ALL'], orphanRemoval: true)]
     private Collection $archerLicenses;
 
+    #[ORM\Column(type: Types::STRING, length: 191, nullable: true, enumType: Gender::class)]
+    private ?Gender $gender = null;
+
+    #[ORM\Column(type: Types::STRING, length: 191, nullable: true, enumType: Category::class)]
+    private ?Category $category = null;
+
     #[ORM\Column(type: Types::STRING, length: 7, unique: true)]
     #[Assert\NotBlank]
     #[Assert\NotNull]
@@ -108,7 +117,6 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     public function __construct()
     {
         $this->archerLicenses = new ArrayCollection();
-        $this->pages = new ArrayCollection();
         $this->resultsTeams = new ArrayCollection();
     }
 
@@ -400,5 +408,25 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         $this->resultsTeams->removeElement($resultTeam);
 
         return $this;
+    }
+
+    public function getGender(): ?Gender
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?Gender $gender): void
+    {
+        $this->gender = $gender;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): void
+    {
+        $this->category = $category;
     }
 }
