@@ -108,14 +108,24 @@
     "auto-scripts": {
       "cache:clear": "symfony-cmd",
       "assets:install %PUBLIC_DIR%": "symfony-cmd",
-      "[ $COMPOSER_DEV_MODE -eq 0 ] && yarn install --prod || yarn install": "script",
-      "[ $COMPOSER_DEV_MODE -eq 0 ] && yarn encore prod || yarn encore dev": "script"
+      "yarn install --prod": "script",
+      "yarn build": "script"
     },
     "post-install-cmd": [
       "@auto-scripts"
     ],
     "post-update-cmd": [
       "@auto-scripts"
+    ],
+    "dev-server": "php -S localhost:80 -t public",
+    "phpstan": "vendor/bin/phpstan analyse -c phpstan.neon",
+    "clean-code": "vendor/bin/php-cs-fixer fix src --allow-risky=yes",
+    "tests": [
+      "php bin/console --env=test doctrine:database:create --no-interaction",
+      "php bin/console --env=test doctrine:schema:create --no-interaction",
+      "php bin/console --env=test doctrine:fixtures:load --no-interaction",
+      "vendor/phpunit/phpunit/phpunit --bootstrap tests/bootstrap.php --configuration phpunit.xml.dist",
+      "php bin/console --env=test doctrine:database:drop --no-interaction --force"
     ]
   },
   "conflict": {
