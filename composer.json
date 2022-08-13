@@ -32,6 +32,7 @@
     "symfony/flex": "^2",
     "symfony/form": "6.1.*",
     "symfony/framework-bundle": "6.1.*",
+    "symfony/google-mailer": "6.1.*",
     "symfony/http-client": "6.1.*",
     "symfony/intl": "6.1.*",
     "symfony/mailer": "6.1.*",
@@ -107,9 +108,7 @@
   "scripts": {
     "auto-scripts": {
       "cache:clear": "symfony-cmd",
-      "assets:install %PUBLIC_DIR%": "symfony-cmd",
-      "yarn install --prod": "script",
-      "yarn build": "script"
+      "assets:install %PUBLIC_DIR%": "symfony-cmd"
     },
     "post-install-cmd": [
       "@auto-scripts"
