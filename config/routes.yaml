@@ -1,23 +1,23 @@
 controllers_landing:
     resource: ../src/Http/Landing/Controller
-    type: annotation
+    type: attribute
     prefix: '/'
 
 controllers_app:
     resource: ../src/Http/App/Controller
-    type: annotation
+    type: attribute
     prefix: '/app'
 
 controllers_admin:
     resource: ../src/Http/Admin/Controller
-    type: annotation
+    type: attribute
     prefix: '/admin'
 
 controllers_api:
     resource: ../src/Http/Api/Controller
-    type: annotation
+    type: attribute
     prefix: '/api'
 
 kernel:
     resource: ../src/Kernel.php
-    type: annotation
+    type: attribute
