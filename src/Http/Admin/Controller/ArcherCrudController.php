@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
+use App\Domain\Archer\Config\Category;
+use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Model\Archer;
 use App\Http\Landing\Controller\DefaultController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -42,11 +45,29 @@ class ArcherCrudController extends AbstractCrudController
         $id = IdField::new('id');
         $licenseNumber = TextField::new('licenseNumber')
             ->setLabel('Numéro de licence');
-        $firstName = TextField::new('firstName')->setLabel('Prénom');
-        $lastName = TextField::new('lastName')->setLabel('Nom');
-        $phone = TextField::new('phone')->setLabel('Téléphone');
+
+        $firstName = TextField::new('firstName')
+            ->setLabel('Prénom');
+
+        $lastName = TextField::new('lastName')
+            ->setLabel('Nom');
+
+        $phone = TextField::new('phone')
+            ->setLabel('Téléphone');
+
         $email = EmailField::new('email');
+
         $createdAt = DateTimeField::new('createdAt')->setLabel('Date de création');
+
+        $gender = ChoiceField::new('gender')
+            ->setLabel('Genre')
+            ->setChoices(Gender::toChoicesWithEnumValue())
+        ;
+
+        $category = ChoiceField::new('category')
+            ->setLabel('Catégorie')
+            ->setChoices(Category::toChoicesWithEnumValue())
+        ;
 
         if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {
             if ($this->isGranted(Archer::ROLE_DEVELOPER)) {
@@ -54,6 +75,9 @@ class ArcherCrudController extends AbstractCrudController
             }
 
             yield $createdAt;
+
+            $gender->setChoices(Gender::toChoices());
+            $category->setChoices(Category::toChoices());
         }
 
         yield $licenseNumber;
@@ -61,6 +85,8 @@ class ArcherCrudController extends AbstractCrudController
         yield $lastName;
         yield $email;
         yield $phone;
+        yield $gender;
+        yield $category;
     }
 
     public function configureActions(Actions $actions): Actions

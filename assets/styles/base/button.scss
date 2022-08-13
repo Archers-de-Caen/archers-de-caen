@@ -8,6 +8,7 @@
   font-weight: bold;
   color: $color-yellow;
   box-shadow: $box-shadow;
+  text-decoration: none;
 
   &:disabled {
     background-color: lighten($color-grey, 20%) !important;

@@ -56,14 +56,18 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section();
         yield MenuItem::linkToCrud('Competition', 'fas fa-star', Competition::class);
-        yield MenuItem::linkToCrud('Inscription concours Caen', 'fas fa-star', CompetitionRegister::class);
-        yield MenuItem::linkToCrud('Badge', 'fas fa-bullseye', Badge::class)
-            ->setPermission(Archer::ROLE_DEVELOPER);
         yield MenuItem::linkToCrud('Flèche de progression', 'fas fa-bullseye', ResultBadge::class)
             ->setController(ResultBadgeProgressArrowCrudController::class);
+
+        yield MenuItem::section();
+        yield MenuItem::linkToCrud('Badge', 'fas fa-bullseye', Badge::class)
+            ->setPermission(Archer::ROLE_DEVELOPER);
         yield MenuItem::linkToCrud('Distinction fédéral', 'fas fa-bullseye', ResultBadge::class)
             ->setController(ResultBadgeFederalHonorCrudController::class)
             ->setPermission(Archer::ROLE_DEVELOPER);
+
+        yield MenuItem::section();
+        yield MenuItem::linkToCrud('Inscription concours Caen', 'fas fa-star', CompetitionRegister::class);
 
         yield MenuItem::section();
         yield MenuItem::linkToCrud('Galerie', 'fas fa-images', Gallery::class);

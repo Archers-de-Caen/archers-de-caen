@@ -29,6 +29,7 @@ enum Type: string implements Enum
     case GOLDEN_APPLE_CHALLENGE = 'golden_apple_challenge';
     case PROMOTIONAL = 'promotional';
     case SPECIAL_YOUNG = 'special_young';
+
     public function toString(): string
     {
         return match ($this) {

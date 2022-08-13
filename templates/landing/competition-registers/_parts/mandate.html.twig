@@ -1,0 +1,11 @@
+{% if competitionRegister.mandate %}
+    <div class="files mt-2">
+        <a class="file" href="{{ vich_uploader_asset(competitionRegister.mandate) }}" target="_blank">
+            <span>
+                <i class="fa-solid fa-file-pdf"></i>
+                Mandat
+            </span>
+            <i class="fa-solid fa-eye"></i>
+        </a>
+    </div>
+{% endif %}

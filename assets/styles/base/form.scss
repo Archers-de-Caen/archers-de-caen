@@ -25,11 +25,11 @@
     }
 
     &.--btn {
-      input[type="radio"] {
+      input[type="radio"], input[type="checkbox"] {
         display: none;
       }
 
-      input[type="radio"]:checked + label {
+      input[type="radio"]:checked + label, input[type="checkbox"]:checked + label {
         box-shadow: 0 0 0 3px $color-yellow inset;
       }
 
@@ -124,7 +124,7 @@
       cursor: pointer;
       display: block;
       appearance: auto;
-      padding: 5px 15px;
+      padding: 12px 15px;
 
       &::before {
         display: block;

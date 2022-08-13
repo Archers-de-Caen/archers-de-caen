@@ -1,0 +1,12 @@
+@import "../../styles/variable";
+
+.alert {
+  border-radius: $border-radius-normal;
+  border: 1px solid;
+  padding: 10px 15px;
+
+  &-danger {
+    background-color: lighten($color-red, 45) !important;
+    border-color: $color-red;
+  }
+}

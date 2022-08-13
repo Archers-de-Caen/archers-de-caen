@@ -9,7 +9,7 @@ interface Enum
     public function toString(): string;
 
     /**
-     * @return array<string, string>
+     * @return array<string, mixed>
      */
     public static function toChoices(): array;
 

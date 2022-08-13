@@ -4,6 +4,18 @@
   font-size: small;
 }
 
+.text-medium {
+  font-size: medium;
+}
+
+.text-large {
+  font-size: large;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
 .text {
   &-primary {
     color: $color-primary-blue !important;

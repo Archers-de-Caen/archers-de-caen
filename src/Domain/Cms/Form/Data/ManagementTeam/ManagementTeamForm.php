@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Valid;
 
 /**
- * Appelé depuis App\Http\Admin\Controller\DataCrudController::createEditFormBuilder
+ * Appelé depuis App\Http\Admin\Controller\DataCrudController::createEditFormBuilder.
  */
 class ManagementTeamForm extends AbstractType
 {

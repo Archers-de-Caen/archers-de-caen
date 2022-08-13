@@ -1,0 +1,50 @@
+{% extends 'landing/iframe.html.twig' %}
+
+{% block title %}Taux de reservation{% endblock %}
+
+{% block body %}
+
+    <table>
+        <tr>
+            <th></th>
+            {% for departure in competitionRegister.departures %}
+                <th>{{ departure }}</th>
+            {% endfor %}
+            <th>Total</th>
+        </tr>
+        <tr>
+            <th>Nombre de place</th>
+            {% set allMaxRegistration = 0 %}
+            {% for departure in competitionRegister.departures %}
+                {% set allMaxRegistration = allMaxRegistration + departure.maxRegistration %}
+
+                <th>{{ departure.maxRegistration }}</th>
+            {% endfor %}
+            <th>{{ allMaxRegistration }}</th>
+        </tr>
+        <tr>
+            <th>Nombre d'inscrit</th>
+            {% set allRegistration = 0 %}
+            {% for departure in competitionRegister.departures %}
+                {% set allRegistration = allRegistration + departure.registration %}
+                <th>{{ departure.registration }}</th>
+            {% endfor %}
+            <th>{{ allRegistration }}</th>
+        </tr>
+        <tr>
+            <th>Occupation</th>
+            {% for departure in competitionRegister.departures %}
+                <th>{{ (100 * departure.registration / departure.maxRegistration)|round(1) }} %</th>
+            {% endfor %}
+            <th>{{ (100 * allRegistration / allMaxRegistration)|round(1) }} %</th>
+        </tr>
+        <tr>
+            <th>Place libre</th>
+            {% for departure in competitionRegister.departures %}
+                <th>{{ departure.maxRegistration - departure.registration }}</th>
+            {% endfor %}
+            <th>{{ allMaxRegistration - allRegistration }}</th>
+        </tr>
+    </table>
+
+{% endblock %}

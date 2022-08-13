@@ -17,7 +17,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ActualitiesController extends AbstractController
 {
-    #[Route('/actualites', name: 'landing_actualities')]
+    public const ROUTE_LANDING_ACTUALITIES = 'landing_actualities';
+    public const ROUTE_LANDING_ACTUALITY = 'landing_actuality';
+
+    #[Route('/actualites', name: self::ROUTE_LANDING_ACTUALITIES)]
     public function actualities(Request $request, PageRepository $pageRepository): Response
     {
         $currentPage = ((int) $request->query->get('page') ?: 1) - 1;
@@ -39,7 +42,7 @@ class ActualitiesController extends AbstractController
         ]);
     }
 
-    #[Route('/actualite/{slug}', name: 'landing_actuality')]
+    #[Route('/actualite/{slug}', name: self::ROUTE_LANDING_ACTUALITY)]
     public function page(Page $page, PageRepository $pageRepository): Response
     {
         $nextPages = $pageRepository

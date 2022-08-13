@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Appelé depuis App\Http\Admin\Controller\DataCrudController::createEditFormBuilder
+ * Appelé depuis App\Http\Admin\Controller\DataCrudController::createEditFormBuilder.
  */
 class PartnerForm extends AbstractType
 {

@@ -97,14 +97,18 @@ class Document implements UploadableInterface
      * must be able to accept an instance of 'File' as the bundle will inject one here
      * during Doctrine hydration.
      */
-    public function setDocumentFile(File|UploadedFile|null $imageFile = null): self
+    public function setDocumentFile(File|UploadedFile|null $file = null): self
     {
-        $this->documentFile = $imageFile;
+        $this->documentFile = $file;
 
-        if (null !== $imageFile) {
+        if (null !== $file) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
             $this->updatedAt = new \DateTimeImmutable();
+        }
+
+        if ($file instanceof UploadedFile && !$this->getDisplayText()) {
+            $this->setDisplayText($file->getFilename());
         }
 
         return $this;

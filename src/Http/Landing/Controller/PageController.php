@@ -11,7 +11,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PageController extends AbstractController
 {
-    #[Route('/p/{slug}', name: 'landing_page')]
+    public const ROUTE_LANDING_PAGE = 'landing_page';
+
+    #[Route('/p/{slug}', name: self::ROUTE_LANDING_PAGE)]
     public function page(Page $page): Response
     {
         return $this->render('/landing/pages/page.html.twig', [

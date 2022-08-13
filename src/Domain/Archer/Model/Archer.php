@@ -9,7 +9,14 @@ use App\Domain\Result\Model\Result;
 use App\Domain\Result\Model\ResultBadge;
 use App\Domain\Result\Model\ResultCompetition;
 use App\Domain\Result\Model\ResultTeam;
+use App\Infrastructure\Model\ArcherCategoryTrait;
+use App\Infrastructure\Model\EmailTrait;
+use App\Infrastructure\Model\FirstNameTrait;
+use App\Infrastructure\Model\GenderTrait;
 use App\Infrastructure\Model\IdTrait;
+use App\Infrastructure\Model\LastNameTrait;
+use App\Infrastructure\Model\LicenseNumberTrait;
+use App\Infrastructure\Model\PhoneTrait;
 use App\Infrastructure\Model\TimestampTrait;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -30,6 +37,16 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
 {
     use IdTrait;
     use TimestampTrait;
+    use FirstNameTrait;
+    use LastNameTrait;
+    use EmailTrait;
+    use PhoneTrait;
+    use LicenseNumberTrait;
+    use GenderTrait;
+    use ArcherCategoryTrait;
+
+    private const LICENSE_NUMBER_UNIQUE = true;
+    private const EMAIL_UNIQUE = true;
 
     public const ROLE_ARCHER = 'ROLE_ARCHER';
     public const ROLE_EDITOR = 'ROLE_EDITOR';
@@ -41,27 +58,6 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         self::ROLE_ADMIN,
         self::ROLE_DEVELOPER,
     ];
-
-    #[ORM\Column(type: Types::STRING, length: 191)]
-    #[Assert\Length(max: 191)]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
-    private ?string $firstName = null;
-
-    #[ORM\Column(type: Types::STRING, length: 191)]
-    #[Assert\Length(max: 191)]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
-    private ?string $lastName = null;
-
-    #[ORM\Column(type: Types::STRING, length: 191, unique: true, nullable: true)]
-    #[Assert\Length(max: 191)]
-    #[Assert\Email]
-    private ?string $email = null;
-
-    #[ORM\Column(type: Types::STRING, length: 12, nullable: true)]
-    #[Assert\Length(max: 12)]
-    private ?string $phone = null;
 
     #[ORM\Column(type: Types::STRING, length: 191, nullable: true)]
     #[Assert\Length(max: 191)]
@@ -79,13 +75,6 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
      */
     #[ORM\OneToMany(mappedBy: 'archer', targetEntity: ArcherLicense::class, cascade: ['ALL'], orphanRemoval: true)]
     private Collection $archerLicenses;
-
-    #[ORM\Column(type: Types::STRING, length: 7, unique: true)]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
-    #[Assert\Length(max: 7)]
-    #[Assert\Regex('/[0-9]{6}[A-Za-z]/')]
-    private ?string $licenseNumber = null;
 
     /**
      * @var array<string>
@@ -108,7 +97,6 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     public function __construct()
     {
         $this->archerLicenses = new ArrayCollection();
-        $this->pages = new ArrayCollection();
         $this->resultsTeams = new ArrayCollection();
     }
 
@@ -159,7 +147,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     public function getUserIdentifier(): string
     {
         if (!$this->getLicenseNumber() && !$this->getEmail()) {
-            throw new Exception('L\'utilisateur doit avoir au moins son numéro de licence ou un email');
+            throw new \RuntimeException('L\'utilisateur doit avoir au moins son numéro de licence ou un email');
         }
 
         return ($this->getLicenseNumber() ?: $this->getEmail()) ?: '';
@@ -175,54 +163,6 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     public function getFullName(): string
     {
         return $this->getFirstName().' '.$this->getLastName();
-    }
-
-    public function getFirstName(): ?string
-    {
-        return $this->firstName;
-    }
-
-    public function setFirstName(?string $firstName): self
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    public function getLastName(): ?string
-    {
-        return $this->lastName;
-    }
-
-    public function setLastName(?string $lastName): self
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(?string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getPhone(): ?string
-    {
-        return $this->phone;
-    }
-
-    public function setPhone(?string $phone): self
-    {
-        $this->phone = $phone;
-
-        return $this;
     }
 
     public function getPassword(): ?string
@@ -291,20 +231,6 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
             if ($archerLicense->getArcher() === $this) {
                 $archerLicense->setArcher(null);
             }
-        }
-
-        return $this;
-    }
-
-    public function getLicenseNumber(): ?string
-    {
-        return $this->licenseNumber;
-    }
-
-    public function setLicenseNumber(?string $licenseNumber): self
-    {
-        if ($licenseNumber) {
-            $this->licenseNumber = strtoupper($licenseNumber);
         }
 
         return $this;
