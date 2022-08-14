@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller\Landing;
 
+use App\Http\Landing\Controller\ContactController;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Router;
@@ -35,7 +36,7 @@ class DefaultControllerTest extends WebTestCase
     {
         return [
             ['landing_index', Request::METHOD_GET],
-            ['landing_contact', Request::METHOD_GET],
+            [ContactController::ROUTE_LANDING_CONTACT, Request::METHOD_GET],
             ['landing_style_guide', Request::METHOD_GET],
         ];
     }

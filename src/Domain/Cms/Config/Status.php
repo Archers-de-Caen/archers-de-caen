@@ -11,6 +11,7 @@ enum Status: string implements Enum
     case DRAFT = 'draft';
     case PUBLISH = 'publish';
     case DELETE = 'delete';
+
     public function toString(): string
     {
         return match ($this) {

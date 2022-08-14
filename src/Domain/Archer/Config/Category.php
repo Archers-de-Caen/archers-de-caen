@@ -34,9 +34,9 @@ enum Category: string implements Enum
     case OLD_GREAT_VETERAN_MAN = 'great_veteran_man';
     case OLD_GREAT_VETERAN_WOMAN = 'great_veteran_woman';
 
-    public function toString(): string
+    public function toString(bool $withoutGender = false): string
     {
-        return match ($this) {
+        $string = match ($this) {
             self::PEEWEE_MAN => 'Poussin Homme',
             self::PEEWEE_WOMAN => 'Poussin Femme',
 
@@ -72,6 +72,12 @@ enum Category: string implements Enum
             self::OLD_GREAT_VETERAN_MAN => 'Super Vétéran Homme',
             self::OLD_GREAT_VETERAN_WOMAN => 'Super Vétéran Femme',
         };
+
+        if ($withoutGender) {
+            return str_replace([' Homme', ' Femme'], '', $string);
+        }
+
+        return $string;
     }
 
     public function toShortString(): string
@@ -202,14 +208,14 @@ enum Category: string implements Enum
             'S3H' => self::SENIOR_THREE_MAN,
             'S3F' => self::SENIOR_THREE_WOMAN,
 
-             'SH' => self::OLD_SENIOR_MAN,
-             'SF' => self::OLD_SENIOR_WOMAN,
+            'SH' => self::OLD_SENIOR_MAN,
+            'SF' => self::OLD_SENIOR_WOMAN,
 
-             'VH' => self::OLD_VETERAN_MAN,
-             'VF' => self::OLD_VETERAN_WOMAN,
+            'VH' => self::OLD_VETERAN_MAN,
+            'VF' => self::OLD_VETERAN_WOMAN,
 
-             'SVH' => self::OLD_GREAT_VETERAN_MAN,
-             'SVF' => self::OLD_GREAT_VETERAN_WOMAN,
+            'SVH' => self::OLD_GREAT_VETERAN_MAN,
+            'SVF' => self::OLD_GREAT_VETERAN_WOMAN,
 
             default => throw new ValueError($category.' not found'),
         };

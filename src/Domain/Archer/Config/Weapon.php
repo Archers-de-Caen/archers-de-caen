@@ -12,6 +12,7 @@ enum Weapon: string implements Enum
     case RECURVE_BOW = 'recurve_bow';
     case COMPOUND_BOW = 'compound_bow';
     case BARE_BOW = 'bare_bow';
+
     public function toString(): string
     {
         return match ($this) {

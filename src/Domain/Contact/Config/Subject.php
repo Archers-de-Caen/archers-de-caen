@@ -13,6 +13,7 @@ enum Subject: string implements Enum
     case GDPR = 'gdpr';
     case WEB_SITE = 'web_site';
     case OTHER = 'other';
+
     public function toString(): string
     {
         return match ($this) {

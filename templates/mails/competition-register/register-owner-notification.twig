@@ -1,0 +1,34 @@
+{# @var recap array #}
+{# @var register \App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher #}
+
+{% extends layout %}
+
+{% block body %}
+
+    <h1>Nouvelle inscription au concours</h1>
+
+    <p>
+        {{ register.gender.toShortString }} {{ register.firstName }} {{ register.lastName }}
+        s'est inscrit au{% if recap|length %}x{% endif%} départ{% if recap|length %}s{% endif%} du:
+    </p>
+
+    <ul>
+        {% for departure in recap %}
+            <li>{{ departure }}</li>
+        {% endfor %}
+    </ul>
+
+    <p>Ses informations personnelles</p>
+
+    <ul>
+        <li>Email : <b>{{ register.email }}</b></li>
+        <li>Téléphone : <b>{{ register.phone }}</b></li>
+        <li>Catégorie : <b>{{ register.category.toString }}</b></li>
+        <li>Numéro de licence : <b>{{ register.licenseNumber }}</b></li>
+        <li>Club : <b>{{ register.club }}</b></li>
+        <li>1ère année : <b>{{ register.firstYear ? 'Oui' : 'Non' }}</b></li>
+        <li>Fauteuil roulant : <b>{{ register.wheelchair ? 'Oui' : 'Non' }}</b></li>
+        <li>Information supplémentaire : <b>{{ register.additionalInformation ?: 'Non' }}</b></li>
+    </ul>
+
+{% endblock %}

@@ -17,6 +17,7 @@
     "doctrine/doctrine-migrations-bundle": "^3.2",
     "doctrine/orm": "^2.11",
     "easycorp/easyadmin-bundle": "^4.0",
+    "erusev/parsedown": "^1.7",
     "fakerphp/faker": "^1.19",
     "gedmo/doctrine-extensions": "^3.6",
     "phpdocumentor/reflection-docblock": "^5.3",
@@ -54,6 +55,7 @@
     "symfony/web-link": "6.1.*",
     "symfony/webpack-encore-bundle": "^1.13",
     "symfony/yaml": "6.1.*",
+    "twig/cssinliner-extra": "^3.4",
     "twig/extra-bundle": "^3.0",
     "twig/twig": "^3.0",
     "vich/uploader-bundle": "^1.19"

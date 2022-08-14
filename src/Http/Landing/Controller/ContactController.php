@@ -17,7 +17,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ContactController extends AbstractController
 {
-    #[Route('/contact', name: 'landing_contact')]
+    public const ROUTE_LANDING_CONTACT = 'landing_contact';
+
+    #[Route('/contact', name: self::ROUTE_LANDING_CONTACT)]
     public function contact(Request $request, EntityManagerInterface $em, ContactService $contactService): Response
     {
         $contact = new ContactRequest();

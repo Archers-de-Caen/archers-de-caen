@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Landing\Controller;
 
 use App\Domain\Competition\Form\CompetitionRegisterDepartureTargetArcherForm;
+use App\Domain\Competition\Manager\CompetitionRegisterManager;
 use App\Domain\Competition\Model\CompetitionRegister;
-use App\Domain\Competition\Model\CompetitionRegisterDeparture;
-use App\Domain\Competition\Model\CompetitionRegisterDepartureTarget;
 use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Infrastructure\Exception\InvalidSubmitCompetitionRegisterException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,8 +28,10 @@ final class CompetitionRegisterController extends AbstractController
 
     public const SESSION_KEY_COMPETITION_REGISTER = 'competition_register';
 
-    public function __construct(readonly private SerializerInterface $serializer)
-    {
+    public function __construct(
+        readonly private SerializerInterface $serializer,
+        readonly private CompetitionRegisterManager $competitionRegisterManager
+    ) {
     }
 
     private function deserializeRegisterArcher(Session $session): CompetitionRegisterDepartureTargetArcher
@@ -80,7 +81,7 @@ final class CompetitionRegisterController extends AbstractController
     }
 
     #[Route('/inscription-concours/{slug}/tir', name: self::ROUTE_LANDING_COMPETITION_REGISTER_DEPARTURE)]
-    public function departure(Request $request, Session $session, CompetitionRegister $competitionRegister, EntityManagerInterface $em): Response
+    public function departure(Request $request, Session $session, CompetitionRegister $competitionRegister): Response
     {
         if (!$session->has(self::SESSION_KEY_COMPETITION_REGISTER)) {
             return $this->redirectToRoute(self::ROUTE_LANDING_COMPETITION_REGISTER_ARCHER, ['slug' => $competitionRegister->getSlug()]);
@@ -95,26 +96,8 @@ final class CompetitionRegisterController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $recap = [];
-
-            $departures = $competitionRegister
-                ->getDepartures()
-                ->filter(fn (CompetitionRegisterDeparture $crd) => $crd->getRegistration() <= $crd->getMaxRegistration());
-
-            foreach ($departures as $departure) {
-                /** @var ?CompetitionRegisterDepartureTarget $target */
-                $target = $form->get($departure->getId().'-targets')->getData();
-                if ($target) {
-                    $register->setTarget($target);
-
-                    $em->persist(clone $register);
-
-                    $recap[] = $departure->getDate()?->format('d/m/Y à H:i').' à '.$target->getDistance().'m, sur un blason '.$target->getType()?->toString();
-                }
-            }
-
-            if ($recap) {
-                $em->flush();
+            try {
+                $recap = $this->competitionRegisterManager->handleSubmitForm($form, $competitionRegister, $register);
 
                 $session->remove(self::SESSION_KEY_COMPETITION_REGISTER);
 
@@ -122,9 +105,9 @@ final class CompetitionRegisterController extends AbstractController
                     'slug' => $competitionRegister->getSlug(),
                     'departures' => $recap,
                 ]);
+            } catch (InvalidSubmitCompetitionRegisterException $e) {
+                $form->addError(new FormError($e->getMessage()));
             }
-
-            $form->addError(new FormError('Veuillez sélectionner au moins un départ'));
         }
 
         return $this->render('/landing/competition-registers/departure.html.twig', [

@@ -10,6 +10,7 @@ enum Category: string implements Enum
 {
     case PAGE = 'page';
     case ACTUALITY = 'actuality';
+
     public function toString(): string
     {
         return match ($this) {

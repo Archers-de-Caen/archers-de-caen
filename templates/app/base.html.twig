@@ -22,7 +22,7 @@
                 <div class="header-content">
                     <ul>
                         <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\NewspaperController::ROUTE_LANDING_NEWSPAPERS')) }}">La gazette</a></li>
-                        <li><a href="{{ path('landing_contact') }}">Contact</a></li>
+                        <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\ContactController::ROUTE_LANDING_CONTACT')) }}">Contact</a></li>
                         <li><a href="{{ path('app_index') }}">Espace licencié</a></li>
                         <li><a href="#">🔍</a></li>
                     </ul>
@@ -64,7 +64,7 @@
                         <li><a href="{{ path('landing_page', { slug: 'presse-et-medias', type: 'p' }) }}">Presse et médias</a></li>
                         <li><a href="{{ path('landing_style_guide') }}">Guide de style</a></li>
                         <li><a href="{{ path('landing_page', { slug: 'historique', type: 'p' }) }}">Historique</a></li>
-                        <li><a href="{{ path('landing_contact') }}">Contact</a></li>
+                        <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\ContactController::ROUTE_LANDING_CONTACT')) }}">Contact</a></li>
                         <li class="mt-2">Site réalisé par <a href="https://damienhebert.fr" class="highlighted">Damien HEBERT</a></li>
                     </ul>
                 </div>

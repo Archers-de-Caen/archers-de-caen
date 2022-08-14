@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Domain\Archer\Config;
 
 use App\Infrastructure\Config\Enum;
-use ValueError;
 
 enum Gender: string implements Enum
 {
@@ -21,6 +20,15 @@ enum Gender: string implements Enum
             self::WOMAN => 'Femme',
             self::OTHER => 'Autre',
             self::UNDEFINED => 'Non défini',
+        };
+    }
+
+    public function toShortString(): string
+    {
+        return match ($this) {
+            self::MAN => 'M.',
+            self::WOMAN => 'Mme.',
+            self::OTHER, self::UNDEFINED => '',
         };
     }
 
