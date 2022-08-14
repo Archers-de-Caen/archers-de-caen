@@ -75,7 +75,7 @@ class CompetitionRegisterManager
 
                 $this->em->persist(clone $register);
 
-                $recap[] = $departure->getDate()?->format('d/m/Y à H:i').' à '.$target->getDistance().'m, sur un blason '.$target->getType()?->toString();
+                $recap[] = $departure->getDate()?->format('d/m/Y à H:i').' à '.$target->getDistance().'m sur un blason '.$target->getType()?->toString();
             }
         }
 

@@ -55,7 +55,7 @@ class CompetitionRegisterDepartureTargetArcher
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $additionalInformation = null;
 
-    #[ORM\ManyToOne(targetEntity: CompetitionRegisterDepartureTarget::class, cascade: ['ALL'], inversedBy: 'archers')]
+    #[ORM\ManyToOne(targetEntity: CompetitionRegisterDepartureTarget::class, inversedBy: 'archers')]
     private ?CompetitionRegisterDepartureTarget $target = null;
 
     #[ORM\Column(type: Types::STRING, length: 127, nullable: true)]

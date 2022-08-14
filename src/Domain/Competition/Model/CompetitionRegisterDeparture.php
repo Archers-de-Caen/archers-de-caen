@@ -25,7 +25,7 @@ class CompetitionRegisterDeparture
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $maxRegistration = null;
 
-    #[ORM\ManyToOne(targetEntity: CompetitionRegister::class, cascade: ['ALL'], inversedBy: 'departures')]
+    #[ORM\ManyToOne(targetEntity: CompetitionRegister::class, inversedBy: 'departures')]
     private ?CompetitionRegister $competitionRegister = null;
 
     /**

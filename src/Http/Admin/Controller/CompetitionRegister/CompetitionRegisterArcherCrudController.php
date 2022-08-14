@@ -10,6 +10,8 @@ use App\Domain\Archer\Model\Archer;
 use App\Domain\Competition\Admin\Filter\CompetitionRegisterDepartureTargetArcher\CompetitionRegisterDepartureFilter;
 use App\Domain\Competition\Admin\Filter\CompetitionRegisterDepartureTargetArcher\CompetitionRegisterFilter;
 use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -32,11 +34,16 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setPageTitle('index', 'Liste des inscrits au concours de Caen')
-            ->setPageTitle('new', 'Ajouter un inscrit')
-            ->setPageTitle('detail', fn (CompetitionRegisterDepartureTargetArcher $crdta) => (string) $crdta)
-            ->setPageTitle('edit', fn (CompetitionRegisterDepartureTargetArcher $crdta) => sprintf("Modification de l'inscription <b>%s</b>", $crdta))
+            ->setPageTitle(Crud::PAGE_INDEX, 'Liste des inscrits au concours de Caen')
+            ->setPageTitle(Crud::PAGE_DETAIL, fn (CompetitionRegisterDepartureTargetArcher $crdta) => (string) $crdta)
+            ->setPageTitle(Crud::PAGE_EDIT, fn (CompetitionRegisterDepartureTargetArcher $crdta) => sprintf("Modification de l'inscription <b>%s</b>", $crdta))
         ;
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->disable(Action::NEW);
     }
 
     public function configureFilters(Filters $filters): Filters

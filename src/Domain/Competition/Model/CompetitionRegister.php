@@ -29,7 +29,7 @@ class CompetitionRegister
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?DateTimeImmutable $dateEnd = null;
 
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: Types::JSON)]
     #[Assert\NotNull]
     private array $types = [];
 

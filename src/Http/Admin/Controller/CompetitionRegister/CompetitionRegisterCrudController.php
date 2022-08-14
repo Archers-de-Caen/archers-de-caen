@@ -71,7 +71,7 @@ class CompetitionRegisterCrudController extends AbstractCrudController
                     ->setAction(Action::INDEX)
                     ->set('filters', [
                         'competitionRegister' => [
-                            'comparaison' => '=',
+                            'comparison' => '=',
                             'value' => $competitionRegister->getId(),
                         ],
                     ])

@@ -25,7 +25,7 @@ class CompetitionRegisterDepartureTarget
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $distance = null;
 
-    #[ORM\ManyToOne(targetEntity: CompetitionRegisterDeparture::class, cascade: ['ALL'], inversedBy: 'targets')]
+    #[ORM\ManyToOne(targetEntity: CompetitionRegisterDeparture::class, inversedBy: 'targets')]
     private ?CompetitionRegisterDeparture $departure = null;
 
     /**
