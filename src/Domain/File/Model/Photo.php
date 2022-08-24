@@ -9,7 +9,6 @@ use App\Domain\File\Repository\PhotoRepository;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
 use App\Infrastructure\Model\TokenTrait;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;

@@ -32,7 +32,7 @@ class PageController extends AbstractController
         foreach ($pages as $page) {
             $tagsName = [];
             foreach ($page->getTags() as $tag) {
-                if ($tag->getName() && strtolower($tag->getName()) !== 'sport') {
+                if ($tag->getName() && 'sport' !== strtolower($tag->getName())) {
                     $tagsName[] = $tag->getName();
                 }
             }

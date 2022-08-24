@@ -8,10 +8,10 @@ use App\Domain\Cms\Admin\Field\CKEditorField;
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Model\Page;
-use Doctrine\ORM\QueryBuilder;
 use App\Domain\File\Admin\Field\PhotoField;
 use App\Domain\File\Form\PhotoFormType;
 use App\Http\Landing\Controller\ActualitiesController;
+use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -98,7 +98,7 @@ class PageCrudController extends AbstractCrudController
 
         $tags = AssociationField::new('tags')
             ->setLabel('Tags')
-            ->formatValue(static fn ($value, Page $page) => implode(",", $page->getTags()->toArray()))
+            ->formatValue(static fn ($value, Page $page) => implode(',', $page->getTags()->toArray()))
         ;
 
         if (Crud::PAGE_INDEX === $pageName) {
