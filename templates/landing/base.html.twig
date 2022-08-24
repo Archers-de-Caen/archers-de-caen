@@ -33,10 +33,7 @@
                         {% if is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_ADMIN')) %}
                             <li><a href="{{ path('admin_index') }}">Admin</a></li>
                         {% endif %}
-                        {% if 'dev' == app.environment %}
-                            <li><a href="https://archers-caen.fr">V2</a></li>
-                        {% endif %}
-                        <li><a href="#">🔍</a></li>
+{#                        <li><a href="#">🔍</a></li>#}
                     </ul>
                 </div>
             </div>
@@ -46,11 +43,31 @@
                         <img src="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.svg') }}" alt="Logo des archers de Caen">
                     </a>
                     <ul>
-                        <li><a href="{{ path('landing_actualities') }}">Actualités</a></li>
-                        <li><a href="{{ path('landing_page', { slug: 'le-club', type: 'p' }) }}">Le club</a></li>
-                        <li><a href="{{ path('landing_results') }}">Les résultats</a></li>
-                        <li><a href="{{ path('landing_page', { slug: 'le-sport', type: 'p' }) }}">Le sport</a></li>
-                        <li><a href="{{ path('landing_galleries') }}">Photo</a></li>
+                        <li>
+                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\ActualitiesController::ROUTE_LANDING_ACTUALITIES')) }}">
+                                Actualités
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\ClubController::ROUTE_LANDING_CLUB')) }}">
+                                Club
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\CompetitionController::ROUTE_LANDING_RESULTS')) }}">
+                                Résultats
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('landing_page', { slug: 'le-sport', type: 'p' }) }}">
+                                Sport
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\GalleryController::ROUTE_LANDING_GALLERIES')) }}">
+                                Photo
+                            </a>
+                        </li>
                     </ul>
                     <div class="menu-responsive-btn hamburger-menu">
                         <div class="hamburger-menu-bar"></div>
@@ -61,7 +78,19 @@
         </header>
 
         <div class="body">
-            {% block body %}{% endblock %}
+            {% block body %}
+                <div class="page-container">
+                    <div class="page-title-container">
+                        <div class="page-title">
+                            <h1 class="title">
+                                {{ block('title') }}
+                            </h1>
+                        </div>
+                    </div>
+
+                    {% block main %}{% endblock main %}
+                </div>
+            {% endblock %}
         </div>
 
         <footer class="footer">
@@ -69,16 +98,17 @@
                 <div class="menu">
                     <p>© Archers de Caen {{ 'now'|date('Y') }}. Tous droits réservés.</p>
                     <ul>
+                        {% if app.environment == 'dev' or is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_DEVELOPER')) %}
+                            <li><a href="{{ path('landing_style_guide') }}">Guide de style</a></li>
+                            <li><a href="https://archers-caen.fr">V2</a></li>
+                            <li></li>
+                        {% endif %}
+
                         <li><a href="{{ path('landing_page', { slug: 'politique-de-confidentialite', type: 'p' }) }}">Politique de confidentialité</a></li>
                         <li><a href="{{ path('landing_page', { slug: 'reglement-intérieur', type: 'p' }) }}">Règlement intérieur</a></li>
                         <li><a href="{{ path('landing_page', { slug: 'statuts', type: 'p' }) }}">Statuts</a></li>
                         <li><a href="{{ path('landing_page', { slug: 'labels', type: 'p' }) }}">Labels</a></li>
                         <li><a href="{{ path('landing_page', { slug: 'presse-et-medias', type: 'p' }) }}">Presse et médias</a></li>
-
-                        {% if app.environment == 'dev' or is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_DEVELOPER')) %}
-                            <li><a href="{{ path('landing_style_guide') }}">Guide de style</a></li>
-                        {% endif %}
-
                         <li><a href="{{ path('landing_page', { slug: 'historique', type: 'p' }) }}">Historique</a></li>
                         <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\ContactController::ROUTE_LANDING_CONTACT')) }}">Contact</a></li>
                         <li class="mt-2">Site réalisé par <a href="https://damienhebert.fr" class="highlighted">Damien HEBERT</a></li>

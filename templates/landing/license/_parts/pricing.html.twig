@@ -1,0 +1,68 @@
+<div class="flex jc-center mt-2">
+    <div class="switch w-50" id="licenses-switch">
+        <div class="choice">
+            <input type="radio" id="switch-1" name="switch" checked value="first" />
+            <label for="switch-1">Nouveau</label>
+        </div>
+        <div class="choice">
+            <input type="radio" id="switch-2" name="switch" value="renewal" />
+            <label for="switch-2">Renouvellement</label>
+        </div>
+    </div>
+</div>
+
+<div class="licenses mt-3">
+    {% for license in [
+        { name: 'Jeune', price: 80, reducedPrice: 70, description: '9 à 17 ans', id: 'license-young' },
+        { name: 'Adulte', price: 110, reducedPrice: 100, description: '>= 18 ans', id: 'license-adult' },
+        { name: 'Découverte', price: 43, description: 'De Mars à Juin', id: 'license-discovery' },
+        { name: 'Handisport', price: 70, reducedPrice: 60, description: 'Adhérent à la FHH ou à la FFSA', id: 'license-parasport' },
+        { name: 'Kit matériel', price: 50, description: 'Palette, protège-bras, dragonne, carquois', id: 'kit-material' }
+    ] %}
+        <div class="license" id="{{ license.id }}">
+            <header>
+                {{ license.name }}
+            </header>
+            <div>
+                <b>
+                    <span
+                        class="price"
+                        data-price="{{ license.price }}"
+                        {% if license.reducedPrice is defined %}data-reduced-price="{{ license.reducedPrice }}"{% endif %}
+                    >
+                        {{ license.price }}
+                    </span> €
+                </b>
+            </div>
+            <footer>
+                {{ license.description|raw }}
+            </footer>
+        </div>
+    {% endfor %}
+</div>
+
+<script>
+    document.querySelectorAll('#licenses-switch input[name=switch]').forEach((input) => {
+        input.addEventListener('click', (e) => {
+            document.querySelectorAll('.license').forEach((license) => {
+                const price = license.querySelector('.price')
+                if ('first' === e.currentTarget.value) {
+                    price.innerText = price.getAttribute('data-price')
+
+                    if (price.getAttribute('data-price')) {
+                        show(license, 'flex')
+                    } else {
+                        hide(license)
+                    }
+                } else if ('renewal' === e.currentTarget.value) {
+                    price.innerText = price.getAttribute('data-reduced-price')
+                    if (price.getAttribute('data-reduced-price')) {
+                        show(license, 'flex')
+                    } else {
+                        hide(license)
+                    }
+                }
+            })
+        })
+    })
+</script>

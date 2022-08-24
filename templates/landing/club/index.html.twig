@@ -1,0 +1,82 @@
+{% extends "/landing/base.html.twig" %}
+
+{% block title %}Le club{% endblock %}
+
+{% block main %}
+    <section class="page-content mt-3" id="club-page">
+
+        <article id="ou">
+            <h2>
+                <i class="fa-solid fa-map-location-dot"></i>
+                <span class="ml-1">Où</span>
+            </h2>
+
+            {{ include('/landing/club/_parts/maps.html.twig') }}
+        </article>
+
+        <article id="comment" class="mt-5">
+            <h2>
+                <i class="fa-solid fa-question"></i>
+                <span class="ml-1">Comment</span>
+            </h2>
+
+            {{ include('/landing/club/_parts/faq.html.twig') }}
+        </article>
+
+        <article id="quand" class="mt-5">
+            <h2>
+                <i class="fa-solid fa-clock"></i>
+                <span class="ml-1">Quand</span>
+            </h2>
+
+            {{ include('/landing/club/_parts/planning.html.twig') }}
+        </article>
+
+        <article id="combien" class="mt-5">
+            <h2>
+                <i class="fa-solid fa-money-check-alt"></i>
+                <span class="ml-1">Combien</span>
+            </h2>
+
+            {{ include('landing/license/_parts/pricing.html.twig') }}
+
+            <div class="mt-3">
+                <p>
+                    Les cotisations comprennent le montant de la licence Fédération Française de Tir à l’Arc (FFTA),
+                    les parts Comité Régional, Comité Départemental et Club des Archers de Caen.
+                </p>
+                <p>
+                    La licence découverte est réservée aux archers n’ayant jamais eu de licence (même découverte) FFTA,
+                    et n’ouvre pas le droit de participer à des compétitions. Elle permet de découvrir le tir à l’arc
+                    pendant 3 mois, de mars à juin (fin de la saison intérieure).
+                </p>
+            </div>
+
+            <div class="w-100 flex jc-end mt-3">
+                <a class="btn -primary" href="{{ path(constant('App\\Http\\Landing\\Controller\\LicenseController::ROUTE_LANDING_LICENSE_NEW')) }}">
+                    Prendre ma licence
+                </a>
+            </div>
+        </article>
+
+        <article id="qui" class="mt-5">
+            <h2>
+                <i class="fa-solid fa-users"></i>
+                <span class="ml-1">Qui</span>
+            </h2>
+
+            <p>
+                Le club est fier, de compter parmi ses membres une équipe de bénévole œuvrant activement aux
+                différentes animations du club, que ce soit, pour les entraînements, les concours et les différentes
+                activités permettant de découvrir toutes les facettes du tir à l'arc.
+            </p>
+
+            <div class="w-100 flex jc-end mt-3">
+                <a class="btn -primary" href="{{ path(constant('App\\Http\\Landing\\Controller\\ClubController::ROUTE_LANDING_MANAGEMENT_TEAM')) }}">
+                    Découvrir l'équipe
+                </a>
+            </div>
+        </article>
+
+    </section>
+{% endblock main %}

@@ -84,6 +84,11 @@ Encore
         to: 'fonts/[path][name].[ext]',
     })
 
+    .copyFiles({
+        from: './assets/documents',
+        to: 'documents/[path][name].[ext]',
+    })
+
     .addPlugin( new CKEditorWebpackPlugin( {
         // See https://ckeditor.com/docs/ckeditor5/latest/features/ui-language.html
         language: 'fr',

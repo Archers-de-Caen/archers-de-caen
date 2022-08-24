@@ -1,0 +1,37 @@
+@import "../variable";
+
+.switch {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  align-items: center;
+  border-radius: 50px;
+  height: 50px;
+  border: 2px solid $color-yellow;
+  background-color: $color-white;
+  padding: 10px 5px;
+
+  .choice {
+    width: 100%;
+
+    label {
+      width: 100%;
+      border-radius: 50px;
+      background-color: $color-white;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    input {
+      display: none;
+    }
+
+    input:checked + label {
+      background-color: $color-yellow;
+    }
+  }
+}

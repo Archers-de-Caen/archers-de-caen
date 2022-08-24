@@ -122,11 +122,14 @@
     "phpstan": "vendor/bin/phpstan analyse -c phpstan.neon",
     "clean-code": "vendor/bin/php-cs-fixer fix src --allow-risky=yes",
     "tests": [
-      "php bin/console --env=test doctrine:database:create --no-interaction",
-      "php bin/console --env=test doctrine:schema:create --no-interaction",
-      "php bin/console --env=test doctrine:fixtures:load --no-interaction",
+      "@database-init",
       "vendor/phpunit/phpunit/phpunit --bootstrap tests/bootstrap.php --configuration phpunit.xml.dist",
       "php bin/console --env=test doctrine:database:drop --no-interaction --force"
+    ],
+    "database-init": [
+      "php bin/console doctrine:database:create --no-interaction",
+      "php bin/console doctrine:schema:create --no-interaction",
+      "php bin/console doctrine:fixtures:load --no-interaction"
     ]
   },
   "conflict": {

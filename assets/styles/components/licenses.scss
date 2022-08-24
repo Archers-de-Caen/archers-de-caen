@@ -1,0 +1,34 @@
+@import "../variable";
+@import "../base/margin";
+
+.licenses {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+
+  .license {
+    width: 200px;
+    height: 200px;
+    border: 2px solid $color-yellow;
+    border-radius: $border-radius-big;
+    padding: 15px;
+    text-align: center;
+    background-color: $color-white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    transition: transform ease-in-out 100ms;
+    box-shadow: $box-shadow;
+
+    .price {
+      font-size: xx-large;
+    }
+
+    &:hover {
+      background-color: $color-yellow;
+      transform: scale(120%);
+    }
+  }
+}

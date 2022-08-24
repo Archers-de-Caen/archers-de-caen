@@ -1,0 +1,17 @@
+#club-page {
+  .picture {
+    width: 50%;
+    height: 400px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  #outdoor-court {
+    background-image: url("../../../images/photo/terrain-exterieur.jpg");
+  }
+
+  #indoor-court {
+    background-image: url("../../../images/photo/salle.jpg");
+  }
+}

@@ -12,7 +12,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class GalleryController extends AbstractController
 {
-    #[Route('/galeries', name: 'landing_galleries')]
+    public const ROUTE_LANDING_GALLERIES = 'landing_galleries';
+    public const ROUTE_LANDING_GALLERY = 'landing_gallery';
+
+    #[Route('/galeries', name: self::ROUTE_LANDING_GALLERIES)]
     public function galleries(GalleryRepository $galleryRepository): Response
     {
         return $this->render('/landing/galleries/galleries.html.twig', [
@@ -20,7 +23,7 @@ class GalleryController extends AbstractController
         ]);
     }
 
-    #[Route('/galerie/{slug}', name: 'landing_gallery')]
+    #[Route('/galerie/{slug}', name: self::ROUTE_LANDING_GALLERY)]
     public function gallery(Gallery $gallery): Response
     {
         return $this->render('/landing/galleries/gallery.html.twig', [
