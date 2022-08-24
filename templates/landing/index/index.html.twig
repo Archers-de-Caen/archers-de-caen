@@ -1,5 +1,6 @@
 {% extends '/landing/base.html.twig' %}
 {% from '/landing/actualities/actualities.html.twig' import actualities %}
+{% from 'landing/pages/_parts/pages.html.twig' import pages %}
 
 {% block body %}
     <div class="index-page">
@@ -11,7 +12,7 @@
                 </div>
 
                 <div class="thumbnails-container">
-                    {{ actualities(actualities) }}
+                    {{ pages(actualities) }}
 
                     <a href="{{ path('landing_actualities') }}" class="show-all-actualities">
                         <span>Voir toutes les actualités</span>

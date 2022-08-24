@@ -22,4 +22,22 @@ class PageRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Page::class);
     }
+
+    /**
+     * @return array<Page>
+     */
+    public function findTagNameBy(string $tag): array
+    {
+        /** @var array<Page> $pages */
+        $pages = $this->createQueryBuilder('page')
+            ->leftJoin('page.tags', 'tags')
+            ->where('tags.name = :tag')
+            ->andWhere('tags.id IS NOT NULL')
+            ->setParameter('tag', $tag)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $pages;
+    }
 }

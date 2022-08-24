@@ -12,6 +12,7 @@ use App\Domain\Result\Form\ResultCompetitionForm;
 use App\Domain\Result\Form\ResultTeamForm;
 use App\Domain\Result\Manager\ResultCompetitionManager;
 use App\Domain\Result\Model\ResultCompetition;
+use App\Http\Admin\Controller\Cms\PageCrudController;
 use App\Http\Landing\Controller\CompetitionController;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;

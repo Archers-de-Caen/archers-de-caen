@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Admin\Controller;
+namespace App\Http\Admin\Controller\Cms;
 
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Cms\Model\Data;

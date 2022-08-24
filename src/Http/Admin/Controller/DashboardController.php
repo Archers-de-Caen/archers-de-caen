@@ -11,6 +11,7 @@ use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Model\Data;
 use App\Domain\Cms\Model\Gallery;
 use App\Domain\Cms\Model\Page;
+use App\Domain\Cms\Model\Tag;
 use App\Domain\Competition\Model\Competition;
 use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\File\Model\Document;
@@ -83,6 +84,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Actualité', 'fas fa-newspaper', Page::class)
                 ->setQueryParameter('filters', ['category' => ['value' => Category::ACTUALITY->value, 'comparison' => '=']]);
         yield MenuItem::linkToCrud('Element de page', 'fas fa-database', Data::class);
+        yield MenuItem::linkToCrud('Tags', 'fas fa-tags', Tag::class)
+            ->setPermission(Archer::ROLE_DEVELOPER);
 
         yield MenuItem::section();
         yield MenuItem::linkToRoute('Revenir au site', 'fas fa-left-long', DefaultController::ROUTE_LANDING_INDEX);

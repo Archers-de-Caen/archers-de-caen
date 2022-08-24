@@ -59,13 +59,13 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ path('landing_page', { slug: 'le-sport', type: 'p' }) }}">
+                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\PageController::ROUTE_LANDING_PAGE_SPORT')) }}">
                                 Sport
                             </a>
                         </li>
                         <li>
                             <a href="{{ path(constant('App\\Http\\Landing\\Controller\\GalleryController::ROUTE_LANDING_GALLERIES')) }}">
-                                Photo
+                                Photos
                             </a>
                         </li>
                     </ul>

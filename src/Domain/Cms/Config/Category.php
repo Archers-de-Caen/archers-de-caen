@@ -30,16 +30,16 @@ enum Category: string implements Enum
     public static function toChoices(): array
     {
         return array_combine(
-            array_map(fn (Category $category) => $category->toString(), Category::cases()),
-            array_map(fn (Category $category) => $category->toArrayValue(), Category::cases())
+            array_map(static fn (Category $category) => $category->toString(), self::cases()),
+            array_map(static fn (Category $category) => $category->toArrayValue(), self::cases())
         );
     }
 
     public static function toChoicesWithEnumValue(): array
     {
         return array_combine(
-            array_map(fn (Category $category) => $category->toString(), Category::cases()),
-            array_map(fn (Category $category) => $category, Category::cases())
+            array_map(static fn (Category $category) => $category->toString(), self::cases()),
+            array_map(static fn (Category $category) => $category, self::cases())
         );
     }
 }

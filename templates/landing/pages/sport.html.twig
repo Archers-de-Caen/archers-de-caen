@@ -1,0 +1,16 @@
+{% extends '/landing/base.html.twig' %}
+{% from 'landing/pages/_parts/pages.html.twig' import pages %}
+
+{% block title %}Le sport{% endblock %}
+
+{% block main %}
+    <div class="thumbnails-container">
+        {% for category, pages in pagesSortByTags %}
+            {% if category != 'no-category' %}
+                <h2>{{ category }}</h2>
+            {% endif %}
+
+            {{ pages(pages) }}
+        {% endfor %}
+    </div>
+{% endblock %}

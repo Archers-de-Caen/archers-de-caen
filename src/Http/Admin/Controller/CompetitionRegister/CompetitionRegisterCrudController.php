@@ -10,7 +10,7 @@ use App\Domain\Competition\Form\CompetitionRegisterDepartureForm;
 use App\Domain\Competition\Manager\CompetitionRegisterManager;
 use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\File\Admin\Field\DocumentField;
-use App\Http\Admin\Controller\PageCrudController;
+use App\Http\Admin\Controller\Cms\PageCrudController;
 use App\Http\Landing\Controller\CompetitionRegisterController;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;

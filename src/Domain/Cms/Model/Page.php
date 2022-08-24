@@ -11,6 +11,8 @@ use App\Domain\Cms\Repository\PageRepository;
 use App\Domain\File\Model\Photo;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation\Slug;
@@ -51,9 +53,20 @@ class Page
     #[ORM\OneToOne(targetEntity: Photo::class, cascade: ['persist'])]
     private ?Photo $image = null;
 
+    /**
+     * @var Collection<Tag>
+     */
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'pages')]
+    private Collection $tags;
+
+    public function __construct()
+    {
+        $this->tags = new ArrayCollection();
+    }
+
     public function __toString(): string
     {
-        return $this->getTitle() ?? 'Erreur: titre nom défini';
+        return $this->getTitle() ?? 'Erreur: titre non défini';
     }
 
     // Getter / Setter
@@ -138,6 +151,32 @@ class Page
     public function setImage(?Photo $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<Tag>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+
+            $tag->addPage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): self
+    {
+        $this->tags->removeElement($tag);
 
         return $this;
     }
