@@ -20,7 +20,7 @@ class CompetitionRegisterDeparture
     use TimestampTrait;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    private ?\DateTimeImmutable $date = null;
+    private ?DateTimeImmutable $date = null;
 
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $maxRegistration = null;

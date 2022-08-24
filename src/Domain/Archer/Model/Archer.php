@@ -24,6 +24,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
+use RuntimeException;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -147,7 +148,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     public function getUserIdentifier(): string
     {
         if (!$this->getLicenseNumber() && !$this->getEmail()) {
-            throw new \RuntimeException('L\'utilisateur doit avoir au moins son numéro de licence ou un email');
+            throw new RuntimeException('L\'utilisateur doit avoir au moins son numéro de licence ou un email');
         }
 
         return ($this->getLicenseNumber() ?: $this->getEmail()) ?: '';
