@@ -4,46 +4,40 @@
 
 {% block title %}Records des archers du club{% endblock %}
 
-{% block body %}
-    <main class="page-container">
-        <section class="title">
-            <h1>{{ block('title') }}</h1>
-        </section>
+{% block main %}
+    <div class="page-content">
+        {% for competitionType in competitionTypes %}
+            <div class="list-container">
+                <h2>{{ competitionType.toString }}</h2>
 
-        <section class="page-content">
-            {% for competitionType in competitionTypes %}
-                <div class="list-container">
-                    <h2>{{ competitionType.toString }}</h2>
-
-                    {% for weapon in weapons %}
-                        <h3>{{ weapon.toString }}</h3>
-                        <table class="list">
-                            <thead class="--header-sticky">
-                                <tr>
-                                    <th>Archer</th>
-                                    <th>Score</th>
-                                    <th>Date et Lieu</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% if resultRecords[competitionType.toString][weapon.toString] is defined %}
-                                    {% for result in resultRecords[competitionType.toString][weapon.toString]|sort((a, b) => a.score < b.score) %}
-                                        <tr>
-                                            <td>{{ result.archer.fullName }}</td>
-                                            <td>{{ result.score }}</td>
-                                            <td>{{ result.completionDate|date('d/m/Y') }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                {% else %}
+                {% for weapon in weapons %}
+                    <h3>{{ weapon.toString }}</h3>
+                    <table class="list">
+                        <thead class="--header-sticky">
+                            <tr>
+                                <th>Archer</th>
+                                <th>Score</th>
+                                <th>Date et Lieu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if resultRecords[competitionType.toString][weapon.toString] is defined %}
+                                {% for result in resultRecords[competitionType.toString][weapon.toString]|sort((a, b) => a.score < b.score) %}
                                     <tr>
-                                        <td colspan="3">Aucun record dans cette catégorie</td>
+                                        <td>{{ result.archer.fullName }}</td>
+                                        <td>{{ result.score }}</td>
+                                        <td>{{ result.completionDate|date('d/m/Y') }}</td>
                                     </tr>
-                                {% endif %}
-                            </tbody>
-                        </table>
-                    {% endfor %}
-                </div>
-            {% endfor %}
-        </section>
-    </main>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="3">Aucun record dans cette catégorie</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

@@ -1,5 +1,7 @@
 {% extends "landing/base.html.twig" %}
 
+{% block title %}Guide de style des archers de Caen{% endblock %}
+
 {% block stylesheets %}
     {{ parent() }}
 
@@ -10,52 +12,42 @@
     </style>
 {% endblock %}
 
-{% block body %}
-    <div class="page-container style-guide-page">
-        <div class="page-title-container">
-            <div class="page-title">
-                <h1 class="title">
-                    Guide de style des archers de Caen
-                </h1>
-            </div>
-        </div>
+{% block main %}
+    <div class="page-content mt-3 style-guide-page">
+        <h2>Télécharger le logo</h2>
+        {% include 'landing/style-guide/_logo.html.twig' %}
 
-        <div class="page-content mt-3">
-            <h2>Télécharger le logo</h2>
-            {% include 'landing/style-guide/_logo.html.twig' %}
+        <h2 class="mt-10">Couleurs principales</h2>
+        {% include 'landing/style-guide/_color-primary.html.twig' %}
 
-            <h2 class="mt-10">Couleurs principales</h2>
-            {% include 'landing/style-guide/_color-primary.html.twig' %}
+        <h2 class="mt-10">Couleurs secondaire</h2>
+        {% include 'landing/style-guide/_color-secondary.html.twig' %}
 
-            <h2 class="mt-10">Couleurs secondaire</h2>
-            {% include 'landing/style-guide/_color-secondary.html.twig' %}
+        <h2 class="mt-10">Dégradés</h2>
+        {% include 'landing/style-guide/_gradients.html.twig' %}
 
-            <h2 class="mt-10">Dégradés</h2>
-            {% include 'landing/style-guide/_gradients.html.twig' %}
+        <h2 class="mt-10">Typographie</h2>
+        {% include 'landing/style-guide/_typography.html.twig' %}
 
-            <h2 class="mt-10">Typographie</h2>
-            {% include 'landing/style-guide/_typography.html.twig' %}
+        <h2 class="mt-10">Formulaire</h2>
+        {% include 'landing/style-guide/_form.html.twig' %}
 
-            <h2 class="mt-10">Formulaire</h2>
-            {% include 'landing/style-guide/_form.html.twig' %}
+        <h2 class="mt-10">Bouton</h2>
+        {% include 'landing/style-guide/_button.html.twig' %}
 
-            <h2 class="mt-10">Bouton</h2>
-            {% include 'landing/style-guide/_button.html.twig' %}
+        <h2 class="mt-10">Switch</h2>
+        {% include 'landing/style-guide/_switch.html.twig' %}
 
-            <h2 class="mt-10">Switch</h2>
-            {% include 'landing/style-guide/_switch.html.twig' %}
+        <h2 class="mt-10">Tableau</h2>
+        {% include 'landing/style-guide/_table.html.twig' %}
 
-            <h2 class="mt-10">Tableau</h2>
-            {% include 'landing/style-guide/_table.html.twig' %}
+        <h2 class="mt-10">Pagination</h2>
+        {% include 'landing/style-guide/_paginator.html.twig' %}
 
-            <h2 class="mt-10">Pagination</h2>
-            {% include 'landing/style-guide/_paginator.html.twig' %}
+        <h2 class="mt-10">Carousel</h2>
+        {% include 'landing/style-guide/_carousel.html.twig' %}
 
-            <h2 class="mt-10">Carousel</h2>
-            {% include 'landing/style-guide/_carousel.html.twig' %}
-
-            <h2 class="mt-10">Liste</h2>
-            {% include 'landing/style-guide/_list.html.twig' %}
-        </div>
+        <h2 class="mt-10">Liste</h2>
+        {% include 'landing/style-guide/_list.html.twig' %}
     </div>
 {% endblock %}

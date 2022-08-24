@@ -2,12 +2,8 @@
 
 {% block title %}Formulaire d'inscription {{ competitionRegister }}{% endblock %}
 
-{% block body %}
-    <main class="page-container">
-        <section class="title">
-            <h1>{{ block('title') }}</h1>
-        </section>
-
+{% block main %}
+    <div class="page-content">
         {{ include('landing/competition-registers/_parts/mandate.html.twig') }}
 
         {{ form_start(form, {attr: {class: 'mt-4'}}) }}
@@ -61,7 +57,7 @@
             </div>
 
         {{ form_end(form, {'render_rest': false}) }}
-    </main>
+    </div>
 {% endblock %}
 
 {% block javascript_footer %}

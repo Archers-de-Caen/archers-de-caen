@@ -2,12 +2,8 @@
 
 {% block title %}La gazette{% endblock %}
 
-{% block body %}
-    <main class="page-container">
-        <section class="title">
-            <h1>{{ block('title') }}</h1>
-        </section>
-
+{% block main %}
+    <div class="page-content">
         <p>
             Le club des Archers de Caen proposent depuis 2006 une gazette mensuelle nommée Cœur de Cible retraçant les différents résultats,
             activités et faits marquants du club. Vous pouvez retrouver sur cette page les différents numéros déjà parus.
@@ -35,6 +31,5 @@
                 </a>
             {% endfor %}
         </div>
-    </main>
-
+    </div>
 {% endblock %}

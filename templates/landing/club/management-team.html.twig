@@ -2,49 +2,39 @@
 
 {% block title %}L'équipe de direction{% endblock %}
 
-{% block body %}
-    <div class="page-container">
-        <div class="page-title-container">
-            <div class="page-title">
-                <h1 class="title">
-                    {{ block('title') }}
-                </h1>
-            </div>
-        </div>
-
-        <div class="page-content mt-3">
-            {% for managementTeam in managementTeams|sort((a, b) => a.order > b.order) %}
-                <h2>{{ managementTeam.name }}</h2>
-                <div class="carousels-container">
-                    <div class="carousels-prev">
-                        <img src="{{ asset('build/images/symbole/down-arrow-grey.svg') }}" alt="Fleche vers la gauche">
-                    </div>
-
-                    <div class="carousels">
-                        {% for archer in managementTeam.archers %}
-                            <div class="element">
-                                <main>
-                                    <img src="{{ archer.image }}" alt="Photo de {{ archer.firstName }} {{ archer.lastName }}">
-                                </main>
-                                <footer>
-                                    <p class="text-">{{ archer.firstName }} {{ archer.lastName|upper }}</p>
-                                    <span>{{ archer.function }}</span>
-                                </footer>
-                            </div>
-                        {% endfor %}
-                    </div>
-
-                    <div class="carousels-next">
-                        <img src="{{ asset('build/images/symbole/down-arrow-grey.svg') }}" alt="Fleche vers la droite">
-                    </div>
+{% block main %}
+    <div class="page-content mt-3">
+        {% for managementTeam in managementTeams|sort((a, b) => a.order > b.order) %}
+            <h2>{{ managementTeam.name }}</h2>
+            <div class="carousels-container">
+                <div class="carousels-prev">
+                    <img src="{{ asset('build/images/symbole/down-arrow-grey.svg') }}" alt="Fleche vers la gauche">
                 </div>
-            {% endfor %}
 
-            <div class="w-100 flex jc-end mt-3">
-                <a class="btn -primary" href="{{ path(constant('App\\Http\\Landing\\Controller\\ClubController::ROUTE_LANDING_CLUB')) }}">
-                    Découvrir le club
-                </a>
+                <div class="carousels">
+                    {% for archer in managementTeam.archers %}
+                        <div class="element">
+                            <main>
+                                <img src="{{ archer.image }}" alt="Photo de {{ archer.firstName }} {{ archer.lastName }}">
+                            </main>
+                            <footer>
+                                <p class="text-">{{ archer.firstName }} {{ archer.lastName|upper }}</p>
+                                <span>{{ archer.function }}</span>
+                            </footer>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="carousels-next">
+                    <img src="{{ asset('build/images/symbole/down-arrow-grey.svg') }}" alt="Fleche vers la droite">
+                </div>
             </div>
+        {% endfor %}
+
+        <div class="w-100 flex jc-end mt-3">
+            <a class="btn -primary" href="{{ path(constant('App\\Http\\Landing\\Controller\\ClubController::ROUTE_LANDING_CLUB')) }}">
+                Découvrir le club
+            </a>
         </div>
     </div>
 {% endblock %}

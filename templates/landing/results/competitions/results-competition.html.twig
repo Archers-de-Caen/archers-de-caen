@@ -7,11 +7,7 @@
 {% endblock %}
 
 {% block body %}
-    <main class="page-container">
-
-        <section class="title">
-            <h1>{{ block('title') }}</h1>
-        </section>
+    <div class="page-content">
 
         {{ include('/landing/results/competitions/_parts/results-competition-table.html.twig', {
             competition: competition,
@@ -28,6 +24,6 @@
             <i data-feather="arrow-left"></i>
             <span>Revenir a la liste des compétitions</span>
         </a>
-    </main>
+    </div>
 {% endblock %}
 

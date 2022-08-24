@@ -2,12 +2,8 @@
 
 {% block title %}Distinctions Federales{% endblock %}
 
-{% block body %}
-    <main class="page-container">
-        <section class="title">
-            <h1>{{ block('title') }}</h1>
-        </section>
-
+{% block main %}
+    <div class="page-content">
         <section class="page-content result-badges-page">
             <div class="thumbnails-container weapons">
                 <h2 class="mt-5">Arme</h2>
@@ -81,7 +77,7 @@
             </div>
 
         </section>
-    </main>
+    </div>
 
     <script>
         function hideAllCompetitionType() {
