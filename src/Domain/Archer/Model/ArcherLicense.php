@@ -34,6 +34,10 @@ class ArcherLicense
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
     private ?bool $active = false;
 
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
+    private ?bool $payed = false;
+
+
     public function getArcher(): ?Archer
     {
         return $this->archer;
@@ -96,6 +100,18 @@ class ArcherLicense
     public function setLicense(?License $license): self
     {
         $this->license = $license;
+
+        return $this;
+    }
+
+    public function getPayed(): ?bool
+    {
+        return $this->payed;
+    }
+
+    public function setPayed(?bool $payed): self
+    {
+        $this->payed = $payed;
 
         return $this;
     }

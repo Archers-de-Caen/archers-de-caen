@@ -80,7 +80,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     /**
      * @var array<string>
      */
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: Types::JSON)]
     private array $roles = [];
 
     /**
@@ -94,6 +94,13 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
      */
     #[ORM\ManyToMany(targetEntity: ResultTeam::class, mappedBy: 'teammates')]
     private Collection $resultsTeams;
+
+    /**
+     * @var string|null Numéro d'affiliation FFTA
+     */
+    #[ORM\Column(type: Types::STRING, length: 7, unique: true)]
+    #[Assert\Length(max: 7)]
+    private ?string $membershipNumber = null;
 
     public function __construct()
     {
@@ -325,6 +332,18 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     public function removeResultTeam(ResultTeam $resultTeam): self
     {
         $this->resultsTeams->removeElement($resultTeam);
+
+        return $this;
+    }
+
+    public function getMembershipNumber(): ?string
+    {
+        return $this->membershipNumber;
+    }
+
+    public function setMembershipNumber(?string $membershipNumber): self
+    {
+        $this->membershipNumber = $membershipNumber;
 
         return $this;
     }
