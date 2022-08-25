@@ -45,7 +45,7 @@ class V2ToV3ActualityCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $archer = $this->em->getRepository(Archer::class)->findOneBy(['licenseNumber' => '210212D']); // TODO: A changer
+        $archer = $this->em->getRepository(Archer::class)->findOneBy(['licenseNumber' => '693837W']); // William Carville
 
         if (!$archer) {
             $io->error('Archer introuvable');
