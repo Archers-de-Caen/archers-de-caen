@@ -107,7 +107,7 @@ class FftaArcherUpdateCommand extends Command
 
         unlink($this->cookieFile);
 
-//      TODO: $this->em->flush();
+        $this->em->flush();
 
         return Command::SUCCESS;
     }
