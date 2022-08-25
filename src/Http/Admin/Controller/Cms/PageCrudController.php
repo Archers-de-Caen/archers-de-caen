@@ -113,7 +113,7 @@ class PageCrudController extends AbstractCrudController
             ->setLabel('Statut')
             ->setChoices(Status::toChoicesWithEnumValue());
 
-        return [$title, $status, $image, $content, $tags];
+        return [$title, $status, $image, $tags, $content];
     }
 
     public function configureFilters(Filters $filters): Filters

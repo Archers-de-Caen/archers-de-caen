@@ -9,9 +9,13 @@
         .ck-editor__editable_inline {
             min-height: 500px;
         }
+
+        .ck-content p, .ck-content h1, .ck-content h2, .ck-content h3, .ck-content h4 {
+            color: black;
+        }
     </style>
 
-    <label for="editor"></label>
+    <label for="editor">Contenu</label>
 
     <textarea id="editor" name="{{ form.vars.full_name }}">
         {{ form.vars.data }}
