@@ -30,6 +30,7 @@ use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use \App\Domain\Archer\Model\PostalAddress;
 
 #[ORM\Entity(repositoryClass: ArcherRepository::class)]
 #[UniqueEntity('email')]
@@ -98,9 +99,15 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     /**
      * @var string|null Numéro d'affiliation FFTA
      */
-    #[ORM\Column(type: Types::STRING, length: 7, unique: true)]
+    #[ORM\Column(type: Types::STRING, length: 7, unique: true, nullable: true)]
     #[Assert\Length(max: 7)]
     private ?string $membershipNumber = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?PostalAddress $postalAddress = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $birthdayDate = null;
 
     public function __construct()
     {
@@ -344,6 +351,30 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     public function setMembershipNumber(?string $membershipNumber): self
     {
         $this->membershipNumber = $membershipNumber;
+
+        return $this;
+    }
+
+    public function getPostalAddress(): ?PostalAddress
+    {
+        return $this->postalAddress;
+    }
+
+    public function setPostalAddress(?PostalAddress $postalAddress): self
+    {
+        $this->postalAddress = $postalAddress;
+
+        return $this;
+    }
+
+    public function getBirthdayDate(): ?\DateTimeInterface
+    {
+        return $this->birthdayDate;
+    }
+
+    public function setBirthdayDate(?\DateTimeInterface $birthdayDate): self
+    {
+        $this->birthdayDate = $birthdayDate;
 
         return $this;
     }
