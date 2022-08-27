@@ -36,11 +36,13 @@ class ArcherLicenseFormType extends AbstractType
                 'empty_data' => 'Française',
             ])
             ->add('license', EntityType::class, [
-                'data_class' => License::class,
+                'class' => License::class,
             ])
             ->add('accidentInsurance', ChoiceType::class, [
-                'Oui' => true,
-                'Non' => false,
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false,
+                ]
             ])
             ->add('submit', SubmitType::class)
         ;

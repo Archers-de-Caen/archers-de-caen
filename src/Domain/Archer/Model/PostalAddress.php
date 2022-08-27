@@ -11,28 +11,28 @@ class PostalAddress
 {
     use IdTrait;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 191, nullable: true)]
     private ?string $line1 = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 191, nullable: true)]
     private ?string $line2 = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 191, nullable: true)]
     private ?string $line3 = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 191, nullable: true)]
     private ?string $city = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 191, nullable: true)]
     private ?string $county = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 191, nullable: true)]
     private ?string $postcode = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 191, nullable: true)]
     private ?string $country = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 191, nullable: true)]
     private ?string $otherAddressDetails = null;
 
     public function getLine1(): ?string

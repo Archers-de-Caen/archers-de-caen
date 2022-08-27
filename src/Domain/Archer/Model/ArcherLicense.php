@@ -10,6 +10,7 @@ use App\Infrastructure\Model\TimestampTrait;
 use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use \App\Domain\File\Model\Document;
 
 #[ORM\Entity(repositoryClass: ArcherLicenseRepository::class)]
 class ArcherLicense
@@ -55,11 +56,23 @@ class ArcherLicense
     #[ORM\Column(nullable: true)]
     private array $contacts = [];
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 191, nullable: true)]
     private ?string $paymentChoice = null;
 
     #[ORM\Column]
     private ?bool $runArchery = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Document $mainMedicalCertificate = null;
+
+    #[ORM\Column(length: 191, nullable: true)]
+    private ?string $mainMedicalCertificateType = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Document $runArcheryMedicalCertificate = null;
+
+    #[ORM\Column(length: 191, nullable: true)]
+    private ?string $runArcheryMedicalCertificateType = null;
 
     public function getArcher(): ?Archer
     {
@@ -233,5 +246,47 @@ class ArcherLicense
         $this->runArchery = $runArchery;
 
         return $this;
+    }
+
+    public function getMainMedicalCertificate(): ?Document
+    {
+        return $this->mainMedicalCertificate;
+    }
+
+    public function setMainMedicalCertificate(?Document $mainMedicalCertificate): self
+    {
+        $this->mainMedicalCertificate = $mainMedicalCertificate;
+
+        return $this;
+    }
+
+    public function getMainMedicalCertificateType(): ?string
+    {
+        return $this->mainMedicalCertificateType;
+    }
+
+    public function setMainMedicalCertificateType(?string $mainMedicalCertificateType): void
+    {
+        $this->mainMedicalCertificateType = $mainMedicalCertificateType;
+    }
+
+    public function getRunArcheryMedicalCertificate(): ?Document
+    {
+        return $this->runArcheryMedicalCertificate;
+    }
+
+    public function setRunArcheryMedicalCertificate(?Document $runArcheryMedicalCertificate): void
+    {
+        $this->runArcheryMedicalCertificate = $runArcheryMedicalCertificate;
+    }
+
+    public function getRunArcheryMedicalCertificateType(): ?string
+    {
+        return $this->runArcheryMedicalCertificateType;
+    }
+
+    public function setRunArcheryMedicalCertificateType(?string $runArcheryMedicalCertificateType): void
+    {
+        $this->runArcheryMedicalCertificateType = $runArcheryMedicalCertificateType;
     }
 }

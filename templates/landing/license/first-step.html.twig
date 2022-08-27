@@ -1,0 +1,71 @@
+{% extends "/landing/base.html.twig" %}
+
+{% block title %}Prendre une licence{% endblock %}
+
+{% block main %}
+
+    {% if errors|length %}
+        <ul class="alert alert-danger mb-2">
+            {% for error in errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form
+        method="POST"
+        action="{{ path(constant('\App\\Http\\Landing\\Controller\\LicenseController::ROUTE_LANDING_LICENSE_FIRST_STEP')) }}"
+    >
+        <div class="form-groups">
+            <div class="flex jc-space-between --gap-2">
+                <div class="form-group --check --btn">
+                    <input type="radio" id="first-license" name="license" value="first-license"/>
+                    <label for="first-license">Je prend ma première licence de tir à l'arc</label>
+                </div>
+
+                <div class="form-group --check --btn">
+                    <input type="radio" id="caen" name="license" value="caen"/>
+                    <label for="caen">J'ai déjà était licencié aux Archers de Caen</label>
+                </div>
+
+                <div class="form-group --check --btn">
+                    <input type="radio" id="another-club" name="license" value="another-club"/>
+                    <label for="another-club">J'ai déjà était licencié dans un autre club</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-groups license-number-container">
+            <div class="form-group">
+                <label for="license-number">Numéro de licence</label>
+                <input id="license-number" name="license-number" placeholder="1234567A">
+            </div>
+        </div>
+
+        <div class="w-100 flex jc-end mt-3">
+            <button type="submit" class="btn -primary">Valider</button>
+        </div>
+    </form>
+{% endblock main %}
+
+{% block javascript_footer %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const licenseNumberContainer = document.querySelector('.license-number-container')
+
+            hide(licenseNumberContainer)
+
+            document.querySelectorAll('[name=license]').forEach((input) => {
+                input.addEventListener('change', (event) => {
+                    const target = event.currentTarget
+
+                    if ('caen' === target.value && target.checked) {
+                        show(licenseNumberContainer)
+                    } else {
+                        hide(licenseNumberContainer)
+                    }
+                })
+            })
+        })
+    </script>
+{% endblock javascript_footer %}
