@@ -99,8 +99,8 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     /**
      * @var string|null Numéro d'affiliation FFTA
      */
-    #[ORM\Column(type: Types::STRING, length: 7, unique: true, nullable: true)]
-    #[Assert\Length(max: 7)]
+    #[ORM\Column(type: Types::STRING, length: 14, unique: true, nullable: true)]
+    #[Assert\Length(max: 14)]
     private ?string $membershipNumber = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
@@ -108,6 +108,10 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $birthdayDate = null;
+
+    #[ORM\Column(type: Types::STRING, length: 40, nullable: true)]
+    #[Assert\Length(max: 40)]
+    private ?string $nationality = null;
 
     public function __construct()
     {
@@ -377,5 +381,15 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         $this->birthdayDate = $birthdayDate;
 
         return $this;
+    }
+
+    public function getNationality(): ?string
+    {
+        return $this->nationality;
+    }
+
+    public function setNationality(?string $nationality): void
+    {
+        $this->nationality = $nationality;
     }
 }

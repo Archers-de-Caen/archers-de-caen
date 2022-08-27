@@ -1,0 +1,27 @@
+{% extends '/landing/base.html.twig' %}
+
+{% block title %}Prendre une licence{% endblock %}
+
+{% block main %}
+    {{ form_start(form) }}
+
+    <div class="flex jc-space-between">
+        {{ form_row(form.lastname) }}
+        {{ form_row(form.firstname) }}
+    </div>
+
+    {{ form_row(form.email) }}
+    {{ form_row(form.phone) }}
+    {{ form_row(form.birthdayDate) }}
+    {{ form_row(form.postalAddress) }}
+    {{ form_row(form.nationality) }}
+    {{ form_row(form.membershipNumber) }}
+    {{ form_row(form.gender) }}
+
+    <div class="w-100 flex jc-end mt-3">
+        {{ form_row(form.submit) }}
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}
+
