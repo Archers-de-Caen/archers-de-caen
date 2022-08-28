@@ -29,6 +29,16 @@
     }
   }
 
+  &.align- {
+    &center {
+      align-items: center;
+    }
+
+    &end {
+      align-items: end;
+    }
+  }
+
   &.--wrap {
     flex-wrap: wrap;
   }

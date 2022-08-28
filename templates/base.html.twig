@@ -1,19 +1,125 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}{% if block('title') %} | {% endif %}Les Archers de Caen</title>
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+    <link rel="icon" href="/favicon/16x16.png" sizes="16x16">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <input type="hidden" value="{{ message }}" data-type="{{ label }}" class="flash">
+    {% endfor %}
+{% endfor %}
+
+<header class="header">
+    <div class="header-secondary">
+        <div class="header-content">
+            <ul>
+                <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\NewspaperController::ROUTE_LANDING_NEWSPAPERS')) }}">La gazette</a></li>
+                <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\ContactController::ROUTE_LANDING_CONTACT')) }}">Contact</a></li>
+                <li><a href="{{ path('app_index') }}">Espace licencié</a></li>
+                {% if is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_ADMIN')) %}
+                    <li><a href="{{ path('admin_index') }}">Admin</a></li>
+                {% endif %}
+                {# <li><a href="#">🔍</a></li> #}
+            </ul>
+        </div>
+    </div>
+    <div class="header-primary">
+        <div class="header-content">
+            <a href="{{ path('landing_index') }}" class="header-image">
+                <img src="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.svg') }}" alt="Logo des archers de Caen">
+            </a>
+            <ul>
+                <li>
+                    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\ActualitiesController::ROUTE_LANDING_ACTUALITIES')) }}">
+                        Actualités
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\ClubController::ROUTE_LANDING_CLUB')) }}">
+                        Club
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\CompetitionController::ROUTE_LANDING_RESULTS')) }}">
+                        Résultats
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\PageController::ROUTE_LANDING_PAGE_SPORT')) }}">
+                        Sport
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\GalleryController::ROUTE_LANDING_GALLERIES')) }}">
+                        Photos
+                    </a>
+                </li>
+            </ul>
+            <div class="menu-responsive-btn hamburger-menu">
+                <div class="hamburger-menu-bar"></div>
+                <div class="hamburger-menu-bar"></div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="body">
+    {% block body %}
+        <div class="page-container">
+            <div class="page-title-container">
+                <div class="page-title">
+                    <h1 class="title">
+                        {{ block('title') }}
+                    </h1>
+                </div>
+            </div>
+
+            {% block main %}{% endblock main %}
+        </div>
+    {% endblock %}
+</div>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="menu">
+            <p>© Archers de Caen {{ 'now'|date('Y') }}. Tous droits réservés.</p>
+            <ul>
+                {% if app.environment == 'dev' or is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_DEVELOPER')) %}
+                    <li><a href="{{ path('landing_style_guide') }}">Guide de style</a></li>
+                    <li><a href="https://archers-caen.fr">V2</a></li>
+                    <li></li>
+                {% endif %}
+
+                <li><a href="{{ path('landing_page', { slug: 'politique-de-confidentialite', type: 'p' }) }}">Politique de confidentialité</a></li>
+                <li><a href="{{ path('landing_page', { slug: 'reglement-intérieur', type: 'p' }) }}">Règlement intérieur</a></li>
+                <li><a href="{{ path('landing_page', { slug: 'statuts', type: 'p' }) }}">Statuts</a></li>
+                <li><a href="{{ path('landing_page', { slug: 'labels', type: 'p' }) }}">Labels</a></li>
+                <li><a href="{{ path('landing_page', { slug: 'presse-et-medias', type: 'p' }) }}">Presse et médias</a></li>
+                <li><a href="{{ path('landing_page', { slug: 'historique', type: 'p' }) }}">Historique</a></li>
+                <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\ContactController::ROUTE_LANDING_CONTACT')) }}">Contact</a></li>
+                <li class="mt-2">Site réalisé par <a href="https://damienhebert.fr" class="highlighted">Damien HEBERT</a></li>
+            </ul>
+        </div>
+        <div class="logo">
+            <img src="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.svg') }}" alt="Logo des archers de Caen">
+        </div>
+    </div>
+</footer>
+
+{% block javascript_footer %}{% endblock %}
+</body>
 </html>

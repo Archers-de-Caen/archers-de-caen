@@ -220,6 +220,13 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         return $this;
     }
 
+    public function updateLastLogin(): self
+    {
+        $this->setLastLogin(new \DateTime());
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, ArcherLicense>
      */

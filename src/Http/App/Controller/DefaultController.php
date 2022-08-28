@@ -13,7 +13,9 @@ use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 #[IsGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED)]
 class DefaultController extends AbstractController
 {
-    #[Route('/', name: 'app_index')]
+    public const ROUTE_APP_INDEX = 'app_index';
+
+    #[Route('/', name: self::ROUTE_APP_INDEX)]
     public function index(): Response
     {
         return $this->render('/app/index/index.html.twig');

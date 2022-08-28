@@ -14,7 +14,7 @@
 
     <form
         method="POST"
-        action="{{ path(constant('\App\\Http\\Landing\\Controller\\LicenseController::ROUTE_LANDING_LICENSE_FIRST_STEP')) }}"
+        action="{{ path(constant('App\\Http\\Landing\\Controller\\LicenseController::ROUTE_LANDING_LICENSE_FIRST_STEP')) }}"
     >
         <div class="form-groups">
             <div class="flex jc-space-between --gap-2">
@@ -35,11 +35,16 @@
             </div>
         </div>
 
-        <div class="form-groups license-number-container">
-            <div class="form-group">
-                <label for="license-number">Numéro de licence</label>
-                <input id="license-number" name="license-number" placeholder="123456A">
-            </div>
+        <div class="flex align-center direction-column mt-3">
+            <a class="btn -primary width-fit-content" href="{{ path(constant('App\\Http\\App\\Controller\\SecurityController::ROUTE_APP_LOGIN')) }}">
+                Je me connecte
+            </a>
+
+            <hr class="my-3">
+
+            <a class="btn -primary width-fit-content" href="{{ path(constant('App\\Http\\App\\Controller\\SecurityController::ROUTE_APP_REGISTER')) }}">
+                Je crée mon compte
+            </a>
         </div>
 
         <div class="w-100 flex jc-end mt-3">
@@ -51,21 +56,7 @@
 {% block javascript_footer %}
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const licenseNumberContainer = document.querySelector('.license-number-container')
 
-            hide(licenseNumberContainer)
-
-            document.querySelectorAll('[name=license]').forEach((input) => {
-                input.addEventListener('change', (event) => {
-                    const target = event.currentTarget
-
-                    if ('caen' === target.value && target.checked) {
-                        show(licenseNumberContainer)
-                    } else {
-                        hide(licenseNumberContainer)
-                    }
-                })
-            })
         })
     </script>
 {% endblock javascript_footer %}

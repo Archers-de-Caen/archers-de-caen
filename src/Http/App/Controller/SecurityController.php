@@ -6,8 +6,8 @@ namespace App\Http\App\Controller;
 
 use App\Domain\Archer\Form\RegistrationFormType;
 use App\Domain\Archer\Model\Archer;
+use App\Infrastructure\Security\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,11 +16,16 @@ use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\FormLoginAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
 
 class SecurityController extends AbstractController
 {
-    #[Route('/connexion', name: 'app_login')]
+    public const ROUTE_APP_LOGIN = 'app_login';
+    public const ROUTE_APP_REGISTER = 'app_register';
+    public const ROUTE_APP_LOGOUT = 'app_logout';
+
+    #[Route('/connexion', name: self::ROUTE_APP_LOGIN, methods: [Request::METHOD_GET, Request::METHOD_POST])]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -32,22 +37,13 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    #[Route('/debug', name: 'app_debug')]
-    public function debug(EntityManagerInterface $em): Response
-    {
-        /** @var Archer $user */
-        $user = $this->getUser();
-
-        $user->addRole(Archer::ROLE_DEVELOPER);
-
-        $em->flush();
-
-        return $this->redirectToRoute('admin_index');
-    }
-
-    #[Route('/inscription', name: 'app_register')]
-    public function register(Request $request, EntityManagerInterface $em, UserAuthenticatorInterface $authenticator, AbstractLoginFormAuthenticator $loginFormAuthenticator): ?Response
-    {
+    #[Route('/inscription', name: self::ROUTE_APP_REGISTER, methods: [Request::METHOD_GET, Request::METHOD_POST])]
+    public function register(
+        Request $request,
+        EntityManagerInterface $em,
+        UserAuthenticatorInterface $authenticator,
+        LoginFormAuthenticator $loginFormAuthenticator
+    ): ?Response {
         if ($this->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY)) {
             return $this->redirectToRoute('');
         }
@@ -60,7 +56,7 @@ class SecurityController extends AbstractController
             $em->persist($archer);
             $em->flush();
 
-            $request->request->set('referer', $this->generateUrl('admin_index'));
+            $request->request->set('referer', $request->query->get('referer') ?: $this->generateUrl('admin_index'));
 
             return $authenticator->authenticateUser($archer, $loginFormAuthenticator, $request, [new RememberMeBadge()]);
         }
@@ -71,12 +67,8 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @throws Exception
+     * Handle by security.yaml
      */
-    #[Route('/deconnexion', name: 'app_logout', methods: 'GET')]
-    public function logout(): void
-    {
-        // controller can be blank: it will never be called!
-        throw new Exception('Don\'t forget to activate logout in security.yaml');
-    }
+    #[Route('/deconnexion', name: self::ROUTE_APP_LOGOUT, methods: Request::METHOD_GET)]
+    public function logout(): void {}
 }

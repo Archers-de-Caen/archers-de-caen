@@ -7,7 +7,7 @@
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form action="{{ path('app_login') }}" method="post" class="form-groups w-50 m-a mt-3">
+    <form action="{{ path(constant('App\\Http\\App\\Controller\\SecurityController::ROUTE_APP_LOGIN')) }}" method="post" class="form-groups w-50 m-a mt-3">
         <h2>Connexion</h2>
 
         <div class="form-group">

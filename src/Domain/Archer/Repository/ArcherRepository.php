@@ -6,6 +6,7 @@ namespace App\Domain\Archer\Repository;
 
 use App\Domain\Archer\Model\Archer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,5 +22,23 @@ class ArcherRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Archer::class);
+    }
+
+    public function loadUserByIdentifier(string $userIdentifier): ?Archer
+    {
+        try {
+            /** @var ?Archer $archer */
+            $archer = $this
+                ->createQueryBuilder('archer')
+                ->where('archer.email = :identifier')
+                ->orWhere('archer.licenseNumber = :identifier')
+                ->setParameter('identifier', $userIdentifier)
+                ->getQuery()
+                ->getOneOrNullResult();
+
+            return $archer;
+        } catch (NonUniqueResultException) {
+            return null;
+        }
     }
 }

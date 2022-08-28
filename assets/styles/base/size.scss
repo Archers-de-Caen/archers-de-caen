@@ -2,3 +2,7 @@
   .w-#{$i} { width: 1%*$i }
   .h-#{$i} { height: 1%*$i }
 }
+
+.width-fit-content {
+  width: fit-content;
+}
