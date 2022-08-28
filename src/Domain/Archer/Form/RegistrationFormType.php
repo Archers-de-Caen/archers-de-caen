@@ -29,9 +29,9 @@ class RegistrationFormType extends AbstractType
                     new Regex('/^.*(?=.{6,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/'), // 6 caractères minimum , un chiffre , une majuscule, une minuscule
                 ],
             ])
+            ->add('licenseNumber', TextType::class)
             ->add('lastname', TextType::class)
             ->add('firstname', TextType::class)
-            ->add('phone', TextType::class)
             ->add('submit', SubmitType::class)
         ;
     }

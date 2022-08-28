@@ -3,5 +3,12 @@
 {% block title %}Connexion{% endblock %}
 
 {% block main %}
-    {{ form(form) }}
+    {{ form_start(form) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.licenseNumber) }}
+        {{ form_row(form.firstname) }}
+        {{ form_row(form.lastname) }}
+        {{ form_row(form.plainPassword) }}
+        {{ form_row(form.submit) }}
+    {{ form_end(form) }}
 {% endblock %}
