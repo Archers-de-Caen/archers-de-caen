@@ -1,14 +1,74 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connexion{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block main %}
     {{ form_start(form) }}
-        {{ form_row(form.email) }}
-        {{ form_row(form.licenseNumber) }}
-        {{ form_row(form.firstname) }}
-        {{ form_row(form.lastname) }}
-        {{ form_row(form.plainPassword) }}
-        {{ form_row(form.submit) }}
+        <div class="flex jc-space-between">
+            {{ form_row(form.email) }}
+            {{ form_row(form.licenseNumber) }}
+        </div>
+
+        <div class="flex jc-space-between">
+            {{ form_row(form.firstname) }}
+            {{ form_row(form.lastname) }}
+        </div>
+
+        <div class="flex jc-center mt-2">
+            <div class="switch" id="licenses-switch">
+                <div class="choice">
+                    <input type="radio" id="connection-link" name="connection-type" checked value="connection-link" />
+                    <label for="connection-link">Utiliser un lien de connexion</label>
+                </div>
+                <div class="choice">
+                    <input type="radio" id="password" name="connection-type" value="password" />
+                    <label for="password">Définir un mot de passe</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex jc-space-between password-container mt-3">
+            {{ form_row(form.plainPassword) }}
+        </div>
+
+        <div class="connection-link-container mt-3">
+            <h3>Qu'est qu'un lien de connexion ?</h3>
+            <p>
+                Un lien de connexion permet d'éviter d'avoir un millième mot de passe à se rappeler.<br>
+                Au moment de se connecter, au lieu d'avoir à rentrer un mot de passe, un email vous sera envoyé,
+                avec un lien qui vous redirigera vers le site et vous serez automatiquement connecté sans rentrer de mot de passe.<br>
+                Si vous préférez utiliser un mot de passe, aucun souci, cliqué juste sur "définir un mot de passe".
+            </p>
+        </div>
+
+        <div class="w-100 flex jc-end mt-3">
+            {{ form_row(form.submit) }}
+        </div>
     {{ form_end(form) }}
 {% endblock %}
+
+{% block javascript_footer %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const passwordContainer = document.querySelector('.password-container')
+            const connectionLinkContainer = document.querySelector('.connection-link-container')
+            const connectionTypeSwitch = document.querySelectorAll('[name=connection-type]')
+
+            hide(passwordContainer)
+
+            connectionTypeSwitch.forEach((input) => {
+                input.addEventListener('change', (event) => {
+                    const target = event.currentTarget
+
+                    if ('connection-link' === target.value && target.checked) {
+                        hide(passwordContainer)
+                        show(connectionLinkContainer)
+                    } else if ('password' === target.value && target.checked) {
+                        show(passwordContainer, 'flex')
+                        hide(connectionLinkContainer)
+                    }
+                })
+            })
+        })
+    </script>
+{% endblock javascript_footer %}

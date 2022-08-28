@@ -47,6 +47,13 @@ class SecurityController extends AbstractController
         }
 
         $archer = new Archer();
+
+        if (Request::METHOD_POST === $request->getMethod()) {
+            $licenseNumber = (string) $request->request->all()['registration_form']['licenseNumber'];
+
+            $archer = $em->getRepository(Archer::class)->findOneBy(['licenseNumber' => $licenseNumber]) ?? new Archer();
+        }
+
         $form = $this->createForm(RegistrationFormType::class, $archer);
         $form->handleRequest($request);
 
@@ -54,7 +61,7 @@ class SecurityController extends AbstractController
             $em->persist($archer);
             $em->flush();
 
-            $request->request->set('referer', $request->query->get('referer') ?: $this->generateUrl('admin_index'));
+            $request->request->set('referer', $request->query->get('referer') ?: $this->generateUrl(DefaultController::ROUTE_APP_INDEX));
 
             return $authenticator->authenticateUser($archer, $loginFormAuthenticator, $request, [new RememberMeBadge()]);
         }
