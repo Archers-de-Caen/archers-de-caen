@@ -17,9 +17,9 @@ use Twig\Error\SyntaxError;
 class Mailer
 {
     public function __construct(
-        private readonly Environment $twig,
-        private readonly MailerInterface $mailer,
-        readonly private LoggerInterface $logger,
+        readonly private Environment $twig,
+        readonly private MailerInterface $mailer,
+        readonly protected LoggerInterface $logger,
     ) {
     }
 

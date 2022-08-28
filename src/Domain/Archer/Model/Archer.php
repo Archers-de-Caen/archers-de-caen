@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Archer\Model;
 
 use App\Domain\Archer\Repository\ArcherRepository;
+use App\Domain\Auth\Model\AuthToken;
 use App\Domain\Result\Model\Result;
 use App\Domain\Result\Model\ResultBadge;
 use App\Domain\Result\Model\ResultCompetition;
@@ -23,14 +24,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Exception;
-use RuntimeException;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use \App\Domain\Archer\Model\PostalAddress;
 
 #[ORM\Entity(repositoryClass: ArcherRepository::class)]
 #[UniqueEntity('email')]
@@ -113,10 +111,17 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     #[Assert\Length(max: 40)]
     private ?string $nationality = null;
 
+    /**
+     * @var Collection<int, AuthToken>
+     */
+    #[ORM\OneToMany(mappedBy: 'archer', targetEntity: AuthToken::class, orphanRemoval: true)]
+    private Collection $authTokens;
+
     public function __construct()
     {
         $this->archerLicenses = new ArrayCollection();
         $this->resultsTeams = new ArrayCollection();
+        $this->authTokens = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -158,23 +163,14 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         $this->setPlainPassword(null);
     }
 
-    /**
-     * TODO: a vérifier.
-     *
-     * @throws Exception
-     */
     public function getUserIdentifier(): string
     {
-        if (!$this->getLicenseNumber() && !$this->getEmail()) {
-            throw new RuntimeException('L\'utilisateur doit avoir au moins son numéro de licence ou un email');
-        }
-
-        return ($this->getLicenseNumber() ?: $this->getEmail()) ?: '';
+        return $this->getLicenseNumber() ?? $this->getEmail() ?? '';
     }
 
     public function isEqualTo(UserInterface $user): bool
     {
-        return method_exists($user, 'getEmail') && $this->getEmail() === $user->getEmail();
+        return method_exists($user, 'getLicenseNumber') && $this->getLicenseNumber() === $user->getLicenseNumber();
     }
 
     // Getter / Setter
@@ -398,5 +394,35 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     public function setNationality(?string $nationality): void
     {
         $this->nationality = $nationality;
+    }
+
+    /**
+     * @return Collection<int, AuthToken>
+     */
+    public function getAuthTokens(): Collection
+    {
+        return $this->authTokens;
+    }
+
+    public function addAuthToken(AuthToken $authToken): self
+    {
+        if (!$this->authTokens->contains($authToken)) {
+            $this->authTokens->add($authToken);
+
+            if ($authToken->getArcher() !== $this) {
+                $authToken->setArcher($this);
+            }
+        }
+
+        return $this;
+    }
+
+    public function removeAuthToken(AuthToken $authToken): self
+    {
+        if ($this->authTokens->remove($authToken)) {
+            $authToken->setArcher(null);
+        }
+
+        return $this;
     }
 }

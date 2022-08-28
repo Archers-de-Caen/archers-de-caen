@@ -8,6 +8,7 @@ use App\Domain\Archer\Form\RegistrationFormType;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Archer\Repository\ArcherRepository;
 use App\Domain\Auth\Mailer\SecurityMailer;
+use App\Domain\Auth\Manager\AuthTokenManager;
 use App\Domain\Auth\Subscriber\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,7 +35,9 @@ class SecurityController extends AbstractController
         Request $request,
         AuthenticationUtils $authenticationUtils,
         ArcherRepository $archerRepository,
-        SecurityMailer $mailer
+        SecurityMailer $mailer,
+        AuthTokenManager $authTokenManager,
+        EntityManagerInterface $em
     ): Response {
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
@@ -51,6 +54,10 @@ class SecurityController extends AbstractController
                 if ($archer->getPassword()) {
                     return $this->redirectToRoute(self::ROUTE_APP_LOGIN_PASSWORD);
                 }
+
+                $authTokenManager->create($archer);
+
+                $em->flush();
 
                 $mailer->sendConnectionLink($archer);
 
@@ -71,10 +78,6 @@ class SecurityController extends AbstractController
     {
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
-
-        if (Request::METHOD_POST === $request->getMethod()) {
-
-        }
 
         return $this->render('app/security/login-password.html.twig', [
             'last_username' => $lastUsername,
