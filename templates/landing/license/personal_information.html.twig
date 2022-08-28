@@ -10,18 +10,42 @@
         {{ form_row(form.firstname) }}
     </div>
 
-    {{ form_row(form.email) }}
-    {{ form_row(form.phone) }}
-    {{ form_row(form.birthdayDate) }}
-    {{ form_row(form.postalAddress) }}
+    <div class="flex jc-space-between">
+        {{ form_row(form.gender) }}
+        {{ form_row(form.birthdayDate) }}
+    </div>
+
     {{ form_row(form.nationality) }}
+
+    <hr class="my-3">
+
+    <div class="flex jc-space-between">
+        {{ form_row(form.email) }}
+        {{ form_row(form.phone) }}
+    </div>
+
+    <hr class="my-3">
+
+    <div class="w-100">
+        {{ form_row(form.postalAddress.line1) }}
+        {{ form_row(form.postalAddress.line2) }}
+
+        <div class="flex jc-space-between">
+            {{ form_row(form.postalAddress.city) }}
+            {{ form_row(form.postalAddress.postcode) }}
+        </div>
+
+        {{ form_row(form.postalAddress.country) }}
+    </div>
+
+    <hr class="my-3">
+
     {{ form_row(form.membershipNumber) }}
-    {{ form_row(form.gender) }}
 
     <div class="w-100 flex jc-end mt-3">
         {{ form_row(form.submit) }}
     </div>
 
-    {{ form_end(form) }}
+    {{ form_end(form, { render_rest: false }) }}
 {% endblock %}
 

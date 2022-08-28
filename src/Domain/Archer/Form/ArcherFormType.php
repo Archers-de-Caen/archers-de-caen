@@ -42,7 +42,7 @@ class ArcherFormType extends AbstractType
                 'widget' => 'single_text',
                 'input' => 'datetime_immutable',
             ])
-            ->add('postalAddress', TextType::class, [
+            ->add('postalAddress', PostalAddressType::class, [
                 'label' => 'Adresse',
             ])
             ->add('nationality', TextType::class, [
