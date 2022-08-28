@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Security;
+namespace App\Domain\Auth\Subscriber;
 
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Archer\Repository\ArcherRepository;
@@ -48,12 +48,12 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
      */
     public function supports(Request $request): bool
     {
-        return SecurityController::ROUTE_APP_LOGIN === $request->attributes->get('_route') && $request->isMethod(Request::METHOD_POST);
+        return SecurityController::ROUTE_APP_LOGIN_PASSWORD === $request->attributes->get('_route') && $request->isMethod(Request::METHOD_POST);
     }
 
     public function authenticate(Request $request): Passport
     {
-        $request->getSession()->set(Security::LAST_USERNAME, $request->request->get('email'));
+        $request->getSession()->set(Security::LAST_USERNAME, $request->request->get('identifier'));
 
         $identifier = (string) $request->request->get('identifier');
         $password = (string) $request->request->get('password');
