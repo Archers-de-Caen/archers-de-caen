@@ -404,6 +404,14 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         return $this->authTokens;
     }
 
+    /**
+     * @return Collection<int, AuthToken>
+     */
+    public function getActiveAuthTokens(): Collection
+    {
+        return $this->getAuthTokens()->filter(static fn (AuthToken $authToken) => !$authToken->getUsedAt() && $authToken->getExpiredAt() > new \DateTime());
+    }
+
     public function addAuthToken(AuthToken $authToken): self
     {
         if (!$this->authTokens->contains($authToken)) {

@@ -17,7 +17,7 @@ security:
             provider: app_user_provider
             form_login:
                 login_path: app_login
-                check_path: app_login
+                check_path: app_login_password
             logout:
                 path: app_logout
             # https://symfony.com/doc/current/security/impersonating_user.html
@@ -25,6 +25,11 @@ security:
                 role: ROLE_DEVELOPER
                 parameter: _switch_user
                 provider: app_user_provider
+            entry_point: form_login
+            custom_authenticators:
+                - App\Domain\Auth\Subscriber\LoginFormAuthenticator
+                - App\Domain\Auth\Subscriber\AuthTokenAuthenticator
+
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used

@@ -49,7 +49,19 @@
         </header>
 
         <div class="body">
-            {% block body %}{% endblock %}
+            {% block body %}
+                <div class="page-container">
+                    <div class="page-title-container">
+                        <div class="page-title">
+                            <h1 class="title">
+                                {{ block('title') }}
+                            </h1>
+                        </div>
+                    </div>
+
+                    {% block main %}{% endblock main %}
+                </div>
+            {% endblock %}
         </div>
 
         <footer class="footer">

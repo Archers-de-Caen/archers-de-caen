@@ -28,6 +28,7 @@ class AuthTokenManager
             ->setArcher($archer)
             ->setPlainToken($token)
             ->setToken($this->hasher->hash($token))
+            ->setExpiredAt((new \DateTimeImmutable())->add(new \DateInterval('PT15M')))
         ;
 
         $this->em->persist($authToken);

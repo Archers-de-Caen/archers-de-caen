@@ -26,7 +26,11 @@ class TokenSubscriber implements EventSubscriberInterface
     {
         $entity = $args->getObject();
 
-        if (property_exists($entity, 'token') && method_exists($entity, 'setToken')) {
+        if (
+            defined($entity::class.'::PREFIX_TOKEN') &&
+            property_exists($entity, 'token') &&
+            method_exists($entity, 'setToken')
+        ) {
             /** @var string $prefix */
             $prefix = constant($entity::class.'::PREFIX_TOKEN');
 

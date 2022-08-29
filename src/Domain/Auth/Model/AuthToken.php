@@ -55,6 +55,13 @@ class AuthToken
         return $this;
     }
 
+    public function useAuthToken(): self
+    {
+        $this->setUsedAt(new \DateTimeImmutable());
+
+        return $this;
+    }
+
     public function getExpiredAt(): ?\DateTimeImmutable
     {
         return $this->expiredAt;

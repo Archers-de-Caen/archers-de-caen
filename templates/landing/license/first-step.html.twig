@@ -36,13 +36,13 @@
         </div>
 
         <div class="flex align-center direction-column mt-3">
-            <a class="btn -primary width-fit-content" href="{{ path(constant('App\\Http\\App\\Controller\\SecurityController::ROUTE_APP_LOGIN')) }}">
+            <a class="btn -primary width-fit-content" href="{{ path(constant('App\\Http\\App\\Controller\\Security\\LoginController::ROUTE_APP_LOGIN')) }}">
                 Je me connecte
             </a>
 
             <hr class="my-3">
 
-            <a class="btn -primary width-fit-content" href="{{ path(constant('App\\Http\\App\\Controller\\SecurityController::ROUTE_APP_REGISTER')) }}">
+            <a class="btn -primary width-fit-content" href="{{ path(constant('App\\Http\\App\\Controller\\Security\\RegisterController::ROUTE_APP_REGISTER')) }}">
                 Je crée mon compte
             </a>
         </div>

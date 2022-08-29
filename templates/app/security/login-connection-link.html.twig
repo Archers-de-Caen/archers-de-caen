@@ -7,21 +7,23 @@
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form action="{{ path(constant('App\\Http\\App\\Controller\\SecurityController::ROUTE_APP_LOGIN')) }}" method="post" class="form-groups w-50 m-a mt-3">
-        <div class="form-group">
-            <label for="username">Email</label>
-            <input type="text" id="username" name="_username" value="{{ last_username }}"/>
-        </div>
+    <form
+        action="{{ path(constant('App\\Http\\App\\Controller\\Security\\LoginController::ROUTE_APP_CONNECTION_LINK')) }}"
+        method="post"
+        class="form-groups w-50 m-a mt-3"
+    >
+        <input type="hidden" value="{{ last_username }}" name="identifier">
+
+        <p>Vous avez reçu un mail avec un lien de connexion, vous avez juste à cliquer dessus</p>
+
+        <p>Si le lien ne fonction pas, vous pouvez copier le code qui est dans l'email, juste ici</p>
 
         <div class="form-group">
-            <label for="password">Mot de passe</label>
-            <input type="password" id="password" name="_password"/>
+            <label for="code">Code</label>
+            <input type="text" id="code" name="code"/>
         </div>
 
-        {# If you want to control the URL the user is redirected to on success
-        <input type="hidden" name="_target_path" value="/account"/> #}
-
-        <div class="right">
+        <div class="w-100 flex jc-end">
             <button type="submit" class="btn -primary">Connexion</button>
         </div>
     </form>
