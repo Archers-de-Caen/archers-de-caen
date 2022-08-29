@@ -58,7 +58,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
         $identifier = (string) $request->request->get('identifier');
         $password = (string) $request->request->get('password');
-        $csrfToken = (string) $request->request->get('_csrf_token');
+        $csrfToken = (string) $request->request->get('csrf');
 
         return new Passport(
             new UserBadge($identifier, function ($userIdentifier) {

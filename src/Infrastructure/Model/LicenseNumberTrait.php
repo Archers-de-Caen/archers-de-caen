@@ -10,9 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 trait LicenseNumberTrait
 {
-    #[ORM\Column(type: Types::STRING, length: 7, unique: self::LICENSE_NUMBER_UNIQUE)]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
+    #[ORM\Column(type: Types::STRING, length: 7, unique: self::LICENSE_NUMBER_UNIQUE, nullable: true)]
     #[Assert\Length(max: 7)]
     #[Assert\Regex('/[0-9]{6}[A-Za-z]/')]
     private ?string $licenseNumber = null;

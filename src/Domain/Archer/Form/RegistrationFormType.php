@@ -40,7 +40,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('licenseNumber', TextType::class, [
                 'label' => 'Numéro de licence',
-                'help' => 'Optional en cas de 1er license, Obligatoire en cas de renouvellement'
+                'help' => 'Optionnel en cas de 1er license, Obligatoire en cas de renouvellement',
             ])
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom',

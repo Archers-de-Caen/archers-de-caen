@@ -64,7 +64,6 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     private ?string $password = null;
 
     #[Assert\Length(max: 255)]
-    #[Assert\NotCompromisedPassword]
     private ?string $plainPassword = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
