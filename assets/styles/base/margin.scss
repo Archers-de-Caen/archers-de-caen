@@ -1,5 +1,7 @@
 @mixin m-a { margin: auto; }
+@mixin mx-a { margin: auto; }
 .m-a { @include m-a; }
+.mx-a { @include mx-a; }
 
 $multiplier: 10px;
 

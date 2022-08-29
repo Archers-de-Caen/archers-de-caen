@@ -9,6 +9,8 @@
   color: $color-yellow;
   box-shadow: $box-shadow;
   text-decoration: none;
+  display: block;
+  text-align: center;
 
   &:disabled {
     background-color: lighten($color-grey, 20%) !important;
