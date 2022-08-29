@@ -1,9 +1,16 @@
-{% extends '/landing/base.html.twig' %}
+{% extends '/app/base.html.twig' %}
 
-{% block title %}Prendre une licence{% endblock %}
+{% block title %}Mon compte{% endblock title %}
 
 {% block main %}
     {{ form_start(form) }}
+
+    <div class="flex jc-space-between">
+        {{ form_row(form.licenseNumber) }}
+        {{ form_row(form.membershipNumber) }}
+    </div>
+
+    <hr class="my-3">
 
     <div class="flex jc-space-between">
         {{ form_row(form.lastname) }}
@@ -38,14 +45,9 @@
         {{ form_row(form.postalAddress.country) }}
     </div>
 
-    <hr class="my-3">
-
-    {{ form_row(form.membershipNumber) }}
-
     <div class="w-100 flex jc-end mt-3">
         {{ form_row(form.submit) }}
     </div>
 
     {{ form_end(form, { render_rest: false }) }}
 {% endblock %}
-

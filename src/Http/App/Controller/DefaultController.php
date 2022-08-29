@@ -18,6 +18,8 @@ class DefaultController extends AbstractController
     #[Route('/', name: self::ROUTE_APP_INDEX)]
     public function index(): Response
     {
-        return $this->render('/app/index/index.html.twig');
+        // return $this->render('/app/index/index.html.twig');
+
+        return $this->redirectToRoute(AccountController::ROUTE_APP_ACCOUNT);
     }
 }

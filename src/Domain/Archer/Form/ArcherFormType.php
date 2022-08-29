@@ -49,6 +49,9 @@ class ArcherFormType extends AbstractType
                 'label' => 'Nationalité',
                 'empty_data' => 'Française',
             ])
+            ->add('licenseNumber', TextType::class, [
+                'label' => 'Numéro de licence'
+            ])
             ->add('membershipNumber', TextType::class, [
                 'label' => 'Numéro d\'affiliation FFTA'
             ])

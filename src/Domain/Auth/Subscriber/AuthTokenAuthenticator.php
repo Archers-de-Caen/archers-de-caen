@@ -8,13 +8,11 @@ use App\Domain\Archer\Model\Archer;
 use App\Domain\Archer\Repository\ArcherRepository;
 use App\Domain\Auth\Manager\AuthTokenManager;
 use App\Http\App\Controller\DefaultController;
-use App\Http\App\Controller\RegisterController;
 use App\Http\App\Controller\Security\LoginController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -116,6 +114,6 @@ class AuthTokenAuthenticator extends AbstractLoginFormAuthenticator
 
     protected function getLoginUrl(Request $request): string
     {
-        return $this->router->generate(RegisterController::ROUTE_APP_CONNECTION_LINK);
+        return $this->router->generate(LoginController::ROUTE_APP_CONNECTION_LINK);
     }
 }
