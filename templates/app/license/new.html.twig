@@ -3,5 +3,134 @@
 {% block title %}Prendre une licence{% endblock title %}
 
 {% block main %}
-    {{ form(form) }}
+    {{ form_start(form) }}
+
+    {{ form_row(form.license) }}
+
+    <hr class="my-3">
+
+    <p class="text-large text-bold">
+        Assurance individuelle accident (article L321-6 du code du sport) –
+        détail dans la notice jointe à la présente
+    </p>
+    <div class="files my-2">
+        <a class="file" href="{{ '' }}" target="_blank">
+            <span>
+                <i class="fa-solid fa-file-pdf"></i>
+                Notice
+            </span>
+            <i class="fa-solid fa-eye"></i>
+        </a>
+    </div>
+    {{ form_row(form.fftaAttachedNoticeRead) }}
+    <div class="my-3"></div>
+    {{ form_row(form.accidentInsurance) }}
+
+    <hr class="my-3">
+
+    <div class="files my-2">
+        <a class="file" href="{{ '' }}" target="_blank">
+            <span>
+                <i class="fa-solid fa-file-pdf"></i>
+                Dois-je fournir un certificat médical ?
+            </span>
+            <i class="fa-solid fa-eye"></i>
+        </a>
+    </div>
+    {{ form_row(form.needMainMedicalCertificate) }}
+    <div id="need-main-medical-certificate-container" class="mt-3">
+        {{ form_row(form.mainMedicalCertificate) }}
+        {{ form_row(form.mainMedicalCertificateType) }}
+    </div>
+
+    <div class="my-3"></div>
+
+    {{ form_row(form.runArchery) }}
+    <div id="run-archery-container" class="mt-3">
+        {{ form_row(form.runArcheryMedicalCertificate) }}
+        {{ form_row(form.runArcheryMedicalCertificateType) }}
+    </div>
+
+    <hr class="my-3">
+
+    {{ form_row(form.weapons) }}
+
+    <hr class="my-3">
+
+    {% if form.contacts is defined %}
+        {{ form_label(form.contacts) }}
+        {{ form_errors(form.contacts) }}
+        <ul
+            id="weapons-fields-list"
+            data-prototype="{{ form_widget(form.contacts.vars.prototype)|e }}"
+            data-widget-tags="{{ '<li></li>'|e }}"
+            data-prototype-name="{{ form.contacts.vars.prototype.vars.name }}"
+            data-widget-counter="{{ form.contacts|length }}"
+        >
+            {% for contacts in form.contacts %}
+                <li>
+                    {{ form_errors(contacts) }}
+                    {{ form_widget(contacts) }}
+                </li>
+            {% endfor %}
+        </ul>
+
+        <div class="mt-3 w-100 flex jc-end">
+            <button type="button"
+                    class="add-another-collection-widget btn -primary"
+                    data-list-selector="#weapons-fields-list">
+                Ajouter un contact
+            </button>
+        </div>
+
+        <hr class="my-3">
+    {% endif %}
+
+    {{ form_row(form.photoUse) }}
+    {{ form_row(form.fftaNewsletter) }}
+
+    <hr class="my-3">
+
+    {{ form_row(form.paymentChoice) }}
+
+    <div class="my-3"></div>
+
+    {{ form_row(form.submit) }}
+
+    {{ form_end(form, { render_rest: false }) }}
 {% endblock main %}
+
+{% block javascript_footer %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const needMainMedicalCertificateContainer = document.querySelector('#need-main-medical-certificate-container')
+            const needMainMedicalCertificate = document.querySelector('#archer_license_form_needMainMedicalCertificate')
+            const runArcheryContainer = document.querySelector('#run-archery-container')
+            const runArchery = document.querySelector('#archer_license_form_runArchery')
+
+            hide(runArcheryContainer)
+
+            runArchery.addEventListener('change', (e) => {
+                const target = e.currentTarget
+
+                if (target.checked) {
+                    show(runArcheryContainer)
+                } else {
+                    hide(runArcheryContainer)
+                }
+            })
+
+            hide(needMainMedicalCertificateContainer)
+
+            needMainMedicalCertificate.addEventListener('change', (e) => {
+                const target = e.currentTarget
+
+                if (target.checked) {
+                    show(needMainMedicalCertificateContainer)
+                } else {
+                    hide(needMainMedicalCertificateContainer)
+                }
+            })
+        })
+    </script>
+{% endblock javascript_footer %}

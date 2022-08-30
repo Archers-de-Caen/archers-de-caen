@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Archer\Fixture;
 
+use App\Domain\Archer\Config\LicenseType;
 use App\Domain\Archer\Model\License;
 use App\Infrastructure\Fixture\AbstractFixtures;
 use Doctrine\Persistence\ObjectManager;
@@ -29,8 +30,16 @@ class LicenseFixture extends AbstractFixtures
     {
         $faker = Factory::create('fr_FR');
 
+        /** @var LicenseType $licenseType */
+        $licenseType = $faker->randomElement([
+            LicenseType::ADULT,
+            LicenseType::YOUNG,
+            LicenseType::PARASPORTS,
+            LicenseType::OTHER,
+        ]);
+
         $license->setTitle($faker->sentence());
-        $license->setType($faker->bloodType()); // TODO
+        $license->setType($licenseType);
         $license->setDescription($faker->sentence());
         $license->setPrice($faker->numberBetween(10, 200));
 

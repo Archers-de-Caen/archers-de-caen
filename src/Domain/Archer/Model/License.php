@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Archer\Model;
 
+use App\Domain\Archer\Config\LicenseType;
 use App\Domain\Archer\Repository\LicenseRepository;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
@@ -40,10 +41,10 @@ class License
     #[Assert\PositiveOrZero]
     private ?int $price = null;
 
-    #[ORM\Column(type: Types::STRING, length: 191)]
+    #[ORM\Column(type: Types::STRING, enumType: LicenseType::class)]
     #[Assert\NotNull]
     #[Assert\NotBlank]
-    private ?string $type = null;
+    private ?LicenseType $type = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotNull]
@@ -84,12 +85,12 @@ class License
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): ?LicenseType
     {
         return $this->type;
     }
 
-    public function setType(string $type): self
+    public function setType(LicenseType $type): self
     {
         $this->type = $type;
 

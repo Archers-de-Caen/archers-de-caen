@@ -38,3 +38,31 @@
         </ul>
     {%- endif -%}
 {%- endblock form_errors -%}
+
+{%- block choice_widget_expanded -%}
+    {%- set attr = attr|merge({class: 'form-groups ' ~ (attr.class is defined ? attr.class : '')}) -%}
+
+    <div {{ block('widget_container_attributes') }}>
+        {%- for child in form %}
+            <div class="form-group --check">
+                {{- form_label(child, null, {translation_domain: choice_translation_domain}) -}}
+                {{- form_widget(child) -}}
+            </div>
+        {% endfor -%}
+    </div>
+{%- endblock choice_widget_expanded -%}
+
+{%- block checkbox_row -%}
+    {%- set row_attr = row_attr|merge({class: 'form-group --check' ~ (row_attr.class is defined ? row_attr.class : '')}) -%}
+
+    {%- set widget_attr = {} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+    {%- endif -%}
+    <div{% with {attr: row_attr} %}{{ block('attributes') }}{% endwith %}>
+        {{- form_label(form) -}}
+        {{- form_widget(form, widget_attr) -}}
+        {{- form_errors(form) -}}
+        {{- form_help(form) -}}
+    </div>
+{%- endblock checkbox_row -%}
