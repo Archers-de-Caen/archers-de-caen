@@ -74,6 +74,9 @@ class ArcherLicense
     #[ORM\Column(length: 191, nullable: true)]
     private ?string $runArcheryMedicalCertificateType = null;
 
+    #[ORM\Column(type: Types::JSON)]
+    private array $payment = [];
+
     public function getArcher(): ?Archer
     {
         return $this->archer;
@@ -288,5 +291,15 @@ class ArcherLicense
     public function setRunArcheryMedicalCertificateType(?string $runArcheryMedicalCertificateType): void
     {
         $this->runArcheryMedicalCertificateType = $runArcheryMedicalCertificateType;
+    }
+
+    public function getPayment(): array
+    {
+        return $this->payment;
+    }
+
+    public function setPayment(array $payment): void
+    {
+        $this->payment = $payment;
     }
 }

@@ -7,6 +7,8 @@
 
     {{ form_errors(form) }}
 
+    {{ form_row(form._token) }}
+
     {{ form_row(form.license) }}
 
     <hr class="my-3">
@@ -26,7 +28,7 @@
     </div>
     {{ form_row(form.fftaAttachedNoticeRead) }}
     <div class="my-3"></div>
-    {{ form_row(form.accidentInsurance) }}
+    {{ form_row(form.individualInsurance) }}
 
     <hr class="my-3">
 
@@ -55,7 +57,15 @@
 
     <hr class="my-3">
 
-    {{ form_row(form.weapons) }}
+    <div class="form-group">
+        {{ form_label(form.weapons) }}
+
+        <div class="flex jc-space-between w-100 --gap-3">
+            {% for weapons in form.weapons %}
+                {{ form_row(weapons, { row_attr: { class: '--btn' } }) }}
+            {% endfor %}
+        </div>
+    </div>
 
     <hr class="my-3">
 
@@ -93,7 +103,15 @@
 
     <hr class="my-3">
 
-    {{ form_row(form.paymentChoice) }}
+    <div class="form-group">
+        {{ form_label(form.paymentChoice) }}
+
+        <div class="flex jc-space-between w-100 --gap-3">
+            {% for paymentChoice in form.paymentChoice %}
+                {{ form_row(paymentChoice, { row_attr: { class: '--btn' } }) }}
+            {% endfor %}
+        </div>
+    </div>
 
     <div class="my-3"></div>
 

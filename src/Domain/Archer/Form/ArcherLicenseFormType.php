@@ -39,7 +39,7 @@ class ArcherLicenseFormType extends AbstractType
                 },
                 'group_by' => static fn (License $choice) => $choice->getType()?->toString(),
             ])
-            ->add('accidentInsurance', ChoiceType::class, [
+            ->add('individualInsurance', ChoiceType::class, [
                 'label' => false,
                 'choices' => [
                     'Je souscris à l’assurance individuelle accident avec ma licence (0.25€)' => true,
@@ -55,6 +55,8 @@ class ArcherLicenseFormType extends AbstractType
             ])
             ->add('needMainMedicalCertificate', CheckboxType::class, [
                 'label' => 'Je présente un certificat médical datant de moins d’un an.',
+                'required' => false,
+                'mapped' => false,
             ])
             ->add('mainMedicalCertificate', DocumentFormType::class, [
                 'label' => 'Certificat Médical',
@@ -69,6 +71,7 @@ class ArcherLicenseFormType extends AbstractType
             ])
             ->add('runArchery', CheckboxType::class, [
                 'label' => 'Je pratique le Run-Archery',
+                'required' => false,
             ])
             ->add('runArcheryMedicalCertificate', DocumentFormType::class, [
                 'label' => 'Certificat Médical pour le Run-archery',
@@ -97,7 +100,7 @@ class ArcherLicenseFormType extends AbstractType
                 'choices' => [
                     'Chèque' => '',
                     'Espèces' => '',
-                    'Carte bancaire (via le site)' => '',
+                    'Carte bancaire' => '',
                     'Pass\'port' => '',
                     'Virement' => '',
                     'Atouts Normandie' => '',
