@@ -217,7 +217,7 @@ class ArcherLicense
         return $this->contacts;
     }
 
-    public function setContacts(?array $contacts): self
+    public function setContacts(array $contacts): self
     {
         $this->contacts = $contacts;
 

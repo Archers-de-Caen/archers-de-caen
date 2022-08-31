@@ -9,7 +9,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<\App\Entity\App\Domain\Auth\Entity\AuthToken>
+ * @extends ServiceEntityRepository<AuthToken>
  *
  * @method AuthToken|null find($id, $lockMode = null, $lockVersion = null)
  * @method AuthToken|null findOneBy(array $criteria, array $orderBy = null)

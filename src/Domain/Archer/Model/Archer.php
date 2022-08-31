@@ -426,7 +426,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
 
     public function removeAuthToken(AuthToken $authToken): self
     {
-        if ($this->authTokens->remove($authToken)) {
+        if ($this->authTokens->removeElement($authToken)) {
             $authToken->setArcher(null);
         }
 

@@ -6,8 +6,8 @@ namespace App\Http\App\Controller\Security;
 
 use App\Domain\Archer\Form\RegistrationFormType;
 use App\Domain\Archer\Model\Archer;
-use App\Domain\Auth\Subscriber\LoginFormAuthenticator;
 use App\Http\App\Controller\DefaultController;
+use App\Http\Security\Authenticator\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
