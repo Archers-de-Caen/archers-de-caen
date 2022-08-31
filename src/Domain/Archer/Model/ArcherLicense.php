@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Domain\Archer\Model;
 
 use App\Domain\Archer\Repository\ArcherLicenseRepository;
+use App\Domain\File\Model\Document;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
 use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use \App\Domain\File\Model\Document;
 
 #[ORM\Entity(repositoryClass: ArcherLicenseRepository::class)]
 class ArcherLicense

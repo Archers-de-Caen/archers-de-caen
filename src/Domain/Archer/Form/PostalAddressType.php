@@ -60,4 +60,3 @@ class PostalAddressType extends AbstractType
         ]);
     }
 }
-

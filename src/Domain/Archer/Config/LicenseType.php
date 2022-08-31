@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Domain\Archer\Config;
 
 use App\Infrastructure\Config\Enum;
-use ValueError;
 
 enum LicenseType: string implements Enum
 {

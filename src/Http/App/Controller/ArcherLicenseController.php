@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\App\Controller;
 
 use App\Domain\Archer\Form\ArcherLicenseFormType;

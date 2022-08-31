@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\Archer\Model;
 
 use App\Domain\Archer\Repository\PostalAddressRepository;

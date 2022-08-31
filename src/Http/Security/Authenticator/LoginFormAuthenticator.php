@@ -92,10 +92,10 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
-            return  new RedirectResponse($targetPath);
+            return new RedirectResponse($targetPath);
         }
 
-        return  new RedirectResponse($this->router->generate(DefaultController::ROUTE_APP_INDEX));
+        return new RedirectResponse($this->router->generate(DefaultController::ROUTE_APP_INDEX));
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response

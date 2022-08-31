@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Security\Voter;
 
 use App\Domain\Archer\Model\Archer;
@@ -9,9 +11,9 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class ArcherLicenseVoter extends Voter
 {
-    public final const CREATE = 'create_archer_license';
-    public final const UPDATE = 'update_archer_license';
-    public final const DELETE = 'delete_archer_license';
+    final public const CREATE = 'create_archer_license';
+    final public const UPDATE = 'update_archer_license';
+    final public const DELETE = 'delete_archer_license';
 
     protected function supports(string $attribute, mixed $subject): bool
     {

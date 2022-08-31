@@ -6,8 +6,6 @@ namespace App\Domain\Archer\Form;
 
 use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Model\Archer;
-use App\Domain\Archer\Model\License;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;

@@ -21,7 +21,6 @@ class AuthTokenManager
 
     public function create(Archer $archer): AuthToken
     {
-
         $token = $this->generateToken();
 
         $authToken = (new AuthToken())
@@ -40,8 +39,8 @@ class AuthTokenManager
     {
         $token = '';
 
-        for ($i = 0; $i < $blockNumber; $i++) {
-            $token .= ByteString::fromRandom($lengthByBlock, $alphabet)->toString() . ($i < ($blockNumber - 1) ? '-' : '');
+        for ($i = 0; $i < $blockNumber; ++$i) {
+            $token .= ByteString::fromRandom($lengthByBlock, $alphabet)->toString().($i < ($blockNumber - 1) ? '-' : '');
         }
 
         return $token;

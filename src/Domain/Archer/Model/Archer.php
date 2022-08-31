@@ -373,12 +373,12 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         return $this;
     }
 
-    public function getBirthdayDate(): ?\DateTimeInterface
+    public function getBirthdayDate(): ?DateTimeInterface
     {
         return $this->birthdayDate;
     }
 
-    public function setBirthdayDate(?\DateTimeInterface $birthdayDate): self
+    public function setBirthdayDate(?DateTimeInterface $birthdayDate): self
     {
         $this->birthdayDate = $birthdayDate;
 

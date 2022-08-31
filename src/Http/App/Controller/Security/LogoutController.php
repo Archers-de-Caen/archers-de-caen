@@ -13,8 +13,10 @@ class LogoutController extends AbstractController
     public const ROUTE_APP_LOGOUT = 'app_logout';
 
     /**
-     * Handle by security.yaml
+     * Handle by security.yaml.
      */
     #[Route('/deconnexion', name: self::ROUTE_APP_LOGOUT, methods: Request::METHOD_GET)]
-    public function logout(): void {}
+    public function logout(): void
+    {
+    }
 }

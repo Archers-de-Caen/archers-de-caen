@@ -61,9 +61,7 @@ class AuthTokenAuthenticator extends AbstractLoginFormAuthenticator
         $code = (string) ($request->query->get('code') ?? $request->request->get('code'));
 
         return new Passport(
-            new UserBadge($identifier, function ($userIdentifier) {
-                return $this->archerRepository->loadUserByIdentifier($userIdentifier);
-            }),
+            new UserBadge($identifier, fn ($userIdentifier) => $this->archerRepository->loadUserByIdentifier($userIdentifier)),
             new CustomCredentials(
                 function ($credentials, Archer $user) {
                     foreach ($user->getActiveAuthTokens() as $authToken) {
@@ -77,7 +75,8 @@ class AuthTokenAuthenticator extends AbstractLoginFormAuthenticator
                     }
 
                     return false;
-                }, $code
+                },
+                $code
             ),
             [
                 new RememberMeBadge(),
@@ -99,10 +98,10 @@ class AuthTokenAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
-            return  new RedirectResponse($targetPath);
+            return new RedirectResponse($targetPath);
         }
 
-        return  new RedirectResponse($this->router->generate(DefaultController::ROUTE_APP_INDEX));
+        return new RedirectResponse($this->router->generate(DefaultController::ROUTE_APP_INDEX));
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
