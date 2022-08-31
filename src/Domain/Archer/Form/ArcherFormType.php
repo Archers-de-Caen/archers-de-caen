@@ -38,7 +38,7 @@ class ArcherFormType extends AbstractType
             ->add('birthdayDate', DateType::class, [
                 'label' => 'Date de naissance',
                 'widget' => 'single_text',
-                'input' => 'datetime_immutable',
+                'input' => 'datetime',
             ])
             ->add('postalAddress', PostalAddressType::class, [
                 'label' => 'Adresse',

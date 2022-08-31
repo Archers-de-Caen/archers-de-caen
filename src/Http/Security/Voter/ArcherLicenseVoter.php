@@ -48,8 +48,13 @@ class ArcherLicenseVoter extends Voter
             $archer->getEmail() &&
             $archer->getPhone() &&
             $archer->getGender() &&
-            $archer->getPostalAddress() &&
             $archer->getBirthdayDate() &&
-            $archer->getNationality();
+            $archer->getNationality() &&
+            ($postalAddress = $archer->getPostalAddress()) &&
+            $postalAddress->getLine1() &&
+            $postalAddress->getCity() &&
+            $postalAddress->getPostcode() &&
+            $postalAddress->getCountry()
+        ;
     }
 }
