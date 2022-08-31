@@ -48,16 +48,21 @@ class ArcherFormType extends AbstractType
             ->add('nationality', TextType::class, [
                 'label' => 'Nationalité',
                 'empty_data' => 'Française',
+                'attr' => [
+                    'placeholder' => 'Française',
+                ],
             ])
             ->add('licenseNumber', TextType::class, [
-                'label' => 'Numéro de licence'
+                'label' => 'Numéro de licence',
+                'required' => false,
             ])
             ->add('membershipNumber', TextType::class, [
-                'label' => 'Numéro d\'affiliation FFTA'
+                'label' => 'Numéro d\'affiliation FFTA',
+                'required' => false,
             ])
             ->add('gender', ChoiceType::class, [
                 'label' => 'Genre',
-                'choices' => Gender::toChoices(),
+                'choices' => Gender::toChoicesWithEnumValue(),
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'valider',

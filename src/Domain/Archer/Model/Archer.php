@@ -108,7 +108,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
 
     #[ORM\Column(type: Types::STRING, length: 40, nullable: true)]
     #[Assert\Length(max: 40)]
-    private ?string $nationality = null;
+    private ?string $nationality = 'Française';
 
     /**
      * @var Collection<int, AuthToken>

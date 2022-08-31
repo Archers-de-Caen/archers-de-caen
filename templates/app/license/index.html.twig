@@ -4,7 +4,7 @@
 
 {% block main %}
     {% if not app.user.archerLicenseActive %}
-        <a class="btn -primary my-5" href="{{ path(constant('App\\Http\\App\\Controller\\LicenseController::ROUTE_APP_LICENSE_NEW')) }}">Prendre une licence</a>
+        <a class="btn -primary my-5" href="{{ path(constant('App\\Http\\App\\Controller\\ArcherLicenseController::ROUTE_APP_LICENSE_NEW')) }}">Prendre une licence</a>
     {% endif %}
 
     <div class="licenses">

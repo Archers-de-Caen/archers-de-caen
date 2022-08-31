@@ -33,7 +33,7 @@
                     </a>
                     <ul>
                         <li><a href="{{ path(constant('App\\Http\\App\\Controller\\AccountController::ROUTE_APP_ACCOUNT')) }}">Mon compte</a></li>
-                        <li><a href="{{ path(constant('App\\Http\\App\\Controller\\LicenseController::ROUTE_APP_LICENSE_LIST')) }}">Mes licences</a></li>
+                        <li><a href="{{ path(constant('App\\Http\\App\\Controller\\ArcherLicenseController::ROUTE_APP_LICENSE_LIST')) }}">Mes licences</a></li>
                     </ul>
                     <div class="menu-responsive-btn hamburger-menu">
                         <div class="hamburger-menu-bar"></div>
@@ -44,6 +44,7 @@
         </header>
 
         <div class="body">
+
             {% block body %}
                 <div class="page-container">
                     <div class="page-title-container">
@@ -53,6 +54,8 @@
                             </h1>
                         </div>
                     </div>
+
+                    {{ include('/shared/components/flashbag.html.twig', { flashbag: app.session.flashbag.all }) }}
 
                     {% block main %}{% endblock main %}
                 </div>

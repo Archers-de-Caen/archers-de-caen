@@ -27,8 +27,9 @@ security:
                 provider: app_user_provider
             entry_point: form_login
             custom_authenticators:
-                - App\Domain\Auth\Subscriber\LoginFormAuthenticator
-                - App\Domain\Auth\Subscriber\AuthTokenAuthenticator
+                - App\Http\Security\Authenticator\LoginFormAuthenticator
+                - App\Http\Security\Authenticator\AuthTokenAuthenticator
+            access_denied_handler: App\Http\Security\AccessDeniedHandler
 
 
     # Easy way to control access for large sections of your site

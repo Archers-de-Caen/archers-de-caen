@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Auth\Subscriber;
+namespace App\Http\Security\Authenticator;
 
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Archer\Repository\ArcherRepository;
 use App\Http\App\Controller\DefaultController;
-use App\Http\App\Controller\RegisterController;
 use App\Http\App\Controller\Security\LoginController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;

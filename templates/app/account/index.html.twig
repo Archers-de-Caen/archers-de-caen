@@ -5,6 +5,10 @@
 {% block main %}
     {{ form_start(form) }}
 
+    {{ form_row(form._token) }}
+
+    {{ form_errors(form) }}
+
     <div class="flex jc-space-between">
         {{ form_row(form.licenseNumber) }}
         {{ form_row(form.membershipNumber) }}
