@@ -50,4 +50,8 @@
       gap: $multiplier*$i!important;
     }
   }
+
+  &.--wrap {
+    flex-wrap: wrap;
+  }
 }

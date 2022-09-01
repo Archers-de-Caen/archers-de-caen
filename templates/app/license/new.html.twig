@@ -60,9 +60,9 @@
     <div class="form-group">
         {{ form_label(form.weapons) }}
 
-        <div class="flex jc-space-between w-100 --gap-3">
+        <div class="flex jc-space-between --gap-3 --wrap w-100">
             {% for weapons in form.weapons %}
-                {{ form_row(weapons, { row_attr: { class: '--btn' } }) }}
+                {{ form_row(weapons, { row_attr: { class: '--btn w-25' } }) }}
             {% endfor %}
         </div>
     </div>
@@ -106,9 +106,9 @@
     <div class="form-group">
         {{ form_label(form.paymentChoice) }}
 
-        <div class="flex jc-space-between w-100 --gap-3">
+        <div class="flex jc-space-between --gap-3 --wrap w-100">
             {% for paymentChoice in form.paymentChoice %}
-                {{ form_row(paymentChoice, { row_attr: { class: '--btn' } }) }}
+                {{ form_row(paymentChoice, { row_attr: { class: '--btn w-25' } }) }}
             {% endfor %}
         </div>
     </div>
