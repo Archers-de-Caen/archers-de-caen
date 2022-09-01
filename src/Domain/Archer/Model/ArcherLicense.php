@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Archer\Model;
 
+use App\Domain\Billing\Config\PaymentMethod;
 use App\Domain\Archer\Repository\ArcherLicenseRepository;
 use App\Domain\File\Model\Document;
 use App\Infrastructure\Model\IdTrait;
@@ -56,9 +57,6 @@ class ArcherLicense
     #[ORM\Column(nullable: true)]
     private array $contacts = [];
 
-    #[ORM\Column(length: 191, nullable: true)]
-    private ?string $paymentChoice = null;
-
     #[ORM\Column]
     private ?bool $runArchery = null;
 
@@ -73,6 +71,9 @@ class ArcherLicense
 
     #[ORM\Column(length: 191, nullable: true)]
     private ?string $runArcheryMedicalCertificateType = null;
+
+    #[ORM\Column(length: 191, nullable: true, enumType: PaymentMethod::class)]
+    private ?PaymentMethod $paymentMethod = null;
 
     #[ORM\Column(type: Types::JSON)]
     private array $payment = [];
@@ -227,14 +228,14 @@ class ArcherLicense
         return $this;
     }
 
-    public function getPaymentChoice(): ?string
+    public function getPaymentMethod(): ?PaymentMethod
     {
-        return $this->paymentChoice;
+        return $this->paymentMethod;
     }
 
-    public function setPaymentChoice(?string $paymentChoice): self
+    public function setPaymentMethod(?PaymentMethod $paymentMethod): self
     {
-        $this->paymentChoice = $paymentChoice;
+        $this->paymentMethod = $paymentMethod;
 
         return $this;
     }

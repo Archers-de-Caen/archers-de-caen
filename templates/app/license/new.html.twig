@@ -104,11 +104,11 @@
     <hr class="my-3">
 
     <div class="form-group">
-        {{ form_label(form.paymentChoice) }}
+        {{ form_label(form.paymentMethod) }}
 
         <div class="flex jc-space-between --gap-3 --wrap w-100">
-            {% for paymentChoice in form.paymentChoice %}
-                {{ form_row(paymentChoice, { row_attr: { class: '--btn w-25' } }) }}
+            {% for paymentMethod in form.paymentMethod %}
+                {{ form_row(paymentMethod, { row_attr: { class: '--btn w-25' } }) }}
             {% endfor %}
         </div>
     </div>

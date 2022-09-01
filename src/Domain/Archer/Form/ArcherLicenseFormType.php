@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Archer\Form;
 
+use App\Domain\Billing\Config\PaymentMethod;
 use App\Domain\Archer\Config\Weapon;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Archer\Model\ArcherLicense;
@@ -64,8 +65,8 @@ class ArcherLicenseFormType extends AbstractType
             ->add('mainMedicalCertificateType', ChoiceType::class, [
                 'label' => 'Type de certificat',
                 'choices' => [
-                    'Compétition' => '',
-                    'Pratique' => '',
+                    'Compétition' => 'competition',
+                    'Pratique' => 'practice',
                 ],
                 'expanded' => true,
             ])
@@ -79,8 +80,8 @@ class ArcherLicenseFormType extends AbstractType
             ->add('runArcheryMedicalCertificateType', ChoiceType::class, [
                 'label' => 'Type de certificat de compétition',
                 'choices' => [
-                    'Course à pied' => '',
-                    'Run-Archery' => '',
+                    'Course à pied' => 'running',
+                    'Run-Archery' => 'run-archery',
                 ],
                 'expanded' => true,
             ])
@@ -94,17 +95,10 @@ class ArcherLicenseFormType extends AbstractType
                 'label' => 'J’autorise l’utilisation de mon image (photos, vidéos,...) par mon club dans le cadre de
                             ses activités statutaires liées à ma pratique du tir à l’arc.',
             ])
-            ->add('paymentChoice', ChoiceType::class, [
+            ->add('paymentMethod', ChoiceType::class, [
                 'label' => 'Mode de règlement',
                 'expanded' => true,
-                'choices' => [
-                    'Chèque' => '',
-                    'Espèces' => '',
-                    'Carte bancaire' => '',
-                    'Pass\'port' => '',
-                    'Virement' => '',
-                    'Atouts Normandie' => '',
-                ],
+                'choices' => PaymentMethod::toChoices(),
             ])
             ->add('fftaNewsletter', CheckboxType::class, [
                 'label' => 'J’accepte de recevoir la newsletter de la FFTA (1 à 2 par mois).',

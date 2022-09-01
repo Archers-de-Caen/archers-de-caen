@@ -31,7 +31,7 @@ class ArcherLicenseController extends AbstractController
             $em->persist($archerLicense);
             $em->flush();
 
-            if ('TODO: CB' === $archerLicense->getPaymentChoice()) {
+            if ('TODO: CB' === $archerLicense->getPaymentMethod()) {
                 return $this->redirect('hello-assos.fr ou page de info paiement');
             }
 
