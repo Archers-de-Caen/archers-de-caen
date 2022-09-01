@@ -128,7 +128,11 @@
             const runArcheryContainer = document.querySelector('#run-archery-container')
             const runArchery = document.querySelector('#archer_license_form_runArchery')
 
-            hide(runArcheryContainer)
+            if (runArchery.checked) {
+                show(runArcheryContainer)
+            } else {
+                hide(runArcheryContainer)
+            }
 
             runArchery.addEventListener('change', (e) => {
                 const target = e.currentTarget
@@ -140,7 +144,11 @@
                 }
             })
 
-            hide(needMainMedicalCertificateContainer)
+            if (needMainMedicalCertificate.checked) {
+                show(needMainMedicalCertificateContainer)
+            } else {
+                hide(needMainMedicalCertificateContainer)
+            }
 
             needMainMedicalCertificate.addEventListener('change', (e) => {
                 const target = e.currentTarget

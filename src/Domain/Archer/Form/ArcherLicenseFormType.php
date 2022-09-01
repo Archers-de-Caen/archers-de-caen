@@ -18,6 +18,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Constraints\Valid;
@@ -87,7 +90,7 @@ class ArcherLicenseFormType extends AbstractType
             ])
             ->add('weapons', ChoiceType::class, [
                 'label' => 'Types d’arcs',
-                'choices' => Weapon::toChoices(),
+                'choices' => Weapon::toChoicesWithEnumValue(),
                 'expanded' => true,
                 'multiple' => true,
             ])
@@ -98,10 +101,13 @@ class ArcherLicenseFormType extends AbstractType
             ->add('paymentMethod', ChoiceType::class, [
                 'label' => 'Mode de règlement',
                 'expanded' => true,
-                'choices' => PaymentMethod::toChoices(),
+                'choices' => PaymentMethod::toChoicesWithEnumValue(),
             ])
             ->add('fftaNewsletter', CheckboxType::class, [
                 'label' => 'J’accepte de recevoir la newsletter de la FFTA (1 à 2 par mois).',
+                'required' => false,
+                'empty_data' => false,
+                'false_values' => [null, false],
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => [
@@ -130,6 +136,26 @@ class ArcherLicenseFormType extends AbstractType
                 ])
             ;
         }
+
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            /** @var array $data */
+            $data = $event->getData();
+            $form = $event->getForm();
+
+            if (($data['needMainMedicalCertificate'] ?? false) && !($data['mainMedicalCertificate']['file'] ?? null)) {
+                $form
+                    ->get('needMainMedicalCertificate')
+                    ->addError(new FormError('Vous avez dit avoir besoin de fournir un certificat médical sans nous le fournir'))
+                ;
+            }
+
+            if (($data['runArchery'] ?? false) && !($data['runArcheryMedicalCertificate']['file'] ?? null)) {
+                $form
+                    ->get('runArchery')
+                    ->addError(new FormError('Vous avez dit avoir besoin de fournir un certificat médical pour le Run-Archery sans nous le fournir'))
+                ;
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void
