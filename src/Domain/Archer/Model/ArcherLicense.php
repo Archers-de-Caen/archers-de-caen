@@ -27,10 +27,10 @@ class ArcherLicense
     #[ORM\JoinColumn(nullable: false)]
     private ?License $license = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?DateTimeInterface $dateStart;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?DateTimeInterface $dateEnd;
 
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
@@ -77,6 +77,11 @@ class ArcherLicense
 
     #[ORM\Column(type: Types::JSON)]
     private array $payment = [];
+
+    public function __toString()
+    {
+        return $this->getArcher() . ' ' . $this->getLicense();
+    }
 
     public function getArcher(): ?Archer
     {

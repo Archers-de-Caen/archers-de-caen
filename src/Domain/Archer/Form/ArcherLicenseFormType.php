@@ -72,6 +72,7 @@ class ArcherLicenseFormType extends AbstractType
                     'Pratique' => 'practice',
                 ],
                 'expanded' => true,
+                'empty_data' => null,
             ])
             ->add('runArchery', CheckboxType::class, [
                 'label' => 'Je pratique le Run-Archery',
@@ -79,6 +80,7 @@ class ArcherLicenseFormType extends AbstractType
             ])
             ->add('runArcheryMedicalCertificate', DocumentFormType::class, [
                 'label' => 'Certificat Médical pour le Run-archery',
+                'empty_data' => null,
             ])
             ->add('runArcheryMedicalCertificateType', ChoiceType::class, [
                 'label' => 'Type de certificat de compétition',
@@ -90,7 +92,7 @@ class ArcherLicenseFormType extends AbstractType
             ])
             ->add('weapons', ChoiceType::class, [
                 'label' => 'Types d’arcs',
-                'choices' => Weapon::toChoicesWithEnumValue(),
+                'choices' => Weapon::toChoices(),
                 'expanded' => true,
                 'multiple' => true,
             ])
@@ -154,6 +156,21 @@ class ArcherLicenseFormType extends AbstractType
                     ->get('runArchery')
                     ->addError(new FormError('Vous avez dit avoir besoin de fournir un certificat médical pour le Run-Archery sans nous le fournir'))
                 ;
+            }
+
+            foreach (['mainMedicalCertificate', 'runArcheryMedicalCertificate'] as $name) {
+                $document = $data[$name];
+
+                if (
+                    empty($document['displayText']) &&
+                    (empty($document['documentFile']) || empty($document['documentFile']['file'])) &&
+                    empty($document['documentMimeType']) &&
+                    empty($document['documentOriginalName']) &&
+                    empty($document['documentSize']) &&
+                    empty($document['documentName'])
+                ) {
+                    $event->getForm()->get($name)->setData(null);
+                }
             }
         });
     }

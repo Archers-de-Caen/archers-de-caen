@@ -58,7 +58,7 @@ class License
 
     public function __toString(): string
     {
-        return $this->title ?? '';
+        return $this->getTitle().' - '.($this->getPrice()/100).'€';
     }
 
     public function getTitle(): ?string

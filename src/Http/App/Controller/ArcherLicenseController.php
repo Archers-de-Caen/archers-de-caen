@@ -6,6 +6,7 @@ namespace App\Http\App\Controller;
 
 use App\Domain\Archer\Form\ArcherLicenseFormType;
 use App\Domain\Archer\Model\ArcherLicense;
+use App\Domain\Billing\Config\PaymentMethod;
 use App\Http\Security\Voter\ArcherLicenseVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -28,10 +29,12 @@ class ArcherLicenseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $archerLicense->setArcher($this->getUser());
+
             $em->persist($archerLicense);
             $em->flush();
 
-            if ('TODO: CB' === $archerLicense->getPaymentMethod()) {
+            if (PaymentMethod::BANK_CARD === $archerLicense->getPaymentMethod()) {
                 return $this->redirect('hello-assos.fr ou page de info paiement');
             }
 
