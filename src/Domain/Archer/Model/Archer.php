@@ -6,6 +6,7 @@ namespace App\Domain\Archer\Model;
 
 use App\Domain\Archer\Repository\ArcherRepository;
 use App\Domain\Auth\Model\AuthToken;
+use App\Domain\License\Model\ArcherLicense;
 use App\Domain\Result\Model\Result;
 use App\Domain\Result\Model\ResultBadge;
 use App\Domain\Result\Model\ResultCompetition;

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Archer\Form;
+namespace App\Domain\License\Form;
 
 use App\Domain\Billing\Config\PaymentMethod;
 use App\Domain\Archer\Config\Weapon;
 use App\Domain\Archer\Model\Archer;
-use App\Domain\Archer\Model\ArcherLicense;
-use App\Domain\Archer\Model\License;
+use App\Domain\License\Model\ArcherLicense;
+use App\Domain\License\Model\License;
 use App\Domain\File\Form\DocumentFormType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

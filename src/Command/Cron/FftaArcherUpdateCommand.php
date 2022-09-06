@@ -6,8 +6,8 @@ namespace App\Command\Cron;
 
 use App\Command\ArcherTrait;
 use App\Domain\Archer\Model\Archer;
-use App\Domain\Archer\Model\ArcherLicense;
-use App\Domain\Archer\Model\License;
+use App\Domain\License\Model\ArcherLicense;
+use App\Domain\License\Model\License;
 use CurlHandle;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,8 +35,12 @@ class FftaArcherUpdateCommand extends Command
      * @param string $fftaUsername Injected from service.yaml
      * @param string $fftaPassword Injected from service.yaml
      */
-    public function __construct(private EntityManagerInterface $em, private string $fftaUsername, private string $fftaPassword, string $name = null)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly string $fftaUsername,
+        private readonly string $fftaPassword,
+        string $name = null
+    ) {
         parent::__construct($name);
     }
 
@@ -44,8 +48,8 @@ class FftaArcherUpdateCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        if ($cookieFile = tempnam(sys_get_temp_dir(), 'FFTA')) {
-            $this->cookieFile = $cookieFile;
+        if ($file = tempnam(sys_get_temp_dir(), 'FFTA')) {
+            $this->cookieFile = $file;
         } else {
             $io->error('Impossible de générer $cookieFile');
 
@@ -61,7 +65,7 @@ class FftaArcherUpdateCommand extends Command
 
         $licensesResponse = $this->getLicenses($season);
 
-        if ('success' != $licensesResponse['status']) {
+        if ('success' !== $licensesResponse['status']) {
             foreach ($licensesResponse['errors'] as $error) {
                 $io->writeln($error);
             }
@@ -87,7 +91,7 @@ class FftaArcherUpdateCommand extends Command
             }
 
             if (!$archer->getArcherLicenseActive()) {
-                $license = array_filter($licenses, fn (License $license) => '' === $license->getTitle());
+                $license = array_filter($licenses, static fn (License $license) => '' === $license->getTitle());
 
                 if (!count($license)) {
                     $io->error('Licence not found');

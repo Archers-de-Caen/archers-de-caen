@@ -7,15 +7,27 @@
         <a class="btn -primary my-5" href="{{ path(constant('App\\Http\\App\\Controller\\ArcherLicenseController::ROUTE_APP_LICENSE_NEW')) }}">Prendre une licence</a>
     {% endif %}
 
-    <div class="licenses">
-        <div class="license">
+    <table title="licences" aria-label="Licence de l'archer connecté">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Début</th>
+                <th>Fin</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for license in app.user.archerLicenses %}
+                <tr>
+                    <td>{{ license.license.title }}</td>
+                    <td>{{ license.dateStart|date('d/m/Y') }}</td>
+                    <td>{{ license.dateEnd|date('d/m/Y') }}</td>
+                    <td>{{ license.active ? 'Active' : 'Non active' }} / {{ license.payed ? 'Payé' : 'Non payé' }}</td>
+                </tr>
+            {% else %}
+                <p>Vous n'avez aucune licence</p>
+            {% endfor %}
+        </tbody>
+    </table>
 
-        </div>
-    </div>
-
-    {% for license in app.user.archerLicenses %}
-        {{ license }}
-    {% else %}
-        <p>Vous n'avez aucune licence</p>
-    {% endfor %}
 {% endblock main %}

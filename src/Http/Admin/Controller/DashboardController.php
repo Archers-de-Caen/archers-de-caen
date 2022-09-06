@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Admin\Controller;
 
 use App\Domain\Archer\Model\Archer;
-use App\Domain\Archer\Model\License;
+use App\Domain\License\Model\License;
 use App\Domain\Badge\Model\Badge;
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Model\Data;

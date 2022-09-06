@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Archer\Model;
+namespace App\Domain\License\Model;
 
-use App\Domain\Archer\Config\LicenseType;
-use App\Domain\Archer\Repository\LicenseRepository;
+use App\Domain\License\Config\LicenseType;
+use App\Domain\License\Repository\LicenseRepository;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
 use Doctrine\Common\Collections\ArrayCollection;

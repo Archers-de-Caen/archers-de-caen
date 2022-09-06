@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Archer\Repository;
+namespace App\Domain\License\Repository;
 
-use App\Domain\Archer\Model\License;
+use App\Domain\License\Model\License;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

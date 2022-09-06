@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Archer\Fixture;
+namespace App\Domain\License\Fixture;
 
-use App\Domain\Archer\Config\LicenseType;
-use App\Domain\Archer\Model\License;
+use App\Domain\License\Config\LicenseType;
+use App\Domain\License\Model\License;
 use App\Infrastructure\Fixture\AbstractFixtures;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;

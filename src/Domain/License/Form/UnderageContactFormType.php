@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Archer\Form;
+namespace App\Domain\License\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

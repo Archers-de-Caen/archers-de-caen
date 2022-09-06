@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Archer\Model;
+namespace App\Domain\License\Model;
 
+use App\Domain\Archer\Model\Archer;
 use App\Domain\Billing\Config\PaymentMethod;
-use App\Domain\Archer\Repository\ArcherLicenseRepository;
+use App\Domain\License\Repository\ArcherLicenseRepository;
 use App\Domain\File\Model\Document;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
@@ -26,6 +27,12 @@ class ArcherLicense
     #[ORM\ManyToOne(targetEntity: License::class, inversedBy: 'archerLicenses')]
     #[ORM\JoinColumn(nullable: false)]
     private ?License $license = null;
+
+    /**
+     * @var int|null Le prix en centime
+     */
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $price = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?DateTimeInterface $dateStart;
@@ -88,6 +95,23 @@ class ArcherLicense
         return $this->archer;
     }
 
+    public function setArcher(?Archer $archer): self
+    {
+        $this->archer = $archer;
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?int $price): void
+    {
+        $this->price = $price;
+    }
+
     public function getDateStart(): ?DateTimeInterface
     {
         return $this->dateStart;
@@ -108,13 +132,6 @@ class ArcherLicense
     public function setDateEnd(?DateTimeInterface $dateEnd): self
     {
         $this->dateEnd = $dateEnd;
-
-        return $this;
-    }
-
-    public function setArcher(?Archer $archer): self
-    {
-        $this->archer = $archer;
 
         return $this;
     }

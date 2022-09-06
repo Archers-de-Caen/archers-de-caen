@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\App\Controller;
 
-use App\Domain\Archer\Form\ArcherLicenseFormType;
-use App\Domain\Archer\Model\ArcherLicense;
+use App\Domain\License\Form\ArcherLicenseFormType;
+use App\Domain\Archer\Model\Archer;
+use App\Domain\License\Model\ArcherLicense;
 use App\Domain\Billing\Config\PaymentMethod;
 use App\Http\Security\Voter\ArcherLicenseVoter;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,7 +30,11 @@ class ArcherLicenseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $archerLicense->setArcher($this->getUser());
+            /** @var Archer $archer */
+            $archer = $this->getUser();
+
+            $archerLicense->setArcher($archer);
+            $archerLicense->setPrice($archerLicense->getLicense()?->getPrice());
 
             $em->persist($archerLicense);
             $em->flush();
