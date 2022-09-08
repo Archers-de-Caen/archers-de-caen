@@ -90,6 +90,11 @@ if (!shell_exec('php ' . COMPOSER_PATH . ' install --no-dev')) {
     die('ERROR - composer non exécuté');
 }
 
+echo "INFO - npm install" . PHP_EOL;
+if (!shell_exec(NPM_PATH . ' install')) {
+    die('ERROR - npm install');
+}
+
 echo "INFO - npm run build" . PHP_EOL;
 if (!shell_exec(NPM_PATH . ' run build')) {
     die('ERROR - npm non exécuté');
