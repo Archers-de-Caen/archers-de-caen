@@ -27,7 +27,7 @@ function homePageWork(): bool
 
 function websiteNeedUpgrade(): bool
 {
-    return false;
+    return true;
 }
 
 const BASE_PATH = '/home/archerschl/';
@@ -46,12 +46,10 @@ const PRODUCTION_BK_PATH = PRODUCTION_PATH . '_bh';
 
 // On vérifie si le site est sur le dernier commit
 if (!websiteNeedUpgrade()) {
-    echo "Aucune mise à jours".PHP_EOL;
-
-    die;
+    die("INFO - Aucune mise à jours");
 }
 
-echo "Téléchargement du repo depuis Github" . PHP_EOL;
+echo "INFO - Téléchargement du repo depuis Github" . PHP_EOL;
 file_put_contents(PROJECT_DOWNLOAD_NAME, file_get_contents(PROJECT_DOWNLOAD_URL));
 
 // Extraction du repo
@@ -59,46 +57,67 @@ $zip = new ZipArchive;
 if ($zip->open(PROJECT_DOWNLOAD_NAME) === true) {
     $zip->extractTo(PROJECT_DOWNLOAD_DIR);
     $zip->close();
-
-    echo "Repo extrait" . PHP_EOL;
 } else {
-    echo "Erreur dans l'extraction du repo" . PHP_EOL;
-
-    die;
+    die("ERROR - Repo non extrait");
 }
 
-echo "Suppression de l'archive du repo" . PHP_EOL;
-unlink(PROJECT_DOWNLOAD_NAME);
+echo "INFO - Suppression de l'archive du repo" . PHP_EOL;
+if (!unlink(PROJECT_DOWNLOAD_NAME)) {
+    die('ERROR - ZIP non supprimé');
+}
 
-echo "Restructuration des dossiers" . PHP_EOL;
-rename(PROJECT_DOWNLOAD_DIR . '/archers-de-caen-production', PRODUCING_PATH);
-rmdir(PROJECT_DOWNLOAD_DIR);
+echo "INFO - Restructuration des dossiers" . PHP_EOL;
+if (!rename(PROJECT_DOWNLOAD_DIR . '/archers-de-caen-production', PRODUCING_PATH)) {
+    die('ERROR - Dossier non restructuré');
+}
 
-echo "Copie du fichier .env vers .env.local" . PHP_EOL;
-copy(BASE_PATH . '/.env', PRODUCING_PATH . '/.env.local');
+if (!rmdir(PROJECT_DOWNLOAD_DIR)) {
+    die('ERROR - Dossier non supprimé');
+}
 
-echo "Positionnement de l'execution de PHP dans le repo";
-chdir(PRODUCING_PATH);
+echo "INFO - Copie du fichier .env vers .env.local" . PHP_EOL;
+if (!copy(BASE_PATH . '/.env', PRODUCING_PATH . '/.env.local')) {
+    die('ERROR - Fichier non copié');
+}
 
-echo "composer install --no-dev" . PHP_EOL;
-shell_exec('php ' . COMPOSER_PATH . ' install --no-dev');
+echo "INFO - Positionnement de l'execution de PHP dans le repo" . PHP_EOL;
+if (!chdir(PRODUCING_PATH)) {
+    die('ERROR - Curseur php non déplacé');
+}
 
-echo "npm run build" . PHP_EOL;
-shell_exec(NPM_PATH . ' run build');
+echo "INFO - composer install --no-dev" . PHP_EOL;
+if (!shell_exec('php ' . COMPOSER_PATH . ' install --no-dev')) {
+    die('ERROR - composer non exécuté');
+}
 
-echo "Déplacement de l'ancienne version vers un dossier temporaire" . PHP_EOL;
-rename(PRODUCTION_PATH, PRODUCTION_BK_PATH);
+echo "INFO - npm run build" . PHP_EOL;
+if (!shell_exec(NPM_PATH . ' run build')) {
+    die('ERROR - npm non exécuté');
+}
 
-echo "Déplacement de la nouvelle version vers le dossier de production" . PHP_EOL;
-rename(PRODUCING_PATH, PRODUCTION_PATH);
+echo "INFO - Déplacement de l'ancienne version vers un dossier temporaire" . PHP_EOL;
+if (!rename(PRODUCTION_PATH, PRODUCTION_BK_PATH)) {
+    die('ERROR - Ancienne version non déplacé');
+}
 
-echo "Positionnement de l'execution de PHP dans le dossier de production";
-chdir(PRODUCTION_PATH);
+echo "INFO - Déplacement de la nouvelle version vers le dossier de production" . PHP_EOL;
+if (!rename(PRODUCING_PATH, PRODUCTION_PATH)) {
+    die('ERROR - Nouvelle version non déplacé');
+}
 
-echo "php bin/console d:m:m" . PHP_EOL;
-shell_exec('php ' . COMPOSER_PATH . ' d:m:m --no-interaction');
+echo "INFO - Positionnement de l'execution de PHP dans le dossier de production";
+if (!chdir(PRODUCTION_PATH)) {
+    die('ERROR - Curseur php non déplacé');
+}
 
-echo "Suppression du dossier de l'ancienne version" . PHP_EOL;
-rmdir(PRODUCTION_BK_PATH);
+echo "INFO - php bin/console d:m:m" . PHP_EOL;
+if (!shell_exec('php ' . COMPOSER_PATH . ' d:m:m --no-interaction')) {
+    die('ERROR - Migration non faite');
+}
 
-echo "Mise à jours terminé !" . PHP_EOL;
+echo "INFO - Suppression du dossier de l'ancienne version" . PHP_EOL;
+if (!rmdir(PRODUCTION_BK_PATH)) {
+    die('ERROR - Ancienne version non supprimé');
+}
+
+echo "SUCCESS - Mise à jours terminé !" . PHP_EOL;
