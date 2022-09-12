@@ -39,8 +39,9 @@
             </div>
             <div class="header-primary">
                 <div class="header-content">
-                    <a href="{{ path('landing_index') }}" class="header-image">
+                    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\DefaultController::ROUTE_LANDING_INDEX')) }}" class="header-image">
                         <img src="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.svg') }}" alt="Logo des archers de Caen">
+                        <img src="{{ asset('build/images/logo-archers-de-caen/calligraphie.jpg') }}" alt="Logo des archers de Caen" class="logo-text">
                     </a>
                     <ul>
                         <li>

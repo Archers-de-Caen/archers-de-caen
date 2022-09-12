@@ -19,11 +19,19 @@
       height: 100%;
 
       .header-image {
+        display: flex;
+        align-items: center;
+
         img {
           max-height: 80px;
           min-height: 20px;
           height: 80px;
           transition: height .5s ease;
+
+          &.logo-text {
+            height: 40px;
+            margin-left: 10px;
+          }
         }
       }
 
@@ -107,6 +115,22 @@
       .header-content {
         ul {
           display: none;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  .header {
+    .header-primary {
+      .header-content {
+        .header-image {
+          img {
+            &.logo-text {
+              display: none;
+            }
+          }
         }
       }
     }
