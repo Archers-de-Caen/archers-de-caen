@@ -47,7 +47,6 @@ class Page
     private ?Status $status = Status::DRAFT;
 
     #[ORM\ManyToOne(targetEntity: Archer::class)]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Archer $createdBy = null;
 
     #[ORM\OneToOne(targetEntity: Photo::class, cascade: ['persist'])]
