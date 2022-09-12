@@ -1,32 +1,74 @@
-{% extends 'app/base.html.twig' %}
-
-{% block title %}Connexion{% endblock %}
-
-{% block body %}
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
-{#    <form action="{{ path('app_login') }}" method="post" class="form-groups w-50 m-a mt-3">#}
-{#        <h2>Connexion</h2>#}
-
-{#        <div class="form-group">#}
-{#            <label for="username">Email:</label>#}
-{#            <input type="text" id="username" name="_username" value="{{ last_username }}"/>#}
-{#        </div>#}
-
-{#        <div class="form-group">#}
-{#            <label for="password">Mot de passe:</label>#}
-{#            <input type="password" id="password" name="_password"/>#}
-{#        </div>#}
-
-{#        #}{# If you want to control the URL the user is redirected to on success#}
-{#        <input type="hidden" name="_target_path" value="/account"/> #}
-
-{#        <div class="right">#}
-{#            <button type="submit" class="btn -primary">Connexion</button>#}
-{#        </div>#}
-{#    </form>#}
-
-    <h2 class="text-center mt-5">Bientôt disponible</h2>
-{% endblock %}
+<h2>
+    Nos partenaires institutionnels
+</h2>
+<figure class="table">
+    <table class="partenaires partenaires-row" title="Nos partenaires institutionnels">
+        <tbody>
+        <tr>
+            <td>
+                <a href="http://www.caen.fr/" target="_blank" rel="noopener noreferrer"><img class="alignnone size-medium wp-image-2930" src="/images/photo/logo-caen-normandie-300x118-631e63c5e30d7409519899.png" alt="" width="300"></a>
+            </td>
+            <td>
+                <a href="http://www.caenlamer.fr/" target="_blank" rel="noopener noreferrer"><img class="alignnone size-full wp-image-792" src="/images/photo/logo-clm-631e63c610a92045407129.jpg" alt="" width="200" height="200"></a>
+            </td>
+            <td>
+                <a href="http://www.calvados.fr/cms" target="_blank" rel="noopener noreferrer"><img class="alignnone size-full wp-image-793" src="/images/photo/logocg14-631e63c633c82353999779.jpg" alt="" width="146" height="129"></a>
+            </td>
+            <td>
+                <a href="https://www.normandie.fr/" target="_blank" rel="noopener noreferrer"><img class="alignnone size-full wp-image-795" src="/images/photo/logo-region-631e63c655640685710306.png" alt="" width="313" height="62"></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</figure>
+<h2>
+    Nos partenaires commerciaux
+</h2>
+<figure class="table">
+    <table class="partenaires">
+        <tbody>
+        <tr>
+            <td>
+                <strong>Crêperie O'p'tit chef</strong> 36 rue de l'Oratoire 14000 CAEN Tél. : 02 31 85 47 68
+            </td>
+            <td>
+                <img class="alignnone size-full wp-image-781 image_resized" style="width:99.35%;" src="/images/photo/image-631e63c6a83b8023488364.png" alt="" height="200px">
+            </td>
+            <td>
+                15% sur les menus pour les <em><i>Archers de Caen</i></em> Menu découverte Tir à l'Arc : pour l'achat d'un menu "Archers de Caen", une séance découverte de Tir à l'Arc offerte !
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <strong>NORMANDIE ACIERS</strong> Boulevard de l'Europe 14540 BOURGUEBUS Tél. : 02 31 23 11 15 Fax.: 02 31 23 11 29 E-mail : <a href="mailto:o.hubert@normandieaciers.fr">Normandie Aciers Laser Jet d'Eau - M. HUBERT</a>
+            </td>
+            <td>
+                <img class="alignnone size-full wp-image-781 image_resized" style="width:75.01%;" src="/images/photo/nlj-631e63c6cb20b183472482.png" alt="" height="200px">
+            </td>
+            <td>
+                Spécialiste de l'oxycoupage et de la découpe laser. Fournisseur de nos trophées individuels et réalisateur du trophée du <a href="https://www.archers-caen.fr/wp-content/uploads/2017/03/challenge.jpg" target="_blank" rel="noopener noreferrer">Challenge des Archers de CAEN</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <strong>Boucherie MAXIVIANDE</strong> 7 place du Commerce La Grace de Dieu 14000 CAEN Tél. 02 31 52 03 99 Bouchers de métier <a href="http://www.maxiviande.com" target="_blank" rel="noopener noreferrer">www.maxiviande.com</a>
+            </td>
+            <td>
+                <img class="alignnone size-full wp-image-784 image_resized" style="width:100%;" src="/images/photo/maxiviande-631e63c725cc4713748845.jpg" alt="" height="200">
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                <strong>BARILLON OPTIQUE</strong> Vincent BARILLON - 151 rue St Jean 14000 CAEN Tél. 02 50 28 50 26 Opticien lunetier
+                <a href="http://www.barillon-optique.fr/" target="_blank" rel="noopener noreferrer">http://www.barillon-optique.fr/</a>
+                E-mail : <a href="mailto:vincentbarillon@aol.com">vincentbarillon@aol.com</a>
+            </td>
+            <td>
+                <img class="alignnone size-full wp-image-807 image_resized" style="width:100%;" src="/images/photo/barillon-631e63c75e1c3112964921.jpg" alt="" height="200">
+            </td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+</figure>

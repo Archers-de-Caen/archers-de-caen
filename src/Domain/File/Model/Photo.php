@@ -71,7 +71,7 @@ class Photo implements UploadableInterface
     #[Groups(['Photo'])]
     private ?string $imageOriginalName = null;
 
-    #[ORM\Column(type: Types::SIMPLE_ARRAY)]
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
     #[Groups(['Photo'])]
     private ?array $imageDimension = [];
 

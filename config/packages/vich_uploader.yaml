@@ -10,3 +10,17 @@ vich_uploader:
       uri_prefix: /document
       upload_destination: '%kernel.project_dir%/public/document'
       namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
+when@prod:
+  vich_uploader:
+    db_driver: orm
+
+    mappings:
+      photo:
+        uri_prefix: /images/photo
+        upload_destination: '/home/archerschl/uploaded-files/images/photo'
+        namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+      document:
+        uri_prefix: /document
+        upload_destination: '/home/archerschl/uploaded-files/document'
+        namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
