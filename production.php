@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-const BASE_PATH = '/home/archerschl/';
+const BASE_PATH = '/home/archerschl';
 
 const GET_COMMAND_ERROR = ' 2>&1';
 
 const PHP_PATH = '/usr/local/php8.1/bin/php ';
 
-const PROJECT_DOWNLOAD_NAME = BASE_PATH . '/production.zip';
-const PROJECT_DOWNLOAD_DIR = BASE_PATH . '/download';
+const PROJECT_ZIP = BASE_PATH . '/production.zip';
 const CURRENT_VERSION_FILE = BASE_PATH . '/current-version.txt';
 
 const PRODUCING_PATH = BASE_PATH . '/producing';
@@ -98,7 +97,7 @@ function downloadLastVersion(): string|false
                 return false;
             }
 
-            if (!file_put_contents(PROJECT_DOWNLOAD_NAME, $file)) {
+            if (!file_put_contents(PROJECT_ZIP, $file)) {
                 echo "ERROR - Impossible d'écrire le fichier" . PHP_EOL;
 
                 return false;
@@ -115,35 +114,18 @@ if (!$lastRelease = downloadLastVersion()) {
     die("INFO - Aucune mise à jours");
 }
 
-echo "INFO - Mise à jours vers la version ".$lastRelease;
-
-echo "INFO - php --version" . PHP_EOL;
-if (!$result = shell_exec(PHP_PATH . '--version' . GET_COMMAND_ERROR)) {
-    die('ERROR - php non exécuté');
-}
-echo $result . PHP_EOL;
-
 // Extraction du repo
 $zip = new ZipArchive;
-if ($zip->open(PROJECT_DOWNLOAD_NAME) === true) {
-    $zip->extractTo(PROJECT_DOWNLOAD_DIR);
+if ($zip->open(PROJECT_ZIP) === true) {
+    $zip->extractTo(PRODUCING_PATH);
     $zip->close();
 } else {
     die("ERROR - Repo non extrait");
 }
 
 echo "INFO - Suppression de l'archive du repo" . PHP_EOL;
-if (!unlink(PROJECT_DOWNLOAD_NAME)) {
+if (!unlink(PROJECT_ZIP)) {
     die('ERROR - ZIP non supprimé');
-}
-
-echo "INFO - Restructuration des dossiers" . PHP_EOL;
-if (!rename(PROJECT_DOWNLOAD_DIR . '/'. $lastRelease, PRODUCING_PATH)) {
-    die('ERROR - Dossier non restructuré');
-}
-
-if (!rmdir(PROJECT_DOWNLOAD_DIR)) {
-    die('ERROR - Dossier non supprimé');
 }
 
 echo "INFO - Copie du fichier .env vers .env.local" . PHP_EOL;
@@ -151,9 +133,9 @@ if (!copy(BASE_PATH . '/.env', PRODUCING_PATH . '/.env.local')) {
     die('ERROR - Fichier non copié');
 }
 
-echo "INFO - Positionnement de l'execution de PHP dans le repo" . PHP_EOL;
-if (!chdir(PRODUCING_PATH)) {
-    die('ERROR - Curseur php non déplacé');
+echo "INFO - Suppression du dossier de l'ancienne version" . PHP_EOL;
+if (!shell_exec('rm ' . PRODUCTION_BK_PATH . ' -rf' . GET_COMMAND_ERROR)) {
+    die('ERROR - Ancienne version non supprimé');
 }
 
 echo "INFO - Déplacement de l'ancienne version vers un dossier temporaire" . PHP_EOL;
@@ -166,20 +148,8 @@ if (!rename(PRODUCING_PATH, PRODUCTION_PATH)) {
     die('ERROR - Nouvelle version non déplacé');
 }
 
-echo "INFO - Positionnement de l'execution de PHP dans le dossier de production";
-if (!chdir(PRODUCTION_PATH)) {
-    die('ERROR - Curseur php non déplacé');
-}
-
-echo "INFO - Suppression du dossier de l'ancienne version" . PHP_EOL;
-if (!rmdir(PRODUCTION_BK_PATH)) {
-    die('ERROR - Ancienne version non supprimé');
-}
-
-if (!file_put_contents(PROJECT_DOWNLOAD_NAME, $lastRelease)) {
-    echo "ERROR - Impossible d'écrire le fichier" . PHP_EOL;
-
-    return false;
+if (!file_put_contents(CURRENT_VERSION_FILE, $lastRelease)) {
+    die("ERROR - Impossible d'écrire le fichier" . PHP_EOL);
 }
 
 echo "SUCCESS - Mise à jours terminé !" . PHP_EOL;
