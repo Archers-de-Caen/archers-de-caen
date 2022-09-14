@@ -2,6 +2,22 @@
 
 declare(strict_types=1);
 
+const BASE_PATH = '/home/archerschl';
+
+const GET_COMMAND_ERROR = ' 2>&1';
+
+const PHP_PATH = '/usr/local/php8.1/bin/php ';
+
+const PROJECT_ZIP = BASE_PATH . '/production.zip';
+const CURRENT_VERSION_FILE = BASE_PATH . '/current-version.txt';
+
+const PRODUCING_PATH = BASE_PATH . '/producing';
+const PRODUCTION_PATH = BASE_PATH . '/v3';
+const PRODUCTION_BK_PATH = PRODUCTION_PATH . '_bh';
+
+const GITHUB_TOKEN = '!CHANGEME!';
+const GITHUB_RELEASES_HOST = 'https://api.github.com/repos/Archers-de-Caen/archers-de-caen/releases';
+
 function homePageWork(): bool
 {
     $curl = curl_init();
@@ -25,54 +41,91 @@ function homePageWork(): bool
     return false;
 }
 
-function websiteNeedUpgrade(): bool
+function downloadLastVersion(): string|false
 {
-    return true;
+    $curl = curl_init();
+
+    curl_setopt($curl, CURLOPT_URL, GITHUB_RELEASES_HOST);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        "Authorization: Bearer " . GITHUB_TOKEN,
+        "User-Agent: PHP",
+    ]);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+
+    $result = curl_exec($curl);
+
+    if (!$result) {
+        echo "ERROR - curl n'a pas marché";
+
+        return false;
+    }
+
+    curl_close($curl);
+
+    try {
+        /** @var array $releases */
+        $releases = json_decode($result, true, 512, JSON_THROW_ON_ERROR);
+    } catch (JsonException $e) {
+        var_dump($e);
+
+        return false;
+    }
+
+    usort($releases, static function (array $release1, array $release2): int {
+        return DateTime::createFromFormat('c', $release1['published_at']) < DateTime::createFromFormat('c', $release2['published_at']) ? -1 : 1;
+    });
+
+    if (!count($releases)) {
+        return false;
+    }
+
+    $lastRelease = $releases[array_key_last($releases)];
+
+    if (file_get_contents(CURRENT_VERSION_FILE) === $lastRelease['tag_name']) {
+        return false;
+    }
+
+    foreach ($lastRelease['assets'] as $asset) {
+        if ('production.zip' === $asset['name']) {
+            echo "INFO - Téléchargement de la version " . $lastRelease['tag_name'] . " depuis Github" . PHP_EOL;
+
+            if (!$file = file_get_contents($asset['browser_download_url'])) {
+                echo "ERROR - Téléchargement du repo depuis " . $asset['browser_download_url'] . PHP_EOL;
+
+                return false;
+            }
+
+            if (!file_put_contents(PROJECT_ZIP, $file)) {
+                echo "ERROR - Impossible d'écrire le fichier" . PHP_EOL;
+
+                return false;
+            }
+
+            return $lastRelease['tag_name'];
+        }
+    }
+
+    return false;
 }
 
-const BASE_PATH = '/home/archerschl/';
-
-const NODE_PATH = BASE_PATH . 'bin/node-v16.17.0-linux-x64/bin/node ';
-const NPM_PATH = NODE_PATH . BASE_PATH . 'bin/node-v16.17.0-linux-x64/lib/node_modules/npm/bin/npm-cli.js ';
-const COMPOSER_PATH = BASE_PATH . 'bin/composer.phar';
-
-const PROJECT_DOWNLOAD_URL = 'https://github.com/Archers-de-Caen/archers-de-caen/archive/refs/heads/production.zip';
-const PROJECT_DOWNLOAD_NAME = BASE_PATH . '/production.zip';
-const PROJECT_DOWNLOAD_DIR = BASE_PATH . '/download';
-
-const PRODUCING_PATH = BASE_PATH . '/producing';
-const PRODUCTION_PATH = BASE_PATH . '/www';
-const PRODUCTION_BK_PATH = PRODUCTION_PATH . '_bh';
-
-// On vérifie si le site est sur le dernier commit
-if (!websiteNeedUpgrade()) {
+if (!$lastRelease = downloadLastVersion()) {
     die("INFO - Aucune mise à jours");
 }
 
-echo "INFO - Téléchargement du repo depuis Github" . PHP_EOL;
-file_put_contents(PROJECT_DOWNLOAD_NAME, file_get_contents(PROJECT_DOWNLOAD_URL));
-
 // Extraction du repo
 $zip = new ZipArchive;
-if ($zip->open(PROJECT_DOWNLOAD_NAME) === true) {
-    $zip->extractTo(PROJECT_DOWNLOAD_DIR);
+if ($zip->open(PROJECT_ZIP) === true) {
+    $zip->extractTo(PRODUCING_PATH);
     $zip->close();
 } else {
     die("ERROR - Repo non extrait");
 }
 
 echo "INFO - Suppression de l'archive du repo" . PHP_EOL;
-if (!unlink(PROJECT_DOWNLOAD_NAME)) {
+if (!unlink(PROJECT_ZIP)) {
     die('ERROR - ZIP non supprimé');
-}
-
-echo "INFO - Restructuration des dossiers" . PHP_EOL;
-if (!rename(PROJECT_DOWNLOAD_DIR . '/archers-de-caen-production', PRODUCING_PATH)) {
-    die('ERROR - Dossier non restructuré');
-}
-
-if (!rmdir(PROJECT_DOWNLOAD_DIR)) {
-    die('ERROR - Dossier non supprimé');
 }
 
 echo "INFO - Copie du fichier .env vers .env.local" . PHP_EOL;
@@ -80,24 +133,9 @@ if (!copy(BASE_PATH . '/.env', PRODUCING_PATH . '/.env.local')) {
     die('ERROR - Fichier non copié');
 }
 
-echo "INFO - Positionnement de l'execution de PHP dans le repo" . PHP_EOL;
-if (!chdir(PRODUCING_PATH)) {
-    die('ERROR - Curseur php non déplacé');
-}
-
-echo "INFO - composer install --no-dev" . PHP_EOL;
-if (!shell_exec('php ' . COMPOSER_PATH . ' install --no-dev')) {
-    die('ERROR - composer non exécuté');
-}
-
-echo "INFO - npm install" . PHP_EOL;
-if (!shell_exec(NPM_PATH . ' install')) {
-    die('ERROR - npm install');
-}
-
-echo "INFO - npm run build" . PHP_EOL;
-if (!shell_exec(NPM_PATH . ' run build')) {
-    die('ERROR - npm non exécuté');
+echo "INFO - Suppression du dossier de l'ancienne version" . PHP_EOL;
+if (!shell_exec('rm ' . PRODUCTION_BK_PATH . ' -rf' . GET_COMMAND_ERROR)) {
+    die('ERROR - Ancienne version non supprimé');
 }
 
 echo "INFO - Déplacement de l'ancienne version vers un dossier temporaire" . PHP_EOL;
@@ -110,19 +148,8 @@ if (!rename(PRODUCING_PATH, PRODUCTION_PATH)) {
     die('ERROR - Nouvelle version non déplacé');
 }
 
-echo "INFO - Positionnement de l'execution de PHP dans le dossier de production";
-if (!chdir(PRODUCTION_PATH)) {
-    die('ERROR - Curseur php non déplacé');
-}
-
-echo "INFO - php bin/console d:m:m" . PHP_EOL;
-if (!shell_exec('php ' . COMPOSER_PATH . ' d:m:m --no-interaction')) {
-    die('ERROR - Migration non faite');
-}
-
-echo "INFO - Suppression du dossier de l'ancienne version" . PHP_EOL;
-if (!rmdir(PRODUCTION_BK_PATH)) {
-    die('ERROR - Ancienne version non supprimé');
+if (!file_put_contents(CURRENT_VERSION_FILE, $lastRelease)) {
+    die("ERROR - Impossible d'écrire le fichier" . PHP_EOL);
 }
 
 echo "SUCCESS - Mise à jours terminé !" . PHP_EOL;

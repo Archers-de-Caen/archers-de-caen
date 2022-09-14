@@ -20,7 +20,9 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge
 
 class SecurityController extends AbstractController
 {
-    #[Route('/connexion', name: 'app_login')]
+    public const ROUTE_APP_LOGIN = 'app_login';
+
+    #[Route('/connexion', name: self::ROUTE_APP_LOGIN)]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -30,19 +32,6 @@ class SecurityController extends AbstractController
             'last_username' => $lastUsername,
             'error' => $error,
         ]);
-    }
-
-    #[Route('/debug', name: 'app_debug')]
-    public function debug(EntityManagerInterface $em): Response
-    {
-        /** @var Archer $user */
-        $user = $this->getUser();
-
-        $user->addRole(Archer::ROLE_DEVELOPER);
-
-        $em->flush();
-
-        return $this->redirectToRoute('admin_index');
     }
 
     #[Route('/inscription', name: 'app_register')]
