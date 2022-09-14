@@ -10,7 +10,7 @@ use App\Domain\Competition\Form\CompetitionRegisterDepartureForm;
 use App\Domain\Competition\Manager\CompetitionRegisterManager;
 use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\File\Admin\Field\DocumentField;
-use App\Http\Admin\Controller\Cms\PageCrudController;
+use App\Http\Admin\Controller\Cms\AbstractPageCrudController;
 use App\Http\Landing\Controller\CompetitionRegisterController;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -144,7 +144,7 @@ class CompetitionRegisterCrudController extends AbstractCrudController
             parent::persistEntity($entityManager, $actuality);
 
             $actualityAdminUrl = $this->adminUrlGenerator
-                ->setController(PageCrudController::class)
+                ->setController(AbstractPageCrudController::class)
                 ->setAction(Action::EDIT)
                 ->setEntityId($actuality->getId())
                 ->generateUrl()
@@ -162,7 +162,7 @@ class CompetitionRegisterCrudController extends AbstractCrudController
         $this->em->flush();
 
         $actualityAdminUrl = $this->adminUrlGenerator
-            ->setController(PageCrudController::class)
+            ->setController(AbstractPageCrudController::class)
             ->setAction(Action::EDIT)
             ->setEntityId($actuality->getId())
             ->generateUrl()
