@@ -6,6 +6,7 @@ namespace App\Http\Landing\Controller;
 
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Cms\Config\Category;
+use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Repository\DataRepository;
 use App\Domain\Cms\Repository\PageRepository;
 use App\Helper\PaginatorHelper;
@@ -23,7 +24,10 @@ class DefaultController extends AbstractController
     {
         return $this->render('/landing/index/index.html.twig', [
             'actualities' => $pageRepository->findBy(
-                ['category' => Category::ACTUALITY->value],
+                [
+                    'category' => Category::ACTUALITY->value,
+                    'status' => Status::PUBLISH,
+                ],
                 ['createdAt' => 'DESC'],
                 4
             ),
