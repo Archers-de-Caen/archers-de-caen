@@ -6,8 +6,6 @@ const BASE_PATH = '/home/archerschl';
 
 const GET_COMMAND_ERROR = ' 2>&1';
 
-const PHP_PATH = '/usr/local/php8.1/bin/php ';
-
 const PROJECT_ZIP = BASE_PATH . '/production.zip';
 const CURRENT_VERSION_FILE = BASE_PATH . '/current-version.txt';
 
@@ -131,6 +129,10 @@ if (!unlink(PROJECT_ZIP)) {
 echo "INFO - Copie du fichier .env vers .env.local" . PHP_EOL;
 if (!copy(BASE_PATH . '/.env', PRODUCING_PATH . '/.env.local')) {
     die('ERROR - Fichier non copié');
+}
+
+if (!file_put_contents(PRODUCING_PATH . '/.env.local', "RELEASE=$lastRelease", FILE_APPEND)) {
+    die("ERROR - Impossible d'écrire le fichier" . PHP_EOL);
 }
 
 echo "INFO - Suppression du dossier de l'ancienne version" . PHP_EOL;
