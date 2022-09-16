@@ -136,7 +136,7 @@ if (!file_put_contents(PRODUCING_PATH . '/.env.local', "RELEASE=$lastRelease", F
 }
 
 echo "INFO - Suppression du dossier de l'ancienne version" . PHP_EOL;
-if (!shell_exec('rm ' . PRODUCTION_BK_PATH . ' -rf' . GET_COMMAND_ERROR)) {
+if (is_dir(PRODUCTION_BK_PATH) && !shell_exec('rm ' . PRODUCTION_BK_PATH . ' -rf' . GET_COMMAND_ERROR)) {
     die('ERROR - Ancienne version non supprimé');
 }
 
