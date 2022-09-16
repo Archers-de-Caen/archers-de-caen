@@ -43,24 +43,24 @@ class ActualitiesController extends AbstractController
     }
 
     #[Route('/actualite/{slug}', name: self::ROUTE_LANDING_ACTUALITY)]
-    public function page(Page $page, PageRepository $pageRepository): Response
+    public function page(Page $actuality, PageRepository $pageRepository): Response
     {
-        $nextPages = $pageRepository
+        $pages = $pageRepository
             ->findBy([
                 'category' => Category::ACTUALITY->value,
                 'status' => Status::PUBLISH->value,
             ], ['createdAt' => 'DESC']);
 
-        foreach ($nextPages as $key => $nextPage) {
-            if ($nextPage->getId() === $page->getId()) {
-                $nextPage = $nextPages[$key + 1];
+        foreach ($pages as $key => $page) {
+            if ($page->getId() === $actuality->getId()) {
+                $nextPage = $pages[$key + 1] ?? null;
 
                 break;
             }
         }
 
         return $this->render('/landing/actualities/actuality.html.twig', [
-            'page' => $page,
+            'page' => $actuality,
             'nextPage' => $nextPage ?? null,
         ]);
     }
