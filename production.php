@@ -11,7 +11,7 @@ const CURRENT_VERSION_FILE = BASE_PATH . '/current-version.txt';
 
 const PRODUCING_PATH = BASE_PATH . '/producing';
 const PRODUCTION_PATH = BASE_PATH . '/v3';
-const PRODUCTION_BK_PATH = PRODUCTION_PATH . '_bh';
+const PRODUCTION_BK_PATH = PRODUCTION_PATH . '_bk';
 
 const GITHUB_TOKEN = '!CHANGEME!';
 const GITHUB_RELEASES_HOST = 'https://api.github.com/repos/Archers-de-Caen/archers-de-caen/releases';
@@ -131,7 +131,7 @@ if (!copy(BASE_PATH . '/.env', PRODUCING_PATH . '/.env.local')) {
     die('ERROR - Fichier non copié');
 }
 
-if (!file_put_contents(PRODUCING_PATH . '/.env.local', "RELEASE=$lastRelease", FILE_APPEND)) {
+if (!file_put_contents(PRODUCING_PATH . '/.env.local', "\n\nRELEASE=$lastRelease", FILE_APPEND)) {
     die("ERROR - Impossible d'écrire le fichier" . PHP_EOL);
 }
 
