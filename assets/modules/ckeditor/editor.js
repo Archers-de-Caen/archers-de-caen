@@ -37,7 +37,6 @@ import Table from '@ckeditor/ckeditor5-table/src/table'
 import FontSize from '@ckeditor/ckeditor5-font/src/fontsize'
 import FontColor from '@ckeditor/ckeditor5-font/src/fontcolor'
 import FontBackgroundColor from '@ckeditor/ckeditor5-font/src/fontbackgroundcolor'
-import HtmlEmbed from '@ckeditor/ckeditor5-html-embed/src/htmlembed'
 
 import MyUploadAdapter from "./MyUploadAdapter";
 
@@ -83,7 +82,6 @@ if (document.querySelector( '#editor' )) {
                 Table,
                 List,
                 HorizontalLine,
-                HtmlEmbed,
                 GeneralHtmlSupport,
                 SourceEditing
             ],
@@ -99,7 +97,7 @@ if (document.querySelector( '#editor' )) {
                     'outdent', 'indent', '|',
                     'uploadImage', /* TODO: maybe un jour 'ckfinder', */ '|',
                     'undo', 'redo', '|',
-                    'htmlEmbed', 'sourceEditing'
+                    'sourceEditing'
                 ],
                 shouldNotGroupWhenFull: true
             },

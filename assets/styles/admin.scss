@@ -1,0 +1,5 @@
+@media (min-width: 992px) {
+  body.ea-edit .content-header {
+    position: initial; // conflit avec ckeditor
+  }
+}
