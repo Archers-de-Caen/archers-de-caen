@@ -52,7 +52,7 @@ class Photo implements UploadableInterface
     )]
     #[NotBlank]
     #[NotNull]
-    #[Image(maxSize: 2000000, maxSizeMessage: 'Image trop lourde')]
+    #[Image(maxSize: '128M', maxSizeMessage: 'Image trop lourde')]
     private ?File $imageFile = null;
 
     #[ORM\Column(type: Types::STRING, length: 191)]
