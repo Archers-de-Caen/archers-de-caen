@@ -67,7 +67,7 @@ class ResultCompetitionManager
 
         uasort(
             $resultsBadgeFiltered,
-            static fn (Result $first, Result $second) => $first->getScore() < $second->getScore() ? -1 : 1
+            static fn (Result $first, Result $second): int => $first->getScore() < $second->getScore() ? -1 : 1
         );
 
         /** @var ResultBadge|null $bestResultBadge */
@@ -85,7 +85,7 @@ class ResultCompetitionManager
             ->getQuery()
             ->getResult();
 
-        uasort($badges, static function (Badge $first, Badge $second) {
+        uasort($badges, static function (Badge $first, Badge $second): int {
             if (!$first->getConditions() || !$second->getConditions()) {
                 return 0;
             }

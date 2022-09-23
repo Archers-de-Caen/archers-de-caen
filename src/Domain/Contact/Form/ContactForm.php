@@ -32,9 +32,6 @@ class ContactForm extends AbstractType
             ])
             ->add('content', TextareaType::class, [
                 'label' => 'Votre message',
-                'attr' => [
-                    'placeholder' => 'Un soleil rouge se lève, beaucoup de sang a du couler cette nuit...',
-                ],
             ])
             ->add('subject', EnumType::class, [
                 'class' => Subject::class,

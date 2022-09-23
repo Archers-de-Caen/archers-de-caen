@@ -19,6 +19,8 @@ use App\Domain\File\Model\Photo;
 use App\Domain\Result\Model\ResultBadge;
 use App\Http\Admin\Controller\Badge\ResultBadgeFederalHonorCrudController;
 use App\Http\Admin\Controller\Badge\ResultBadgeProgressArrowCrudController;
+use App\Http\Admin\Controller\Cms\ActualityCrudControllerAbstract;
+use App\Http\Admin\Controller\Cms\PageCrudControllerAbstract;
 use App\Http\Admin\Controller\File\DocumentCrudController;
 use App\Http\Admin\Controller\File\NewspaperCrudController;
 use App\Http\Landing\Controller\DefaultController;
@@ -53,6 +55,15 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Page d\'accueil', 'fa fa-home');
 
         yield MenuItem::section();
+        yield MenuItem::linkToCrud('Actualité', 'fas fa-newspaper', Page::class)
+            ->setController(ActualityCrudControllerAbstract::class);
+        yield MenuItem::linkToCrud('Page', 'fas fa-pager', Page::class)
+            ->setController(PageCrudControllerAbstract::class);
+        yield MenuItem::linkToCrud('Element de page', 'fas fa-database', Data::class);
+        yield MenuItem::linkToCrud('Tags', 'fas fa-tags', Tag::class)
+            ->setPermission(Archer::ROLE_DEVELOPER);
+
+        yield MenuItem::section();
         yield MenuItem::linkToCrud('Archer', 'fas fa-running', Archer::class);
         yield MenuItem::linkToCrud('Licence', 'fas fa-id-badge', License::class);
 
@@ -78,15 +89,6 @@ class DashboardController extends AbstractDashboardController
             ->setController(DocumentCrudController::class);
         yield MenuItem::linkToCrud('Gazette', 'fas fa-newspaper', Document::class)
             ->setController(NewspaperCrudController::class);
-
-        yield MenuItem::section();
-        yield MenuItem::linkToCrud('Page', 'fas fa-pager', Page::class)
-                ->setQueryParameter('filters', ['category' => ['value' => Category::PAGE->value, 'comparison' => '=']]);
-        yield MenuItem::linkToCrud('Actualité', 'fas fa-newspaper', Page::class)
-                ->setQueryParameter('filters', ['category' => ['value' => Category::ACTUALITY->value, 'comparison' => '=']]);
-        yield MenuItem::linkToCrud('Element de page', 'fas fa-database', Data::class);
-        yield MenuItem::linkToCrud('Tags', 'fas fa-tags', Tag::class)
-            ->setPermission(Archer::ROLE_DEVELOPER);
 
         yield MenuItem::section();
         yield MenuItem::linkToRoute('Revenir au site', 'fas fa-left-long', DefaultController::ROUTE_LANDING_INDEX);
