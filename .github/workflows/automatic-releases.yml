@@ -16,7 +16,7 @@ jobs:
           echo "done!"
 
       - uses: actions/checkout@v1
-        run: composer install --ansi --no-progress --no-interaction --prefer-dist
+      - run: composer install --ansi --no-progress --no-interaction --prefer-dist
 
       - uses: actions/checkout@v1
         with:
