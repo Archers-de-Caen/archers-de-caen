@@ -23,4 +23,4 @@ jobs:
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
 
       - name: "Composer install"
-      - run: composer install --ansi --no-progress --no-interaction --prefer-dist
+        run: composer install --ansi --no-progress --no-interaction --prefer-dist
