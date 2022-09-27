@@ -24,7 +24,7 @@ jobs:
       - name: "🖥️ Run composer install"
         run: composer install --ansi --no-progress --no-interaction --prefer-dist
 
-      - uses: actions/checkout@v3
+      - name: "🖥️ Run npm scripts"
         with:
           node-version: 18
         run: |
