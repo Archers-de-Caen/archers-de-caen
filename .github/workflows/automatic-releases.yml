@@ -24,10 +24,12 @@ jobs:
       - name: "🖥️ Run composer install"
         run: composer install --ansi --no-progress --no-interaction --prefer-dist
 
-      - name: "🖥️ Run npm scripts"
+      - name: "🖥️ Setup node"
         uses: actions/setup-node@v3
         with:
           node-version: 18
-      - run: |
-          npm run install
+
+      - name: "🖥️ Npm run scripts"
+        run: |
+          npm install
           npm run build
