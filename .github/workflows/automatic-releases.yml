@@ -13,6 +13,6 @@ jobs:
 
     steps:
       - name: "Build & test & release"
-        run: |
-          echo "done!"
+      - name: Check out repository code
+        uses: actions/checkout@v3
       - run: composer install --ansi --no-progress --no-interaction --prefer-dist
