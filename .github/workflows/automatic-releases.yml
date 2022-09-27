@@ -1,0 +1,38 @@
+name: "tagged-release"
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  tagged-release:
+    name: "Tagged Release"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: "Build & test & release"
+        run: |
+          echo "done!"
+
+      - uses: actions/checkout@v1
+        run: composer install --ansi --no-progress --no-interaction --prefer-dist
+
+      - uses: actions/checkout@v1
+        with:
+          node-version: 18
+        run: |
+          npm run install
+          npm run build
+
+      - uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r production.zip files=assets;config;migrations;public;src;templates;tests;translations;vendor;.env;composer.json;composer.lock;package.json;package-lock.json;symfony.lock;webpack.config.js
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          files: |
+            LICENSE.txt
+            production.zip
