@@ -25,8 +25,9 @@ jobs:
         run: composer install --ansi --no-progress --no-interaction --prefer-dist
 
       - name: "🖥️ Run npm scripts"
-        run: |
-          npm run install
-          npm run build
+        uses: actions/setup-node@v3
         with:
           node-version: 18
+      - run: |
+          npm run install
+          npm run build
