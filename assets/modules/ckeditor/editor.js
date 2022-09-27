@@ -16,12 +16,8 @@ import Undo from '@ckeditor/ckeditor5-undo/src/undo'
 import HorizontalLine from '@ckeditor/ckeditor5-horizontal-line/src/horizontalline'
 import GeneralHtmlSupport from '@ckeditor/ckeditor5-html-support/src/generalhtmlsupport';
 import SourceEditing from '@ckeditor/ckeditor5-source-editing/src/sourceediting';
-
+import MediaEmbed from '@ckeditor/ckeditor5-media-embed/src/mediaembed';
 import FileRepository from '@ckeditor/ckeditor5-upload/src/filerepository'
-/* TODO: maybe un jour
-import CKFinder from '@ckeditor/ckeditor5-ckfinder/src/ckfinder';
-import Uploadadapter from '@ckeditor/ckeditor5-adapter-ckfinder/src/uploadadapter';
- */
 import ImageUpload from '@ckeditor/ckeditor5-image/src/imageupload'
 import Image from '@ckeditor/ckeditor5-image/src/image'
 import ImageResize from '@ckeditor/ckeditor5-image/src/imageresize'
@@ -39,6 +35,11 @@ import FontColor from '@ckeditor/ckeditor5-font/src/fontcolor'
 import FontBackgroundColor from '@ckeditor/ckeditor5-font/src/fontbackgroundcolor'
 
 import MyUploadAdapter from "./MyUploadAdapter";
+
+/* TODO: maybe un jour
+import CKFinder from '@ckeditor/ckeditor5-ckfinder/src/ckfinder';
+import Uploadadapter from '@ckeditor/ckeditor5-adapter-ckfinder/src/uploadadapter';
+ */
 
 function MyCustomUploadAdapterPlugin( editor ) {
     editor.plugins.get( FileRepository ).createUploadAdapter = ( loader ) => {
@@ -83,7 +84,8 @@ if (document.querySelector( '#editor' )) {
                 List,
                 HorizontalLine,
                 GeneralHtmlSupport,
-                SourceEditing
+                SourceEditing,
+                MediaEmbed,
             ],
             toolbar: {
                 items: [
@@ -95,7 +97,7 @@ if (document.querySelector( '#editor' )) {
                     'fontsize', 'fontColor', 'fontBackgroundColor', '|',
                     'insertTable', 'horizontalLine', '|',
                     'outdent', 'indent', '|',
-                    'uploadImage', /* TODO: maybe un jour 'ckfinder', */ '|',
+                    'uploadImage', 'mediaEmbed', /* TODO: maybe un jour 'ckfinder', */ '|',
                     'undo', 'redo', '|',
                     'sourceEditing'
                 ],
@@ -112,6 +114,21 @@ if (document.querySelector( '#editor' )) {
                         classes: true,
                         styles: true
                     }
+                ]
+            },
+            mediaEmbed: {
+                extraProviders: [
+                    {
+                        name: 'allowAll',
+                        url: /^.+/,
+                        html: function (match) {
+                            return `
+                                <div style="position:relative; padding-bottom:100%; height:0">
+                                    <iframe src="${match[0]}" frameborder="0" style="position:absolute; width:100%; height:100%; top:0; left:0"></iframe>
+                                </div>
+                            `;
+                        }
+                    },
                 ]
             }
             // TODO: maybe un jour

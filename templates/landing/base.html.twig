@@ -1,3 +1,4 @@
+{% from 'landing/_parts/social-networks.html.twig' import socialNetwork %}
 <!-- Site réalisé par Damien HEBERT damienhebert.fr -->
 <!DOCTYPE html>
 <html lang="fr">
@@ -28,6 +29,7 @@
             <div class="header-secondary">
                 <div class="header-content">
                     <ul>
+                        <li class="mr-2">{{ socialNetwork() }}</li>
                         <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\NewspaperController::ROUTE_LANDING_NEWSPAPERS')) }}">La gazette</a></li>
                         <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\ContactController::ROUTE_LANDING_CONTACT')) }}">Contact</a></li>
                         <li><a href="{{ path('app_index') }}">Espace licencié</a></li>
@@ -100,6 +102,8 @@
                 <div class="menu">
                     <p>© Archers de Caen {{ 'now'|date('Y') }}. Tous droits réservés.</p>
                     <ul>
+                        <li>{{ socialNetwork() }}</li>
+
                         {% if app.environment == 'dev' or is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_DEVELOPER')) %}
                             <li><a href="{{ path('landing_style_guide') }}">Guide de style</a></li>
                             <li><a href="https://archers-caen.fr">V2</a></li>
@@ -115,6 +119,7 @@
                         <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\ContactController::ROUTE_LANDING_CONTACT')) }}">Contact</a></li>
                     </ul>
                 </div>
+
                 <div class="logo">
                     <img src="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.svg') }}" alt="Logo des archers de Caen">
                 </div>
