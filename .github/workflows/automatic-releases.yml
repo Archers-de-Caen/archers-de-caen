@@ -1,0 +1,49 @@
+name: "tagged-release"
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  tagged-release:
+    name: "Tagged Release"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+
+      - name: "🖥️ Run composer install"
+        run: composer install --ansi --no-progress --no-interaction --prefer-dist
+
+      - name: "🖥️ Setup node"
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: "🖥️ Npm run scripts"
+        run: |
+          npm install
+          npm run build
+
+      - name: "🖥️ Création de production.zip"
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -q -r production.zip assets config migrations public src templates tests translations vendor .env composer.json composer.lock package.json package-lock.json symfony.lock webpack.config.js
+
+      - name: "⭐ Création de la release"
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          files: |
+            LICENSE.txt
+            production.zip
