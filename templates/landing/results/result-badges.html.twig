@@ -67,7 +67,7 @@
                 <div class="">
                     {% for badge in badges|filter(badge => badge.conditions.weapon is defined) %}
                         {# @var result App\Domain\Result\Model\ResultBadge #}
-                        {% for result in badge.resultBadges|sort((resultA, resultB) => resultA.score < resultB.score) %}
+                        {% for result in badge.resultBadges|sort((resultA, resultB) => resultA.score < resultB.score ? -1 : 1) %}
                             <div class="result" data-badge="{{ badge.id }}">
                                 <b>{{ result.archer.fullName }}</b> ({{ result.category.toShortString }} {{ result.score }}){% if not loop.last %} -{% endif %}
                             </div>

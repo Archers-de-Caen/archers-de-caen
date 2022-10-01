@@ -4,7 +4,7 @@
 
 {% block main %}
     <div class="page-content mt-3">
-        {% for managementTeam in managementTeams|sort((a, b) => a.order > b.order) %}
+        {% for managementTeam in managementTeams|sort((a, b) => a.order > b.order ? -1 : 1) %}
             <h2>{{ managementTeam.name }}</h2>
             <div class="carousels-container">
                 <div class="carousels-prev">
