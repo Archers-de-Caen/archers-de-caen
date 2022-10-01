@@ -66,21 +66,6 @@
 
 {% block javascript_footer %}
     <script>
-        function hide(element) {
-            element.style.display = 'none'
-
-            element.querySelectorAll('input, select').forEach((input) => {
-                input.required = false
-            })
-        }
-
-        function show(element, type = 'block') {
-            element.style.display = type
-
-            element.querySelectorAll('input, select').forEach((input) => {
-                input.required = true
-            })
-        }
 
         document.querySelectorAll('.targets').forEach(target => {
             hide(target)

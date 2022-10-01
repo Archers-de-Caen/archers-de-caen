@@ -201,7 +201,18 @@ final class CompetitionController extends AbstractController
         return $this->render('/landing/results/result-record.html.twig', [
             'resultRecords' => $resultRecordsOrdered,
             'weapons' => Weapon::getInOrder(),
-            'competitionTypes' => Type::getInOrder(),
+            'competitionTypes' => array_filter(
+                Type::getInOrder(),
+                static function (Type $competitionType) use ($resultRecordsOrdered) {
+                    foreach ($resultRecordsOrdered as $key => $resultRecordOrdered) {
+                        if (!empty($resultRecordOrdered) && $key === $competitionType->toString()) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                }
+            ),
         ]);
     }
 
@@ -213,7 +224,18 @@ final class CompetitionController extends AbstractController
         return $this->render('/landing/results/result-badges.html.twig', [
             'badges' => $badges,
             'weapons' => Weapon::getInOrder(),
-            'competitionTypes' => Type::getInOrder(),
+            'competitionTypes' => array_filter(
+                Type::getInOrder(),
+                static function (Type $competitionType) use ($badges) {
+                    foreach ($badges as $badge) {
+                        if (isset($badge->getConditions()['weapon']) && $badge->getCompetitionType() === $competitionType) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                }
+            ),
         ]);
     }
 }

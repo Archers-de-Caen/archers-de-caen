@@ -1,0 +1,13 @@
+<div class="thumbnails-container weapons">
+
+    <h2 class="mt-5">Arme</h2>
+
+    <div class="thumbnails form-groups">
+        {% for weapon in weapons %}
+            <div class="weapon form-group --check --btn --white">
+                <input type="radio" id="{{ weapon.value }}" name="weapon" value="{{ weapon.value }}">
+                <label for="{{ weapon.value }}">{{ weapon.toString }}</label>
+            </div>
+        {% endfor %}
+    </div>
+</div>

@@ -78,7 +78,7 @@ a {
   }
 }
 
-b {
+b, strong {
   font-weight: bold;
 }
 
@@ -109,4 +109,10 @@ sup {
 
 sub {
   bottom: -0.25em;
+}
+
+caption {
+  font-weight: lighter;
+  font-style: italic;
+  margin: 1rem 0;
 }
