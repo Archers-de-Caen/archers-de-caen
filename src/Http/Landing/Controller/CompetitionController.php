@@ -153,12 +153,15 @@ final class CompetitionController extends AbstractController
     {
         /** @var ResultCompetition[] $resultRecords */
         $resultRecords = $resultCompetitionRepository
-            ->createQueryBuilder('result_competition')
-            ->leftJoin('result_competition.competition', 'competition')
-            ->groupBy('result_competition.archer')
-            ->addGroupBy('result_competition.weapon')
-            ->addGroupBy('competition.type')
-            ->orderBy('MAX(result_competition.score)', 'DESC')
+            ->createQueryBuilder('rc')
+
+            ->select('rc')
+            ->addSelect('c')
+            ->addSelect('a')
+
+            ->leftJoin('rc.competition', 'c')
+            ->leftJoin('rc.archer', 'a')
+
             ->getQuery()
             ->getResult();
 
@@ -167,16 +170,31 @@ final class CompetitionController extends AbstractController
         foreach ($resultRecords as $resultRecord) {
             $competition = $resultRecord->getCompetition();
 
-            if ($competition && $competition->getType() && $resultRecord->getWeapon()) {
-                if (!isset($resultRecordsOrdered[$competition->getType()->toString()])) {
-                    $resultRecordsOrdered[$competition->getType()->toString()] = [];
+            if (!$competition) {
+                continue;
+            }
 
-                    if (!isset($resultRecordsOrdered[$competition->getType()->toString()][$resultRecord->getWeapon()->toString()])) {
-                        $resultRecordsOrdered[$competition->getType()->toString()][$resultRecord->getWeapon()->toString()] = [];
-                    }
-                }
+            $type = $competition->getType()?->toString();
+            $weapon = $resultRecord->getWeapon()?->toString();
+            $archer = $resultRecord->getArcher()?->getId()?->__toString();
 
-                $resultRecordsOrdered[$competition->getType()->toString()][$resultRecord->getWeapon()->toString()][] = $resultRecord;
+            if (!$type || !$weapon || !$archer) {
+                continue;
+            }
+
+            if (!isset($resultRecordsOrdered[$type])) {
+                $resultRecordsOrdered[$type] = [];
+            }
+
+            if (!isset($resultRecordsOrdered[$type][$weapon])) {
+                $resultRecordsOrdered[$type][$weapon] = [];
+            }
+
+            if (
+                !isset($resultRecordsOrdered[$type][$weapon][$archer]) ||
+                $resultRecordsOrdered[$type][$weapon][$archer]->getScore() < $resultRecord->getScore()
+            ) {
+                $resultRecordsOrdered[$type][$weapon][$archer] = $resultRecord;
             }
         }
 

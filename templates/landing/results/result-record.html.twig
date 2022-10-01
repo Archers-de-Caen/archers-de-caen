@@ -20,11 +20,11 @@
                         </thead>
                         <tbody>
                             {% if resultRecords[competitionType.toString][weapon.toString] is defined %}
-                                {% for result in resultRecords[competitionType.toString][weapon.toString]|sort((a, b) => a.score < b.score ? -1 : 1) %}
+                                {% for result in resultRecords[competitionType.toString][weapon.toString]|sort((a, b) => a.score > b.score ? -1 : 1) %}
                                     <tr>
                                         <td>{{ result.archer.fullName }}</td>
                                         <td>{{ result.score }}</td>
-                                        <td>{{ result.completionDate|date('d/m/Y') }}</td>
+                                        <td>Le {{ result.completionDate|date('d/m/Y') }} à {{ result.competition.location }}</td>
                                     </tr>
                                 {% endfor %}
                             {% else %}
