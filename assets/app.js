@@ -11,6 +11,7 @@ import './styles/app.scss';
 import './modules/header/header'
 import './modules/gallery/gallery'
 import './modules/carousels/carousels'
+import './modules/toggleable/toggleable'
 
 import './js/share-btn'
 import './js/copy'

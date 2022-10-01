@@ -1,4 +1,4 @@
-{% block ckeditor_row %}
+{% block ckeditor_widget %}
     <style>
         .ck-editor {
             max-width: 700px;
@@ -21,9 +21,7 @@
         }
     </style>
 
-    <label for="editor">Contenu</label>
-
-    <textarea id="editor" name="{{ form.vars.full_name }}">
+    <textarea class="ckeditor" name="{{ form.vars.full_name }}">
         {{ form.vars.data }}
     </textarea>
-{% endblock %}
+{% endblock ckeditor_widget %}

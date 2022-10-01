@@ -47,9 +47,9 @@ function MyCustomUploadAdapterPlugin( editor ) {
     };
 }
 
-if (document.querySelector( '#editor' )) {
+document.querySelectorAll( '.ckeditor' ).forEach((ckeditor) => {
     ClassicEditor
-        .create( document.querySelector( '#editor' ), {
+        .create( ckeditor, {
             extraPlugins: [ MyCustomUploadAdapterPlugin ],
             plugins: [
                 Alignment,
@@ -147,4 +147,4 @@ if (document.querySelector( '#editor' )) {
         .catch( error => {
             console.error( 'There was a problem initializing the editor.', error );
         } );
-}
+})

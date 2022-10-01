@@ -25,6 +25,7 @@ use App\Http\Admin\Controller\File\DocumentCrudController;
 use App\Http\Admin\Controller\File\NewspaperCrudController;
 use App\Http\Landing\Controller\DefaultController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -47,6 +48,13 @@ class DashboardController extends AbstractDashboardController
     {
         return Dashboard::new()
             ->setTitle('Archers De Caen V3')
+        ;
+    }
+
+    public function configureCrud(): Crud
+    {
+        return parent::configureCrud()
+            ->addFormTheme('form/ckeditor.html.twig')
         ;
     }
 

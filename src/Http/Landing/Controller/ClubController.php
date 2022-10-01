@@ -17,9 +17,13 @@ class ClubController extends AbstractController
     public const ROUTE_LANDING_MANAGEMENT_TEAM = 'landing_management_team';
 
     #[Route('/club', name: self::ROUTE_LANDING_CLUB)]
-    public function index(): Response
+    public function index(DataRepository $dataRepository): Response
     {
-        return $this->render('/landing/club/index.html.twig');
+        $faqs = $dataRepository->findOneBy(['code' => 'FAQ']);
+
+        return $this->render('/landing/club/index.html.twig', [
+            'faqs' => $faqs,
+        ]);
     }
 
     #[Route('/planning', name: self::ROUTE_LANDING_PLANNING)]
