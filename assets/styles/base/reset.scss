@@ -75,6 +75,10 @@ a {
     &:hover {
       color: $color-yellow;
     }
+
+    &:visited {
+      color: inherit;
+    }
   }
 }
 
