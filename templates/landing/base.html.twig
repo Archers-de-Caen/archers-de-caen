@@ -106,8 +106,10 @@
 
                         {% if app.environment == 'dev' or is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_DEVELOPER')) %}
                             <li><a href="{{ path('landing_style_guide') }}">Guide de style</a></li>
-                            <li><a href="https://archers-caen.fr">V2</a></li>
-                            <li></li>
+                        {% endif %}
+
+                        {% if app.environment == 'dev' %}
+                            <li><a href="https://archers-caen.fr">Production</a></li>
                         {% endif %}
 
                         <li><a href="{{ path('landing_page', { slug: 'politique-de-confidentialite', type: 'p' }) }}">Politique de confidentialité</a></li>
