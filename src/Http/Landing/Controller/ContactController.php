@@ -23,7 +23,7 @@ class ContactController extends AbstractController
     public function contact(Request $request, EntityManagerInterface $em, ContactService $contactService): Response
     {
         $contact = new ContactRequest();
-        $contactForm = $this->createForm(ContactForm::class, $contact);
+        $contactForm = $this->createForm(ContactForm::class, $contact, ['clientIp' => $request->getClientIp()]);
 
         $contactForm->handleRequest($request);
 
@@ -35,6 +35,8 @@ class ContactController extends AbstractController
                 $em->flush();
 
                 $this->addFlash('success', 'Votre message a bien été envoyé.');
+
+                return $this->redirectToRoute(DefaultController::ROUTE_LANDING_INDEX);
             } catch (TooManyContactException) {
                 $this->addFlash('error', 'Vous avez déjà envoyé un message, merci de patienter.');
             } catch (TransportExceptionInterface) {

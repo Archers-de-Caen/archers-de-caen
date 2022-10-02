@@ -29,6 +29,9 @@
         </header>
 
         {{ form_start(form) }}
+            {{ form_errors(form) }}
+
+            {{ form_row(form.recaptcha) }}
 
             <div class="row">
                 <div class="col -first">
@@ -70,3 +73,12 @@
 
 {% endblock %}
 
+{% block javascripts %}
+    <script>
+        function onSubmit(token) {
+            document.querySelector("input[name='contact_form[recaptcha]']").value = token
+
+            document.querySelector("form[name=contact_form]").submit()
+        }
+    </script>
+{% endblock %}
