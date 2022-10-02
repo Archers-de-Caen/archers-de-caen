@@ -10,6 +10,9 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <!-- Permet d'afficher des preview de média, ajouté via ckeditor -->
+        <script async charset="utf-8" src="//cdn.embedly.com/widgets/platform.js"></script>
+
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -36,7 +39,7 @@
                         {% if is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_ADMIN')) %}
                             <li><a href="{{ path('admin_index') }}">Admin</a></li>
                         {% endif %}
-{#                        <li><a href="#">🔍</a></li>#}
+                        {# <li><a href="#">🔍</a></li>#}
                     </ul>
                 </div>
             </div>
