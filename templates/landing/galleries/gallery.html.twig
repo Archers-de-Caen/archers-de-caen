@@ -10,9 +10,11 @@
 
         <div class="thumbnails" id="galleries">
             {% for photo in gallery.photos %}
+                {# @var photo \App\Domain\File\Model\Photo #}
+
                 <div class="thumbnail -horizontal">
                     <header>
-                        <img src="{{ vich_uploader_asset(photo)|imagine_filter('thumbnail') }}" alt="Photo">
+                        <img src="{{ photo.imageName|imagine_filter('thumbnail') }}" alt="Photo">
                     </header>
                 </div>
             {% endfor %}

@@ -8,6 +8,9 @@ parameters:
     phone: "+33 6 67 45 31 14"
     postal_address: "Avenue Albert 1er, 14000 Caen"
 
+    recaptcha_public: "%env(GOOGLE_RECAPTCHA_PUBLIC)%"
+    recaptcha_secret: "%env(GOOGLE_RECAPTCHA_SECRET)%"
+
 services:
     # default configuration for services in *this* file
     _defaults:
