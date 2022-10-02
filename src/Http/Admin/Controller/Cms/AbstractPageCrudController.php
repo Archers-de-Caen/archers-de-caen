@@ -57,7 +57,6 @@ class AbstractPageCrudController extends AbstractCrudController
 
             ->setPageTitle(Crud::PAGE_DETAIL, fn (Page $page) => (string) $page)
 
-            ->addFormTheme('form/ckeditor.html.twig')
             ->setDefaultSort(['createdAt' => 'DESC'])
         ;
     }

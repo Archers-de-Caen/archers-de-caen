@@ -62,170 +62,155 @@
 
 {% block javascript_footer %}
     <script>
-        function hide(element) {
-            element.style.display = 'none'
+        document.addEventListener("DOMContentLoaded", () => {
+            function translateGender(gender) {
+                switch (gender) {
+                    case 'man': return 'M. '
+                    case 'woman': return 'Mme. '
+                }
 
-            element.querySelectorAll('input, select').forEach((input) => {
-                input.required = false
-            })
-        }
-
-        function show(element, type = 'block') {
-            element.style.display = type
-
-            element.querySelectorAll('input, select').forEach((input) => {
-                input.required = true
-            })
-        }
-
-        function translateGender(gender) {
-            switch (gender) {
-                case 'man': return 'M. '
-                case 'woman': return 'Mme. '
+                return ''
             }
 
-            return ''
-        }
+            function translateCategory(category) {
+                switch (category.replace(/_man|_woman/, '')) {
+                    case 'peewee' : return 'Poussin'
+                    case 'cub' : return 'Minime'
+                    case 'benjamin' : return 'Benjamin'
+                    case 'cadet' : return 'Cadet'
+                    case 'junior' : return 'Junior'
+                    case 'senior_one' : return 'Senior 1'
+                    case 'senior_two' : return 'Senior 2'
+                    case 'senior_three' : return 'Senior 3'
+                }
 
-        function translateCategory(category) {
-            switch (category.replace(/_man|_woman/, '')) {
-                case 'peewee' : return 'Poussin'
-                case 'cub' : return 'Minime'
-                case 'benjamin' : return 'Benjamin'
-                case 'cadet' : return 'Cadet'
-                case 'junior' : return 'Junior'
-                case 'senior_one' : return 'Senior 1'
-                case 'senior_two' : return 'Senior 2'
-                case 'senior_three' : return 'Senior 3'
+                return ''
             }
 
-            return ''
-        }
+            function setArcherInputValue(selector, value) {
+                const input = document.querySelector(archerFormPrefix + selector)
 
-        function setArcherInputValue(selector, value) {
-            const input = document.querySelector(archerFormPrefix + selector)
-
-            if (input) {
-                input.value = value
+                if (input) {
+                    input.value = value
+                }
             }
-        }
 
-        function handleLicenseInput(target) {
-            if (target.value && target.value.match(/\d{6}[a-zA-Z]/g)) {
-                fetch('/api/competition-registers/archers/' + target.value)
-                    .then((response) => {
-                        if (200 === response.status) {
-                            return response.json()
-                        }
-
-                        show(archerContainer)
-                        hide(archerAlreadyExistContainer)
-                    })
-                    .then((body) => {
-                        if (body) {
-                            setArcherInputValue('firstName', body.firstName)
-                            setArcherInputValue('lastName', body.lastName)
-                            setArcherInputValue('club', body.club)
-
-                            const genderInput = document.querySelector(`input[name="competition_register_departure_target_archer_form[gender]"][data-gender="${body.gender}"]`)
-                            if (genderInput) {
-                                genderInput.checked = true
+            function handleLicenseInput(target) {
+                if (target.value && target.value.match(/\d{6}[a-zA-Z]/g)) {
+                    fetch('/api/competition-registers/archers/' + target.value)
+                        .then((response) => {
+                            if (200 === response.status) {
+                                return response.json()
                             }
 
-                            const categorySelect = document.querySelector(`input[name="competition_register_departure_target_archer_form[category]"]`)
-                            if (categorySelect) {
-                                const categoryOption = categorySelect.querySelector(`[data-gender="${body.category}"]`)
+                            show(archerContainer)
+                            hide(archerAlreadyExistContainer)
+                        })
+                        .then((body) => {
+                            if (body) {
+                                setArcherInputValue('firstName', body.firstName)
+                                setArcherInputValue('lastName', body.lastName)
+                                setArcherInputValue('club', body.club)
 
-                                categorySelect.value = categoryOption.value
-                            }
+                                const genderInput = document.querySelector(`input[name="competition_register_departure_target_archer_form[gender]"][data-gender="${body.gender}"]`)
+                                if (genderInput) {
+                                    genderInput.checked = true
+                                }
 
-                            if (body.firstName && body.lastName && body.email && body.phone && body.club && body.category && body.gender) {
-                                hide(archerContainer)
-                                show(archerAlreadyExistContainer)
+                                const categorySelect = document.querySelector(`input[name="competition_register_departure_target_archer_form[category]"]`)
+                                if (categorySelect) {
+                                    const categoryOption = categorySelect.querySelector(`[data-gender="${body.category}"]`)
 
-                                archerAlreadyExistContainer.querySelector('#edit-archer').addEventListener('click', () => {
+                                    categorySelect.value = categoryOption.value
+                                }
+
+                                if (body.firstName && body.lastName && body.email && body.phone && body.club && body.category && body.gender) {
+                                    hide(archerContainer)
+                                    show(archerAlreadyExistContainer)
+
+                                    archerAlreadyExistContainer.querySelector('#edit-archer').addEventListener('click', () => {
+                                        show(archerContainer)
+                                        hide(archerAlreadyExistContainer)
+                                    })
+
+                                    archerAlreadyExistContainer.querySelector('#archer-name').innerText = translateGender(body.gender) + body.firstName + '' + body.lastName
+                                    archerAlreadyExistContainer.querySelector('#archer-contact').innerText = body.email + ' | ' + body.phone
+                                    archerAlreadyExistContainer.querySelector('#archer-category').innerText = translateCategory(body.category)
+                                    archerAlreadyExistContainer.querySelector('#archer-club').innerText = body.club
+                                } else {
                                     show(archerContainer)
                                     hide(archerAlreadyExistContainer)
-                                })
-
-                                archerAlreadyExistContainer.querySelector('#archer-name').innerText = translateGender(body.gender) + body.firstName + '' + body.lastName
-                                archerAlreadyExistContainer.querySelector('#archer-contact').innerText = body.email + ' | ' + body.phone
-                                archerAlreadyExistContainer.querySelector('#archer-category').innerText = translateCategory(body.category)
-                                archerAlreadyExistContainer.querySelector('#archer-club').innerText = body.club
+                                }
                             } else {
                                 show(archerContainer)
                                 hide(archerAlreadyExistContainer)
+
+                                setArcherInputValue('firstName', null)
+                                setArcherInputValue('lastName', null)
+                                setArcherInputValue('club', null)
+                                setArcherInputValue('category', null)
                             }
-                        } else {
-                            show(archerContainer)
-                            hide(archerAlreadyExistContainer)
-
-                            setArcherInputValue('firstName', null)
-                            setArcherInputValue('lastName', null)
-                            setArcherInputValue('club', null)
-                            setArcherInputValue('category', null)
-                        }
-                    })
-                    .finally(() => {
-                        show(submitContainer, 'flex')
-                    })
-            }
-        }
-
-        function handleGenderInput(target)
-        {
-            document.querySelectorAll('option[data-gender]').forEach((option) => {
-                if (target.getAttribute('data-gender') === option.getAttribute('data-gender')) {
-                    show(option)
-                } else {
-                    hide(option)
+                        })
+                        .finally(() => {
+                            show(submitContainer, 'flex')
+                        })
                 }
-            })
-        }
+            }
 
-        const archerContainer = document.querySelector('#archer')
-        const archerAlreadyExistContainer = document.querySelector('#archer-already-exist')
-        const submitContainer = document.querySelector('#submit-container')
+            function handleGenderInput(target)
+            {
+                document.querySelectorAll('option[data-gender]').forEach((option) => {
+                    if (target.getAttribute('data-gender') === option.getAttribute('data-gender')) {
+                        show(option)
+                    } else {
+                        hide(option)
+                    }
+                })
+            }
 
-        const archerFormPrefix = '#competition_register_departure_target_archer_form_'
-        const licenseInput = document.querySelector(archerFormPrefix + 'licenseNumber')
-        const genderInputs = document.querySelectorAll('input[name="competition_register_departure_target_archer_form[gender]"]')
+            const archerContainer = document.querySelector('#archer')
+            const archerAlreadyExistContainer = document.querySelector('#archer-already-exist')
+            const submitContainer = document.querySelector('#submit-container')
 
-        let typingTimer
-        const doneTypingInterval = 500
+            const archerFormPrefix = '#competition_register_departure_target_archer_form_'
+            const licenseInput = document.querySelector(archerFormPrefix + 'licenseNumber')
+            const genderInputs = document.querySelectorAll('input[name="competition_register_departure_target_archer_form[gender]"]')
 
-        hide(archerContainer)
-        hide(archerAlreadyExistContainer)
-        hide(submitContainer)
+            let typingTimer
+            const doneTypingInterval = 500
 
-        licenseInput.addEventListener('input', (e) => {
-            const target = e.currentTarget
+            hide(archerContainer)
+            hide(archerAlreadyExistContainer)
+            hide(submitContainer)
 
-            clearTimeout(typingTimer)
-
-            typingTimer = setTimeout(() => {
-                handleLicenseInput(target)
-            }, doneTypingInterval)
-        })
-
-        genderInputs.forEach((genderInput) => {
-            genderInput.addEventListener('input', (e) => {
+            licenseInput.addEventListener('input', (e) => {
                 const target = e.currentTarget
 
-                handleGenderInput(target)
+                clearTimeout(typingTimer)
+
+                typingTimer = setTimeout(() => {
+                    handleLicenseInput(target)
+                }, doneTypingInterval)
             })
+
+            genderInputs.forEach((genderInput) => {
+                genderInput.addEventListener('input', (e) => {
+                    const target = e.currentTarget
+
+                    handleGenderInput(target)
+                })
+            })
+
+            document.querySelectorAll('option[data-gender]').forEach((option) => {
+                hide(option)
+
+                option.textContent = option.textContent.replace(/Homme|Femme/, '')
+            })
+
+            if (licenseInput.value) {
+                show(archerContainer)
+                show(submitContainer, 'flex')
+            }
         })
-
-        document.querySelectorAll('option[data-gender]').forEach((option) => {
-            hide(option)
-
-            option.textContent = option.textContent.replace(/Homme|Femme/, '')
-        })
-
-        if (licenseInput.value) {
-            show(archerContainer)
-            show(submitContainer, 'flex')
-        }
-
     </script>
 {% endblock javascript_footer %}

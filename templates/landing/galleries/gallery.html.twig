@@ -12,7 +12,7 @@
             {% for photo in gallery.photos %}
                 <div class="thumbnail -horizontal">
                     <header>
-                        <img src="{{ vich_uploader_asset(photo) }}" alt="Photo">
+                        <img src="{{ vich_uploader_asset(photo)|imagine_filter('thumbnail') }}" alt="Photo">
                     </header>
                 </div>
             {% endfor %}

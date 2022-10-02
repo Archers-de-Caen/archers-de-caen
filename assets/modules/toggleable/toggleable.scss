@@ -1,0 +1,49 @@
+@import "../../styles/variable";
+
+.toggleables {
+  .toggleable {
+    background-color: var(--color-white);
+    padding: .8rem 2rem;
+    cursor: pointer;
+    position: relative;
+    box-shadow: $box-shadow;
+    transition: margin ease-in-out .25s;
+
+    &:before {
+      content: url("../../images/symbole/down-arrow-grey.svg");
+      width: 20px;
+      height: 25px;
+      position: absolute;
+      right: 2rem;
+      top: 2rem;
+      transition: transform ease-in-out .25s;
+    }
+
+    &.--active {
+      &:before {
+        transform: rotate(-180deg);
+      }
+
+      border-radius: $border-radius-normal;
+      margin: 1rem 0;
+
+      .toggleable-content {
+        display: block;
+      }
+    }
+
+    &:first-child {
+      border-radius: $border-radius-normal $border-radius-normal 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 $border-radius-normal $border-radius-normal;
+    }
+
+    .toggleable-content {
+      display: none;
+      margin-top: 2rem;
+    }
+  }
+}
+

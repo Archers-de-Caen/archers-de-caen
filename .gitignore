@@ -34,3 +34,7 @@ yarn-error.log
 ###< friendsofphp/php-cs-fixer ###
 
 public/document/
+
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###

@@ -11,12 +11,14 @@ import './styles/app.scss';
 import './modules/header/header'
 import './modules/gallery/gallery'
 import './modules/carousels/carousels'
+import './modules/toggleable/toggleable'
 
 import './js/share-btn'
 import './js/copy'
 import './js/flash'
 import './js/iframe-fit-content'
 import './js/display'
+import './js/embedly'
 
 // feather-icons a plugin for the open-source icon set, show https://feathericons.com/ for complete icons list
 const feather = require('feather-icons')

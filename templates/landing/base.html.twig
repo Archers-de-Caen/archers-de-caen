@@ -10,6 +10,9 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <!-- Permet d'afficher des preview de média, ajouté via ckeditor -->
+        <script async charset="utf-8" src="//cdn.embedly.com/widgets/platform.js"></script>
+
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -36,7 +39,7 @@
                         {% if is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_ADMIN')) %}
                             <li><a href="{{ path('admin_index') }}">Admin</a></li>
                         {% endif %}
-{#                        <li><a href="#">🔍</a></li>#}
+                        {# <li><a href="#">🔍</a></li>#}
                     </ul>
                 </div>
             </div>
@@ -106,8 +109,10 @@
 
                         {% if app.environment == 'dev' or is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_DEVELOPER')) %}
                             <li><a href="{{ path('landing_style_guide') }}">Guide de style</a></li>
-                            <li><a href="https://archers-caen.fr">V2</a></li>
-                            <li></li>
+                        {% endif %}
+
+                        {% if app.environment == 'dev' %}
+                            <li><a href="https://archers-caen.fr">Production</a></li>
                         {% endif %}
 
                         <li><a href="{{ path('landing_page', { slug: 'politique-de-confidentialite', type: 'p' }) }}">Politique de confidentialité</a></li>
