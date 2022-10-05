@@ -66,29 +66,30 @@
 
 {% block javascript_footer %}
     <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll('.targets').forEach(target => {
+                hide(target)
+            })
 
-        document.querySelectorAll('.targets').forEach(target => {
-            hide(target)
-        })
-
-        document.querySelectorAll('input[name=date]').forEach(input => {
-            if (input.checked) {
-                show(input.closest('.departures').nextElementSibling)
-            }
-
-            input.addEventListener('change', (e) => {
-                const target = e.currentTarget
-                const targets = target.closest('.departures').nextElementSibling
-
-                if (target.checked) {
-                    show(targets)
-                } else {
-                    hide(targets)
-
-                    targets.querySelectorAll('input').forEach((radio) => {
-                        radio.checked = false
-                    })
+            document.querySelectorAll('input[name=date]').forEach(input => {
+                if (input.checked) {
+                    show(input.closest('.departures').nextElementSibling)
                 }
+    
+                input.addEventListener('change', (e) => {
+                    const target = e.currentTarget
+                    const targets = target.closest('.departures').nextElementSibling
+
+                    if (target.checked) {
+                        show(targets)
+                    } else {
+                        hide(targets)
+
+                        targets.querySelectorAll('input').forEach((radio) => {
+                            radio.checked = false
+                        })
+                    }
+                })
             })
         })
     </script>
