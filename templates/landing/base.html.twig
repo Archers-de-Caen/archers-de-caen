@@ -3,18 +3,16 @@
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-        <meta charset="UTF-8">
         <title>{% block title %}{% endblock %}{% if block('title') %} | {% endif %}Les Archers de Caen</title>
+
+        <meta charset="UTF-8">
+        <meta name="description" value="{% block description %}{% endblock %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" href="/favicon/16x16.png" sizes="16x16">
 
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <!-- Permet d'afficher des preview de média, ajouté via ckeditor -->
         <script async charset="utf-8" src="//cdn.embedly.com/widgets/platform.js"></script>
-
-        <!-- Google recaptcha -->
-        <script src="//www.google.com/recaptcha/api.js"></script>
 
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
