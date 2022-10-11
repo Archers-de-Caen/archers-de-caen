@@ -13,7 +13,7 @@ DirectoryIndex index.php
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    RewriteRule ^/?(images|document)/(.*)?$ https://files.archers-caen.fr/$1/$2 [L]
+    RewriteRule ^/?(images|document|mdeia)/(.*)?$ https://files.archers-caen.fr/$1/$2 [L]
 
     RewriteCond %{REQUEST_URI}::$0 ^(/.+)/(.*)::\2$
     RewriteRule .* - [E=BASE:%1]

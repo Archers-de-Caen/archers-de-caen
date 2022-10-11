@@ -35,10 +35,11 @@ when@prod:
     liip_imagine:
         resolvers:
             default:
-                web_path: '/home/archerschl/uploaded-files/cache'
+                web_path:
+                    web_root: '%kernel.project_dir%/../uploaded-files'
 
         loaders:
             default:
                 filesystem:
                     data_root:
-                        - '/home/archerschl/uploaded-files/images/photo'
+                        - '%kernel.project_dir%/../uploaded-files/images/photo'
