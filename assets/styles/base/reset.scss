@@ -4,6 +4,7 @@
   font-family: "Roboto";
   src: url("../../fonts/Roboto-Regular.ttf") format("woff2"),
   url("../../fonts/Roboto-Regular.ttf") format("woff2");
+  font-display: swap;
 }
 
 *:where(:not(iframe, canvas, img, svg, video, b, strong, center):not(svg *)) {
