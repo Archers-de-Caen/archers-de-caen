@@ -28,6 +28,9 @@ liip_imagine:
                 data_root:
                     - 'images/photo'
 
+    twig:
+        mode: lazy
+
 when@prod:
     liip_imagine:
         resolvers:
