@@ -43,12 +43,6 @@ DirectoryIndex index.php
 <IfModule mod_headers.c>
     Header set Connection keep-alive
 
-    # Cache-control headers
-    # 2 HOURS
-    <filesMatch "*">
-        Header set Cache-Control "max-age=7200, must-revalidate"
-    </filesMatch>
-
     # 480 weeks - 290304000
     # 2 WEEKS
     <filesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|swf)$">
