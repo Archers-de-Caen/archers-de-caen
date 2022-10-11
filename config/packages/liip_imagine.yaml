@@ -13,33 +13,29 @@ liip_imagine:
         # the name of the "filter set"
         thumbnail:
 
-            # adjust the image quality to 75%
-            quality: 10
+            # adjust the image quality to 50%
+            quality: 50
 
             # list of transformations to apply (the "filters")
             filters:
 
                 # create a thumbnail: set size to 120x90 and use the "outbound" mode
                 # to crop the image when the size ratio of the input differs
-                thumbnail: { size: [120, 90], mode: outbound }
-
-                # create a 2px black border: center the thumbnail on a black background
-                # 4px larger to create a 2px border around the final image
-                background: { size: [124, 94], position: center, color: '#000000' }
+                thumbnail: { size: [350, 200], mode: outbound }
     loaders:
         default:
             filesystem:
                 data_root:
-                    - '/home/archerschl/uploaded-files/images/photo'
+                    - 'images/photo'
 
-#when@prod:
-#    liip_imagine:
-#        resolvers:
-#            default:
-#                web_path: '/home/archerschl/uploaded-files/cache'
-#
-#        loaders:
-#            default:
-#                filesystem:
-#                    data_root:
-#                        - '/home/archerschl/uploaded-files/images/photo'
+when@prod:
+    liip_imagine:
+        resolvers:
+            default:
+                web_path: '/home/archerschl/uploaded-files/cache'
+
+        loaders:
+            default:
+                filesystem:
+                    data_root:
+                        - '/home/archerschl/uploaded-files/images/photo'
