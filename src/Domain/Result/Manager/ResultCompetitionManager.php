@@ -78,12 +78,17 @@ class ResultCompetitionManager
             ->getRepository(Badge::class)
             ->createQueryBuilder('b')
             ->where('b.competitionType = :competitionType')
-            ->andWhere("JSON_VALUE(b.conditions, '\$.weapon') = :weapon")
-            ->andWhere("JSON_VALUE(b.conditions, '\$.type') = 'minScore'")
             ->setParameter('competitionType', $competition->getType()->value)
-            ->setParameter('weapon', $resultCompetition->getWeapon()?->value)
             ->getQuery()
             ->getResult();
+
+        $badges = array_filter($badges, static function (Badge $badge) use ($resultCompetition) {
+            if (empty($badge->getConditions()['weapon'])) {
+                return false;
+            }
+
+            return $badge->getConditions()['weapon'] === $resultCompetition->getWeapon()?->value && $badge->getConditions()['type'] === 'minScore';
+        });
 
         uasort($badges, static function (Badge $first, Badge $second): int {
             if (!$first->getConditions() || !$second->getConditions()) {

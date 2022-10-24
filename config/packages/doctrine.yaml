@@ -26,7 +26,6 @@ doctrine:
                 YEAR: DoctrineExtensions\Query\Mysql\Year
             string_functions:
                 IF: DoctrineExtensions\Query\Mysql\IfElse
-                JSON_VALUE: Scienta\DoctrineJsonFunctions\Query\AST\Functions\Mariadb\JsonValue
 
 when@prod:
     doctrine:
