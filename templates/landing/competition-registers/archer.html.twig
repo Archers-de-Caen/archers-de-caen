@@ -47,6 +47,17 @@
 
                 {{ form_row(form.category) }}
 
+                <div class="form-groups">
+                    <div class="form-group">
+                        {{ form_label(form.weapon) }}
+                        <div class="flex jc-space-between w-100 --gap-2">
+                            {% for weapon in form.weapon %}
+                                {{ form_row(weapon, { row_attr: { class: '--btn' } }) }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
                 <div class="">
                     {{ form_row(form.club) }}
                 </div>
