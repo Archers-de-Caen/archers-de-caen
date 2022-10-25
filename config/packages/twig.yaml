@@ -5,6 +5,9 @@ twig:
         - 'form/gallery.html.twig'
         - 'form/theme.html.twig'
 
+    date:
+        timezone: Europe/Paris
+
     globals:
         parameters:
             email: '%email%'

@@ -28,10 +28,10 @@
 
                 {% for departure in competitionRegister.departures %}
                     <div class="form-group --check --btn {% if not loop.first %}mt-4{% endif %} departures">
-                        {% set dateId = departure.date|date('Y-m-d-h-i') %}
+                        {% set dateId = departure.date|date('Y-m-d-H-i') %}
 
                         <input type="checkbox" id="{{ dateId }}" name="date" {% if form[departure.id ~ '-targets'].vars.value %}checked{% endif%} />
-                        <label for="{{ dateId }}">Départ du {{ departure.date|date('d/m/Y à h:i') }} ({{ departure.registration }} inscrits / {{ departure.maxRegistration }})</label>
+                        <label for="{{ dateId }}">Départ du {{ departure.date|date('d/m/Y à G\\hi') }} ({{ departure.registration }} inscrits / {{ departure.maxRegistration }})</label>
                     </div>
 
                     <div class="form-groups targets">
