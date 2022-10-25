@@ -10,6 +10,7 @@ use App\Domain\Archer\Model\Archer;
 use App\Domain\Result\Repository\ResultRepository;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
+use App\Infrastructure\Model\WeaponTrait;
 use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -29,6 +30,7 @@ abstract class Result
 {
     use IdTrait;
     use TimestampTrait;
+    use WeaponTrait;
 
     #[ORM\ManyToOne(targetEntity: Archer::class, inversedBy: 'results')]
     private ?Archer $archer = null;
@@ -48,11 +50,6 @@ abstract class Result
     // Est-ce un record personnel de l'archer, ce n'est pas forcément son dernier record
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $record = false;
-
-    #[ORM\Column(type: Types::STRING, length: 191, enumType: Weapon::class)]
-    #[Assert\NotNull]
-    #[Assert\NotBlank]
-    private ?Weapon $weapon = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     #[Assert\NotNull]
@@ -120,18 +117,6 @@ abstract class Result
     public function setRecord(bool $record): self
     {
         $this->record = $record;
-
-        return $this;
-    }
-
-    public function getWeapon(): ?Weapon
-    {
-        return $this->weapon;
-    }
-
-    public function setWeapon(?Weapon $weapon): self
-    {
-        $this->weapon = $weapon;
 
         return $this;
     }

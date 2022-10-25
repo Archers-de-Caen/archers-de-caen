@@ -6,6 +6,7 @@ namespace App\Domain\Competition\Form;
 
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Gender;
+use App\Domain\Archer\Config\Weapon;
 use App\Domain\Archer\Manager\ArcherManager;
 use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\Competition\Model\CompetitionRegisterDepartureTarget;
@@ -17,6 +18,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -114,6 +116,13 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
             ->add('wheelchair', CheckboxType::class, [
                 'label' => 'Tir en fauteuil roulant',
                 'required' => false,
+            ])
+            ->add('weapon', EnumType::class, [
+                'label' => 'Arme',
+                'class' => Weapon::class,
+                'choice_label' => static fn (Weapon $weapon) => $weapon->toString(),
+                'expanded' => true,
+                'required' => true,
             ])
             ->add('firstYear', CheckboxType::class, [
                 'label' => '1<sup>er</sup> année de licence et souhaite effectuer le tir en débutant',

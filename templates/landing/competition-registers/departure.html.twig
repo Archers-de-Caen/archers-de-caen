@@ -18,6 +18,7 @@
                 {{ form_row(form.email) }}
                 {{ form_row(form.phone) }}
                 {{ form_row(form.category) }}
+                {{ form_row(form.weapon) }}
                 {{ form_row(form.licenseNumber) }}
                 {{ form_row(form.club) }}
             </div>
@@ -75,7 +76,7 @@
                 if (input.checked) {
                     show(input.closest('.departures').nextElementSibling)
                 }
-    
+
                 input.addEventListener('change', (e) => {
                     const target = e.currentTarget
                     const targets = target.closest('.departures').nextElementSibling

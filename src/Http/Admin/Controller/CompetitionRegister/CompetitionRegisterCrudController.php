@@ -99,8 +99,9 @@ class CompetitionRegisterCrudController extends AbstractCrudController
             ->setPermission(Archer::ROLE_DEVELOPER);
 
         $type = ChoiceField::new('types', 'Types de concours')
-            ->setChoices(Type::toChoicesWithEnumValue())
+            ->setChoices(Type::toChoices())
             ->allowMultipleChoices();
+
         $dateStart = DateField::new('dateStart', 'Date de début');
         $dateEnd = DateField::new('dateEnd', 'Date de fin');
         $departures = CollectionField::new('departures', 'Départs')

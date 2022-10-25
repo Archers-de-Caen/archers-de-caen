@@ -14,6 +14,7 @@ use App\Infrastructure\Model\LastNameTrait;
 use App\Infrastructure\Model\LicenseNumberTrait;
 use App\Infrastructure\Model\PhoneTrait;
 use App\Infrastructure\Model\TimestampTrait;
+use App\Infrastructure\Model\WeaponTrait;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -31,6 +32,7 @@ class CompetitionRegisterDepartureTargetArcher
     use LicenseNumberTrait;
     use GenderTrait;
     use ArcherCategoryTrait;
+    use WeaponTrait;
 
     private const LICENSE_NUMBER_UNIQUE = false;
     private const EMAIL_UNIQUE = false;

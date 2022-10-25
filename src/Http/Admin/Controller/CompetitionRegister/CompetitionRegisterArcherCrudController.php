@@ -6,6 +6,7 @@ namespace App\Http\Admin\Controller\CompetitionRegister;
 
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Gender;
+use App\Domain\Archer\Config\Weapon;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Competition\Admin\Filter\CompetitionRegisterDepartureTargetArcher\CompetitionRegisterDepartureFilter;
 use App\Domain\Competition\Admin\Filter\CompetitionRegisterDepartureTargetArcher\CompetitionRegisterFilter;
@@ -90,6 +91,11 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
             ->setChoices(Crud::PAGE_EDIT === $pageName ? Category::toChoicesWithEnumValue() : Category::toChoices())
         ;
 
+        $weapon = ChoiceField::new('weapon')
+            ->setLabel('Arme')
+            ->setChoices(Crud::PAGE_EDIT === $pageName ? Weapon::toChoicesWithEnumValue() : Weapon::toChoices())
+        ;
+
         $club = TextField::new('club')
             ->setLabel('Club')
         ;
@@ -129,6 +135,7 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
             yield $phone;
             yield $gender;
             yield $category;
+            yield $weapon;
             yield $club;
             yield $wheelchair;
             yield $firstYear;
