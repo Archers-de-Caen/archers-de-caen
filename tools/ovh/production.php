@@ -2,15 +2,12 @@
 
 declare(strict_types=1);
 
-const BASE_PATH = '/home/archerschl';
-
-const GET_COMMAND_ERROR = ' 2>&1';
+require_once __DIR__.'env.php';
 
 const PROJECT_ZIP = BASE_PATH . '/production.zip';
 const CURRENT_VERSION_FILE = BASE_PATH . '/current-version.txt';
 
 const PRODUCING_PATH = BASE_PATH . '/producing';
-const PRODUCTION_PATH = BASE_PATH . '/v3';
 const PRODUCTION_BK_PATH = PRODUCTION_PATH . '_bk';
 
 const GITHUB_TOKEN = '!CHANGEME!';
