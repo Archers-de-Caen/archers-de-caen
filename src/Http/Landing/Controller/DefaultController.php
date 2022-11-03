@@ -22,15 +22,26 @@ class DefaultController extends AbstractController
     #[Route('/', name: self::ROUTE_LANDING_INDEX)]
     public function index(PageRepository $pageRepository, DataRepository $dataRepository): Response
     {
+        $actualityLocked = null;
+        if ($actualityLockedData = $dataRepository->findOneBy(['code' => 'INDEX_ACTUALITY_LOCKED'])?->getContent()) {
+            $actualityLocked = $pageRepository->findOneBy(['slug' => $actualityLockedData[array_key_first($actualityLockedData)]]);
+        }
+
+        $actualities = $pageRepository->findBy(
+            [
+                'category' => Category::ACTUALITY->value,
+                'status' => Status::PUBLISH,
+            ],
+            ['createdAt' => 'DESC'],
+            $actualityLocked ? 3 : 4
+        );
+
+        if ($actualityLocked) {
+            $actualities[] = $actualityLocked;
+        }
+
         return $this->render('/landing/index/index.html.twig', [
-            'actualities' => $pageRepository->findBy(
-                [
-                    'category' => Category::ACTUALITY->value,
-                    'status' => Status::PUBLISH,
-                ],
-                ['createdAt' => 'DESC'],
-                4
-            ),
+            'actualities' => $actualities,
             'contents' => $dataRepository->findOneBy(['code' => 'INDEX_PAGE_ELEMENT'])?->getContent(),
             'partners' => $dataRepository->findOneBy(['code' => 'PARTNER'])?->getContent(),
         ]);
