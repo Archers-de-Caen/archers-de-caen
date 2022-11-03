@@ -35,8 +35,12 @@ class FftaArcherUpdateCommand extends Command
      * @param string $fftaUsername Injected from service.yaml
      * @param string $fftaPassword Injected from service.yaml
      */
-    public function __construct(private EntityManagerInterface $em, private string $fftaUsername, private string $fftaPassword, string $name = null)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly string $fftaUsername,
+        private readonly string $fftaPassword,
+        string $name = null
+    ) {
         parent::__construct($name);
     }
 
@@ -61,7 +65,7 @@ class FftaArcherUpdateCommand extends Command
 
         $licensesResponse = $this->getLicenses($season);
 
-        if ('success' != $licensesResponse['status']) {
+        if ('success' !== $licensesResponse['status']) {
             foreach ($licensesResponse['errors'] as $error) {
                 $io->writeln($error);
             }
@@ -87,7 +91,7 @@ class FftaArcherUpdateCommand extends Command
             }
 
             if (!$archer->getArcherLicenseActive()) {
-                $license = array_filter($licenses, fn (License $license) => '' === $license->getTitle());
+                $license = array_filter($licenses, static fn (License $license) => '' === $license->getTitle());
 
                 if (!count($license)) {
                     $io->error('Licence not found');
@@ -133,7 +137,7 @@ class FftaArcherUpdateCommand extends Command
 
         /** @var DOMElement $node */
         foreach ($nodes as $node) {
-            if ('authenticityToken' == $node->getAttribute('name')) {
+            if ('authenticityToken' === $node->getAttribute('name')) {
                 return $node->getAttribute('value');
             }
         }

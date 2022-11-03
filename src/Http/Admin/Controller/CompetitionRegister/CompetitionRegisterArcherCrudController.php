@@ -11,11 +11,17 @@ use App\Domain\Archer\Model\Archer;
 use App\Domain\Competition\Admin\Filter\CompetitionRegisterDepartureTargetArcher\CompetitionRegisterDepartureFilter;
 use App\Domain\Competition\Admin\Filter\CompetitionRegisterDepartureTargetArcher\CompetitionRegisterFilter;
 use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher;
+use App\Http\Landing\Controller\DefaultController;
+use DateTimeInterface;
+use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Factory\FilterFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -24,6 +30,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class CompetitionRegisterArcherCrudController extends AbstractCrudController
 {
@@ -43,8 +54,15 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
+        $export = Action::new('export')
+            ->createAsGlobalAction()
+            ->linkToCrudAction('export')
+        ;
+
         return $actions
-            ->disable(Action::NEW);
+            ->disable(Action::NEW)
+            ->add(Crud::PAGE_INDEX, $export)
+        ;
     }
 
     public function configureFilters(Filters $filters): Filters
@@ -145,5 +163,54 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
         }
 
         yield $position;
+    }
+
+    public function export(AdminContext $context): Response
+    {
+        $fields = FieldCollection::new($this->configureFields(Crud::PAGE_INDEX));
+
+        /** @var FilterFactory $filterFactory */
+        $filterFactory = $this->container->get(FilterFactory::class);
+        $filterConfig = $context->getCrud()?->getFiltersConfig();
+        if (!$filterConfig) {
+            return $this->redirectToRoute(DefaultController::ROUTE_LANDING_INDEX);
+        }
+
+        $filters = $filterFactory->create($filterConfig, $fields, $context->getEntity());
+
+        $search = $context->getSearch();
+        if (!$search) {
+            return $this->redirectToRoute(DefaultController::ROUTE_LANDING_INDEX);
+        }
+        $queryBuilder = $this->createIndexQueryBuilder($search, $context->getEntity(), $fields, $filters);
+
+        $data = array_map(static fn (CompetitionRegisterDepartureTargetArcher $registration): string => implode(',', [
+            'date_de_creation' => $registration->getCreatedAt()?->format(DateTimeInterface::RFC822),
+            'licence' => $registration->getLicenseNumber(),
+            'prenom' => $registration->getFirstName(),
+            'nom' => $registration->getLastName(),
+            'email' => $registration->getEmail(),
+            'phone' => $registration->getPhone(),
+            'genre' => $registration->getGender()?->toString(),
+            'categorie' => $registration->getCategory()?->toString(),
+            'arme' => $registration->getWeapon()?->toString(),
+            'club' => $registration->getClub(),
+            'fauteuil_roulant' => $registration->getWheelchair() ? 'Oui' : 'Non',
+            'premiere_annee' => $registration->getFirstYear() ? 'Oui' : 'Non',
+            'info_complementaire' => $registration->getAdditionalInformation(),
+            'cible' => $registration->getTarget(),
+            'depart' => $registration->getTarget()?->getDeparture(),
+            'position' => $registration->getPosition(),
+        ]), (array) $queryBuilder->getQuery()->getResult());
+
+        $response = new Response(implode("\n", $data));
+        $dispositionHeader = $response->headers->makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            'liste_des_inscrits.csv'
+        );
+        $response->headers->set('Content-Disposition', $dispositionHeader);
+        $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
+
+        return $response;
     }
 }
