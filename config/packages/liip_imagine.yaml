@@ -24,6 +24,11 @@ liip_imagine:
                 # to crop the image when the size ratio of the input differs
                 thumbnail: { size: [350, 200], mode: outbound }
 
+        thumbnail_medium:
+            quality: 100
+            filters:
+                thumbnail: { size: [ 768, 532 ], mode: outbound }
+
     # L'endroit où sont stockées les vraies images.
     loaders:
 
