@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Archer\Config;
 
 use App\Infrastructure\Config\Enum;
+use ValueError;
 
 enum Gender: string implements Enum
 {
@@ -64,5 +65,15 @@ enum Gender: string implements Enum
             array_map(static fn (Gender $category) => $category->toString(), self::cases()),
             array_map(static fn (Gender $category) => $category, self::cases())
         );
+    }
+
+    public static function createFromString(string $gender): self
+    {
+        return match ($gender) {
+            'M.', 'M', 'Monsieur', 'Homme' => self::MAN,
+            'Mme.', 'Mme', 'Madame', 'Femme' => self::WOMAN,
+
+            default => throw new ValueError($gender.' not found'),
+        };
     }
 }

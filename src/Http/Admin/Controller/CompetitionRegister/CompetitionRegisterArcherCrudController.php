@@ -10,10 +10,15 @@ use App\Domain\Archer\Config\Weapon;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Competition\Admin\Filter\CompetitionRegisterDepartureTargetArcher\CompetitionRegisterDepartureFilter;
 use App\Domain\Competition\Admin\Filter\CompetitionRegisterDepartureTargetArcher\CompetitionRegisterFilter;
+use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher;
+use Doctrine\ORM\EntityManagerInterface;
+use Doskyft\CsvHelper\ColumnDefinition;
+use Doskyft\CsvHelper\Csv;
+use Doskyft\CsvHelper\Exception\NotCorrectColumnsException;
+use Doskyft\CsvHelper\Types;
 use App\Http\Landing\Controller\DefaultController;
 use DateTimeInterface;
-use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -30,14 +35,19 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Symfony\Component\Asset\UrlPackage;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class CompetitionRegisterArcherCrudController extends AbstractCrudController
 {
+    public function __construct(
+        readonly private AdminUrlGenerator $adminUrlGenerator,
+    ) {
+    }
+
     public static function getEntityFqcn(): string
     {
         return CompetitionRegisterDepartureTargetArcher::class;
@@ -59,9 +69,25 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
             ->linkToCrudAction('export')
         ;
 
+        $import = Action::new('import')
+            ->createAsGlobalAction()
+            ->linkToCrudAction('import')
+            ->setHtmlAttributes([
+                'data-action-name' => 'batchImport',
+                'data-bs-toggle' => 'modal',
+                'data-bs-target' => '#modal-import-action',
+                'data-bs-csv-model-href' => '/build/documents/exemple-import-competition-registration.csv',
+                'data-bs-form-action-href' => $this->adminUrlGenerator
+                    ->setController(self::class)
+                    ->setAction('import')
+                    ->generateUrl(),
+            ])
+        ;
+
         return $actions
             ->disable(Action::NEW)
             ->add(Crud::PAGE_INDEX, $export)
+            ->add(Crud::PAGE_INDEX, $import)
         ;
     }
 
@@ -212,5 +238,151 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
         $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
 
         return $response;
+    }
+
+    public function import(AdminContext $context, EntityManagerInterface $em): Response
+    {
+        $request = $context->getRequest();
+
+        $returnUrl = $context->getReferrer();
+        if (!$returnUrl) {
+            $returnUrl = $this->adminUrlGenerator
+                ->setAction(Action::INDEX)
+                ->setController(CompetitionRegisterCrudController::class)
+                ->generateUrl()
+            ;
+        }
+
+        if (!$request->files->has('import')) {
+            $this->addFlash('danger', 'Vous devez fournir un fichier !');
+
+            return $this->redirect($returnUrl);
+        }
+
+        /** @var UploadedFile $file */
+        $file = $request->files->get('import');
+
+        /** @var CompetitionRegister[] $competitionRegisters */
+        $competitionRegisters = $em->getRepository(CompetitionRegister::class)
+            ->createQueryBuilder('cr')
+            ->select('cr')
+            ->addSelect('departure')
+            ->addSelect('target')
+            ->leftJoin('cr.departures', 'departure')
+            ->leftJoin('departure.targets', 'target')
+            ->getQuery()
+            ->getResult()
+        ;
+
+        $csv = new Csv();
+        $falseValues = [false, 'false', 'no', 'No', 0, '0', null, 'null', 'Non', 'non'];
+        $csv
+            ->setColumnSeparator(',')
+            ->setColumns([
+                ColumnDefinition::new('licence'),
+                ColumnDefinition::new('prenom'),
+                ColumnDefinition::new('nom'),
+                ColumnDefinition::new('email'),
+                ColumnDefinition::new('phone'),
+                ColumnDefinition::new('genre', Types::ENUM)
+                    ->setConverterOptions([
+                        'enum' => Gender::class,
+                        'internalConvertFunction' => 'createFromString',
+                    ]),
+                ColumnDefinition::new('categorie', Types::ENUM)
+                    ->setConverterOptions([
+                        'enum' => Category::class,
+                        'internalConvertFunction' => 'createFromString',
+                    ]),
+                ColumnDefinition::new('arme', Types::ENUM)
+                    ->setConverterOptions([
+                        'enum' => Weapon::class,
+                        'internalConvertFunction' => 'createFromString',
+                    ]),
+                ColumnDefinition::new('club'),
+                ColumnDefinition::new('fauteuil_roulant', Types::BOOLEAN)
+                    ->setConverterOptions([
+                        'falseValues' => $falseValues,
+                    ]),
+                ColumnDefinition::new('premiere_annee', Types::BOOLEAN)
+                    ->setConverterOptions([
+                        'falseValues' => $falseValues,
+                    ]),
+                ColumnDefinition::new('info_complementaire'),
+                ColumnDefinition::new('cible'),
+                ColumnDefinition::new('depart'),
+                ColumnDefinition::new('concours', Types::ENTITY)
+                    ->setConverterOptions([
+                        'find' => function (string $value) use ($competitionRegisters) {
+                            foreach ($competitionRegisters as $competitionRegister) {
+                                if ($competitionRegister->__toString() === $value) {
+                                    return $competitionRegister;
+                                }
+                            }
+
+                            return null;
+                        },
+                    ]),
+            ])
+        ;
+
+        try {
+            $results = $csv->readFromString($file->getContent());
+        } catch (NotCorrectColumnsException $e) {
+            $this->addFlash('danger', 'Le CSV ne respecte pas le bon format: '.$e->getMessage());
+
+            return $this->redirect($returnUrl);
+        }
+
+        $registrations = [];
+
+        foreach ($results as $result) {
+            /** @var CompetitionRegister $competition */
+            $competition = $result['concours'];
+            $registration = null;
+
+            foreach ($competition->getDepartures() as $departure) {
+                if ($departure->__toString() === $result['depart']) {
+                    foreach ($departure->getTargets() as $target) {
+                        if ($target->__toString() === $result['cible']) {
+                            $registration = (new CompetitionRegisterDepartureTargetArcher())
+                                ->setLicenseNumber($result['licence'])
+                                ->setFirstName($result['prenom'])
+                                ->setLastName($result['nom'])
+                                ->setGender($result['genre'])
+                                ->setEmail($result['email'])
+                                ->setPhone($result['phone'])
+                                ->setCategory($result['categorie'])
+                                ->setWeapon($result['arme'])
+                                ->setClub($result['club'])
+                                ->setWheelchair($result['fauteuil_roulant'])
+                                ->setFirstYear($result['premiere_annee'])
+                                ->setAdditionalInformation($result['info_complementaire'])
+                            ;
+
+                            $target->addArcher($registration);
+
+                            $registrations[] = $registration;
+
+                            break;
+                        }
+                    }
+
+                    break;
+                }
+            }
+
+            if (!$registration) {
+                $this->addFlash('danger', 'Impossible d\'importé la ligne avec la licence: "'.($result['licence'] ?? '').'"');
+
+                return $this->redirect($returnUrl);
+            }
+        }
+
+        $em->flush();
+
+        $this->addFlash('success', 'Inscription importé ! '.count($registrations).' inscriptions ont étaient importé');
+
+        return $this->redirect($returnUrl);
     }
 }

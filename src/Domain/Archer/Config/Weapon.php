@@ -50,9 +50,9 @@ enum Weapon: string implements Enum
     public static function createFromString(string $weapon): self
     {
         return match ($weapon) {
-            'CL' => self::RECURVE_BOW,
-            'CO' => self::COMPOUND_BOW,
-            'BB' => self::BARE_BOW,
+            'CL', 'Arc classique' => self::RECURVE_BOW,
+            'CO', 'Arc à poulies', 'Arc a poulies' => self::COMPOUND_BOW,
+            'BB', 'Arc nu' => self::BARE_BOW,
 
             default => throw new ValueError($weapon.' not found'),
         };
