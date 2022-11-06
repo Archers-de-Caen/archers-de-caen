@@ -1,0 +1,5 @@
+licence,nom,prenom,email,phone,genre,categorie,arme,club,fauteuil_roulant,premiere_annee,info_complementaire,cible,depart,concours
+123456A,Martin ,Pierre,email@domain.fr,606060606,Homme,Minime Homme,Arc classique,Archers de Caen,Non,Non,,cible de 60 à 18 mètres,03/12/2022 à 13:00,Concours du 03/12/22 au 04/12/22
+123456B,Durand,Alain,email@domain.fr,606060606,Homme,Senior 2 Homme,Arc classique,Archers de Caen,Non,Non,,cible de 40 à 18 mètres,04/12/2022 à 13:00,Concours du 03/12/22 au 04/12/22
+123456C,Dubois,Monique,email@domain.fr,606060606,Femme,Senior 2 Femme,Arc classique,Archers de Caen,Non,Oui,,tri-spot de 40 à 18 mètres,03/12/2022 à 13:00,Concours du 03/12/22 au 04/12/22
+123456D,Richard,Nathalie,email@domain.fr,606060606,Femme,Senior 1 Femme,Arc a poulies,Archers de Caen,Oui,Non,,tri-spot de 40 à 18 mètres,03/12/2022 à 13:00,Concours du 03/12/22 au 04/12/22

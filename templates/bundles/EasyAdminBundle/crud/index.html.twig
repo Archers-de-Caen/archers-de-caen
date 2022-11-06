@@ -1,0 +1,12 @@
+{% extends '@!EasyAdmin/crud/index.html.twig' %}
+
+{% set has_global_actions = global_actions|length > 0 %}
+
+{% block main %}
+    {{ parent() }}
+
+    {% if has_global_actions %}
+        {{ include('@EasyAdmin/crud/includes/_import_action_modal.html.twig', {}, with_context = false) }}
+    {% endif %}
+{% endblock main %}
+

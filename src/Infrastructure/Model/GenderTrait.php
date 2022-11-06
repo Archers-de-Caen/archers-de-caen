@@ -18,8 +18,10 @@ trait GenderTrait
         return $this->gender;
     }
 
-    public function setGender(?Gender $gender): void
+    public function setGender(?Gender $gender): self
     {
         $this->gender = $gender;
+
+        return $this;
     }
 }

@@ -184,38 +184,38 @@ enum Category: string implements Enum
     public static function createFromString(string $category): self
     {
         return match ($category) {
-            'PH' => self::PEEWEE_MAN,
-            'PF' => self::PEEWEE_WOMAN,
+            'PH', 'Poussin Homme' => self::PEEWEE_MAN,
+            'PF', 'Poussin Femme' => self::PEEWEE_WOMAN,
 
-            'BH' => self::BENJAMIN_MAN,
-            'BF' => self::BENJAMIN_WOMAN,
+            'BH', 'Benjamin Homme' => self::BENJAMIN_MAN,
+            'BF', 'Benjamin Femme', 'Benjamine Femme' => self::BENJAMIN_WOMAN,
 
-            'JH' => self::JUNIOR_MAN,
-            'JF' => self::JUNIOR_WOMAN,
+            'JH', 'Junior Homme' => self::JUNIOR_MAN,
+            'JF', 'Junior Femme' => self::JUNIOR_WOMAN,
 
-            'MH' => self::CUB_MAN,
-            'MF' => self::CUB_WOMAN,
+            'MH', 'Minime Homme' => self::CUB_MAN,
+            'MF', 'Minime Femme' => self::CUB_WOMAN,
 
-            'CH' => self::CADET_MAN,
-            'CF' => self::CADET_WOMAN,
+            'CH', 'Cadet Homme' => self::CADET_MAN,
+            'CF', 'Cadet Femme' => self::CADET_WOMAN,
 
-            'S1H' => self::SENIOR_ONE_MAN,
-            'S1F' => self::SENIOR_ONE_WOMAN,
+            'S1H', 'Senior 1 Homme' => self::SENIOR_ONE_MAN,
+            'S1F', 'Senior 1 Femme' => self::SENIOR_ONE_WOMAN,
 
-            'S2H' => self::SENIOR_TWO_MAN,
-            'S2F' => self::SENIOR_TWO_WOMAN,
+            'S2H', 'Senior 2 Homme' => self::SENIOR_TWO_MAN,
+            'S2F', 'Senior 2 Femme' => self::SENIOR_TWO_WOMAN,
 
-            'S3H' => self::SENIOR_THREE_MAN,
-            'S3F' => self::SENIOR_THREE_WOMAN,
+            'S3H', 'Senior 3 Homme' => self::SENIOR_THREE_MAN,
+            'S3F', 'Senior 3 Femme' => self::SENIOR_THREE_WOMAN,
 
-            'SH' => self::OLD_SENIOR_MAN,
-            'SF' => self::OLD_SENIOR_WOMAN,
+            'SH', 'Senior Homme' => self::OLD_SENIOR_MAN,
+            'SF', 'Senior Femme' => self::OLD_SENIOR_WOMAN,
 
-            'VH' => self::OLD_VETERAN_MAN,
-            'VF' => self::OLD_VETERAN_WOMAN,
+            'VH', 'Vétéran Homme' => self::OLD_VETERAN_MAN,
+            'VF', 'Vétéran Femme' => self::OLD_VETERAN_WOMAN,
 
-            'SVH' => self::OLD_GREAT_VETERAN_MAN,
-            'SVF' => self::OLD_GREAT_VETERAN_WOMAN,
+            'SVH', 'Super Vétéran Homme' => self::OLD_GREAT_VETERAN_MAN,
+            'SVF', 'Super Vétéran Femme' => self::OLD_GREAT_VETERAN_WOMAN,
 
             default => throw new ValueError($category.' not found'),
         };

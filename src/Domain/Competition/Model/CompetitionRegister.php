@@ -48,7 +48,11 @@ class CompetitionRegister
 
     public function __toString(): string
     {
-        return sprintf('Concours du %s au %s', $this->getDateStart()?->format('d/m/Y'), $this->getDateEnd()?->format('d/m/y'));
+        return sprintf(
+            'Concours du %s au %s',
+            $this->getDateStart()?->format('d/m/y'),
+            $this->getDateEnd()?->format('d/m/y')
+        );
     }
 
     public function __construct()

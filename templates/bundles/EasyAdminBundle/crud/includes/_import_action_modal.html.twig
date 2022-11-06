@@ -1,0 +1,26 @@
+<div id="modal-import-action" class="modal fade" tabindex="-1">
+    <form class="modal-dialog" action="#" method="post" enctype="multipart/form-data">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4 id="import-action-confirmation-title">{{ 'import_action_modal.title'|trans(domain = 'EasyAdminBundle') }}</h4>
+                <p>{{ 'import_action_modal.content'|trans(domain = 'EasyAdminBundle') }}</p>
+                <p>
+                    <a id="modal-import-csv-model" href="#">
+                        {{ 'import_action_modal.csv_model'|trans(domain = 'EasyAdminBundle') }}
+                    </a>
+                </p>
+
+                <input type="file" name="import" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">
+                    <span class="btn-label">{{ 'action.cancel'|trans(domain = 'EasyAdminBundle') }}</span>
+                </button>
+                <button type="submit" data-bs-dismiss="modal" class="btn btn-primary" id="modal-import-action-button">
+                    <i class="fa fa-fw fa-check"></i>
+                    <span class="btn-label">{{ 'import_action_modal.action'|trans(domain = 'EasyAdminBundle') }}</span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
