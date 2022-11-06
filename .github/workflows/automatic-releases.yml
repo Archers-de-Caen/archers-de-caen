@@ -37,7 +37,7 @@ jobs:
       - name: "🖥️ Création de production.zip"
         uses: montudor/action-zip@v1
         with:
-          args: zip -q -r production.zip assets config migrations public src templates tests translations vendor .env composer.json composer.lock package.json package-lock.json symfony.lock webpack.config.js bin/console
+          args: zip -q -r production.zip assets config migrations public src templates tests translations vendor .env composer.json composer.lock package.json package-lock.json symfony.lock webpack.config.js bin/console tools
 
       - name: "⭐ Création de la release"
         uses: "marvinpinto/action-automatic-releases@latest"
