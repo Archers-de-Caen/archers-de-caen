@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Domain\Competition\Manager;
 
+use App\Domain\Archer\Repository\ArcherRepository;
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Model\Page;
 use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\Competition\Model\CompetitionRegisterDeparture;
 use App\Domain\Competition\Model\CompetitionRegisterDepartureTarget;
 use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher;
+use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher as Registration;
+use App\Domain\Competition\Repository\CompetitionRegisterDepartureTargetArcherRepository as RegistrationRepository;
 use App\Infrastructure\Exception\InvalidSubmitCompetitionRegisterException;
 use App\Infrastructure\Mailing\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,6 +31,8 @@ class CompetitionRegisterManager
         readonly private EntityManagerInterface $em,
         readonly private Mailer $mailer,
         readonly private LoggerInterface $logger,
+        readonly private ArcherRepository $archerRepository,
+        private readonly RegistrationRepository $competitionRegisterDepartureTargetArcherRepository,
     ) {
     }
 
@@ -55,28 +60,48 @@ class CompetitionRegisterManager
     }
 
     /**
-     * @return array<string>
-     *
      * @throws InvalidSubmitCompetitionRegisterException
      */
-    public function handleSubmitForm(FormInterface $form, CompetitionRegister $competitionRegister, CompetitionRegisterDepartureTargetArcher $register): array
-    {
+    public function handleSubmitForm(
+        FormInterface $form,
+        CompetitionRegister $competitionRegister,
+        CompetitionRegisterDepartureTargetArcher $register
+    ): void {
         $recap = [];
 
         $departures = $competitionRegister
             ->getDepartures()
             ->filter(fn (CompetitionRegisterDeparture $crd) => $crd->getRegistration() <= $crd->getMaxRegistration());
 
+        $firstRegistration = null;
+
         foreach ($departures as $departure) {
             /** @var ?CompetitionRegisterDepartureTarget $target */
             $target = $form->get($departure->getId().'-targets')->getData();
             if ($target) {
                 $register->setTarget($target);
+                $clonedRegister = clone $register;
 
-                $this->em->persist(clone $register);
+                if (!$firstRegistration) {
+                    $firstRegistration = $clonedRegister;
+                }
 
-                $recap[] = $departure->getDate()?->format('d/m/Y à H:i').' à '.$target->getDistance().'m sur un blason '.$target->getType()?->toString();
+                $this->em->persist($clonedRegister);
+
+                $recap[] = $departure->getDate()?->format('d/m/Y à H:i').' à '.$target->getDistance().'m sur '.$target->getType()?->toString();
             }
+        }
+
+        /** @var string $licenseNumber */
+        $licenseNumber = $register->getLicenseNumber();
+        $archer = $this->archerRepository->findOneBy(['licenseNumber' => $licenseNumber]);
+        $isArcherDeCaen = $archer && $archer->getArcherLicenseActive();
+        $registrations = $this->competitionRegisterDepartureTargetArcherRepository
+            ->findByCompetitionRegisterAndLicenseNumber($competitionRegister, $licenseNumber);
+        $alreadyPaid = \count(array_filter($registrations, static fn (Registration $crdta) => $crdta->isPaid()));
+
+        if ($firstRegistration && $isArcherDeCaen && !$alreadyPaid) {
+            $firstRegistration->setPaid(true);
         }
 
         if (!$recap) {
@@ -87,8 +112,6 @@ class CompetitionRegisterManager
 
         $this->sendEmailToParticipant($register, $recap);
         $this->sendEmailToCompetitionOwner($register, $recap);
-
-        return $recap;
     }
 
     private function sendEmailToParticipant(CompetitionRegisterDepartureTargetArcher $register, array $recap): void
@@ -135,5 +158,38 @@ class CompetitionRegisterManager
             ->addTo(new Address('inscription-concours@archers-caen.fr', 'Inscription concours'));
 
         $this->mailer->send($email);
+    }
+
+    /**
+     * @throws \InvalidArgumentException
+     */
+    public function allRegistrationsIsSameArcher(array $registrations): bool
+    {
+        $registrations = array_values($registrations);
+
+        if (!\count($registrations)) {
+            return false;
+        }
+
+        $firstRegistration = $registrations[0];
+
+        $licenseNumber = $firstRegistration->getLicenseNumber();
+        $competition = $firstRegistration->getTarget()?->getDeparture()?->getCompetitionRegister();
+
+        if (!$competition || !$licenseNumber) {
+            throw new \InvalidArgumentException();
+        }
+
+        foreach ($registrations as $registration) {
+            if ($licenseNumber !== $registration->getLicenseNumber()) {
+                throw new \InvalidArgumentException();
+            }
+
+            if ($competition !== $registration->getTarget()?->getDeparture()?->getCompetitionRegister()) {
+                throw new \InvalidArgumentException();
+            }
+        }
+
+        return true;
     }
 }

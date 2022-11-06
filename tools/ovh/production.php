@@ -147,6 +147,11 @@ if (!rename(PRODUCING_PATH, PRODUCTION_PATH)) {
     die('ERROR - Nouvelle version non déplacé');
 }
 
+echo "INFO - Migration base de donnée" . PHP_EOL;
+if (!shell_exec(PHP_EXECUTABLE.PRODUCTION_PATH.'/bin/console doctrine:migration:migrate --no-interaction' . GET_COMMAND_ERROR)) {
+    die('ERROR - Nouvelle version non déplacé');
+}
+
 if (!file_put_contents(CURRENT_VERSION_FILE, $lastRelease)) {
     die("ERROR - Impossible d'écrire le fichier" . PHP_EOL);
 }

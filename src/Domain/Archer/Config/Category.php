@@ -227,4 +227,21 @@ enum Category: string implements Enum
 
         return end($gender);
     }
+
+    public function isAdult(): bool
+    {
+        return in_array($this, [
+            self::JUNIOR_MAN,
+            self::JUNIOR_WOMAN,
+
+            self::SENIOR_ONE_MAN,
+            self::SENIOR_ONE_WOMAN,
+
+            self::SENIOR_TWO_MAN,
+            self::SENIOR_TWO_WOMAN,
+
+            self::SENIOR_THREE_MAN,
+            self::SENIOR_THREE_WOMAN,
+        ], true);
+    }
 }

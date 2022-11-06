@@ -373,7 +373,10 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
             }
 
             if (!$registration) {
-                $this->addFlash('danger', 'Impossible d\'importé la ligne avec la licence: "'.($result['licence'] ?? '').'"');
+                $this->addFlash(
+                    'danger',
+                    'Impossible d\'importé la ligne avec la licence: "'.($result['licence'] ?? '').'"'
+                );
 
                 return $this->redirect($returnUrl);
             }

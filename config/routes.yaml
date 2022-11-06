@@ -18,6 +18,11 @@ controllers_api:
     type: attribute
     prefix: '/api'
 
+controllers_webhook:
+    resource: ../src/Http/Webhook/Controller
+    type: attribute
+    prefix: '/'
+
 kernel:
     resource: ../src/Kernel.php
     type: attribute

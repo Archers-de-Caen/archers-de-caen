@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "baa40b7e66625263ed5774945182eec5",
+    "content-hash": "640d6eddf775663a7e901235e2d5804b",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -1587,6 +1587,56 @@
                 "source": "https://github.com/Doskyft/csv-helper/tree/v1.0.0"
             },
             "time": "2022-11-06T13:51:30+00:00"
+        },
+        {
+            "name": "doskyft/helloasso-php",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Doskyft/helloasso-php.git",
+                "reference": "a1ea7cdef63174f7b3cb348096f70f7de9c6249b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Doskyft/helloasso-php/zipball/a1ea7cdef63174f7b3cb348096f70f7de9c6249b",
+                "reference": "a1ea7cdef63174f7b3cb348096f70f7de9c6249b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "symfony/http-client": "^6.1",
+                "symfony/http-foundation": "^6.1",
+                "symfony/http-kernel": "^6.1",
+                "symfony/property-info": "^6.1",
+                "symfony/serializer": "^6.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Helloasso\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Doskyft",
+                    "email": "doskyft@gmail.com"
+                }
+            ],
+            "description": "Helloasso PHP Library",
+            "keywords": [
+                "api",
+                "helloasso",
+                "organization"
+            ],
+            "support": {
+                "issues": "https://github.com/Doskyft/helloasso-php/issues",
+                "source": "https://github.com/Doskyft/helloasso-php/tree/v1.0.0"
+            },
+            "time": "2022-11-06T23:07:37+00:00"
         },
         {
             "name": "easycorp/easyadmin-bundle",

@@ -5,6 +5,15 @@
 {% block main %}
     <div class="page-content">
         {{ include('landing/competition-registers/_parts/mandate.html.twig') }}
+        {% set url = path(
+            constant('App\\Http\\Landing\\Controller\\CompetitionRegisterController::ROUTE_LANDING_COMPETITION_REGISTER_VALIDATED'),
+            { slug: competitionRegister.slug, licenseNumber: '__licenseNumber__' }
+        ) %}
+        <p>
+            <a href="{{ url }}" id="see-recap">
+                Déjà inscrit ? Voir le récapitulatif de votre inscription ou payer
+            </a>
+        </p>
 
         {{ form_start(form, {attr: {class: 'mt-4'}}) }}
             {{ form_row(form._token) }}
@@ -168,8 +177,7 @@
                 }
             }
 
-            function handleGenderInput(target)
-            {
+            function handleGenderInput(target) {
                 document.querySelectorAll('option[data-gender]').forEach((option) => {
                     if (target.getAttribute('data-gender') === option.getAttribute('data-gender')) {
                         show(option)
@@ -222,6 +230,35 @@
                 show(archerContainer)
                 show(submitContainer, 'flex')
             }
+
+            document.querySelector('#see-recap').addEventListener('click', (e) => {
+                e.preventDefault()
+
+                const href = e.currentTarget.href
+
+                Swal.fire({
+                    title: 'Numero de licence',
+                    input: 'text',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#FDD20E',
+                    inputValidator(inputValue) {
+                        if (!inputValue) {
+                            return "Vous devez fournir votre numéro de licence"
+                        }
+
+                        if (!inputValue.match('[0-9]{6}[a-zA-Z]')) {
+                            return "Votre numéro de licence doit être au format 123456A"
+                        }
+                    },
+                    preConfirm(inputValue) {
+                        if (!inputValue) {
+                            return
+                        }
+
+                        document.location.href = href.replace('__licenseNumber__', inputValue)
+                    }
+                })
+            })
         })
     </script>
 {% endblock javascript_footer %}
