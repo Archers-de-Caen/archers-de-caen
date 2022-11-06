@@ -20,6 +20,8 @@ import './js/iframe-fit-content'
 import './js/display'
 import './js/embedly'
 
+window.Swal = require('sweetalert2').default
+
 // feather-icons a plugin for the open-source icon set, show https://feathericons.com/ for complete icons list
 const feather = require('feather-icons')
 window.onload = function () {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Competition\Repository;
 
+use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -34,5 +35,30 @@ class CompetitionRegisterDepartureTargetArcherRepository extends ServiceEntityRe
             ->getResult();
 
         return $results[0] ?? null;
+    }
+
+    /**
+     * @return array<CompetitionRegisterDepartureTargetArcher>
+     */
+    public function findByCompetitionRegisterAndLicenseNumber(
+        CompetitionRegister $competitionRegister,
+        string $licenseNumber
+    ): array {
+        $query = $this
+            ->createQueryBuilder('crdta')
+            ->leftJoin('crdta.target', 'target')
+            ->leftJoin('target.departure', 'departure')
+            ->leftJoin('departure.competitionRegister', 'competitionRegister')
+            ->where('competitionRegister.slug = :competitionRegister')
+            ->andWhere('crdta.licenseNumber = :licenseNumber')
+            ->setParameter('competitionRegister', $competitionRegister->getSlug())
+            ->setParameter('licenseNumber', $licenseNumber)
+            ->getQuery()
+        ;
+
+        /** @var array<CompetitionRegisterDepartureTargetArcher> $result */
+        $result = $query->getResult();
+
+        return $result;
     }
 }

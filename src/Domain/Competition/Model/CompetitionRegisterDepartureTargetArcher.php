@@ -63,6 +63,9 @@ class CompetitionRegisterDepartureTargetArcher
     #[ORM\Column(type: Types::STRING, length: 127, nullable: true)]
     private ?string $position = null;
 
+    #[ORM\Column(type: Types::BOOLEAN, nullable: false, options: ['default' => false])]
+    private ?bool $paid = false;
+
     public function getClub(): ?string
     {
         return $this->club;
@@ -129,5 +132,17 @@ class CompetitionRegisterDepartureTargetArcher
     public function setPosition(?string $position): void
     {
         $this->position = $position;
+    }
+
+    public function isPaid(): bool
+    {
+        return $this->paid;
+    }
+
+    public function setPaid(?bool $paid): self
+    {
+        $this->paid = $paid;
+
+        return $this;
     }
 }

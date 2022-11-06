@@ -11,25 +11,29 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class Recaptcha
 {
+    private string $clientSecret;
+    private string $url;
+
     public function __construct(
-        private readonly ParameterBagInterface $parameterBag,
+        ParameterBagInterface $parameterBag,
         private readonly LoggerInterface $logger,
-    )
-    {
+    ) {
+        $this->clientSecret = (string) $parameterBag->get('recaptcha_secret');
+        $this->url = (string) $parameterBag->get('recaptcha_url');
     }
 
     public function checkRecaptcha(string $clientSideToken, ?string $clientIp = null): bool
     {
         $params = [
             'body' => [
-                'secret' => $this->parameterBag->get('recaptcha_secret'),
+                'secret' => $this->clientSecret,
                 'response' => $clientSideToken,
                 'remoteip' => $clientIp,
             ],
         ];
 
         try {
-            $request = HttpClient::create()->request(Request::METHOD_POST, 'https://www.google.com/recaptcha/api/siteverify', $params);
+            $request = HttpClient::create()->request(Request::METHOD_POST, $this->url, $params);
         } catch (TransportExceptionInterface $e) {
             $this->logger->error($e);
 

@@ -13,6 +13,11 @@ parameters:
 
     recaptcha_public: "%env(GOOGLE_RECAPTCHA_PUBLIC)%"
     recaptcha_secret: "%env(GOOGLE_RECAPTCHA_SECRET)%"
+    recaptcha_url: "https://www.google.com/recaptcha/api/siteverify"
+
+    hello_asso_id: "%env(HELLO_ASSO_ID)%"
+    hello_asso_secret: "%env(HELLO_ASSO_SECRET)%"
+    hello_asso_organization_name: "%env(HELLO_ASSO_ORGANIZATION_NAME)%"
 
 services:
     # default configuration for services in *this* file

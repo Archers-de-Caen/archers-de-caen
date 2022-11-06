@@ -6,7 +6,7 @@ window.addEventListener('load', function() {
         let title = ''
         if (flash.dataset.type === 'success') {
             title = 'En plein dans le mille ! 🎯'
-        } else if (flash.dataset.type === 'error') {
+        } else if (flash.dataset.type === 'error' || flash.dataset.type === 'danger') {
             title = 'Manqué ! 😿'
         }
 
