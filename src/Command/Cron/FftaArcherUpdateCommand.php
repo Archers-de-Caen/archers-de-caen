@@ -48,6 +48,8 @@ class FftaArcherUpdateCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
+        $io->info('Run '.$this->getName());
+
         if ($cookieFile = tempnam(sys_get_temp_dir(), 'FFTA')) {
             $this->cookieFile = $cookieFile;
         } else {
@@ -61,13 +63,15 @@ class FftaArcherUpdateCommand extends Command
         $season = (int) date('m') < 9 ? date('Y') : (string) ((int) date('Y') + 1);
 
         // On se connecte à l'espace dirigeant
+        $io->info('Connexion à l\'espace dirigeant');
         $this->connect();
 
+        $io->info('Récupération des licences');
         $licensesResponse = $this->getLicenses($season);
 
         if ('success' !== $licensesResponse['status']) {
             foreach ($licensesResponse['errors'] as $error) {
-                $io->writeln($error);
+                $io->error($error);
             }
 
             foreach ($licensesResponse['messages'] as $messages) {
@@ -77,7 +81,12 @@ class FftaArcherUpdateCommand extends Command
             return Command::FAILURE;
         }
 
+        $io->info(count($licensesResponse['licences']).' licences récupéré');
+
         $newLicenses = $this->reformatLicencesArray($licensesResponse['licences']);
+
+        $io->info(count($newLicenses).' licences reformaté');
+
         $archers = $this->reformatArchersArray($this->em->getRepository(Archer::class)->findAll());
         $licenses = $this->em->getRepository(License::class)->findAll();
 
@@ -97,6 +106,12 @@ class FftaArcherUpdateCommand extends Command
                     $io->error('Licence not found');
                 }
 
+                try {
+                    $io->info('Nouvelle licence: ' . json_encode($newLicense, JSON_THROW_ON_ERROR));
+                } catch (\JsonException) {
+                    $io->info('Nouvelle licence: impossible d\'encodé $newLicense');
+                }
+
                 $archer->addArcherLicense(
                     (new ArcherLicense())
                         ->setActive(true)
@@ -111,7 +126,11 @@ class FftaArcherUpdateCommand extends Command
 
         unlink($this->cookieFile);
 
+        $io->info('Flush');
+
         $this->em->flush();
+
+        $io->success('finish '.$this->getName());
 
         return Command::SUCCESS;
     }
