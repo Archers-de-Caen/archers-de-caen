@@ -2,7 +2,12 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'env.php';
+const BASE_PATH = '/home/archerschl';
+const PRODUCTION_PATH = BASE_PATH . '/v3';
+
+const PHP_EXECUTABLE = '/usr/local/php8.1/bin/php ';
+
+const GET_COMMAND_ERROR = ' 2>&1';
 
 const PROJECT_ZIP = BASE_PATH . '/production.zip';
 const CURRENT_VERSION_FILE = BASE_PATH . '/current-version.txt';
