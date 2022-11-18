@@ -33,13 +33,16 @@
                             </td>
                             <td>
                                 <div class="flex jc-space-between">
-                                    <p>
-                                        {{ result.rank }}<sup>{% if result.rank == 1 %}er{% else %}e{% endif %}</sup>
-                                    </p>
+                                    {% if result.rank != 0 %}
+                                        <p>
+                                            {{ result.rank }}<sup>{% if result.rank == 1 %}er{% else %}e{% endif %}</sup>
+                                        </p>
 
-                                    {% if result.rank <= 3 %}
-                                        <i class="text-small">Podium</i>{% if result.record %}, {% endif %}
+                                        {% if result.rank <= 3 %}
+                                            <i class="text-small">Podium</i>{% if result.record %}, {% endif %}
+                                        {% endif %}
                                     {% endif %}
+
                                     {% if result.record %}
                                         <i class="text-small">Record personnel</i>
                                     {% endif %}

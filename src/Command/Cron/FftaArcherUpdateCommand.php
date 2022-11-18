@@ -100,10 +100,15 @@ class FftaArcherUpdateCommand extends Command
             }
 
             if (!$archer->getArcherLicenseActive()) {
-                $license = array_filter($licenses, static fn (License $license) => '' === $license->getTitle());
+                $license = array_filter(
+                    $licenses,
+                    static fn (License $license) => $newLicense['licenseType'] === $license->getTitle()
+                );
 
                 if (!count($license)) {
-                    $io->error('Licence not found');
+                    $io->error('License not found');
+
+                    return Command::FAILURE;
                 }
 
                 try {
