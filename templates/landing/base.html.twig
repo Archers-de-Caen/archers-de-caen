@@ -36,7 +36,7 @@
                         <li class="mr-2">{{ socialNetwork() }}</li>
                         <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\NewspaperController::ROUTE_LANDING_NEWSPAPERS')) }}">La gazette</a></li>
                         <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\ContactController::ROUTE_LANDING_CONTACT')) }}">Contact</a></li>
-                        <li><a href="{{ path('app_index') }}">Espace licencié</a></li>
+                        {# <li><a href="{{ path('app_index') }}">Espace licencié</a></li> #}
                         {% if is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_ADMIN')) %}
                             <li><a href="{{ path('admin_index') }}">Admin</a></li>
                         {% endif %}
