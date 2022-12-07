@@ -19,7 +19,7 @@ class GalleryController extends AbstractController
     public function galleries(GalleryRepository $galleryRepository): Response
     {
         return $this->render('/landing/galleries/galleries.html.twig', [
-            'galleries' => $galleryRepository->findAll(),
+            'galleries' => $galleryRepository->findBy([], ['createdAt' => 'DESC']),
         ]);
     }
 
