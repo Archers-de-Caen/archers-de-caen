@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Command\Cron;
 
 use App\Command\ArcherTrait;
+use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Archer\Model\ArcherLicense;
 use App\Domain\Archer\Model\License;
@@ -117,12 +118,21 @@ class FftaArcherUpdateCommand extends Command
                     $io->info('Nouvelle licence: impossible d\'encodé $newLicense');
                 }
 
+                try {
+                    $category = Category::createFromString($newLicense['category'].' '.$newLicense['gender']);
+                } catch (\ValueError $e) {
+                    $io->error($e->getMessage());
+
+                    $category = null;
+                }
+
                 $archer->addArcherLicense(
                     (new ArcherLicense())
                         ->setActive(true)
                         ->setDateStart($newLicense['licenseDate'])
                         ->setDateEnd(DateTime::createFromFormat('Y-m-d', $season.'-08-31') ?: null)
-                        ->setLicense($license[0])
+                        ->setLicense($license[array_key_first($license)])
+                        ->setCategory($category)
                 );
             }
         }

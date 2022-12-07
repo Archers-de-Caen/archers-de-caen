@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Archer\Model;
 
 use App\Domain\Archer\Repository\ArcherLicenseRepository;
+use App\Infrastructure\Model\ArcherCategoryTrait;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
 use DateTimeInterface;
@@ -16,6 +17,7 @@ class ArcherLicense
 {
     use IdTrait;
     use TimestampTrait;
+    use ArcherCategoryTrait;
 
     #[ORM\ManyToOne(targetEntity: Archer::class, inversedBy: 'archerLicenses')]
     #[ORM\JoinColumn(nullable: false)]

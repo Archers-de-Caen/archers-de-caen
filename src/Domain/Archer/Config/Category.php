@@ -37,20 +37,20 @@ enum Category: string implements Enum
     public function toString(bool $withoutGender = false): string
     {
         $string = match ($this) {
-            self::PEEWEE_MAN => 'Poussin Homme',
-            self::PEEWEE_WOMAN => 'Poussin Femme',
+            self::PEEWEE_MAN => 'Poussin (U11) Homme',
+            self::PEEWEE_WOMAN => 'Poussin (U11) Femme',
 
-            self::CUB_MAN => 'Minime Homme',
-            self::CUB_WOMAN => 'Minime Femme',
+            self::CUB_MAN => 'Minime (U13) Homme',
+            self::CUB_WOMAN => 'Minime (U13) Femme',
 
-            self::BENJAMIN_MAN => 'Benjamin Homme',
-            self::BENJAMIN_WOMAN => 'Benjamin Femme',
+            self::BENJAMIN_MAN => 'Benjamin (U15) Homme',
+            self::BENJAMIN_WOMAN => 'Benjamin (U15) Femme',
 
-            self::CADET_MAN => 'Cadet Homme',
-            self::CADET_WOMAN => 'Cadet Femme',
+            self::CADET_MAN => 'Cadet (U18) Homme',
+            self::CADET_WOMAN => 'Cadet (U18) Femme',
 
-            self::JUNIOR_MAN => 'Junior Homme',
-            self::JUNIOR_WOMAN => 'Junior Femme',
+            self::JUNIOR_MAN => 'Junior (U21) Homme',
+            self::JUNIOR_WOMAN => 'Junior (U21) Femme',
 
             self::SENIOR_ONE_MAN => 'Senior 1 Homme',
             self::SENIOR_ONE_WOMAN => 'Senior 1 Femme',
@@ -160,7 +160,10 @@ enum Category: string implements Enum
 
     public static function toChoices(): array
     {
-        $casesFiltered = array_filter(self::cases(), static fn (Category $category) => !str_starts_with($category->name, 'OLD'));
+        $casesFiltered = array_filter(
+            self::cases(),
+            static fn (Category $category) => !str_starts_with($category->name, 'OLD')
+        );
 
         return array_combine(
             array_map(static fn (Category $category) => $category->toString(), $casesFiltered),
@@ -170,7 +173,10 @@ enum Category: string implements Enum
 
     public static function toChoicesWithEnumValue(): array
     {
-        $casesFiltered = array_filter(self::cases(), static fn (Category $category) => !str_starts_with($category->name, 'OLD'));
+        $casesFiltered = array_filter(
+            self::cases(),
+            static fn (Category $category) => !str_starts_with($category->name, 'OLD')
+        );
 
         return array_combine(
             array_map(static fn (Category $category) => $category->toString(), $casesFiltered),
@@ -184,20 +190,20 @@ enum Category: string implements Enum
     public static function createFromString(string $category): self
     {
         return match ($category) {
-            'PH', 'Poussin Homme' => self::PEEWEE_MAN,
-            'PF', 'Poussin Femme' => self::PEEWEE_WOMAN,
+            'PH', 'Poussin Homme', 'U11 Homme' => self::PEEWEE_MAN,
+            'PF', 'Poussin Femme', 'U11 Femme' => self::PEEWEE_WOMAN,
 
-            'BH', 'Benjamin Homme' => self::BENJAMIN_MAN,
-            'BF', 'Benjamin Femme', 'Benjamine Femme' => self::BENJAMIN_WOMAN,
+            'BH', 'Benjamin Homme', 'U13 Homme' => self::BENJAMIN_MAN,
+            'BF', 'Benjamin Femme', 'Benjamine Femme', 'U13 Femme' => self::BENJAMIN_WOMAN,
 
-            'JH', 'Junior Homme' => self::JUNIOR_MAN,
-            'JF', 'Junior Femme' => self::JUNIOR_WOMAN,
+            'JH', 'Junior Homme', 'U15 Homme' => self::JUNIOR_MAN,
+            'JF', 'Junior Femme', 'U15 Femme' => self::JUNIOR_WOMAN,
 
-            'MH', 'Minime Homme' => self::CUB_MAN,
-            'MF', 'Minime Femme' => self::CUB_WOMAN,
+            'MH', 'Minime Homme', 'U18 Homme' => self::CUB_MAN,
+            'MF', 'Minime Femme', 'U18 Femme' => self::CUB_WOMAN,
 
-            'CH', 'Cadet Homme' => self::CADET_MAN,
-            'CF', 'Cadet Femme' => self::CADET_WOMAN,
+            'CH', 'Cadet Homme', 'U21 Homme' => self::CADET_MAN,
+            'CF', 'Cadet Femme', 'U21 Femme' => self::CADET_WOMAN,
 
             'S1H', 'Senior 1 Homme' => self::SENIOR_ONE_MAN,
             'S1F', 'Senior 1 Femme' => self::SENIOR_ONE_WOMAN,

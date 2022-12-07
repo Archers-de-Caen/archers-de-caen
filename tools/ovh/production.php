@@ -68,7 +68,7 @@ function downloadLastVersion(): string|false
         /** @var array $releases */
         $releases = json_decode($result, true, 512, JSON_THROW_ON_ERROR);
     } catch (JsonException $e) {
-        var_dump($e);
+        echo "ERROR - " . $e->getMessage() . PHP_EOL;
 
         return false;
     }
@@ -138,8 +138,13 @@ if (!file_put_contents(PRODUCING_PATH . '/.env.local', "\n\nRELEASE=$lastRelease
 }
 
 echo "INFO - Suppression du dossier de l'ancienne version" . PHP_EOL;
-if (is_dir(PRODUCTION_BK_PATH) && !shell_exec('rm ' . PRODUCTION_BK_PATH . ' -rf' . GET_COMMAND_ERROR)) {
-    die('ERROR - Ancienne version non supprimé');
+if (is_dir(PRODUCTION_BK_PATH)) {
+    shell_exec('rm ' . PRODUCTION_BK_PATH . ' -rf' . GET_COMMAND_ERROR);
+
+    /** @phpstan-ignore-next-line */
+    if (is_dir(PRODUCTION_BK_PATH)) {
+        die('ERROR - Ancienne version non supprimé');
+    }
 }
 
 echo "INFO - Déplacement de l'ancienne version vers un dossier temporaire" . PHP_EOL;
