@@ -15,6 +15,8 @@ use App\Domain\Competition\Repository\CompetitionRepository;
 use App\Domain\Result\Model\ResultCompetition;
 use App\Domain\Result\Repository\ResultCompetitionRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,6 +66,7 @@ final class CompetitionController extends AbstractController
     #[Route('/resultats/concours', name: self::ROUTE_LANDING_RESULTS_COMPETITIONS_SEASONS)]
     public function resultsCompetitionsSeasons(CompetitionRepository $competitionRepository): Response
     {
+        /** @var int[] $seasons */
         $seasons = $competitionRepository
             ->createQueryBuilder('competition')
             ->select('YEAR(competition.dateStart) AS season')
@@ -72,6 +75,27 @@ final class CompetitionController extends AbstractController
             ->getQuery()
             ->getSingleColumnResult()
         ;
+
+        try {
+            /** @var Competition $lastCompetition */
+            $lastCompetition = $competitionRepository
+                ->createQueryBuilder('competition')
+                ->orderBy('competition.dateStart', 'DESC')
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getOneOrNullResult()
+            ;
+
+            if (9 <= (int) $lastCompetition->getDateStart()?->format('n')) {
+                $seasons[] = ((int) $lastCompetition->getDateStart()?->format('Y')) + 1;
+            }
+        } catch (NonUniqueResultException) {
+            // Nothing, ca ne devrais jamais arriver !
+        }
+
+        $seasons = array_unique($seasons);
+
+        rsort($seasons);
 
         return $this->render('/landing/results/competitions/seasons.html.twig', [
             'seasons' => $seasons,
