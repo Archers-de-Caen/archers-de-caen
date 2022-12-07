@@ -77,7 +77,7 @@ final class CompetitionController extends AbstractController
         ;
 
         try {
-            /** @var Competition $lastCompetition */
+            /** @var ?Competition $lastCompetition */
             $lastCompetition = $competitionRepository
                 ->createQueryBuilder('competition')
                 ->orderBy('competition.dateStart', 'DESC')
@@ -86,7 +86,7 @@ final class CompetitionController extends AbstractController
                 ->getOneOrNullResult()
             ;
 
-            if (9 <= (int) $lastCompetition->getDateStart()?->format('n')) {
+            if ($lastCompetition && 9 <= (int) $lastCompetition->getDateStart()?->format('n')) {
                 $seasons[] = ((int) $lastCompetition->getDateStart()?->format('Y')) + 1;
             }
         } catch (NonUniqueResultException) {
