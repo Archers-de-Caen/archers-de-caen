@@ -34,7 +34,6 @@ final class CreateArcher extends Command
 
         $archer = new Archer();
 
-        /** @var array<string, array> $properties */
         $properties = [
             'firstName' => [
                 'value' => null,
@@ -86,7 +85,9 @@ final class CreateArcher extends Command
 
                 $properties[$property]['value'] = $value;
 
-                $violations = $this->validator->validatePropertyValue(Archer::class, $property, $properties[$property]['value']);
+                $violations = $this->validator
+                    ->validatePropertyValue(Archer::class, $property, $properties[$property]['value'])
+                ;
 
                 if ($violations->count()) {
                     /** @var ConstraintViolationInterface $violation */
@@ -100,13 +101,33 @@ final class CreateArcher extends Command
             } while ($violations->count());
         }
 
-        $archer->setFirstName($properties['firstName']['value']);
-        $archer->setLastName($properties['lastName']['value']);
-        $archer->setEmail($properties['email']['value']);
-        $archer->setPhone($properties['phone']['value']);
-        $archer->setPlainPassword($properties['plainPassword']['value']);
-        $archer->setLicenseNumber($properties['licenseNumber']['value']);
-        $archer->addRole($properties['role']['value']);
+        if (($value = $properties['firstName']['value']) && is_string($value)) {
+            $archer->setFirstName($value);
+        }
+
+        if (($value = $properties['lastName']['value']) && is_string($value)) {
+            $archer->setLastName($value);
+        }
+
+        if (($value = $properties['email']['value']) && is_string($value)) {
+            $archer->setEmail($value);
+        }
+
+        if (($value = $properties['phone']['value']) && is_string($value)) {
+            $archer->setPhone($value);
+        }
+
+        if (($value = $properties['plainPassword']['value']) && is_string($value)) {
+            $archer->setPlainPassword($value);
+        }
+
+        if (($value = $properties['licenseNumber']['value']) && is_string($value)) {
+            $archer->setLicenseNumber($value);
+        }
+
+        if (($value = $properties['role']['value']) && is_string($value)) {
+            $archer->addRole($value);
+        }
 
         $violations = $this->validator->validate($archer);
 

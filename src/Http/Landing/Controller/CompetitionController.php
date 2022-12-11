@@ -7,6 +7,7 @@ namespace App\Http\Landing\Controller;
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Weapon;
 use App\Domain\Archer\Model\Archer;
+use App\Domain\Archer\Repository\ArcherRepository;
 use App\Domain\Badge\Model\Badge;
 use App\Domain\Badge\Repository\BadgeRepository;
 use App\Domain\Competition\Config\Type;
@@ -38,9 +39,9 @@ final class CompetitionController extends AbstractController
     }
 
     #[Route('/resultats/fleche-de-progression', name: self::ROUTE_LANDING_RESULTS_ARROW)]
-    public function resultsArrow(EntityManagerInterface $em): Response
+    public function resultsArrow(ArcherRepository $archerRepository, BadgeRepository $badgeRepository): Response
     {
-        $archers = $em->getRepository(Archer::class)->findAll();
+        $archers = $archerRepository->findAll();
 
         $archers = array_filter($archers, static fn (Archer $archer) => $archer->getResultsProgressArrow()->count());
 
@@ -56,7 +57,7 @@ final class CompetitionController extends AbstractController
 
         return $this->render('/landing/results/result-progress-arrow.html.twig', [
             'archers' => $archers,
-            'progressArrows' => $em->getRepository(Badge::class)->findProgressArrow(),
+            'progressArrows' => $badgeRepository->findProgressArrow(),
         ]);
     }
 
