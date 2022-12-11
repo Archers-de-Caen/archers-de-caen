@@ -18,17 +18,13 @@ class Recaptcha
         ParameterBagInterface $parameterBag,
         private readonly LoggerInterface $logger,
     ) {
-        if (!($secret = $parameterBag->get('recaptcha_secret')) || !is_string($secret)) {
-            throw new \InvalidArgumentException('Variable d\'environment "recaptcha_secret" invalide');
-        }
+        /** @var ?string $secret */
+        $secret = $parameterBag->get('recaptcha_secret');
+        $this->clientSecret = $secret ?? '';
 
-        $this->clientSecret = $secret;
-
-        if (!($url = $parameterBag->get('recaptcha_url')) || !is_string($url)) {
-            throw new \InvalidArgumentException('Variable d\'environment "recaptcha_url" invalide');
-        }
-
-        $this->url = $url;
+        /** @var ?string $url */
+        $url = $parameterBag->get('recaptcha_url');
+        $this->url = $url ?? '';
     }
 
     public function checkRecaptcha(string $clientSideToken, ?string $clientIp = null): bool

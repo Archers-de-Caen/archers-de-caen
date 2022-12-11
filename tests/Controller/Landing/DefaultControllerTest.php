@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Controller\Landing;
 
 use App\Http\Landing\Controller\ContactController;
+use App\Http\Landing\Controller\DefaultController;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Router;
@@ -26,7 +27,7 @@ class DefaultControllerTest extends WebTestCase
 
         $client->request($method, $router->generate($route));
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
     }
 
     /**
@@ -35,9 +36,8 @@ class DefaultControllerTest extends WebTestCase
     public function provideUrlsSuccessfulWithoutAuthentication(): array
     {
         return [
-            ['landing_index', Request::METHOD_GET],
+            [DefaultController::ROUTE_LANDING_INDEX, Request::METHOD_GET],
             [ContactController::ROUTE_LANDING_CONTACT, Request::METHOD_GET],
-            ['landing_style_guide', Request::METHOD_GET],
         ];
     }
 }
