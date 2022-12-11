@@ -16,7 +16,6 @@ use App\Domain\Result\Model\ResultCompetition;
 use App\Domain\Result\Repository\ResultCompetitionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,9 +56,7 @@ final class CompetitionController extends AbstractController
 
         return $this->render('/landing/results/result-progress-arrow.html.twig', [
             'archers' => $archers,
-            'progressArrows' => $em->getRepository(Badge::class)->findBy([
-                'type' => 'progress_arrow',
-            ]),
+            'progressArrows' => $em->getRepository(Badge::class)->findProgressArrow(),
         ]);
     }
 
@@ -131,7 +128,10 @@ final class CompetitionController extends AbstractController
         foreach (Weapon::toChoices() as $WeaponToString => $weapon) {
             foreach (Category::toChoices() as $categoryToString => $category) {
                 foreach ($competition->getResults() as $result) {
-                    if ($categoryToString === $result->getCategory()?->toString() && $WeaponToString === $result->getWeapon()?->toString()) {
+                    if (
+                        $categoryToString === $result->getCategory()?->toString() &&
+                        $WeaponToString === $result->getWeapon()?->toString()
+                    ) {
                         if (!isset($results[$WeaponToString])) {
                             $results[$WeaponToString] = [];
                         }
@@ -243,7 +243,7 @@ final class CompetitionController extends AbstractController
     #[Route('/resultats/distinctions-federales', name: self::ROUTE_LANDING_RESULTS_FEDERAL_HONORS)]
     public function resultsFederalHonors(BadgeRepository $badgeRepository): Response
     {
-        $badges = $badgeRepository->findBy(['type' => 'competition']);
+        $badges = $badgeRepository->findBy(['type' => Badge::COMPETITION]);
 
         return $this->render('/landing/results/result-badges.html.twig', [
             'badges' => $badges,
@@ -252,7 +252,10 @@ final class CompetitionController extends AbstractController
                 Type::getInOrder(),
                 static function (Type $competitionType) use ($badges) {
                     foreach ($badges as $badge) {
-                        if (isset($badge->getConditions()['weapon']) && $badge->getCompetitionType() === $competitionType) {
+                        if (
+                            isset($badge->getConditions()['weapon']) &&
+                            $badge->getCompetitionType() === $competitionType
+                        ) {
                             return true;
                         }
                     }

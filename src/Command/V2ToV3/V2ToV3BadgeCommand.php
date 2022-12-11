@@ -107,7 +107,7 @@ final class V2ToV3BadgeCommand extends Command
      */
     private static function generateBadges(): array
     {
-        $baseBadge = (new Badge())->setOfficial(true)->setType('competition');
+        $baseBadge = (new Badge())->setOfficial(true)->setType(Badge::COMPETITION);
 
         $baseIndoorBadge = (clone $baseBadge)->setCompetitionType(Type::INDOOR_2x18_M);
         $baseFitaBadge = (clone $baseBadge)->setCompetitionType(Type::FITA);

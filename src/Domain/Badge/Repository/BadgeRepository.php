@@ -6,6 +6,7 @@ namespace App\Domain\Badge\Repository;
 
 use App\Domain\Badge\Model\Badge;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,5 +22,17 @@ class BadgeRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Badge::class);
+    }
+
+    /**
+     * @return array<Badge>
+     */
+    public function findProgressArrow(): array
+    {
+        return $this->findBy([
+           'type' => Badge::PROGRESS_ARROW,
+        ], [
+            'level' => Criteria::ASC
+        ]);
     }
 }

@@ -42,7 +42,7 @@ class V2ToV3ProgressArrowCommand extends Command
             'blanche' => (new Badge())
                 ->setName('Flèches Banche')
                 ->setOfficial(true)
-                ->setType('progress_arrow')
+                ->setType(Badge::PROGRESS_ARROW)
                 ->setLevel(1)
                 ->setCode('arrow_white')
                 ->setConditions([
@@ -52,7 +52,7 @@ class V2ToV3ProgressArrowCommand extends Command
             'noire' => (new Badge())
                 ->setName('Flèches Noir')
                 ->setOfficial(true)
-                ->setType('progress_arrow')
+                ->setType(Badge::PROGRESS_ARROW)
                 ->setLevel(2)
                 ->setCode('arrow_black')
                 ->setConditions([
@@ -62,7 +62,7 @@ class V2ToV3ProgressArrowCommand extends Command
             'bleue' => (new Badge())
                 ->setName('Flèches Bleue')
                 ->setOfficial(true)
-                ->setType('progress_arrow')
+                ->setType(Badge::PROGRESS_ARROW)
                 ->setLevel(3)
                 ->setCode('arrow_blue')
                 ->setConditions([
@@ -72,7 +72,7 @@ class V2ToV3ProgressArrowCommand extends Command
             'rouge' => (new Badge())
                 ->setName('Flèches Rouge')
                 ->setOfficial(true)
-                ->setType('progress_arrow')
+                ->setType(Badge::PROGRESS_ARROW)
                 ->setLevel(4)
                 ->setCode('arrow_red')
                 ->setConditions([
@@ -82,7 +82,7 @@ class V2ToV3ProgressArrowCommand extends Command
             'jaune' => (new Badge())
                 ->setName('Flèches Jaune')
                 ->setOfficial(true)
-                ->setType('progress_arrow')
+                ->setType(Badge::PROGRESS_ARROW)
                 ->setLevel(5)
                 ->setCode('arrow_yellow')
                 ->setConditions([
@@ -92,7 +92,7 @@ class V2ToV3ProgressArrowCommand extends Command
             'bronze' => (new Badge())
                 ->setName('Flèches de Bronze')
                 ->setOfficial(true)
-                ->setType('progress_arrow')
+                ->setType(Badge::PROGRESS_ARROW)
                 ->setLevel(6)
                 ->setCode('arrow_bronze')
                 ->setConditions([
@@ -102,7 +102,7 @@ class V2ToV3ProgressArrowCommand extends Command
             'argent' => (new Badge())
                 ->setName('Flèches d\'Argent')
                 ->setOfficial(true)
-                ->setType('progress_arrow')
+                ->setType(Badge::PROGRESS_ARROW)
                 ->setLevel(7)
                 ->setCode('arrow_silver')
                 ->setConditions([
@@ -112,7 +112,7 @@ class V2ToV3ProgressArrowCommand extends Command
             'or' => (new Badge())
                 ->setName('Flèches d\'Or')
                 ->setOfficial(true)
-                ->setType('progress_arrow')
+                ->setType(Badge::PROGRESS_ARROW)
                 ->setLevel(8)
                 ->setCode('arrow_god')
                 ->setConditions([

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Archer\Model;
 
+use App\Domain\Archer\Config\Weapon;
 use App\Domain\Archer\Repository\ArcherRepository;
+use App\Domain\Badge\Model\Badge;
 use App\Domain\Result\Model\Result;
 use App\Domain\Result\Model\ResultBadge;
 use App\Domain\Result\Model\ResultCompetition;
@@ -250,7 +252,9 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
      */
     public function getResultsProgressArrow(): Collection
     {
-        return $this->results->filter(static fn (Result $result) => $result instanceof ResultBadge && 'progress_arrow' === $result->getBadge()?->getType());
+        return $this->results->filter(static function (Result $result) {
+            return $result instanceof ResultBadge && Badge::PROGRESS_ARROW === $result->getBadge()?->getType();
+        });
     }
 
     public function getBestProgressArrowObtained(): ?ResultBadge
@@ -327,5 +331,39 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         $this->resultsTeams->removeElement($resultTeam);
 
         return $this;
+    }
+
+    /**
+     * L'arme avec laquelle l'archer à fait le plus de concours.
+     */
+    public function getFavoriteWeapon(): ?Weapon
+    {
+        $resultsCompetitions = $this->getResultsCompetition();
+
+        $bareBow = $resultsCompetitions->filter(static function (Result $resultCompetition): bool {
+            return Weapon::BARE_BOW === $resultCompetition->getWeapon();
+        })->count();
+
+        $compoundBow = $resultsCompetitions->filter(static function (Result $resultCompetition): bool {
+            return Weapon::COMPOUND_BOW === $resultCompetition->getWeapon();
+        })->count();
+
+        $recurveBow = $resultsCompetitions->filter(static function (Result $resultCompetition): bool {
+            return Weapon::RECURVE_BOW === $resultCompetition->getWeapon();
+        })->count();
+
+        if ($bareBow > $compoundBow && $bareBow > $recurveBow) {
+            return Weapon::BARE_BOW;
+        }
+
+        if ($compoundBow > $bareBow && $compoundBow > $recurveBow) {
+            return Weapon::COMPOUND_BOW;
+        }
+
+        if ($recurveBow > $compoundBow && $recurveBow > $bareBow) {
+            return Weapon::RECURVE_BOW;
+        }
+
+        return null;
     }
 }

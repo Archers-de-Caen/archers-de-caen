@@ -21,6 +21,9 @@ class Badge
     use IdTrait;
     use TimestampTrait;
 
+    public const PROGRESS_ARROW = 'progress_arrow';
+    public const COMPETITION = 'competition';
+
     #[ORM\Column(type: Types::STRING, length: 191)]
     private ?string $name = null;
 
