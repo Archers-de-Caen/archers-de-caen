@@ -210,24 +210,27 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
         }
         $queryBuilder = $this->createIndexQueryBuilder($search, $context->getEntity(), $fields, $filters);
 
-        $data = array_map(static fn (CompetitionRegisterDepartureTargetArcher $registration): string => implode(',', [
-            'date_de_creation' => $registration->getCreatedAt()?->format(DateTimeInterface::RFC822),
-            'licence' => $registration->getLicenseNumber(),
-            'prenom' => $registration->getFirstName(),
-            'nom' => $registration->getLastName(),
-            'email' => $registration->getEmail(),
-            'phone' => $registration->getPhone(),
-            'genre' => $registration->getGender()?->toString(),
-            'categorie' => $registration->getCategory()?->toString(),
-            'arme' => $registration->getWeapon()?->toString(),
-            'club' => $registration->getClub(),
-            'fauteuil_roulant' => $registration->getWheelchair() ? 'Oui' : 'Non',
-            'premiere_annee' => $registration->getFirstYear() ? 'Oui' : 'Non',
-            'info_complementaire' => $registration->getAdditionalInformation(),
-            'cible' => $registration->getTarget(),
-            'depart' => $registration->getTarget()?->getDeparture(),
-            'position' => $registration->getPosition(),
-        ]), (array) $queryBuilder->getQuery()->getResult());
+        /* @phpstan-ignore-next-line */
+        $data = array_map(static function (CompetitionRegisterDepartureTargetArcher $registration): string {
+            return implode(',', [
+                'date_de_creation' => $registration->getCreatedAt()?->format(DateTimeInterface::RFC822),
+                'licence' => $registration->getLicenseNumber(),
+                'prenom' => $registration->getFirstName(),
+                'nom' => $registration->getLastName(),
+                'email' => $registration->getEmail(),
+                'phone' => $registration->getPhone(),
+                'genre' => $registration->getGender()?->toString(),
+                'categorie' => $registration->getCategory()?->toString(),
+                'arme' => $registration->getWeapon()?->toString(),
+                'club' => $registration->getClub(),
+                'fauteuil_roulant' => $registration->getWheelchair() ? 'Oui' : 'Non',
+                'premiere_annee' => $registration->getFirstYear() ? 'Oui' : 'Non',
+                'info_complementaire' => $registration->getAdditionalInformation(),
+                'cible' => $registration->getTarget(),
+                'depart' => $registration->getTarget()?->getDeparture(),
+                'position' => $registration->getPosition(),
+            ]);
+        }, (array) $queryBuilder->getQuery()->getResult());
 
         $response = new Response(implode("\n", $data));
         $dispositionHeader = $response->headers->makeDisposition(

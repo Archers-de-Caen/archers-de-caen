@@ -7,6 +7,7 @@ namespace App\Http\Admin\Controller\Badge;
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Weapon;
 use App\Domain\Archer\Model\Archer;
+use App\Domain\Badge\Model\Badge;
 use App\Domain\Result\Model\ResultBadge;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
@@ -77,8 +78,8 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
 
         $badge = AssociationField::new('badge')
             ->setLabel(match ($this->badgeType) {
-                'competition' => 'Distinction fédérale',
-                'progress_arrow' => 'Flèche de progression',
+                Badge::COMPETITION => 'Distinction fédérale',
+                Badge::PROGRESS_ARROW => 'Flèche de progression',
                 default => 'wut ?'
             })
             ->setQueryBuilder(

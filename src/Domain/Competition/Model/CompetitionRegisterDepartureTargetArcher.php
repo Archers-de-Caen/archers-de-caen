@@ -136,7 +136,7 @@ class CompetitionRegisterDepartureTargetArcher
 
     public function isPaid(): bool
     {
-        return $this->paid;
+        return $this->paid ?? false;
     }
 
     public function setPaid(?bool $paid): self

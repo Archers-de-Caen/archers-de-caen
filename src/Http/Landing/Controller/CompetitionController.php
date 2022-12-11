@@ -7,6 +7,7 @@ namespace App\Http\Landing\Controller;
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Weapon;
 use App\Domain\Archer\Model\Archer;
+use App\Domain\Archer\Repository\ArcherRepository;
 use App\Domain\Badge\Model\Badge;
 use App\Domain\Badge\Repository\BadgeRepository;
 use App\Domain\Competition\Config\Type;
@@ -15,6 +16,7 @@ use App\Domain\Competition\Repository\CompetitionRepository;
 use App\Domain\Result\Model\ResultCompetition;
 use App\Domain\Result\Repository\ResultCompetitionRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,9 +39,9 @@ final class CompetitionController extends AbstractController
     }
 
     #[Route('/resultats/fleche-de-progression', name: self::ROUTE_LANDING_RESULTS_ARROW)]
-    public function resultsArrow(EntityManagerInterface $em): Response
+    public function resultsArrow(ArcherRepository $archerRepository, BadgeRepository $badgeRepository): Response
     {
-        $archers = $em->getRepository(Archer::class)->findAll();
+        $archers = $archerRepository->findAll();
 
         $archers = array_filter($archers, static fn (Archer $archer) => $archer->getResultsProgressArrow()->count());
 
@@ -55,15 +57,14 @@ final class CompetitionController extends AbstractController
 
         return $this->render('/landing/results/result-progress-arrow.html.twig', [
             'archers' => $archers,
-            'progressArrows' => $em->getRepository(Badge::class)->findBy([
-                'type' => 'progress_arrow',
-            ]),
+            'progressArrows' => $badgeRepository->findProgressArrow(),
         ]);
     }
 
     #[Route('/resultats/concours', name: self::ROUTE_LANDING_RESULTS_COMPETITIONS_SEASONS)]
     public function resultsCompetitionsSeasons(CompetitionRepository $competitionRepository): Response
     {
+        /** @var int[] $seasons */
         $seasons = $competitionRepository
             ->createQueryBuilder('competition')
             ->select('YEAR(competition.dateStart) AS season')
@@ -72,6 +73,27 @@ final class CompetitionController extends AbstractController
             ->getQuery()
             ->getSingleColumnResult()
         ;
+
+        try {
+            /** @var ?Competition $lastCompetition */
+            $lastCompetition = $competitionRepository
+                ->createQueryBuilder('competition')
+                ->orderBy('competition.dateStart', 'DESC')
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getOneOrNullResult()
+            ;
+
+            if ($lastCompetition && 9 <= (int) $lastCompetition->getDateStart()?->format('n')) {
+                $seasons[] = ((int) $lastCompetition->getDateStart()?->format('Y')) + 1;
+            }
+        } catch (NonUniqueResultException) {
+            // Nothing, ca ne devrais jamais arriver !
+        }
+
+        $seasons = array_unique($seasons);
+
+        rsort($seasons);
 
         return $this->render('/landing/results/competitions/seasons.html.twig', [
             'seasons' => $seasons,
@@ -107,7 +129,10 @@ final class CompetitionController extends AbstractController
         foreach (Weapon::toChoices() as $WeaponToString => $weapon) {
             foreach (Category::toChoices() as $categoryToString => $category) {
                 foreach ($competition->getResults() as $result) {
-                    if ($categoryToString === $result->getCategory()?->toString() && $WeaponToString === $result->getWeapon()?->toString()) {
+                    if (
+                        $categoryToString === $result->getCategory()?->toString() &&
+                        $WeaponToString === $result->getWeapon()?->toString()
+                    ) {
                         if (!isset($results[$WeaponToString])) {
                             $results[$WeaponToString] = [];
                         }
@@ -219,7 +244,7 @@ final class CompetitionController extends AbstractController
     #[Route('/resultats/distinctions-federales', name: self::ROUTE_LANDING_RESULTS_FEDERAL_HONORS)]
     public function resultsFederalHonors(BadgeRepository $badgeRepository): Response
     {
-        $badges = $badgeRepository->findBy(['type' => 'competition']);
+        $badges = $badgeRepository->findBy(['type' => Badge::COMPETITION]);
 
         return $this->render('/landing/results/result-badges.html.twig', [
             'badges' => $badges,
@@ -228,7 +253,10 @@ final class CompetitionController extends AbstractController
                 Type::getInOrder(),
                 static function (Type $competitionType) use ($badges) {
                     foreach ($badges as $badge) {
-                        if (isset($badge->getConditions()['weapon']) && $badge->getCompetitionType() === $competitionType) {
+                        if (
+                            isset($badge->getConditions()['weapon']) &&
+                            $badge->getCompetitionType() === $competitionType
+                        ) {
                             return true;
                         }
                     }

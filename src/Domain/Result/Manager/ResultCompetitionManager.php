@@ -49,7 +49,7 @@ class ResultCompetitionManager
                     return false;
                 }
 
-                if ('competition' !== $resultBadge->getBadge()->getType()) {
+                if (Badge::COMPETITION !== $resultBadge->getBadge()->getType()) {
                     return false;
                 }
 

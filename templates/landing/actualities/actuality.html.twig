@@ -25,13 +25,19 @@
         <main class="actuality-container-content">
             <div class="actuality-title">
                 <header class="actuality-info">
-                <span>
-                    {{ page.createdBy.firstName }} {{ page.createdBy.lastName }}
-                </span>
-                    <div class="separator"></div>
-                    <span>
-                    {{ page.createdAt|date('d') }} {{ page.createdAt|date('F')|trans({}, 'date') }} {{ page.createdAt|date('Y') }}
-                </span>
+                    {% if page.createdBy %}
+                        <span>{{ page.createdBy.firstName }} {{ page.createdBy.lastName }}</span>
+                    {% endif %}
+
+                    {% if page.createdBy and page.createdAt %}
+                        <div class="separator"></div>
+                    {% endif %}
+
+                    {% if page.createdAt %}
+                        <span>
+                            {{ page.createdAt|date('d') }} {{ page.createdAt|date('F')|trans({}, 'date') }} {{ page.createdAt|date('Y') }}
+                        </span>
+                    {% endif %}
                 </header>
                 <h1>{{ page.title }}</h1>
             </div>
@@ -83,7 +89,7 @@
                     <span>{{ nextPage.title }}</span>
                     <i data-feather="arrow-right"></i>
                 </a>
-            {%endif%}
+            {% endif %}
         </footer>
     </div>
 {% endblock %}

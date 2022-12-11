@@ -26,7 +26,11 @@
                             {% endif %}
 
                             <td>
-                                {{ result.archer.fullName }}
+                                <p>
+                                    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\ArcherController::ROUTE_LANDING_ARCHER'), { licenseNumber: result.archer.licenseNumber }) }}">
+                                        {{ result.archer.fullName }}
+                                    </a>
+                                </p>
                             </td>
                             <td>
                                 {{ result.score }}
@@ -37,15 +41,17 @@
                                         <p>
                                             {{ result.rank }}<sup>{% if result.rank == 1 %}er{% else %}e{% endif %}</sup>
                                         </p>
+                                    {% endif %}
 
-                                        {% if result.rank <= 3 %}
+                                    <span>
+                                        {% if result.onThePodium %}
                                             <i class="text-small">Podium</i>{% if result.record %}, {% endif %}
                                         {% endif %}
-                                    {% endif %}
 
-                                    {% if result.record %}
-                                        <i class="text-small">Record personnel</i>
-                                    {% endif %}
+                                        {% if result.record %}
+                                            <i class="text-small">Record personnel</i>
+                                        {% endif %}
+                                    </span>
                                 </div>
                             </td>
                         </tr>

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\Badge;
 
+use App\Domain\Badge\Model\Badge;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 
@@ -11,7 +12,7 @@ final class ResultBadgeFederalHonorCrudController extends ResultBadgeCrudControl
 {
     public function __construct(EntityRepository $entityRepository)
     {
-        $this->badgeType = 'competition';
+        $this->badgeType = Badge::COMPETITION;
 
         parent::__construct($entityRepository);
     }

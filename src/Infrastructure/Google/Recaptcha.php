@@ -18,8 +18,13 @@ class Recaptcha
         ParameterBagInterface $parameterBag,
         private readonly LoggerInterface $logger,
     ) {
-        $this->clientSecret = (string) $parameterBag->get('recaptcha_secret');
-        $this->url = (string) $parameterBag->get('recaptcha_url');
+        /** @var ?string $secret */
+        $secret = $parameterBag->get('recaptcha_secret');
+        $this->clientSecret = $secret ?? '';
+
+        /** @var ?string $url */
+        $url = $parameterBag->get('recaptcha_url');
+        $this->url = $url ?? '';
     }
 
     public function checkRecaptcha(string $clientSideToken, ?string $clientIp = null): bool
