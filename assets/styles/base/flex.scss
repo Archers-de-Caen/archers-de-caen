@@ -23,6 +23,12 @@
     }
   }
 
+  &.item- {
+    &center {
+      align-items: center;
+    }
+  }
+
   &.direction- {
     &column {
       flex-direction: column;

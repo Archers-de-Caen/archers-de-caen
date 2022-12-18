@@ -3,29 +3,21 @@
 .toggleables {
   .toggleable {
     background-color: var(--color-white);
-    padding: .8rem 2rem;
-    cursor: pointer;
     position: relative;
     box-shadow: $box-shadow;
     transition: margin ease-in-out .25s;
 
-    &:before {
-      content: url("../../images/symbole/down-arrow-grey.svg");
-      width: 20px;
-      height: 25px;
-      position: absolute;
-      right: 2rem;
-      top: 2rem;
-      transition: transform ease-in-out .25s;
-    }
-
     &.--active {
-      &:before {
-        transform: rotate(-180deg);
-      }
-
       border-radius: $border-radius-normal;
       margin: 1rem 0;
+
+      .toggleable-summary {
+        border-bottom: 1px solid var(--color-light-grey);
+
+        &:before {
+          transform: rotate(-180deg) translateY(50%);
+        }
+      }
 
       .toggleable-content {
         display: block;
@@ -40,10 +32,34 @@
       border-radius: 0 0 $border-radius-normal $border-radius-normal;
     }
 
+    .toggleable-summary {
+      cursor: pointer;
+      position: relative;
+      padding: .8rem 4rem .8rem 2rem;
+
+      &:before {
+        content: url("../../images/symbole/down-arrow-grey.svg");
+
+        width: 20px;
+        height: 25px;
+
+        position: absolute;
+        right: 2rem;
+        top: 50%;
+        transform: translateY(-50%);
+
+        transition: transform ease-in-out .25s;
+      }
+    }
+
     .toggleable-content {
       display: none;
-      margin-top: 2rem;
+      padding: 2rem 3rem;
     }
+  }
+
+  p {
+    margin: 0;
   }
 }
 
