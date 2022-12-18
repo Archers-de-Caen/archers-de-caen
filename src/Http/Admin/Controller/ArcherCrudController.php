@@ -6,6 +6,7 @@ namespace App\Http\Admin\Controller;
 
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Gender;
+use App\Domain\Archer\Config\Weapon;
 use App\Domain\Archer\Model\Archer;
 use App\Http\Landing\Controller\DefaultController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -17,6 +18,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ArcherCrudController extends AbstractCrudController
@@ -60,14 +62,35 @@ class ArcherCrudController extends AbstractCrudController
         $createdAt = DateTimeField::new('createdAt')->setLabel('Date de création');
 
         $gender = ChoiceField::new('gender')
+            ->setChoices(Gender::cases())
+            ->setFormType(EnumType::class)
+            ->setFormTypeOption('class', Gender::class)
             ->setLabel('Genre')
-            ->setChoices(Gender::toChoicesWithEnumValue())
         ;
 
         $category = ChoiceField::new('category')
+            ->setChoices(Category::cases())
+            ->setFormType(EnumType::class)
+            ->setFormTypeOption('class', Category::class)
             ->setLabel('Catégorie')
-            ->setChoices(Category::toChoicesWithEnumValue())
         ;
+
+        /**
+         * Todo: https://github.com/EasyCorp/EasyAdminBundle/pull/4988
+         */
+        if (in_array($pageName, [Crud::PAGE_INDEX, Crud::PAGE_DETAIL], true)) {
+            $category->setChoices(array_reduce(
+                Category::cases(),
+                static fn (array $choices, Category $category) => $choices + [$category->name => $category->value],
+                [],
+            ));
+
+            $gender->setChoices(array_reduce(
+                Gender::cases(),
+                static fn (array $choices, Gender $gender) => $choices + [$gender->name => $gender->value],
+                [],
+            ));
+        }
 
         if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {
             if ($this->isGranted(Archer::ROLE_DEVELOPER)) {
@@ -75,9 +98,6 @@ class ArcherCrudController extends AbstractCrudController
             }
 
             yield $createdAt;
-
-            $gender->setChoices(Gender::toChoices());
-            $category->setChoices(Category::toChoices());
         }
 
         yield $licenseNumber;

@@ -23,6 +23,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -132,6 +133,10 @@ class CompetitionRegisterCrudController extends AbstractCrudController
             ->setRequired(false)
         ;
 
+        $byTeam = IntegerField::new('byTeam', 'Par équipe')
+            ->setHelp('1 = en individuel')
+        ;
+
         $autoCreateActuality = BooleanField::new('autoCreateActuality')
             ->setLabel('Créer automatiquement l\'article ?')
             ->setFormTypeOption('mapped', false)
@@ -142,7 +147,7 @@ class CompetitionRegisterCrudController extends AbstractCrudController
             return [$id, $dateStart, $dateEnd];
         }
 
-        return [$type, $dateStart, $dateEnd, $departures, $mandate, $autoCreateActuality];
+        return [$type, $byTeam, $dateStart, $dateEnd, $departures, $mandate, $autoCreateActuality];
     }
 
     /**

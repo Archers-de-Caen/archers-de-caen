@@ -37,9 +37,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\Asset\UrlPackage;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CompetitionRegisterArcherCrudController extends AbstractCrudController
 {
@@ -126,19 +128,48 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
         $createdAt = DateTimeField::new('createdAt')->setLabel('Date de création');
 
         $gender = ChoiceField::new('gender')
+            ->setChoices(Gender::cases())
+            ->setFormType(EnumType::class)
+            ->setFormTypeOption('class', Gender::class)
             ->setLabel('Genre')
-            ->setChoices(Crud::PAGE_EDIT === $pageName ? Gender::toChoicesWithEnumValue() : Gender::toChoices())
         ;
 
         $category = ChoiceField::new('category')
+            ->setChoices(Category::cases())
+            ->setFormType(EnumType::class)
+            ->setFormTypeOption('class', Category::class)
             ->setLabel('Catégorie')
-            ->setChoices(Crud::PAGE_EDIT === $pageName ? Category::toChoicesWithEnumValue() : Category::toChoices())
         ;
 
         $weapon = ChoiceField::new('weapon')
+            ->setChoices(Weapon::cases())
+            ->setFormType(EnumType::class)
+            ->setFormTypeOption('class', Weapon::class)
             ->setLabel('Arme')
-            ->setChoices(Crud::PAGE_EDIT === $pageName ? Weapon::toChoicesWithEnumValue() : Weapon::toChoices())
         ;
+
+        /**
+         * Todo: https://github.com/EasyCorp/EasyAdminBundle/pull/4988
+         */
+        if (in_array($pageName, [Crud::PAGE_INDEX, Crud::PAGE_DETAIL], true)) {
+            $category->setChoices(array_reduce(
+                Category::cases(),
+                static fn (array $choices, Category $category) => $choices + [$category->name => $category->value],
+                [],
+            ));
+
+            $weapon->setChoices(array_reduce(
+                Weapon::cases(),
+                static fn (array $choices, Weapon $weapon) => $choices + [$weapon->name => $weapon->value],
+                [],
+            ));
+
+            $gender->setChoices(array_reduce(
+                Gender::cases(),
+                static fn (array $choices, Gender $gender) => $choices + [$gender->name => $gender->value],
+                [],
+            ));
+        }
 
         $club = TextField::new('club')
             ->setLabel('Club')
@@ -191,7 +222,7 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
         yield $position;
     }
 
-    public function export(AdminContext $context): Response
+    public function export(AdminContext $context, TranslatorInterface $translator): Response
     {
         $fields = FieldCollection::new($this->configureFields(Crud::PAGE_INDEX));
 
@@ -211,7 +242,11 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
         $queryBuilder = $this->createIndexQueryBuilder($search, $context->getEntity(), $fields, $filters);
 
         /* @phpstan-ignore-next-line */
-        $data = array_map(static function (CompetitionRegisterDepartureTargetArcher $registration): string {
+        $data = array_map(static function (CompetitionRegisterDepartureTargetArcher $registration) use ($translator): string {
+            $enumTranslator = static function (?\BackedEnum $enum) use ($translator): string {
+                return $enum ? $translator->trans((string) $enum->value, [], 'archer') : '';
+            };
+
             return implode(',', [
                 'date_de_creation' => $registration->getCreatedAt()?->format(DateTimeInterface::RFC822),
                 'licence' => $registration->getLicenseNumber(),
@@ -219,9 +254,9 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
                 'nom' => $registration->getLastName(),
                 'email' => $registration->getEmail(),
                 'phone' => $registration->getPhone(),
-                'genre' => $registration->getGender()?->toString(),
-                'categorie' => $registration->getCategory()?->toString(),
-                'arme' => $registration->getWeapon()?->toString(),
+                'genre' => $enumTranslator($registration->getGender()),
+                'categorie' => $enumTranslator($registration->getCategory()),
+                'arme' => $enumTranslator($registration->getWeapon()),
                 'club' => $registration->getClub(),
                 'fauteuil_roulant' => $registration->getWheelchair() ? 'Oui' : 'Non',
                 'premiere_annee' => $registration->getFirstYear() ? 'Oui' : 'Non',

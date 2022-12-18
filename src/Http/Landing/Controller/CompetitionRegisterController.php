@@ -17,15 +17,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class CompetitionRegisterController extends AbstractController
 {
     public const ROUTE_LANDING_COMPETITION_REGISTER = 'landing_competition_register';
     public const ROUTE_LANDING_COMPETITION_REGISTER_ARCHER = 'landing_competition_register_archer';
-    public const ROUTE_LANDING_COMPETITION_REGISTER_DEPARTURE = 'landing_competition_register_departure';
     public const ROUTE_LANDING_COMPETITION_REGISTER_VALIDATED = 'landing_competition_register_validated';
     public const ROUTE_LANDING_COMPETITION_REGISTER_REGISTRATION_RATE = 'landing_competition_register_registration_rate';
     public const ROUTE_LANDING_COMPETITION_REGISTER_LIST_OF_REGISTRANTS = 'landing_competition_register_list_of_registrants';
@@ -34,33 +32,9 @@ final class CompetitionRegisterController extends AbstractController
     public const ROUTE_LANDING_COMPETITION_REGISTER_PAYMENT_ERROR = 'landing_competition_register_payment_error';
     public const ROUTE_LANDING_COMPETITION_REGISTER_PAYMENT_END = 'landing_competition_register_payment_end';
 
-    public const SESSION_KEY_COMPETITION_REGISTER = 'competition_register';
-
     public function __construct(
-        readonly private SerializerInterface $serializer,
         readonly private CompetitionRegisterManager $competitionRegisterManager
     ) {
-    }
-
-    private function deserializeRegisterArcher(Session $session): Registration
-    {
-        if ($session->has(self::SESSION_KEY_COMPETITION_REGISTER)) {
-            return $this->serializer->deserialize(
-                $session->get(self::SESSION_KEY_COMPETITION_REGISTER),
-                Registration::class,
-                'json'
-            );
-        }
-
-        return new Registration();
-    }
-
-    private function serializeRegisterArcher(Session $session, Registration $registerDepartureTargetArcher): void
-    {
-        $session->set(
-            self::SESSION_KEY_COMPETITION_REGISTER,
-            $this->serializer->serialize($registerDepartureTargetArcher, 'json')
-        );
     }
 
     #[Route(
@@ -68,10 +42,8 @@ final class CompetitionRegisterController extends AbstractController
         name: self::ROUTE_LANDING_COMPETITION_REGISTER,
         methods: [Request::METHOD_GET]
     )]
-    public function base(Session $session, CompetitionRegister $competitionRegister): Response
+    public function base(CompetitionRegister $competitionRegister): Response
     {
-        $session->remove(self::SESSION_KEY_COMPETITION_REGISTER);
-
         return $this->redirectToRoute(self::ROUTE_LANDING_COMPETITION_REGISTER_ARCHER, [
             'slug' => $competitionRegister->getSlug()
         ]);
@@ -82,41 +54,9 @@ final class CompetitionRegisterController extends AbstractController
         name: self::ROUTE_LANDING_COMPETITION_REGISTER_ARCHER,
         methods: [Request::METHOD_GET, Request::METHOD_POST]
     )]
-    public function archer(Request $request, Session $session, CompetitionRegister $competitionRegister): Response
+    public function archer(Request $request, CompetitionRegister $competitionRegister): Response
     {
-        $register = $this->deserializeRegisterArcher($session);
-
-        $form = $this->createForm(CompetitionRegisterDepartureTargetArcherForm::class, $register);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->serializeRegisterArcher($session, $register);
-
-            return $this->redirectToRoute(self::ROUTE_LANDING_COMPETITION_REGISTER_DEPARTURE, [
-                'slug' => $competitionRegister->getSlug()
-            ]);
-        }
-
-        return $this->render('/landing/competition-registers/archer.html.twig', [
-            'competitionRegister' => $competitionRegister,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    #[Route(
-        '/inscription-concours/{slug}/tir',
-        name: self::ROUTE_LANDING_COMPETITION_REGISTER_DEPARTURE,
-        methods: [Request::METHOD_GET, Request::METHOD_POST]
-    )]
-    public function departure(Request $request, Session $session, CompetitionRegister $competitionRegister): Response
-    {
-        if (!$session->has(self::SESSION_KEY_COMPETITION_REGISTER)) {
-            return $this->redirectToRoute(self::ROUTE_LANDING_COMPETITION_REGISTER_ARCHER, [
-                'slug' => $competitionRegister->getSlug()
-            ]);
-        }
-
-        $register = $this->deserializeRegisterArcher($session);
+        $register = new Registration();
 
         $form = $this->createForm(CompetitionRegisterDepartureTargetArcherForm::class, $register, [
             'competitionRegister' => $competitionRegister,
@@ -128,8 +68,6 @@ final class CompetitionRegisterController extends AbstractController
             try {
                 $this->competitionRegisterManager->handleSubmitForm($form, $competitionRegister, $register);
 
-                $session->remove(self::SESSION_KEY_COMPETITION_REGISTER);
-
                 return $this->redirectToRoute(self::ROUTE_LANDING_COMPETITION_REGISTER_VALIDATED, [
                     'slug' => $competitionRegister->getSlug(),
                     'licenseNumber' => $register->getLicenseNumber(),
@@ -139,7 +77,7 @@ final class CompetitionRegisterController extends AbstractController
             }
         }
 
-        return $this->render('/landing/competition-registers/departure.html.twig', [
+        return $this->render('/landing/competition-registers/archer.html.twig', [
             'competitionRegister' => $competitionRegister,
             'form' => $form->createView(),
         ]);
@@ -159,7 +97,7 @@ final class CompetitionRegisterController extends AbstractController
             ->findByCompetitionRegisterAndLicenseNumber($competitionRegister, $licenseNumber);
 
         if (!$registrations) {
-            return $this->redirectToRoute(self::ROUTE_LANDING_COMPETITION_REGISTER_DEPARTURE, [
+            return $this->redirectToRoute(self::ROUTE_LANDING_COMPETITION_REGISTER_ARCHER, [
                 'slug' => $competitionRegister->getSlug(),
             ]);
         }
@@ -190,7 +128,7 @@ final class CompetitionRegisterController extends AbstractController
         if (!$registrations) {
             $this->addFlash('success', 'Vous n\'avez rien à payer');
 
-            return $this->redirectToRoute(self::ROUTE_LANDING_COMPETITION_REGISTER_DEPARTURE, [
+            return $this->redirectToRoute(self::ROUTE_LANDING_COMPETITION_REGISTER_ARCHER, [
                 'slug' => $competitionRegister->getSlug(),
             ]);
         }

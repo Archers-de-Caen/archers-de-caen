@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Competition\Config;
 
-use App\Infrastructure\Config\Enum;
+
 use ValueError;
 
-enum Type: string implements Enum
+enum Type: string
 {
     case INDOOR_2x18_M = 'indoor_2_x_18_m';
     case INDOOR_4x18_M = 'indoor_4_x_18_m';
@@ -29,6 +29,7 @@ enum Type: string implements Enum
     case GOLDEN_APPLE_CHALLENGE = 'golden_apple_challenge';
     case PROMOTIONAL = 'promotional';
     case SPECIAL_YOUNG = 'special_young';
+    case ROSE_TROPHY = 'rose_trophy';
 
     public function toString(): string
     {
@@ -53,6 +54,7 @@ enum Type: string implements Enum
             self::GOLDEN_APPLE_CHALLENGE => 'Challenge de la Pomme d\'Or',
             self::PROMOTIONAL => 'Promotionnel',
             self::SPECIAL_YOUNG => 'Spécial jeune',
+            self::ROSE_TROPHY => 'Trophée des Roses',
         };
     }
 
@@ -79,15 +81,8 @@ enum Type: string implements Enum
             self::GOLDEN_APPLE_CHALLENGE => self::GOLDEN_APPLE_CHALLENGE->value,
             self::PROMOTIONAL => self::PROMOTIONAL->value,
             self::SPECIAL_YOUNG => self::SPECIAL_YOUNG->value,
+            self::ROSE_TROPHY => self::ROSE_TROPHY->value,
         };
-    }
-
-    public static function toChoices(): array
-    {
-        return array_combine(
-            array_map(static fn (self $type) => $type->toString(), self::cases()),
-            array_map(static fn (self $type) => $type->toArrayValue(), self::cases())
-        );
     }
 
     public static function toChoicesWithEnumValue(): array
@@ -122,6 +117,7 @@ enum Type: string implements Enum
             strtolower('TAE National') => self::OUTDOOR_NATIONAL,
             strtolower('Challenge de la Pomme d\'Or') => self::GOLDEN_APPLE_CHALLENGE,
             strtolower('Promotionnel') => self::PROMOTIONAL,
+            strtolower('Trophée des Roses') => self::ROSE_TROPHY,
 
             default => throw new ValueError($type.' not found'),
         };
@@ -153,6 +149,7 @@ enum Type: string implements Enum
             self::GOLDEN_APPLE_CHALLENGE,
             self::PROMOTIONAL,
             self::SPECIAL_YOUNG,
+            self::ROSE_TROPHY,
         ];
     }
 }

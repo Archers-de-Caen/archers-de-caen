@@ -126,19 +126,19 @@ final class CompetitionController extends AbstractController
         $recordCount = 0;
         $podiumCount = 0;
 
-        foreach (Weapon::toChoices() as $WeaponToString => $weapon) {
-            foreach (Category::toChoices() as $categoryToString => $category) {
+        foreach (Weapon::cases() as $weaponToString => $weapon) {
+            foreach (Category::cases() as $categoryToString => $category) {
                 foreach ($competition->getResults() as $result) {
                     if (
-                        $categoryToString === $result->getCategory()?->toString() &&
-                        $WeaponToString === $result->getWeapon()?->toString()
+                        $categoryToString === $result->getCategory()?->value &&
+                        $weaponToString === $result->getWeapon()?->value
                     ) {
-                        if (!isset($results[$WeaponToString])) {
-                            $results[$WeaponToString] = [];
+                        if (!isset($results[$weaponToString])) {
+                            $results[$weaponToString] = [];
                         }
 
-                        if (!isset($results[$WeaponToString][$categoryToString])) {
-                            $results[$WeaponToString][$categoryToString] = [];
+                        if (!isset($results[$weaponToString][$categoryToString])) {
+                            $results[$weaponToString][$categoryToString] = [];
                         }
 
                         if (($archer = $result->getArcher()) && !in_array($archer, $participants, true)) {
@@ -153,7 +153,7 @@ final class CompetitionController extends AbstractController
                             ++$podiumCount;
                         }
 
-                        $results[$WeaponToString][$categoryToString][] = $result;
+                        $results[$weaponToString][$categoryToString][] = $result;
                     }
                 }
             }
@@ -200,7 +200,7 @@ final class CompetitionController extends AbstractController
             }
 
             $type = $competition->getType()?->toString();
-            $weapon = $resultRecord->getWeapon()?->toString();
+            $weapon = $resultRecord->getWeapon()?->value;
             $archer = $resultRecord->getArcher()?->getId()?->__toString();
 
             if (!$type || !$weapon || !$archer) {

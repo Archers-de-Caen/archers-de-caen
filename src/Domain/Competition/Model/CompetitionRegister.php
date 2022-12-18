@@ -50,6 +50,12 @@ class CompetitionRegister
     #[Slug(fields: ['slug'], unique: true)]
     private ?string $slug = null;
 
+    /**
+     * Nombre d'archers dans l'équipe
+     */
+    #[ORM\Column(type: Types::SMALLINT, options: ['default' => 1])]
+    private ?int $byTeam = 1;
+
     public function __toString(): string
     {
         return sprintf(
@@ -179,5 +185,17 @@ class CompetitionRegister
     public function autoSetSlug(): void
     {
         $this->slug = $this->__toString();
+    }
+
+    public function isByTeam(): ?int
+    {
+        return $this->byTeam;
+    }
+
+    public function setByTeam(?int $byTeam): self
+    {
+        $this->byTeam = $byTeam;
+
+        return $this;
     }
 }

@@ -16,60 +16,102 @@
         </p>
 
         {{ form_start(form, {attr: {class: 'mt-4'}}) }}
+            {{ form_errors(form) }}
+
             {{ form_row(form._token) }}
 
-            {{ form_row(form.licenseNumber) }}
-
-            <div id="archer-already-exist">
-                <div class="border --rounded p-3">
-                    <div class="flex jc-space-between">
-                        <p class="text-large text-bold" id="archer-name"></p>
-                        <i class="fa-solid fa-edit cursor-pointer" id="edit-archer"></i>
+            <div class="toggleables">
+                <div class="toggleable --active">
+                    <div class="toggleable-summary">
+                        <h4>Nouvelle inscription</h4>
+                        <span></span>
                     </div>
-                    <p class="mt-2" id="archer-contact"></p>
-                    <p class="mt-2" id="archer-category"></p>
-                    <p id="archer-club"></p>
+                    <div class="toggleable-content">
+                        {{ form_row(form.licenseNumber) }}
+
+                        <div class="mt-2">
+                            <div class="flex jc-space-between">
+                                {{ form_row(form.firstName) }}
+                                {{ form_row(form.lastName) }}
+                            </div>
+
+                            <div class="form-groups">
+                                <div class="form-group">
+                                    {{ form_label(form.gender) }}
+                                    <div class="flex jc-space-between w-100">
+                                        {% for gender in form.gender %}
+                                            {{ form_row(gender, { row_attr: { class: '--btn' } }) }}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex jc-space-between">
+                                {{ form_row(form.email) }}
+                                {{ form_row(form.phone) }}
+                            </div>
+
+                            {{ form_row(form.category) }}
+
+                            <div class="form-groups">
+                                <div class="form-group">
+                                    {{ form_label(form.weapon) }}
+                                    <div class="flex jc-space-between w-100 --gap-2">
+                                        {% for weapon in form.weapon %}
+                                            {{ form_row(weapon, { row_attr: { class: '--btn' } }) }}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="">
+                                {{ form_row(form.club) }}
+                            </div>
+
+                            {{ form_row(form.wheelchair, { row_attr: { class: '--check' } }) }}
+                            {{ form_row(form.firstYear, { row_attr: { class: '--check' } }) }}
+                        </div>
+
+                        <div class="form-groups mt-4">
+                            <h3>Sélectionner le ou les départs que vous voulez faire</h3>
+
+                            {% for departure in competitionRegister.departures %}
+                                <div class="form-group --check --btn {% if not loop.first %}mt-4{% endif %} departures">
+                                    {% set dateId = departure.date|date('Y-m-d-H-i') %}
+
+                                    <input
+                                        type="checkbox"
+                                        id="{{ dateId }}"
+                                        name="date"
+                                        {% if form[departure.id ~ '-targets'].vars.value %}checked{% endif%}
+                                    />
+                                    <label for="{{ dateId }}">
+                                        Départ du {{ departure.date|date('d/m/Y à G\\hi') }}
+                                        ({{ departure.registration }} inscrits / {{ departure.maxRegistration }})
+                                    </label>
+                                </div>
+
+                                <div class="form-groups targets">
+                                    {% for target in form[departure.id ~ '-targets'] %}
+                                        {{ form_row(target, { row_attr: { class: '--btn' } }) }}
+                                    {% endfor %}
+
+                                    {{ form_errors(form[departure.id ~ '-targets']) }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div id="archer" class="mt-2">
-                <div class="flex jc-space-between">
-                    {{ form_row(form.firstName) }}
-                    {{ form_row(form.lastName) }}
-                </div>
+            <button class="btn w-100 mt-2 text-center" type="button">
+                Ajouter un archer
+            </button>
 
-                <div class="form-groups">
-                    <div class="form-group">
-                        {{ form_label(form.gender) }}
-                        <div class="flex jc-space-between w-100">
-                            {% for gender in form.gender %}
-                                {{ form_row(gender, { row_attr: { class: '--btn' } }) }}
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
+            <div class="form-groups mt-4">
+                <h3>Information complémentaire</h3>
 
-                <div class="flex jc-space-between">
-                    {{ form_row(form.email) }}
-                    {{ form_row(form.phone) }}
-                </div>
-
-                {{ form_row(form.category) }}
-
-                <div class="form-groups">
-                    <div class="form-group">
-                        {{ form_label(form.weapon) }}
-                        <div class="flex jc-space-between w-100 --gap-2">
-                            {% for weapon in form.weapon %}
-                                {{ form_row(weapon, { row_attr: { class: '--btn' } }) }}
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="">
-                    {{ form_row(form.club) }}
-                </div>
+                {{ form_row(form.additionalInformation) }}
             </div>
 
             <div id="submit-container" class="mt-2 flex jc-end">
@@ -83,92 +125,48 @@
 {% block javascript_footer %}
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            function translateGender(gender) {
-                switch (gender) {
-                    case 'man': return 'M. '
-                    case 'woman': return 'Mme. '
-                }
-
-                return ''
-            }
-
-            function translateCategory(category) {
-                switch (category.replace(/_man|_woman/, '')) {
-                    case 'peewee' : return 'Poussin'
-                    case 'cub' : return 'Minime'
-                    case 'benjamin' : return 'Benjamin'
-                    case 'cadet' : return 'Cadet'
-                    case 'junior' : return 'Junior'
-                    case 'senior_one' : return 'Senior 1'
-                    case 'senior_two' : return 'Senior 2'
-                    case 'senior_three' : return 'Senior 3'
-                }
-
-                return ''
-            }
-
-            function setArcherInputValue(selector, value) {
-                const input = document.querySelector(archerFormPrefix + selector)
+            function setArcherInputValue(container, selector, value) {
+                const input = container.querySelector(archerFormPrefix + selector)
 
                 if (input) {
                     input.value = value
                 }
             }
 
-            function handleLicenseInput(target) {
-                if (target.value && target.value.match(/\d{6}[a-zA-Z]/g)) {
-                    fetch('/api/competition-registers/archers/' + target.value)
+            function handleLicenseInput(licenseNumber) {
+                const container = licenseNumber.closest('.toggleable-content')
+
+                if (licenseNumber.value && licenseNumber.value.match(/\d{6}[a-zA-Z]/g)) {
+                    fetch('/api/competition-registers/archers/' + licenseNumber.value)
                         .then((response) => {
                             if (200 === response.status) {
                                 return response.json()
                             }
-
-                            show(archerContainer)
-                            hide(archerAlreadyExistContainer)
                         })
                         .then((body) => {
                             if (body) {
-                                setArcherInputValue('firstName', body.firstName)
-                                setArcherInputValue('lastName', body.lastName)
-                                setArcherInputValue('club', body.club)
+                                setArcherInputValue(container, 'firstName', body.firstName)
+                                setArcherInputValue(container, 'lastName', body.lastName)
+                                setArcherInputValue(container, 'club', body.club)
+                                setArcherInputValue(container, 'email', body.email)
+                                setArcherInputValue(container, 'phone', body.phone)
 
-                                const genderInput = document.querySelector(`input[name="competition_register_departure_target_archer_form[gender]"][data-gender="${body.gender}"]`)
+                                const genderInput = document.querySelector(`input[name="competition_register_departure_target_archer_form[gender]"][value="${body.gender}"]`)
                                 if (genderInput) {
                                     genderInput.checked = true
                                 }
 
-                                const categorySelect = document.querySelector(`input[name="competition_register_departure_target_archer_form[category]"]`)
+                                const categorySelect = document.querySelector(`select[name="competition_register_departure_target_archer_form[category]"]`)
                                 if (categorySelect) {
-                                    const categoryOption = categorySelect.querySelector(`[data-gender="${body.category}"]`)
+                                    const categoryOption = categorySelect.querySelector(`[value="${body.category}"]`)
 
                                     categorySelect.value = categoryOption.value
                                 }
-
-                                if (body.firstName && body.lastName && body.email && body.phone && body.club && body.category && body.gender) {
-                                    hide(archerContainer)
-                                    show(archerAlreadyExistContainer)
-
-                                    archerAlreadyExistContainer.querySelector('#edit-archer').addEventListener('click', () => {
-                                        show(archerContainer)
-                                        hide(archerAlreadyExistContainer)
-                                    })
-
-                                    archerAlreadyExistContainer.querySelector('#archer-name').innerText = translateGender(body.gender) + body.firstName + '' + body.lastName
-                                    archerAlreadyExistContainer.querySelector('#archer-contact').innerText = body.email + ' | ' + body.phone
-                                    archerAlreadyExistContainer.querySelector('#archer-category').innerText = translateCategory(body.category)
-                                    archerAlreadyExistContainer.querySelector('#archer-club').innerText = body.club
-                                } else {
-                                    show(archerContainer)
-                                    hide(archerAlreadyExistContainer)
-                                }
                             } else {
-                                show(archerContainer)
-                                hide(archerAlreadyExistContainer)
-
-                                setArcherInputValue('firstName', null)
-                                setArcherInputValue('lastName', null)
-                                setArcherInputValue('club', null)
-                                setArcherInputValue('category', null)
+                                setArcherInputValue(container, 'firstName', null)
+                                setArcherInputValue(container, 'lastName', null)
+                                setArcherInputValue(container, 'club', null)
+                                setArcherInputValue(container, 'category', null)
                             }
                         })
                         .finally(() => {
@@ -187,8 +185,6 @@
                 })
             }
 
-            const archerContainer = document.querySelector('#archer')
-            const archerAlreadyExistContainer = document.querySelector('#archer-already-exist')
             const submitContainer = document.querySelector('#submit-container')
 
             const archerFormPrefix = '#competition_register_departure_target_archer_form_'
@@ -198,8 +194,6 @@
             let typingTimer
             const doneTypingInterval = 500
 
-            hide(archerContainer)
-            hide(archerAlreadyExistContainer)
             hide(submitContainer)
 
             licenseInput.addEventListener('input', (e) => {
@@ -227,9 +221,33 @@
             })
 
             if (licenseInput.value) {
-                show(archerContainer)
                 show(submitContainer, 'flex')
             }
+
+            document.querySelectorAll('.targets').forEach(target => {
+                hide(target)
+            })
+
+            document.querySelectorAll('input[name=date]').forEach(input => {
+                if (input.checked) {
+                    show(input.closest('.departures').nextElementSibling)
+                }
+
+                input.addEventListener('change', (e) => {
+                    const target = e.currentTarget
+                    const targets = target.closest('.departures').nextElementSibling
+
+                    if (target.checked) {
+                        show(targets)
+                    } else {
+                        hide(targets)
+
+                        targets.querySelectorAll('input').forEach((radio) => {
+                            radio.checked = false
+                        })
+                    }
+                })
+            })
 
             document.querySelector('#see-recap').addEventListener('click', (e) => {
                 e.preventDefault()

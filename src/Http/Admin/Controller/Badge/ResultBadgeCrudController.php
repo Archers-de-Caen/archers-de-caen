@@ -28,6 +28,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 
 abstract class ResultBadgeCrudController extends AbstractCrudController
 {
@@ -46,7 +47,9 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
     {
         return $crud
             ->setPageTitle(Crud::PAGE_DETAIL, fn (ResultBadge $resultBadge) => (string) $resultBadge)
-            ->setPageTitle(Crud::PAGE_EDIT, fn (ResultBadge $resultBadge) => sprintf('Edition de l\'archer <b>%s</b>', $resultBadge))
+            ->setPageTitle(Crud::PAGE_EDIT, function (ResultBadge $resultBadge) {
+                return sprintf('Edition de l\'archer <b>%s</b>', $resultBadge);
+            })
             ->setDefaultSort(['completionDate' => 'DESC'])
         ;
     }
@@ -62,8 +65,12 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
             );
     }
 
-    public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
-    {
+    public function createIndexQueryBuilder(
+        SearchDto $searchDto,
+        EntityDto $entityDto,
+        FieldCollection $fields,
+        FilterCollection $filters
+    ): QueryBuilder {
         return $this->entityRepository->createQueryBuilder($searchDto, $entityDto, $fields, $filters)
             ->join('entity.badge', 'badge')
             ->andWhere(sprintf("badge.type = '%s'", $this->badgeType))
@@ -91,28 +98,34 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
         $score = IntegerField::new('score');
         $completionDate = DateField::new('completionDate')
             ->setLabel('Date d\'obtention');
+
         $weapon = ChoiceField::new('weapon')
+            ->setChoices(Weapon::cases())
+            ->setFormType(EnumType::class)
+            ->setFormTypeOption('class', Weapon::class)
             ->setLabel('Arme');
+
         $category = ChoiceField::new('category')
+            ->setChoices(Category::cases())
+            ->setFormType(EnumType::class)
+            ->setFormTypeOption('class', Category::class)
             ->setLabel('Catégorie');
 
-        if (Crud::PAGE_NEW === $pageName || Crud::PAGE_EDIT === $pageName) {
-            $weapon->setChoices(Weapon::toChoicesWithEnumValue());
-            $category->setChoices(Category::toChoicesWithEnumValue());
-        } else {
-            $category->setChoices(
-                array_combine(
-                    array_map(static fn (Category $category) => $category->toString(), Category::cases()),
-                    array_map(static fn (Category $category) => $category->value, Category::cases())
-                )
-            ); // TODO : provisoire le temps que le bundle EasyAdmin ce met a jours
+        /**
+         * Todo: https://github.com/EasyCorp/EasyAdminBundle/pull/4988
+         */
+        if (in_array($pageName, [Crud::PAGE_INDEX, Crud::PAGE_DETAIL], true)) {
+            $category->setChoices(array_reduce(
+                Category::cases(),
+                static fn (array $choices, Category $category) => $choices + [$category->name => $category->value],
+                [],
+            ));
 
-            $weapon->setChoices(
-                array_combine(
-                    array_map(static fn (Weapon $weapon) => $weapon->toString(), Weapon::cases()),
-                    array_map(static fn (Weapon $weapon) => $weapon->value, Weapon::cases())
-                )
-            ); // TODO : provisoire le temps que le bundle EasyAdmin ce met a jours
+            $weapon->setChoices(array_reduce(
+                Weapon::cases(),
+                static fn (array $choices, Weapon $weapon) => $choices + [$weapon->name => $weapon->value],
+                [],
+            ));
         }
 
         if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {

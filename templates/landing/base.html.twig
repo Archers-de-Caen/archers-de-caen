@@ -1,7 +1,7 @@
 {% from 'landing/_parts/social-networks.html.twig' import socialNetwork %}
 <!-- Site réalisé par Damien HEBERT damienhebert.fr -->
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ app.request.locale|split('_')[0] }}">
     <head>
         <title>{% block title %}{% endblock %}{% if block('title') %} | {% endif %}Les Archers de Caen</title>
 
@@ -13,6 +13,9 @@
 
         <!-- Permet d'afficher des preview de média, ajouté via ckeditor -->
         <script async charset="utf-8" src="//cdn.embedly.com/widgets/platform.js"></script>
+
+        <!-- Translation -->
+        <script src="{{ path(constant('App\\Http\\Landing\\Controller\\TranslationController::ROUTE_TRANSLATION')) }}"></script>
 
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}

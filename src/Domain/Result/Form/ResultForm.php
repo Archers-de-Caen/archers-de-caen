@@ -20,9 +20,10 @@ abstract class ResultForm extends AbstractType
     {
         $builder
             ->add('category', EnumType::class, [
+                'translation_domain' => 'archer',
                 'class' => Category::class,
                 'label' => 'Catégorie',
-                'choice_label' => static fn (Category $category) => $category->toString(),
+                'choice_label' => static fn (Category $category) => $category->value,
             ])
             ->add('rank', IntegerType::class, [
                 'label' => 'Classement',
@@ -32,9 +33,10 @@ abstract class ResultForm extends AbstractType
                 'label' => 'Score',
             ])
             ->add('weapon', EnumType::class, [
+                'translation_domain' => 'archer',
                 'class' => Weapon::class,
                 'label' => 'Arme',
-                'choice_label' => static fn (Weapon $weapon) => $weapon->toString(),
+                'choice_label' => static fn (Weapon $weapon) => $weapon->value,
                 'required' => true,
             ])
             ->add('completionDate', DateType::class, [

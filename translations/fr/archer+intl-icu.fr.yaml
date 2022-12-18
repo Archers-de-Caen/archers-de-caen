@@ -1,0 +1,38 @@
+peewee: Poussin (U11)
+cub: Minime (U13)
+benjamin: Benjamin (U15)
+cadet: Cadet (U18)
+junior: Junior (U21)
+senior_one: Senior 1
+senior_two: Senior 2
+senior_three: Senior 3
+
+man: >-
+  { short, select,
+      true {M.}
+      empty {Homme}
+      other {Homme}
+  }
+woman: >-
+  { short, select,
+      true {Mme.}
+      empty {Femme}
+      other {Femme}
+  }
+other: Autre
+undefined: Non défini
+
+License number: Numéro de licence
+First name: Prénom
+Last name: Nom
+Gender: Genre
+Phone: Téléphone
+Email: Email
+Category: Catégorie
+Club: Club
+Weapon: Arme
+Wheelchair: Tir en fauteuil roulant
+
+recurve_bow: Arc Classique
+compound_bow: Arc à Poulies
+bare_bow: Arc nu
