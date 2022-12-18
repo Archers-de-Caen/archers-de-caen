@@ -36,7 +36,11 @@ class CompetitionRegister
     /**
      * @var Collection<int, CompetitionRegisterDeparture>
      */
-    #[ORM\OneToMany(mappedBy: 'competitionRegister', targetEntity: CompetitionRegisterDeparture::class, cascade: ['ALL'])]
+    #[ORM\OneToMany(
+        mappedBy: 'competitionRegister',
+        targetEntity: CompetitionRegisterDeparture::class,
+        cascade: ['ALL']
+    )]
     private Collection $departures;
 
     #[ORM\OneToOne(targetEntity: Document::class, cascade: ['ALL'])]
