@@ -1,12 +1,39 @@
+<h3>Version simple</h3>
 <div class="toggleables">
     {% for i in range(1, 5) %}
         <div class="toggleable">
-            <h3 class="toggleable-summary">Reque verear detraxit tortor tantas option</h3>
-            <p class="toggleable-content">
-                Populo consetetur in ponderum mus nullam nibh dis lectus. Legere morbi interesset mediocritatem facilisi.
-                Cu vestibulum nullam novum similique latine instructior fames sociosqu.
-                Feugiat delectus vocibus nibh consectetuer nostra orci diam. Commodo mazim iusto liber maecenas.
-            </p>
+            <div class="toggleable-summary">
+                <h4>Reque verear detraxit tortor tantas option</h4>
+            </div>
+            <div class="toggleable-content">
+                <p>
+                    Populo consetetur in ponderum mus nullam nibh dis lectus. Legere morbi interesset mediocritatem facilisi.
+                    Cu vestibulum nullam novum similique latine instructior fames sociosqu.
+                    Feugiat delectus vocibus nibh consectetuer nostra orci diam. Commodo mazim iusto liber maecenas.
+                </p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<h3 class="mt-4">Version complexe</h3>
+<div class="toggleables">
+    {% for i in range(1, 5) %}
+        <div class="toggleable">
+            <div class="toggleable-summary">
+                <div class="flex jc-space-left">
+                    <div class="flex item-center">
+                        test
+                    </div>
+                    <div class="ml-2">
+                        <h4>Reque verear detraxit tortor tantas option</h4>
+                        <span>Legere morbi interesset mediocritatem facilisi.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="toggleable-content">
+                {% include 'landing/style-guide/_form.html.twig' %}
+            </div>
         </div>
     {% endfor %}
 </div>

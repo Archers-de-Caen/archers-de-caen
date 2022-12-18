@@ -1,8 +1,12 @@
 <div class="toggleables">
     {% for faq in faqs.content %}
         <div class="toggleable">
-            <h3 class="toggleable-summary">{{ faq.question }}</h3>
-            <div class="toggleable-content">{{ faq.answer|raw }}</div>
+            <div class="toggleable-summary">
+                <h3>{{ faq.question }}</h3>
+            </div>
+            <div class="toggleable-content">
+                <p>{{ faq.answer|raw }}</p>
+            </div>
         </div>
     {% endfor %}
 </div>
