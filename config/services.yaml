@@ -8,6 +8,7 @@ parameters:
     router.request_context.host: '%env(SITE_BASE_HOST)%'
 
     email: "contact@archers-caen.fr"
+    email_site: "site@archers-caen.fr"
     phone: "+33 6 67 45 31 14"
     postal_address: "Avenue Albert 1er, 14000 Caen"
 
@@ -26,6 +27,7 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $email: '%email%'
+            $emailSite: '%email_site%'
             $phone: '%phone%'
             $postalAddress: '%postal_address%'
             $env: '%kernel.environment%'
