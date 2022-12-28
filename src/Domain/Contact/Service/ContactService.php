@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Contact\Service;
 
+use App\Domain\Contact\Config\Subject;
 use App\Domain\Contact\Model\ContactRequest;
 use App\Domain\Contact\Repository\ContactRequestRepository;
 use App\Domain\Contact\TooManyContactException;
@@ -21,6 +22,7 @@ class ContactService
         private readonly EntityManagerInterface $em,
         private readonly MailerInterface $mailer,
         private readonly string $email,
+        private readonly string $emailSite,
         private readonly string $env
     ) {
     }
@@ -43,12 +45,17 @@ class ContactService
 
         $this->em->flush();
 
+        $email = $this->email;
+        if (Subject::WEB_SITE === $contactRequest->getSubject()) {
+            $email = $this->emailSite;
+        }
+
         $message = (new Email())
             ->text($contactRequest->getContent())
             ->subject("Site::Contact : {$contactRequest->getName()} : {$contactRequest->getSubject()->toString()}")
             ->from('noreply@archers-caen.fr')
             ->replyTo(new Address($contactRequest->getEmail(), $contactRequest->getName()))
-            ->to($this->email);
+            ->to($email);
 
         if ('prod' !== $this->env) {
             return;
