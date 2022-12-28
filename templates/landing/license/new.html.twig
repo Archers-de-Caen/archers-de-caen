@@ -1,9 +1,36 @@
 {% extends "/landing/base.html.twig" %}
 
+{% from 'landing/_parts/file.html.twig' import file %}
+
 {% block title %}Prendre une licence{% endblock %}
 
 {% block main %}
-    <p>
-        Il n'est actuellement pas possible de prendre une licence via le site, nous vous invitons à le faire au club.
-    </p>
+    <h2>À savoir avant de prendre votre licence</h2>
+    <ul class="disc">
+        <li>Vous devez nous fournir la fiche d'adhésion via le formulaire ci-dessous.</li>
+        <li>Si après avoir rempli le questionnaire de santé, vous devez nous fournir un certificat médical, merci de nous
+            le présenter au club, sans celui-ci, nous ne pourrons pas réaliser l'inscription auprès de la FFTA.</li>
+        <li>Le certificat médical doit avoir la mention "Pratique de l'activité en competition."
+            (même pour les 1<sup>ere</sup> années)</li>
+        <li>Les cotisations comprennent le montant de la licence Fédération Française de Tir à l’Arc (FFTA),
+            les parts Comité Régional, Comité Départemental et Club des Archers de Caen.</li>
+        <li>Si vous voulez prendre le "Kit de l'archer" mais vous ne désirez pas le payer en même temps que votre licence,
+            vous aurez la possibilité de le payer plus tard au club ou via la boutique du site.</li>
+    </ul>
+
+    {% set document = documents|first %}
+
+    <div class="files mt-2">
+        {{ file(document['license_form'], 'Fiche d\'adhésion') }}
+        {{ file(document['assurance'], 'Notice d\'assurance') }}
+        {{ file(document['health'], 'Questionnaire santé') }}
+    </div>
+
+    <iframe
+        src="https://www.helloasso.com/associations/archers-de-caen/adhesions/licence-1/widget"
+        class="mt-2"
+        style="width: 100%; height: 750px; border: none;"
+        title="Prise de Licence aux Archers de Caen"
+    >
+    </iframe>
 {% endblock main %}

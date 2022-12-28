@@ -48,7 +48,7 @@ class Document implements UploadableInterface
         mapping: 'document',
         fileNameProperty: 'documentName',
         size: 'documentSize',
-        mimeType: 'imageMimeType',
+        mimeType: 'documentMimeType',
         originalName: 'documentOriginalName',
     )]
     #[Assert\NotBlank]

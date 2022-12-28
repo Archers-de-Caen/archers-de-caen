@@ -1,5 +1,7 @@
 {% extends '/landing/base.html.twig' %}
 
+{% from 'landing/_parts/file.html.twig' import file %}
+
 {% block title %}La gazette{% endblock %}
 
 {% block main %}
@@ -22,13 +24,7 @@
 
         <div class="files mt-2">
             {% for newspaper in newspapers %}
-                <a class="file" href="{{ vich_uploader_asset(newspaper) }}" target="_blank">
-                    <span>
-                        <i class="fa-solid fa-file-pdf"></i>
-                        {{ newspaper.displayText }}
-                    </span>
-                    <i class="fa-solid fa-eye"></i>
-                </a>
+                {{ file(vich_uploader_asset(newspaper), newspaper.displayText) }}
             {% endfor %}
         </div>
     </div>

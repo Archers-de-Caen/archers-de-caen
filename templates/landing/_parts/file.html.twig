@@ -1,0 +1,9 @@
+{% macro file(url, title, fileIcon='file-pdf', target='_blank') %}
+    <a class="file" href="{{ url }}" target="{{ target }}">
+            <span>
+                <i class="fa-solid fa-{{ fileIcon }}"></i>
+                {{ title }}
+            </span>
+        <i class="fa-solid fa-eye"></i>
+    </a>
+{% endmacro %}

@@ -84,7 +84,9 @@ class AbstractPageCrudController extends AbstractCrudController
 
         $image = PhotoField::new('image')
             ->setLabel('Image')
-            ->setFormType(PhotoFormType::class);
+            ->setFormType(PhotoFormType::class)
+            ->setRequired(false)
+        ;
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $title, $status, $image, $createdAt];
