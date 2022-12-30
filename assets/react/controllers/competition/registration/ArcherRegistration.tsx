@@ -5,14 +5,26 @@ import Toggleable, {ToggleableProps, ToggleableState} from "@react/components/to
 import ToggleableSummary from "@react/components/toggleable/ToggleableSummary";
 import ToggleableContent from "@react/components/toggleable/ToggleableContent";
 import {Field} from "formik";
+import Swal from 'sweetalert2'
 
 interface ArcherRegistrationProps extends ToggleableProps {
-    count: number
+    count: number,
+    remove: Function
 }
 
 export default class extends Component<ArcherRegistrationProps, ToggleableState> {
     constructor(props) {
         super(props)
+    }
+
+    async removeArcher() {
+        await Swal.fire({
+            title: 'Êtes vous sûr ?',
+            confirmButtonText: 'Supprimer',
+            cancelButtonText: 'Annuler',
+            showCancelButton: true,
+            preConfirm: () => this.props.remove(this.props.count),
+        })
     }
 
     render() {
@@ -173,6 +185,16 @@ export default class extends Component<ArcherRegistrationProps, ToggleableState>
                             />
                         </FormGroup>
                     </FormGroups>
+
+                    <div className="w-100 flex jc-end">
+                        <button
+                            type="button"
+                            className="btn -danger"
+                            onClick={() => this.removeArcher()}
+                        >
+                            Supprimer
+                        </button>
+                    </div>
                 </ToggleableContent>
             </Toggleable>
         )
