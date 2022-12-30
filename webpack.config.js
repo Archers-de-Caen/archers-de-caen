@@ -1,6 +1,8 @@
 const Encore = require('@symfony/webpack-encore');
 const CKEditorWebpackPlugin = require( '@ckeditor/ckeditor5-dev-webpack-plugin' );
 const { styles } = require( '@ckeditor/ckeditor5-dev-utils' );
+const {TsconfigPathsPlugin} = require("tsconfig-paths-webpack-plugin");
+const path = require("path");
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -22,11 +24,11 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-    .addEntry('app', './assets/app.js')
-    .addEntry('admin', './assets/admin.js')
+    .addEntry('app', './assets/app.ts')
+    .addEntry('admin', './assets/admin.ts')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
-    // .enableStimulusBridge('./assets/controllers.json')
+    .enableStimulusBridge('./assets/controllers.json')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
@@ -59,10 +61,16 @@ Encore
     })
 
     .enableSassLoader()
-    .enableTypeScriptLoader()
 
-    // uncomment if you use React
-    //.enableReactPreset()
+    .enableTypeScriptLoader()
+    .addPlugin(new TsconfigPathsPlugin({
+        configFile: path.resolve(__dirname, './tsconfig.json'),
+    }))
+    .addAliases({
+        '@react': path.resolve(__dirname, "assets/react/")
+    })
+
+    .enableReactPreset()
 
     // uncomment to get integrity="..." attributes on your script & link tags
     // requires WebpackEncoreBundle 1.4 or higher

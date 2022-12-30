@@ -20,15 +20,18 @@ function addEventListenerOnToggleableElement(toggleable: Element) {
   })
 }
 
-document.querySelectorAll('.toggleable').forEach(addEventListenerOnToggleableElement)
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.toggleable').forEach(addEventListenerOnToggleableElement)
 
-const observer = new MutationObserver((mutations: MutationRecord[]) => {
+  const observer = new MutationObserver((mutations: MutationRecord[]) => {
 
-  /** @var mutations est un tableau des changements du dom */
-  mutations.forEach(function (mutation: MutationRecord) {
-    if (mutation.addedNodes.length) {
+    /** @var mutations est un tableau des changements du dom */
+    mutations.forEach((mutation: MutationRecord) => {
+      if (!mutation.addedNodes.length) {
+        return
+      }
+
       mutation.addedNodes.forEach((node: Node) => {
-
         if (!(node instanceof Element)) {
           return
         }
@@ -37,13 +40,13 @@ const observer = new MutationObserver((mutations: MutationRecord[]) => {
           addEventListenerOnToggleableElement(node)
         }
       })
-    }
+    })
   })
-})
 
 
 // On précise ici que l'observer ne veut observer que les éléments qui sont dans le body
-observer.observe(document.body, {
-  childList: true, // L’ajout ou la suppression des éléments enfants du nœud visé (incluant les nœuds de texte) sont à observer.
-  subtree: true // Les descendants du nœud visé sont également à observer.
+  observer.observe(document.body, {
+    childList: true, // L’ajout ou la suppression des éléments enfants du nœud visé (incluant les nœuds de texte) sont à observer.
+    subtree: true // Les descendants du nœud visé sont également à observer.
+  })
 })
