@@ -95,6 +95,7 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
             ])
             ->add('licenseNumber', TextType::class, [
                 'translation_domain' => 'archer',
+                //'' => true,
                 'attr' => [
                     'pattern' => '[0-9]{6}[A-Za-z]',
                     'placeholder' => '123456A',
@@ -139,10 +140,6 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
             ->add('firstYear', CheckboxType::class, [
                 'translation_domain' => 'competition_register',
                 'label_html' => true,
-                'required' => false,
-            ])
-            ->add('additionalInformation', TextareaType::class, [
-                'translation_domain' => 'competition_register',
                 'required' => false,
             ])
         ;
@@ -227,13 +224,6 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
                 $event->setData($registerArcher);
             }
         });
-
-        $builder->add('submit', SubmitType::class, [
-            'label' => 'Valider',
-            'attr' => [
-                'class' => 'btn -primary',
-            ],
-        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

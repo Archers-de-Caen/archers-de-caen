@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Landing\Controller;
 
 use App\Domain\Competition\Form\CompetitionRegisterDepartureTargetArcherForm;
+use App\Domain\Competition\Form\RegisterForm;
 use App\Domain\Competition\Manager\CompetitionRegisterManager;
 use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher as Registration;
@@ -58,7 +59,7 @@ final class CompetitionRegisterController extends AbstractController
     {
         $register = new Registration();
 
-        $form = $this->createForm(CompetitionRegisterDepartureTargetArcherForm::class, $register, [
+        $form = $this->createForm(RegisterForm::class, $register, [
             'competitionRegister' => $competitionRegister,
         ]);
 

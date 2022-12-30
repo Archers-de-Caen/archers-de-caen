@@ -20,91 +20,108 @@
 
             {{ form_row(form._token) }}
 
-            <div class="toggleables">
-                <div class="toggleable --active">
-                    <div class="toggleable-summary">
-                        <h4>Nouvelle inscription</h4>
-                        <span></span>
-                    </div>
-                    <div class="toggleable-content">
-                        {{ form_row(form.licenseNumber) }}
+            <div class="toggleables archers">
+                {% for registration in form.registrations %}
+                    <div class="toggleable --active">
+                        <div class="toggleable-summary">
+                            <h4>Nouvelle inscription</h4>
+                            <span></span>
+                        </div>
+                        <div class="toggleable-content">
+                            {{ form_row(registration.licenseNumber) }}
 
-                        <div class="mt-2">
-                            <div class="flex jc-space-between">
-                                {{ form_row(form.firstName) }}
-                                {{ form_row(form.lastName) }}
-                            </div>
+                            <div class="mt-2">
+                                <div class="flex jc-space-between">
+                                    {{ form_row(registration.firstName) }}
+                                    {{ form_row(registration.lastName) }}
+                                </div>
 
-                            <div class="form-groups">
-                                <div class="form-group">
-                                    {{ form_label(form.gender) }}
-                                    <div class="flex jc-space-between w-100">
-                                        {% for gender in form.gender %}
-                                            {{ form_row(gender, { row_attr: { class: '--btn' } }) }}
-                                        {% endfor %}
+                                <div class="form-groups">
+                                    <div class="form-group">
+                                        {{ form_label(registration.gender) }}
+                                        <div class="flex jc-space-between w-100">
+                                            {% for gender in registration.gender %}
+                                                {{ form_row(gender, { row_attr: { class: '--btn' } }) }}
+                                            {% endfor %}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="flex jc-space-between">
-                                {{ form_row(form.email) }}
-                                {{ form_row(form.phone) }}
-                            </div>
+                                <div class="flex jc-space-between">
+                                    {{ form_row(registration.email) }}
+                                    {{ form_row(registration.phone) }}
+                                </div>
 
-                            {{ form_row(form.category) }}
+                                {{ form_row(registration.category) }}
 
-                            <div class="form-groups">
-                                <div class="form-group">
-                                    {{ form_label(form.weapon) }}
-                                    <div class="flex jc-space-between w-100 --gap-2">
-                                        {% for weapon in form.weapon %}
-                                            {{ form_row(weapon, { row_attr: { class: '--btn' } }) }}
-                                        {% endfor %}
+                                <div class="form-groups">
+                                    <div class="form-group">
+                                        {{ form_label(registration.weapon) }}
+                                        <div class="flex jc-space-between w-100 --gap-2">
+                                            {% for weapon in registration.weapon %}
+                                                {{ form_row(weapon, { row_attr: { class: '--btn' } }) }}
+                                            {% endfor %}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="">
-                                {{ form_row(form.club) }}
-                            </div>
-
-                            {{ form_row(form.wheelchair, { row_attr: { class: '--check' } }) }}
-                            {{ form_row(form.firstYear, { row_attr: { class: '--check' } }) }}
-                        </div>
-
-                        <div class="form-groups mt-4">
-                            <h3>Sélectionner le ou les départs que vous voulez faire</h3>
-
-                            {% for departure in competitionRegister.departures %}
-                                <div class="form-group --check --btn {% if not loop.first %}mt-4{% endif %} departures">
-                                    {% set dateId = departure.date|date('Y-m-d-H-i') %}
-
-                                    <input
-                                        type="checkbox"
-                                        id="{{ dateId }}"
-                                        name="date"
-                                        {% if form[departure.id ~ '-targets'].vars.value %}checked{% endif%}
-                                    />
-                                    <label for="{{ dateId }}">
-                                        Départ du {{ departure.date|date('d/m/Y à G\\hi') }}
-                                        ({{ departure.registration }} inscrits / {{ departure.maxRegistration }})
-                                    </label>
+                                <div class="">
+                                    {{ form_row(registration.club) }}
                                 </div>
 
-                                <div class="form-groups targets">
-                                    {% for target in form[departure.id ~ '-targets'] %}
-                                        {{ form_row(target, { row_attr: { class: '--btn' } }) }}
-                                    {% endfor %}
+                                {{ form_row(registration.wheelchair, { row_attr: { class: '--check' } }) }}
+                                {{ form_row(registration.firstYear, { row_attr: { class: '--check' } }) }}
+                            </div>
 
-                                    {{ form_errors(form[departure.id ~ '-targets']) }}
-                                </div>
-                            {% endfor %}
+                            <div class="form-groups mt-4">
+                                <h3>Sélectionner le ou les départs que vous voulez faire</h3>
+
+                                {% for departure in competitionRegister.departures %}
+                                    <div class="form-group --check --btn {% if not loop.first %}mt-4{% endif %} departures">
+                                        {% set dateId = departure.date|date('Y-m-d-H-i') %}
+
+                                        <input
+                                            type="checkbox"
+                                            id="{{ dateId }}"
+                                            name="date"
+                                            {% if form[departure.id ~ '-targets'].vars.value %}checked{% endif%}
+                                        />
+                                        <label for="{{ dateId }}">
+                                            Départ du {{ departure.date|date('d/m/Y à G\\hi') }}
+                                            ({{ departure.registration }} inscrits / {{ departure.maxRegistration }})
+                                        </label>
+                                    </div>
+
+                                    <div class="form-groups targets">
+                                        {% for target in registration[departure.id ~ '-targets'] %}
+                                            {{ form_row(target, { row_attr: { class: '--btn' } }) }}
+                                        {% endfor %}
+
+                                        {{ form_errors(registration[departure.id ~ '-targets']) }}
+                                    </div>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% endfor %}
             </div>
 
-            <button class="btn w-100 mt-2 text-center" type="button">
+            {% set child = form.registrations.vars.prototype %}
+            <button
+                class="btn w-100 mt-2 text-center add-archer"
+                type="button"
+                data-prototype-license-number="{{ form_row(child.licenseNumber)|e('html_attr') }}"
+                data-prototype-first-name="{{ form_row(child.firstName)|e('html_attr') }}"
+                data-prototype-last-name="{{ form_row(child.lastName)|e('html_attr') }}"
+                data-prototype-gender="{{ form_row(child.gender)|e('html_attr') }}"
+                data-prototype-email="{{ form_row(child.email)|e('html_attr') }}"
+                data-prototype-phone="{{ form_row(child.phone)|e('html_attr') }}"
+                data-prototype-category="{{ form_row(child.category)|e('html_attr') }}"
+                data-prototype-weapon="{{ form_row(child.weapon)|e('html_attr') }}"
+                data-prototype-club="{{ form_row(child.club)|e('html_attr') }}"
+                data-prototype-wheelchair="{{ form_row(child.wheelchair)|e('html_attr') }}"
+                data-prototype-first-year="{{ form_row(child.firstYear)|e('html_attr') }}"
+            >
                 Ajouter un archer
             </button>
 
@@ -188,7 +205,7 @@
             const submitContainer = document.querySelector('#submit-container')
 
             const archerFormPrefix = '#competition_register_departure_target_archer_form_'
-            const licenseInput = document.querySelector(archerFormPrefix + 'licenseNumber')
+            const licensesInput = document.querySelector(archerFormPrefix + 'licenseNumber')
             const genderInputs = document.querySelectorAll('input[name="competition_register_departure_target_archer_form[gender]"]')
 
             let typingTimer
@@ -196,23 +213,27 @@
 
             hide(submitContainer)
 
-            licenseInput.addEventListener('input', (e) => {
-                const target = e.currentTarget
-
-                clearTimeout(typingTimer)
-
-                typingTimer = setTimeout(() => {
-                    handleLicenseInput(target)
-                }, doneTypingInterval)
-            })
-
-            genderInputs.forEach((genderInput) => {
-                genderInput.addEventListener('input', (e) => {
+            if (licensesInput) {
+                licensesInput.addEventListener('input', (e) => {
                     const target = e.currentTarget
 
-                    handleGenderInput(target)
+                    clearTimeout(typingTimer)
+
+                    typingTimer = setTimeout(() => {
+                        handleLicenseInput(target)
+                    }, doneTypingInterval)
                 })
-            })
+            }
+
+            if (genderInputs) {
+                genderInputs.forEach((genderInput) => {
+                    genderInput.addEventListener('input', (e) => {
+                        const target = e.currentTarget
+
+                        handleGenderInput(target)
+                    })
+                })
+            }
 
             document.querySelectorAll('option[data-gender]').forEach((option) => {
                 hide(option)
@@ -220,7 +241,7 @@
                 option.textContent = option.textContent.replace(/Homme|Femme/, '')
             })
 
-            if (licenseInput.value) {
+            if (licensesInput && licensesInput.value) {
                 show(submitContainer, 'flex')
             }
 
@@ -247,6 +268,94 @@
                         })
                     }
                 })
+            })
+
+            document.querySelector('.add-archer').addEventListener('click', (e) => {
+                const target = e.currentTarget
+
+                document.querySelector('.archers').insertAdjacentHTML('beforeend', `
+                    <div class="toggleable --active">
+                        <div class="toggleable-summary">
+                            <h4>Nouvelle inscription</h4>
+                            <span></span>
+                        </div>
+                        <div class="toggleable-content">
+                            ${target.dataset.prototypeLicenseNumber}
+
+                            <div class="mt-2">
+                                <div class="flex jc-space-between">
+                                    ${target.dataset.prototypeFirstName}
+                                    ${target.dataset.prototypeLastName}
+                                </div>
+
+                                <div class="form-groups">
+                                    <div class="form-group">
+    {#                                    {{ form_label(form.gender) }}#}
+                                        <div class="flex jc-space-between w-100">
+    {#                                        {% for gender in form.gender %}#}
+    {#                                            {{ form_row(gender, { row_attr: { class: '--btn' } }) }}#}
+    {#                                        {% endfor %}#}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex jc-space-between">
+                                    ${target.dataset.prototypeEmail}
+                                    ${target.dataset.prototypePhone}
+                                </div>
+
+                                ${target.dataset.prototypeCategory}
+
+                                <div class="form-groups">
+                                    <div class="form-group">
+    {#                                    {{ form_label(form.weapon) }}#}
+                                        <div class="flex jc-space-between w-100 --gap-2">
+    {#                                        {% for weapon in form.weapon %}#}
+    {#                                            {{ form_row(weapon, { row_attr: { class: '--btn' } }) }}#}
+    {#                                        {% endfor %}#}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="">
+                                    ${target.dataset.prototypeClub}
+                                </div>
+
+                                ${target.dataset.prototypeWheelchair}
+                                ${target.dataset.prototypeFirstYear}
+                            </div>
+
+                            <div class="form-groups mt-4">
+                                <h3>Sélectionner le ou les départs que vous voulez faire</h3>
+
+    {#                            {% for departure in competitionRegister.departures %}#}
+    {#                                <div class="form-group --check --btn {% if not loop.first %}mt-4{% endif %} departures">#}
+    {#                                    {% set dateId = departure.date|date('Y-m-d-H-i') %}#}
+
+    {#                                    <input#}
+    {#                                        type="checkbox"#}
+    {#                                        id="{{ dateId }}"#}
+    {#                                        name="date"#}
+    {#                                        {% if form[departure.id ~ '-targets'].vars.value %}checked{% endif%}#}
+    {#                                    />#}
+    {#                                    <label for="{{ dateId }}">#}
+    {#                                        Départ du {{ departure.date|date('d/m/Y à G\\hi') }}#}
+    {#                                        ({{ departure.registration }} inscrits / {{ departure.maxRegistration }})#}
+    {#                                    </label>#}
+    {#                                </div>#}
+
+    {#                                <div class="form-groups targets">#}
+    {#                                    {% for target in form[departure.id ~ '-targets'] %}#}
+    {#                                        {{ form_row(target, { row_attr: { class: '--btn' } }) }}#}
+    {#                                    {% endfor %}#}
+
+    {#                                    {{ form_errors(form[departure.id ~ '-targets']) }}#}
+    {#                                </div>#}
+    {#                            {% endfor %}#}
+                            </div>
+                        </div>
+                    </div>
+                `)
             })
 
             document.querySelector('#see-recap').addEventListener('click', (e) => {
