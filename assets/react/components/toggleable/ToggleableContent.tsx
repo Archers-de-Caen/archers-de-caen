@@ -1,15 +1,9 @@
-import React, {Component, PropsWithChildren} from 'react'
+import React, {PropsWithChildren} from 'react'
 
-export default class extends Component<PropsWithChildren> {
-    constructor(props) {
-        super(props)
-    }
-
-    render() {
-        return (
-            <>
-                { this.props.children }
-            </>
-        )
-    }
+export default function ({ children }: PropsWithChildren) {
+    return (
+        <>
+            { children }
+        </>
+    )
 }

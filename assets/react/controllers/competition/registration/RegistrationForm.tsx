@@ -1,15 +1,18 @@
 import React from 'react';
-import ArcherRegistration from "@react/controllers/competition/registration/ArcherRegistration";
+import ArcherRegistration, {
+    ArcherRegistrationDef
+} from "@react/controllers/competition/registration/ArcherRegistration";
 import Toggleables from "@react/components/toggleable/Toggleables";
-import {Form as FormikForm, Field, Formik, FormikValues, useFormik, FieldArray} from 'formik';
+import {Form, Field, Formik, FormikValues, FieldArray} from 'formik';
 import FormGroups from "@react/components/form/FormGroups";
 import FormGroup from "@react/components/form/FormGroup";
 
-interface FormState {
-    registrations: Array<object>
+export interface Registration {
+    registrations: Array<ArcherRegistrationDef>,
+    additionalInformation: string
 }
 
-const Form = () => {
+export default function () {
     const initialValues = {
         registrations: [
             {
@@ -20,32 +23,32 @@ const Form = () => {
                 phone: '',
                 category: '',
                 club: '',
-                wheelchair: '',
-                firstYear: '',
+                wheelchair: false,
+                firstYear: false,
             }
         ],
         additionalInformation: ''
     }
 
-    const onSubmit = (values) => {
+    function onSubmit(values) {
         alert(JSON.stringify(values, null, 2));
     }
 
     return (
-        <Formik onSubmit={onSubmit} initialValues={initialValues}>
+        <Formik onSubmit={ onSubmit } initialValues={ initialValues }>
             {({ values }: FormikValues) => (
-                <FormikForm>
+                <Form>
                     <Toggleables>
                         <FieldArray name="registrations">
-                            {({ insert, remove, push }) => (
+                            {({ remove, push }) => (
                                 <div>
                                     {values.registrations.length > 0 &&
-                                        values.registrations.map((registration, index) => (
+                                        values.registrations.map((registration: ArcherRegistrationDef, index: number) => (
                                             <ArcherRegistration
+                                                key={index}
                                                 activeByDefault
                                                 count={index}
-                                                key={index}
-                                                remove={remove}
+                                                selfRemove={remove}
                                             />
                                     ))}
 
@@ -93,10 +96,8 @@ const Form = () => {
                             </div>
                         </FormGroup>
                     </FormGroups>
-                </FormikForm>
+                </Form>
             )}
         </Formik>
     )
 }
-
-export default Form

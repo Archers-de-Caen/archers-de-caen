@@ -1,202 +1,187 @@
-import React, { Component } from 'react'
+import React, {useState} from 'react'
 import FormGroups from "@react/components/form/FormGroups"
 import FormGroup from "@react/components/form/FormGroup"
-import Toggleable, {ToggleableProps, ToggleableState} from "@react/components/toggleable/Toggleable";
-import ToggleableSummary from "@react/components/toggleable/ToggleableSummary";
-import ToggleableContent from "@react/components/toggleable/ToggleableContent";
-import {Field} from "formik";
+import Toggleable from "@react/components/toggleable/Toggleable"
+import ToggleableSummary from "@react/components/toggleable/ToggleableSummary"
+import ToggleableContent from "@react/components/toggleable/ToggleableContent"
+import Field from "@react/components/form/Field"
+import CheckboxField from "@react/components/form/CheckboxField"
+import SelectField from "@react/components/form/SelectField"
+import {FormikContextType, useFormikContext} from "formik"
 import Swal from 'sweetalert2'
+import {Registration} from "@react/controllers/competition/registration/RegistrationForm";
 
-interface ArcherRegistrationProps extends ToggleableProps {
-    count: number,
-    remove: Function
+export interface ArcherRegistrationDef {
+    licenseNumber: string,
+    firstName: string,
+    lastName: string,
+    email: string,
+    phone: string,
+    category: string,
+    club: string,
+    wheelchair: boolean,
+    firstYear: boolean,
 }
 
-export default class extends Component<ArcherRegistrationProps, ToggleableState> {
-    constructor(props) {
-        super(props)
-    }
+function getArcherInformation(licenseNumber: string): Promise<any>
+{
+    return fetch('/api/competition-registers/archers/' + licenseNumber)
+        .then((response: Response) => {
+            if (200 === response.status) {
+                return response.json()
+            }
+        })
+}
 
-    async removeArcher() {
+export default function ({ count, selfRemove, activeByDefault = false })
+{
+    const [ timeoutId, setTimeoutId ] = useState(null)
+    const { values, setFieldValue }: FormikContextType<Registration> = useFormikContext()
+    const registration = values.registrations[count]
+
+    const confirmSelfRemove = async () => {
         await Swal.fire({
             title: 'Êtes vous sûr ?',
             confirmButtonText: 'Supprimer',
             cancelButtonText: 'Annuler',
             showCancelButton: true,
-            preConfirm: () => this.props.remove(this.props.count),
+            preConfirm: () => selfRemove(count),
         })
     }
 
-    render() {
-        return (
-            <Toggleable activeByDefault={this.props.activeByDefault}>
-                <ToggleableSummary
-                    title="Nouvelle inscription"
-                />
-                <ToggleableContent>
-                    <FormGroups>
-                        <FormGroup>
-                            <label
-                                htmlFor={`registrations${this.props.count}licenseNumber`}
-                                className="required"
-                            >
-                                Numéro de licence
-                            </label>
-                            <Field
-                                type="text"
-                                id={`registrations${this.props.count}licenseNumber`}
-                                name={`registrations.${this.props.count}.licenseNumber`}
-                                pattern="[0-9]{6}[A-Za-z]"
-                                placeholder="123456A"
-                            />
-                        </FormGroup>
-                    </FormGroups>
+    const handleChangeLicenseNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const doneTypingInterval = 500
 
-                    <FormGroups>
-                        <div className="mt-2">
-                            <div className="flex jc-space-between">
-                                <FormGroup>
-                                    <label
-                                        htmlFor={`registrations${this.props.count}firstName`}
-                                        className="required"
-                                    >
-                                        Prénom
-                                    </label>
-                                    <Field
-                                        type="text"
-                                        id={`registrations${this.props.count}firstName`}
-                                        name={`registrations.${this.props.count}.firstName`}
-                                    />
-                                </FormGroup>
+        const licenseNumber = event.target.value
 
-                                <FormGroup>
-                                    <label
-                                        htmlFor={`registrations${this.props.count}lastName`}
-                                        className="required"
-                                    >
-                                        Nom
-                                    </label>
-                                    <Field
-                                        type="text"
-                                        id={`registrations${this.props.count}lastName`}
-                                        name={`registrations.${this.props.count}.lastName`}
-                                    />
-                                </FormGroup>
-                            </div>
-                        </div>
-                    </FormGroups>
+        setFieldValue(`registrations.${count}.licenseNumber`, licenseNumber)
 
-                    <FormGroups>
-                        <div className="mt-2">
-                            <div className="flex jc-space-between">
-                                <FormGroup>
-                                    <label
-                                        htmlFor={`registrations${this.props.count}email`}
-                                        className="required"
-                                    >
-                                        Email
-                                    </label>
-                                    <Field
-                                        type="text"
-                                        id={`registrations${this.props.count}email`}
-                                        name={`registrations.${this.props.count}.email`}
-                                    />
-                                </FormGroup>
+        if (timeoutId) {
+            clearTimeout(timeoutId)
+        }
 
-                                <FormGroup>
-                                    <label
-                                        htmlFor={`registrations${this.props.count}phone`}
-                                        className="required"
-                                    >
-                                        Téléphone
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id={`registrations${this.props.count}phone`}
-                                        name={`registrations.${this.props.count}.phone`}
-                                    />
-                                </FormGroup>
-                            </div>
-                        </div>
-                    </FormGroups>
-
-                    <FormGroups>
-                        <FormGroup>
-                            <label
-                                htmlFor={`registrations${this.props.count}category`}
-                                className="required"
-                            >
-                                Catégorie
-                            </label>
-                            <Field
-                                component="select"
-                                id={`registrations${this.props.count}category`}
-                                name={`registrations.${this.props.count}.category`}
-                            >
-                                <option>Test</option>
-                            </Field>
-                        </FormGroup>
-                    </FormGroups>
-
-                    <FormGroups>
-                        <FormGroup>
-                            <label
-                                htmlFor={`registrations${this.props.count}club`}
-                                className="required"
-                            >
-                                Club
-                            </label>
-                            <Field
-                                type="text"
-                                id={`registrations${this.props.count}club`}
-                                name={`registrations.${this.props.count}.club`}
-                            />
-                        </FormGroup>
-                    </FormGroups>
-
-                    <FormGroups>
-                        <FormGroup check>
-                            <label
-                                htmlFor={`registrations${this.props.count}wheelchair`}
-                                className="required"
-                            >
-                                Tir en fauteuil roulant
-                            </label>
-                            <Field
-                                type="checkbox"
-                                id={`registrations${this.props.count}wheelchair`}
-                                name={`registrations.${this.props.count}.wheelchair`}
-                            />
-                        </FormGroup>
-                    </FormGroups>
-
-                    <FormGroups>
-                        <FormGroup check>
-                            <label
-                                htmlFor={`registrations${this.props.count}firstYear`}
-                                className="required"
-                            >
-                                1er année de licence et souhaite effectuer le tir en débutant
-                            </label>
-                            <Field
-                                type="checkbox"
-                                id={`registrations${this.props.count}firstYear`}
-                                name={`registrations.${this.props.count}.firstYear`}
-                            />
-                        </FormGroup>
-                    </FormGroups>
-
-                    <div className="w-100 flex jc-end">
-                        <button
-                            type="button"
-                            className="btn -danger"
-                            onClick={() => this.removeArcher()}
-                        >
-                            Supprimer
-                        </button>
-                    </div>
-                </ToggleableContent>
-            </Toggleable>
-        )
+        setTimeoutId(setTimeout(() => setArcherInformation(licenseNumber), doneTypingInterval))
     }
+
+    const setArcherInformation = (licenseNumber: string) => {
+        getArcherInformation(licenseNumber)
+            .then((body) => {
+                const prefix = `registrations.${count}.`
+
+                const fields = [
+                    'firstName',
+                    'lastName',
+                    'email',
+                    'phone',
+                    'category',
+                    'club',
+                    'wheelchair',
+                ]
+
+                if (body) {
+                    for (const field of fields) {
+                        setFieldValue(prefix + field, body[field])
+                    }
+                } else {
+                    for (const field of fields) {
+                        setFieldValue(prefix + field, '')
+                    }
+                }
+            })
+    }
+
+    return (
+        <Toggleable activeByDefault={activeByDefault}>
+            <ToggleableSummary
+                title={registration.firstName ? `${registration.firstName} ${registration.lastName}` : "Nouvelle inscription"}
+            />
+            <ToggleableContent>
+                <FormGroups>
+                    <Field
+                        name={`registrations.${count}.licenseNumber`}
+                        pattern="[0-9]{6}[A-Za-z]"
+                        placeholder="123456A"
+                        onChange={ handleChangeLicenseNumber }
+                    >
+                        Numéro de licence
+                    </Field>
+                </FormGroups>
+
+                <FormGroups>
+                    <div className="mt-2">
+                        <div className="flex jc-space-between">
+                            <Field name={`registrations.${count}.firstName`}>
+                                Prénom
+                            </Field>
+                            <Field name={`registrations.${count}.lastName`}>
+                                Nom
+                            </Field>
+                        </div>
+                    </div>
+                </FormGroups>
+
+                <FormGroups>
+                    <div className="mt-2">
+                        <div className="flex jc-space-between">
+                            <Field name={`registrations.${count}.email`}>
+                                Email
+                            </Field>
+
+                            <Field name={`registrations.${count}.phone`}>
+                                Téléphone
+                            </Field>
+                        </div>
+                    </div>
+                </FormGroups>
+
+                <FormGroups>
+                    <FormGroup>
+                        <SelectField
+                            name={`registrations.${count}.category`}
+                            options={{
+                                peewee: 'Poussin',
+                                benjamin: 'Benjamin',
+                                cub: 'Minime',
+                                cadet: 'Cadet',
+                                junior: 'Junior',
+                                senior_one: 'Senior 1',
+                                senior_two: 'Senior 2',
+                                senior_three: 'Senior 3',
+                            }}
+                        >
+                            Catégorie
+                        </SelectField>
+                    </FormGroup>
+                </FormGroups>
+
+                <FormGroups>
+                    <Field name={`registrations.${count}.club`}>
+                        Club
+                    </Field>
+                </FormGroups>
+
+                <FormGroups>
+                    <CheckboxField name={`registrations.${count}.wheelchair`}>
+                        Tir en fauteuil roulant
+                    </CheckboxField>
+                </FormGroups>
+
+                <FormGroups>
+                    <CheckboxField name={`registrations.${count}.firstYear`}>
+                        1er année de licence et souhaite effectuer le tir en débutant
+                    </CheckboxField>
+                </FormGroups>
+
+                <div className="w-100 flex jc-end">
+                    <button
+                        type="button"
+                        className="btn -danger"
+                        onClick={ confirmSelfRemove }
+                    >
+                        Supprimer
+                    </button>
+                </div>
+            </ToggleableContent>
+        </Toggleable>
+    )
 }

@@ -1,21 +1,10 @@
-import React, {Component, PropsWithChildren} from 'react'
+import React from 'react'
 
-interface ToggleableSummaryProps extends PropsWithChildren {
-    title: string,
-    children?: React.ReactElement
-}
-
-export default class extends Component<ToggleableSummaryProps> {
-    constructor(props) {
-        super(props)
-    }
-
-    render() {
-        return (
-            <>
-                <h4>{ this.props.title }</h4>
-                { this.props.children ? <div>{ this.props.children }</div> : ''}
-            </>
-        )
-    }
+export default function ({ title, children = null }) {
+    return (
+        <>
+            <h4>{ title }</h4>
+            { children ? <div>{ children }</div> : ''}
+        </>
+    )
 }

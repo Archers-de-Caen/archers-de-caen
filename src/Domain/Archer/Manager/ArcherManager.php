@@ -42,6 +42,8 @@ class ArcherManager
             'gender' => $archer->getGender(),
             'category' => $archer->getCategory(),
             'club' => $archer instanceof Archer ? 'Archers de Caen' : $archer->getClub(),
+            'wheelchair' => $archer instanceof CompetitionRegisterDepartureTargetArcher ?
+                $archer->getWheelchair() : false,
         ];
     }
 }
