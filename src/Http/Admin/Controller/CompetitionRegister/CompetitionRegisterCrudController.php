@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\CompetitionRegister;
 
+use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Competition\Config\Type;
 use App\Domain\Competition\Form\CompetitionRegisterDepartureForm;
@@ -25,6 +26,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -107,20 +109,15 @@ class CompetitionRegisterCrudController extends AbstractCrudController
         $id = IdField::new('id')
             ->setPermission(Archer::ROLE_DEVELOPER);
 
-        $type = ChoiceField::new('types', 'Types de concours')
+        $types = ChoiceField::new('types', 'Types de concours')
             ->allowMultipleChoices()
-        ;
-
-        if (Crud::PAGE_NEW === $pageName || Crud::PAGE_EDIT === $pageName) {
-            $type->setChoices(Type::toChoicesWithEnumValue());
-        } else {
-            $type->setChoices(
+            ->setChoices(
                 array_combine(
                     array_map(static fn (Type $type) => $type->toString(), Type::cases()),
                     array_map(static fn (Type $type) => $type->value, Type::cases())
                 )
-            ); // TODO : provisoire le temps que le bundle EasyAdmin ce met a jours
-        }
+            ) // TODO : provisoire le temps que le bundle EasyAdmin ce met a jours
+        ;
 
         $dateStart = DateField::new('dateStart', 'Date de début');
         $dateEnd = DateField::new('dateEnd', 'Date de fin');
@@ -147,7 +144,7 @@ class CompetitionRegisterCrudController extends AbstractCrudController
             return [$id, $dateStart, $dateEnd];
         }
 
-        return [$type, $byTeam, $dateStart, $dateEnd, $departures, $mandate, $autoCreateActuality];
+        return [$types, $byTeam, $dateStart, $dateEnd, $departures, $mandate, $autoCreateActuality];
     }
 
     /**

@@ -1,18 +1,17 @@
-import React from 'react';
-import ArcherRegistration, {
-    ArcherRegistrationDef
-} from "@react/controllers/competition/registration/ArcherRegistration";
-import Toggleables from "@react/components/toggleable/Toggleables";
-import {Form, Field, Formik, FormikValues, FieldArray} from 'formik';
-import FormGroups from "@react/components/form/FormGroups";
-import FormGroup from "@react/components/form/FormGroup";
+import React from 'react'
+import ArcherRegistration from "@react/controllers/competition/registration/ArcherRegistration"
+import {ArcherRegistration as ArcherRegistrationDef} from "@react/controllers/competition/registration/types/ArcherRegistration"
+import Toggleables from "@react/components/toggleable/Toggleables"
+import {Form, Field, Formik, FormikValues, FieldArray} from 'formik'
+import FormGroups from "@react/components/form/FormGroups"
+import FormGroup from "@react/components/form/FormGroup"
+import {Departure} from "@react/controllers/competition/registration/types/Departure"
 
-export interface Registration {
-    registrations: Array<ArcherRegistrationDef>,
-    additionalInformation: string
+interface RegistrationFormProps {
+    departures: Array<Departure>
 }
 
-export default function () {
+export default function ({ departures }: RegistrationFormProps) {
     const initialValues = {
         registrations: [
             {
@@ -25,6 +24,7 @@ export default function () {
                 club: '',
                 wheelchair: false,
                 firstYear: false,
+                targets: []
             }
         ],
         additionalInformation: ''
@@ -49,6 +49,7 @@ export default function () {
                                                 activeByDefault
                                                 count={index}
                                                 selfRemove={remove}
+                                                departures={departures}
                                             />
                                     ))}
 

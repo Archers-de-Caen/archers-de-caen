@@ -1,8 +1,8 @@
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 
-export default function ({ children }: PropsWithChildren) {
+export default function ({ children, ...props }) {
     return (
-        <div className="form-groups">
+        <div className="form-groups" {...props}>
             { children }
         </div>
     )

@@ -19,6 +19,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class CompetitionRegisterController extends AbstractController
@@ -55,8 +56,11 @@ final class CompetitionRegisterController extends AbstractController
         name: self::ROUTE_LANDING_COMPETITION_REGISTER_ARCHER,
         methods: [Request::METHOD_GET, Request::METHOD_POST]
     )]
-    public function archer(Request $request, CompetitionRegister $competitionRegister): Response
-    {
+    public function archer(
+        Request $request,
+        CompetitionRegister $competitionRegister,
+        SerializerInterface $serializer
+    ): Response {
         $register = new Registration();
 
         $form = $this->createForm(RegisterForm::class, $register, [
@@ -78,8 +82,19 @@ final class CompetitionRegisterController extends AbstractController
             }
         }
 
+        try {
+            $departures = json_decode($serializer->serialize(
+                $competitionRegister->getDepartures(),
+                'json',
+                ['groups' => ['id', 'departure']],
+            ), false, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            $departures = [];
+        }
+
         return $this->render('/landing/competition-registers/archer.html.twig', [
             'competitionRegister' => $competitionRegister,
+            'departures' => $departures,
             'form' => $form->createView(),
         ]);
     }

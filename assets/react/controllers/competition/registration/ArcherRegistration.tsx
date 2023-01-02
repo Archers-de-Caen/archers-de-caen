@@ -7,20 +7,17 @@ import ToggleableContent from "@react/components/toggleable/ToggleableContent"
 import Field from "@react/components/form/Field"
 import CheckboxField from "@react/components/form/CheckboxField"
 import SelectField from "@react/components/form/SelectField"
+import {Registration} from "@react/controllers/competition/registration/types/Registration"
 import {FormikContextType, useFormikContext} from "formik"
 import Swal from 'sweetalert2'
-import {Registration} from "@react/controllers/competition/registration/RegistrationForm";
+import {Departure} from "@react/controllers/competition/registration/types/Departure";
+import {Target} from "@react/controllers/competition/registration/types/Target";
 
-export interface ArcherRegistrationDef {
-    licenseNumber: string,
-    firstName: string,
-    lastName: string,
-    email: string,
-    phone: string,
-    category: string,
-    club: string,
-    wheelchair: boolean,
-    firstYear: boolean,
+interface ArcherRegistrationProps {
+    count: number,
+    selfRemove: Function,
+    activeByDefault: boolean,
+    departures: Array<Departure>
 }
 
 function getArcherInformation(licenseNumber: string): Promise<any>
@@ -33,16 +30,17 @@ function getArcherInformation(licenseNumber: string): Promise<any>
         })
 }
 
-export default function ({ count, selfRemove, activeByDefault = false })
+export default function ({ count, selfRemove, departures = [], activeByDefault = false }: ArcherRegistrationProps)
 {
     const [ timeoutId, setTimeoutId ] = useState(null)
+    const [ departuresSelected, setDeparturesSelected ] = useState([])
     const { values, setFieldValue }: FormikContextType<Registration> = useFormikContext()
-    const registration = values.registrations[count]
+    const curentRegistration = values.registrations[count]
 
     const confirmSelfRemove = async () => {
         await Swal.fire({
             title: 'Êtes vous sûr ?',
-            confirmButtonText: 'Supprimer',
+            confirmButtonText: 'Oui, supprimer',
             cancelButtonText: 'Annuler',
             showCancelButton: true,
             preConfirm: () => selfRemove(count),
@@ -90,10 +88,49 @@ export default function ({ count, selfRemove, activeByDefault = false })
             })
     }
 
+    const toggleDeparture = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const departureSelected = event.target.value
+
+        if (departuresSelected.includes(departureSelected)) {
+            setDeparturesSelected(departuresSelected.filter(prevDeparture => prevDeparture !== departureSelected))
+        } else {
+            setDeparturesSelected((prevDeparturesSelected: Array<string>) => [...prevDeparturesSelected, departureSelected])
+        }
+    }
+
+    const toggleTarget = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const elementTarget = event.target
+        const targetSelected = elementTarget.value
+        let targets = [...curentRegistration.targets]
+
+        let departureOfTargetSelect = null
+        for (const key in departures) {
+            if (departures[key].targets.map((target: Target) => target.id).includes(targetSelected)) {
+                departureOfTargetSelect = departures[key]
+            }
+        }
+
+        if (departureOfTargetSelect) {
+            for (const target of departureOfTargetSelect.targets.map((target: Target) => target.id)) {
+                if (curentRegistration.targets.includes(target)) {
+                    targets = targets.filter(prevTarget => prevTarget !== target)
+
+                    setFieldValue(`registrations.${count}.targets`, targets)
+                }
+            }
+        }
+
+        if (targets.includes(targetSelected)) {
+            setFieldValue(`registrations.${count}.targets`, targets.filter(prevTarget => prevTarget !== targetSelected))
+        } else {
+            setFieldValue(`registrations.${count}.targets`, [...targets, targetSelected])
+        }
+    }
+
     return (
         <Toggleable activeByDefault={activeByDefault}>
             <ToggleableSummary
-                title={registration.firstName ? `${registration.firstName} ${registration.lastName ?? ''}` : "Nouvelle inscription"}
+                title={curentRegistration.firstName ? `${curentRegistration.firstName} ${curentRegistration.lastName ?? ''}` : "Nouvelle inscription"}
             />
             <ToggleableContent>
                 <FormGroups>
@@ -110,12 +147,17 @@ export default function ({ count, selfRemove, activeByDefault = false })
                 <FormGroups>
                     <div className="mt-2">
                         <div className="flex jc-space-between">
-                            <Field name={`registrations.${count}.firstName`}>
-                                Prénom
-                            </Field>
-                            <Field name={`registrations.${count}.lastName`}>
-                                Nom
-                            </Field>
+                            <FormGroup>
+                                <Field name={`registrations.${count}.firstName`}>
+                                    Prénom
+                                </Field>
+                            </FormGroup>
+
+                            <FormGroup>
+                                <Field name={`registrations.${count}.lastName`}>
+                                    Nom
+                                </Field>
+                            </FormGroup>
                         </div>
                     </div>
                 </FormGroups>
@@ -123,13 +165,17 @@ export default function ({ count, selfRemove, activeByDefault = false })
                 <FormGroups>
                     <div className="mt-2">
                         <div className="flex jc-space-between">
-                            <Field name={`registrations.${count}.email`}>
-                                Email
-                            </Field>
+                            <FormGroup>
+                                <Field name={`registrations.${count}.email`}>
+                                    Email
+                                </Field>
+                            </FormGroup>
 
-                            <Field name={`registrations.${count}.phone`}>
-                                Téléphone
-                            </Field>
+                            <FormGroup>
+                                <Field name={`registrations.${count}.phone`}>
+                                    Téléphone
+                                </Field>
+                            </FormGroup>
                         </div>
                     </div>
                 </FormGroups>
@@ -170,6 +216,68 @@ export default function ({ count, selfRemove, activeByDefault = false })
                     <CheckboxField name={`registrations.${count}.firstYear`}>
                         1er année de licence et souhaite effectuer le tir en débutant
                     </CheckboxField>
+                </FormGroups>
+
+                <FormGroups>
+                    <h3>Sélectionner le ou les départs que vous voulez faire</h3>
+
+                    <FormGroup check btn>
+                        <FormGroups className="w-100">
+                            {departures.map((departure: Departure) => (
+                                <div key={departure.id}>
+                                    <FormGroup>
+                                        <CheckboxField
+                                            btn
+                                            name={`departure.${departure.id}`}
+                                            value={departure.id}
+                                            onChange={toggleDeparture}
+                                            checked={departuresSelected.includes(departure.id)}
+                                        >
+                                            Départ du {(new Date(departure.date)).toLocaleString()} (
+                                            {departure.numberOfRegistered} inscrits / {departure.maxRegistration})
+                                        </CheckboxField>
+                                    </FormGroup>
+
+                                    { departuresSelected.includes(departure.id) &&
+                                        departure.targets.map((target: Target) => (
+                                            <div key={target.id}>
+                                                <FormGroup>
+                                                    <CheckboxField
+                                                        btn
+                                                        name={`registrations.${count}.targets.${target.id}`}
+                                                        value={target.id}
+                                                        onChange={toggleTarget}
+                                                        checked={curentRegistration.targets.includes(target.id)}
+                                                    >
+                                                        {target.type} à {target.distance}m
+                                                    </CheckboxField>
+                                                </FormGroup>
+
+                                                <div className="flex">
+                                                    { ['recurve_bow', 'compound_bow', 'bare_bow'].map((weapon: string) => (
+                                                        <FormGroup
+                                                            key={`${target.id}_weapon_${weapon}`}
+                                                        >
+                                                            <CheckboxField
+                                                                btn
+                                                                name={`registrations.${count}.targets.${target.id}.${weapon}`}
+                                                                value={weapon}
+                                                                // onChange={toggleTarget}
+                                                                // checked={curentRegistration.targets.includes(target)}
+                                                            >
+                                                                {weapon}
+                                                            </CheckboxField>
+                                                        </FormGroup>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        ))
+                                    }
+                                </div>
+                            ))}
+                        </FormGroups>
+
+                    </FormGroup>
                 </FormGroups>
 
                 <div className="w-100 flex jc-end">

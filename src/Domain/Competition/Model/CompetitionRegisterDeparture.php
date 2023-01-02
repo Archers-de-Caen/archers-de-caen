@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CompetitionRegisterDepartureRepository::class)]
 class CompetitionRegisterDeparture
@@ -20,10 +21,16 @@ class CompetitionRegisterDeparture
     use TimestampTrait;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    #[Groups(['departure'])]
     private ?DateTimeImmutable $date = null;
 
     #[ORM\Column(type: Types::INTEGER)]
+    #[Groups(['departure'])]
     private ?int $maxRegistration = null;
+
+    #[ORM\Column(type: Types::INTEGER)]
+    #[Groups(['departure'])]
+    private int $numberOfRegistered = 0;
 
     #[ORM\ManyToOne(targetEntity: CompetitionRegister::class, inversedBy: 'departures')]
     private ?CompetitionRegister $competitionRegister = null;
@@ -31,7 +38,13 @@ class CompetitionRegisterDeparture
     /**
      * @var Collection<int, CompetitionRegisterDepartureTarget>
      */
-    #[ORM\OneToMany(mappedBy: 'departure', targetEntity: CompetitionRegisterDepartureTarget::class, cascade: ['ALL'], orphanRemoval: true)]
+    #[ORM\OneToMany(
+        mappedBy: 'departure',
+        targetEntity: CompetitionRegisterDepartureTarget::class,
+        cascade: ['ALL'],
+        orphanRemoval: true
+    )]
+    #[Groups(['departure'])]
     private Collection $targets;
 
     public function __construct()
@@ -70,13 +83,7 @@ class CompetitionRegisterDeparture
 
     public function getRegistration(): int
     {
-        $count = 0;
-
-        foreach ($this->getTargets() as $target) {
-            $count += $target->getArchers()->count();
-        }
-
-        return $count;
+        return $this->getNumberOfRegistered() ?? 0;
     }
 
     public function getCompetitionRegister(): ?CompetitionRegister
@@ -118,6 +125,18 @@ class CompetitionRegisterDeparture
                 $target->setDeparture(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNumberOfRegistered(): int
+    {
+        return $this->numberOfRegistered;
+    }
+
+    public function setNumberOfRegistered(int $numberOfRegistered): self
+    {
+        $this->numberOfRegistered = $numberOfRegistered;
 
         return $this;
     }

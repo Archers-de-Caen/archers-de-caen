@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CompetitionRegisterDepartureTargetRepository::class)]
 class CompetitionRegisterDepartureTarget
@@ -20,9 +21,11 @@ class CompetitionRegisterDepartureTarget
     use TimestampTrait;
 
     #[ORM\Column(type: Types::STRING, enumType: TargetType::class)]
+    #[Groups(['departure'])]
     private ?TargetType $type = null;
 
     #[ORM\Column(type: Types::INTEGER)]
+    #[Groups(['departure'])]
     private ?int $distance = null;
 
     #[ORM\ManyToOne(targetEntity: CompetitionRegisterDeparture::class, inversedBy: 'targets')]
@@ -31,7 +34,11 @@ class CompetitionRegisterDepartureTarget
     /**
      * @var Collection<int, CompetitionRegisterDepartureTargetArcher>
      */
-    #[ORM\OneToMany(mappedBy: 'target', targetEntity: CompetitionRegisterDepartureTargetArcher::class, cascade: ['ALL'])]
+    #[ORM\OneToMany(
+        mappedBy: 'target',
+        targetEntity: CompetitionRegisterDepartureTargetArcher::class,
+        cascade: ['ALL']
+    )]
     private Collection $archers;
 
     public function __toString(): string
