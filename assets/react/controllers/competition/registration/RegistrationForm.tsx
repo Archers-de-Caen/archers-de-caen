@@ -55,7 +55,7 @@ export default function () {
                                     <div className="flex jc-end">
                                         <button
                                             type="button"
-                                            onClick={() => push(initialValues.registrations)}
+                                            onClick={() => push(initialValues.registrations[0])}
                                             className="btn -primary mt-2"
                                         >
                                             Ajouter un archer

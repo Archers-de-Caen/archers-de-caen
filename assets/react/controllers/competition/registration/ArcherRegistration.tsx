@@ -52,7 +52,7 @@ export default function ({ count, selfRemove, activeByDefault = false })
     const handleChangeLicenseNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
         const doneTypingInterval = 500
 
-        const licenseNumber = event.target.value
+        const licenseNumber = event.target.value.replaceAll(' ', '')
 
         setFieldValue(`registrations.${count}.licenseNumber`, licenseNumber)
 
@@ -93,7 +93,7 @@ export default function ({ count, selfRemove, activeByDefault = false })
     return (
         <Toggleable activeByDefault={activeByDefault}>
             <ToggleableSummary
-                title={registration.firstName ? `${registration.firstName} ${registration.lastName}` : "Nouvelle inscription"}
+                title={registration.firstName ? `${registration.firstName} ${registration.lastName ?? ''}` : "Nouvelle inscription"}
             />
             <ToggleableContent>
                 <FormGroups>
