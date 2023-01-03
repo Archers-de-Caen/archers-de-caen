@@ -88,44 +88,44 @@ export default function ({ count, selfRemove, departures = [], activeByDefault =
             })
     }
 
-    const toggleDeparture = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const departureSelected = event.target.value
-
-        if (departuresSelected.includes(departureSelected)) {
-            setDeparturesSelected(departuresSelected.filter(prevDeparture => prevDeparture !== departureSelected))
-        } else {
-            setDeparturesSelected((prevDeparturesSelected: Array<string>) => [...prevDeparturesSelected, departureSelected])
-        }
-    }
-
-    const toggleTarget = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const elementTarget = event.target
-        const targetSelected = elementTarget.value
-        let targets = [...curentRegistration.targets]
-
-        let departureOfTargetSelect = null
-        for (const key in departures) {
-            if (departures[key].targets.map((target: Target) => target.id).includes(targetSelected)) {
-                departureOfTargetSelect = departures[key]
-            }
-        }
-
-        if (departureOfTargetSelect) {
-            for (const target of departureOfTargetSelect.targets.map((target: Target) => target.id)) {
-                if (curentRegistration.targets.includes(target)) {
-                    targets = targets.filter(prevTarget => prevTarget !== target)
-
-                    setFieldValue(`registrations.${count}.targets`, targets)
-                }
-            }
-        }
-
-        if (targets.includes(targetSelected)) {
-            setFieldValue(`registrations.${count}.targets`, targets.filter(prevTarget => prevTarget !== targetSelected))
-        } else {
-            setFieldValue(`registrations.${count}.targets`, [...targets, targetSelected])
-        }
-    }
+    // const toggleDeparture = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     const departureSelected = event.target.value
+    //
+    //     if (departuresSelected.includes(departureSelected)) {
+    //         setDeparturesSelected(departuresSelected.filter(prevDeparture => prevDeparture !== departureSelected))
+    //     } else {
+    //         setDeparturesSelected((prevDeparturesSelected: Array<string>) => [...prevDeparturesSelected, departureSelected])
+    //     }
+    // }
+    //
+    // const toggleTarget = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     const elementTarget = event.target
+    //     const targetSelected = elementTarget.value
+    //     let targets = [...curentRegistration.targets]
+    //
+    //     let departureOfTargetSelect = null
+    //     for (const key in departures) {
+    //         if (departures[key].targets.map((target: Target) => target.id).includes(targetSelected)) {
+    //             departureOfTargetSelect = departures[key]
+    //         }
+    //     }
+    //
+    //     if (departureOfTargetSelect) {
+    //         for (const target of departureOfTargetSelect.targets.map((target: Target) => target.id)) {
+    //             if (curentRegistration.targets.includes(target)) {
+    //                 targets = targets.filter(prevTarget => prevTarget !== target)
+    //
+    //                 setFieldValue(`registrations.${count}.targets`, targets)
+    //             }
+    //         }
+    //     }
+    //
+    //     if (targets.includes(targetSelected)) {
+    //         setFieldValue(`registrations.${count}.targets`, targets.filter(prevTarget => prevTarget !== targetSelected))
+    //     } else {
+    //         setFieldValue(`registrations.${count}.targets`, [...targets, targetSelected])
+    //     }
+    // }
 
     return (
         <Toggleable activeByDefault={activeByDefault}>
@@ -228,26 +228,26 @@ export default function ({ count, selfRemove, departures = [], activeByDefault =
                                     <FormGroup>
                                         <CheckboxField
                                             btn
-                                            name={`departure.${departure.id}`}
+                                            name={`registrations.${count}.departures.${departure.id}`}
                                             value={departure.id}
-                                            onChange={toggleDeparture}
-                                            checked={departuresSelected.includes(departure.id)}
+                                            // onChange={toggleDeparture}
+                                            // checked={departuresSelected.includes(departure.id)}
                                         >
                                             Départ du {(new Date(departure.date)).toLocaleString()} (
                                             {departure.numberOfRegistered} inscrits / {departure.maxRegistration})
                                         </CheckboxField>
                                     </FormGroup>
 
-                                    { departuresSelected.includes(departure.id) &&
+                                    {/*{ departuresSelected.includes(departure.id) &&*/
                                         departure.targets.map((target: Target) => (
                                             <div key={target.id}>
                                                 <FormGroup>
                                                     <CheckboxField
                                                         btn
-                                                        name={`registrations.${count}.targets.${target.id}`}
+                                                        name={`registrations.${count}.departures.${departure.id}.targets.${target.id}`}
                                                         value={target.id}
-                                                        onChange={toggleTarget}
-                                                        checked={curentRegistration.targets.includes(target.id)}
+                                                        // onChange={toggleTarget}
+                                                        // checked={curentRegistration.targets.includes(target.id)}
                                                     >
                                                         {target.type} à {target.distance}m
                                                     </CheckboxField>
@@ -260,7 +260,7 @@ export default function ({ count, selfRemove, departures = [], activeByDefault =
                                                         >
                                                             <CheckboxField
                                                                 btn
-                                                                name={`registrations.${count}.targets.${target.id}.${weapon}`}
+                                                                name={`registrations.${count}.departures.${departure.id}.targets.${target.id}.weapon.${weapon}`}
                                                                 value={weapon}
                                                                 // onChange={toggleTarget}
                                                                 // checked={curentRegistration.targets.includes(target)}
