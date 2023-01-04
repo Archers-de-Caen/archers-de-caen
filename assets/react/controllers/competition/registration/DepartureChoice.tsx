@@ -3,8 +3,8 @@ import CheckboxField from "@react/components/form/CheckboxField"
 import {Target} from "@react/controllers/competition/registration/types/Target"
 import {Departure} from "@react/controllers/competition/registration/types/Departure"
 import FormGroups from "@react/components/form/FormGroups"
-import {FormikContextType, useFormikContext} from "formik";
-import {Registration} from "@react/controllers/competition/registration/types/Registration";
+import {FormikContextType, useFormikContext} from "formik"
+import {Registration} from "@react/controllers/competition/registration/types/Registration"
 import RadioField from "@react/components/form/RadioField"
 
 interface DepartureChoiceProps {
@@ -113,7 +113,7 @@ export default function ({ registrationNumber, departure }: DepartureChoiceProps
 
                             { departureChecked && departureChecked.target === target.id && (
                                 <div
-                                    className="w-90 flex --gap-3 --wrap"
+                                    className="w-90 flex --gap-3"
                                     key={registrationNumber + '_' + departure.id + '_' + target.id + '_weapons'}
                                 >
                                     { ['recurve_bow', 'compound_bow', 'bare_bow'].map((weapon: string) => (

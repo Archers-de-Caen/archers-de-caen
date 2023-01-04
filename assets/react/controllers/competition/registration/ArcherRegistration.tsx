@@ -105,44 +105,37 @@ export default function ({ registrationNumber, selfRemove, departures = [], acti
                     </Field>
                 </FormGroups>
 
-                <FormGroups>
-                    <div className="mt-2">
-                        <div className="flex jc-space-between --gap-3">
-                            <Field
-                                useFormik
-                                name={`registrations.${registrationNumber}.firstName`}
-                            >
-                                Prénom
-                            </Field>
+                <FormGroups className="mt-2 flex jc-space-between --gap-3 --wrap">
+                    <Field
+                        useFormik
+                        name={`registrations.${registrationNumber}.firstName`}
+                    >
+                        Prénom
+                    </Field>
 
-                            <Field
-                                useFormik
-                                name={`registrations.${registrationNumber}.lastName`}
-                            >
-                                Nom
-                            </Field>
-                        </div>
-                    </div>
+                    <Field
+                        useFormik
+                        name={`registrations.${registrationNumber}.lastName`}
+                        className="w-45"
+                    >
+                        Nom
+                    </Field>
                 </FormGroups>
 
-                <FormGroups>
-                    <div className="mt-2">
-                        <div className="flex jc-space-between --gap-3">
-                            <Field
-                                useFormik
-                                name={`registrations.${registrationNumber}.email`}
-                            >
-                                Email
-                            </Field>
+                <FormGroups className="mt-2 flex jc-space-between --gap-3 --wrap">
+                    <Field
+                        useFormik
+                        name={`registrations.${registrationNumber}.email`}
+                    >
+                        Email
+                    </Field>
 
-                            <Field
-                                useFormik
-                                name={`registrations.${registrationNumber}.phone`}
-                            >
-                                Téléphone
-                            </Field>
-                        </div>
-                    </div>
+                    <Field
+                        useFormik
+                        name={`registrations.${registrationNumber}.phone`}
+                    >
+                        Téléphone
+                    </Field>
                 </FormGroups>
 
                 <FormGroups>
