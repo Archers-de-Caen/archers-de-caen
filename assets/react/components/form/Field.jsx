@@ -9,7 +9,13 @@ export default function({
     required = false,
     ...props
 }) {
-    const { children, asButton = false, invertLabelAndInput = false, useFormik = false, ...propsFiltered } = props
+    const {
+        children,
+        asButton = false,
+        invertLabelAndInput = false,
+        useFormik = false,
+        ...propsFiltered
+    } = props
 
     const label = (
         <label

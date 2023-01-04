@@ -8,5 +8,9 @@ export interface ArcherRegistration {
     club: string,
     wheelchair: boolean,
     firstYear: boolean,
-    targets: Array<string>
+    departures: Array<{
+        departure: string,
+        target: string,
+        weapon: string,
+    }>
 }

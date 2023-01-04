@@ -1,8 +1,6 @@
-import {
-    ArcherRegistration as ArcherRegistrationDef
-} from "@react/controllers/competition/registration/types/ArcherRegistration";
+import {ArcherRegistration} from "@react/controllers/competition/registration/types/ArcherRegistration";
 
 export interface Registration {
-    registrations: Array<ArcherRegistrationDef>,
+    registrations: Array<ArcherRegistration>,
     additionalInformation: string
 }

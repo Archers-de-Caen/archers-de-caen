@@ -24,13 +24,11 @@ export default function ({ departures }: RegistrationFormProps) {
                 club: '',
                 wheelchair: false,
                 firstYear: false,
-                departures: [
-                    {
-                        targets: {
-                            weapon: ''
-                        }
-                    }
-                ]
+                departures: [{
+                    departure: '',
+                    target: '',
+                    weapon: ''
+                }]
             }
         ],
         additionalInformation: ''

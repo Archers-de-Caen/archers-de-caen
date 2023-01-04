@@ -11,7 +11,7 @@ import {Registration} from "@react/controllers/competition/registration/types/Re
 import {FormikContextType, useFormikContext} from "formik"
 import Swal from 'sweetalert2'
 import {Departure} from "@react/controllers/competition/registration/types/Departure"
-import DepartureChoice from "@react/controllers/competition/registration/DepartureChoice";
+import DepartureChoice from "@react/controllers/competition/registration/DepartureChoice"
 
 interface ArcherRegistrationProps {
     registrationNumber: number,
@@ -191,11 +191,11 @@ export default function ({ registrationNumber, selfRemove, departures = [], acti
                     </CheckboxField>
                 </FormGroups>
 
-                <FormGroups>
+                <FormGroups className="mt-3">
                     <h3>Sélectionner le ou les départs que vous voulez faire</h3>
 
-                    <FormGroup check asButton>
-                        <FormGroups className="w-100">
+                    <FormGroup>
+                        <FormGroups className="w-100 flex direction-column item-center">
                             { departures.map((departure: Departure) => (
                                 <DepartureChoice
                                     registrationNumber={registrationNumber}

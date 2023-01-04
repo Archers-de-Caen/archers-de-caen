@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {PropsWithChildren} from 'react';
 
-export default function ({ children, ...props }) {
+interface FormGroupsProps extends PropsWithChildren {
+    className?: string,
+}
+
+export default function ({ children, className = '', ...props }: FormGroupsProps) {
     return (
-        <div className="form-groups" {...props}>
+        <div className={"form-groups " + className} {...props}>
             { children }
         </div>
     )
