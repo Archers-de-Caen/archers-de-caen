@@ -48,16 +48,16 @@ export default function ({ departures }: RegistrationFormProps) {
                         <FieldArray name="registrations">
                             {({ remove, push }) => (
                                 <div>
-                                    {values.registrations.length > 0 &&
+                                    { values.registrations.length > 0 &&
                                         values.registrations.map((registration: ArcherRegistrationDef, index: number) => (
                                             <ArcherRegistration
                                                 key={index}
                                                 activeByDefault
-                                                count={index}
+                                                registrationNumber={index}
                                                 selfRemove={remove}
                                                 departures={departures}
                                             />
-                                    ))}
+                                    )) }
 
                                     <div className="flex jc-end">
                                         <button

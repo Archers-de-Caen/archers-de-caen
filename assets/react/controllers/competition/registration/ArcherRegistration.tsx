@@ -10,11 +10,11 @@ import SelectField from "@react/components/form/SelectField"
 import {Registration} from "@react/controllers/competition/registration/types/Registration"
 import {FormikContextType, useFormikContext} from "formik"
 import Swal from 'sweetalert2'
-import {Departure} from "@react/controllers/competition/registration/types/Departure";
-import {Target} from "@react/controllers/competition/registration/types/Target";
+import {Departure} from "@react/controllers/competition/registration/types/Departure"
+import DepartureChoice from "@react/controllers/competition/registration/DepartureChoice";
 
 interface ArcherRegistrationProps {
-    count: number,
+    registrationNumber: number,
     selfRemove: Function,
     activeByDefault: boolean,
     departures: Array<Departure>
@@ -30,12 +30,11 @@ function getArcherInformation(licenseNumber: string): Promise<any>
         })
 }
 
-export default function ({ count, selfRemove, departures = [], activeByDefault = false }: ArcherRegistrationProps)
+export default function ({ registrationNumber, selfRemove, departures = [], activeByDefault = false }: ArcherRegistrationProps)
 {
     const [ timeoutId, setTimeoutId ] = useState(null)
-    const [ departuresSelected, setDeparturesSelected ] = useState([])
     const { values, setFieldValue }: FormikContextType<Registration> = useFormikContext()
-    const curentRegistration = values.registrations[count]
+    const curentRegistration = values.registrations[registrationNumber]
 
     const confirmSelfRemove = async () => {
         await Swal.fire({
@@ -43,7 +42,7 @@ export default function ({ count, selfRemove, departures = [], activeByDefault =
             confirmButtonText: 'Oui, supprimer',
             cancelButtonText: 'Annuler',
             showCancelButton: true,
-            preConfirm: () => selfRemove(count),
+            preConfirm: () => selfRemove(registrationNumber),
         })
     }
 
@@ -52,7 +51,7 @@ export default function ({ count, selfRemove, departures = [], activeByDefault =
 
         const licenseNumber = event.target.value.replaceAll(' ', '')
 
-        setFieldValue(`registrations.${count}.licenseNumber`, licenseNumber)
+        setFieldValue(`registrations.${registrationNumber}.licenseNumber`, licenseNumber)
 
         if (timeoutId) {
             clearTimeout(timeoutId)
@@ -64,7 +63,7 @@ export default function ({ count, selfRemove, departures = [], activeByDefault =
     const setArcherInformation = (licenseNumber: string) => {
         getArcherInformation(licenseNumber)
             .then((body) => {
-                const prefix = `registrations.${count}.`
+                const prefix = `registrations.${registrationNumber}.`
 
                 const fields = [
                     'firstName',
@@ -88,45 +87,6 @@ export default function ({ count, selfRemove, departures = [], activeByDefault =
             })
     }
 
-    // const toggleDeparture = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     const departureSelected = event.target.value
-    //
-    //     if (departuresSelected.includes(departureSelected)) {
-    //         setDeparturesSelected(departuresSelected.filter(prevDeparture => prevDeparture !== departureSelected))
-    //     } else {
-    //         setDeparturesSelected((prevDeparturesSelected: Array<string>) => [...prevDeparturesSelected, departureSelected])
-    //     }
-    // }
-    //
-    // const toggleTarget = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     const elementTarget = event.target
-    //     const targetSelected = elementTarget.value
-    //     let targets = [...curentRegistration.targets]
-    //
-    //     let departureOfTargetSelect = null
-    //     for (const key in departures) {
-    //         if (departures[key].targets.map((target: Target) => target.id).includes(targetSelected)) {
-    //             departureOfTargetSelect = departures[key]
-    //         }
-    //     }
-    //
-    //     if (departureOfTargetSelect) {
-    //         for (const target of departureOfTargetSelect.targets.map((target: Target) => target.id)) {
-    //             if (curentRegistration.targets.includes(target)) {
-    //                 targets = targets.filter(prevTarget => prevTarget !== target)
-    //
-    //                 setFieldValue(`registrations.${count}.targets`, targets)
-    //             }
-    //         }
-    //     }
-    //
-    //     if (targets.includes(targetSelected)) {
-    //         setFieldValue(`registrations.${count}.targets`, targets.filter(prevTarget => prevTarget !== targetSelected))
-    //     } else {
-    //         setFieldValue(`registrations.${count}.targets`, [...targets, targetSelected])
-    //     }
-    // }
-
     return (
         <Toggleable activeByDefault={activeByDefault}>
             <ToggleableSummary
@@ -135,7 +95,8 @@ export default function ({ count, selfRemove, departures = [], activeByDefault =
             <ToggleableContent>
                 <FormGroups>
                     <Field
-                        name={`registrations.${count}.licenseNumber`}
+                        useFormik
+                        name={`registrations.${registrationNumber}.licenseNumber`}
                         pattern="[0-9]{6}[A-Za-z]"
                         placeholder="123456A"
                         onChange={ handleChangeLicenseNumber }
@@ -146,74 +107,86 @@ export default function ({ count, selfRemove, departures = [], activeByDefault =
 
                 <FormGroups>
                     <div className="mt-2">
-                        <div className="flex jc-space-between">
-                            <FormGroup>
-                                <Field name={`registrations.${count}.firstName`}>
-                                    Prénom
-                                </Field>
-                            </FormGroup>
+                        <div className="flex jc-space-between --gap-3">
+                            <Field
+                                useFormik
+                                name={`registrations.${registrationNumber}.firstName`}
+                            >
+                                Prénom
+                            </Field>
 
-                            <FormGroup>
-                                <Field name={`registrations.${count}.lastName`}>
-                                    Nom
-                                </Field>
-                            </FormGroup>
+                            <Field
+                                useFormik
+                                name={`registrations.${registrationNumber}.lastName`}
+                            >
+                                Nom
+                            </Field>
                         </div>
                     </div>
                 </FormGroups>
 
                 <FormGroups>
                     <div className="mt-2">
-                        <div className="flex jc-space-between">
-                            <FormGroup>
-                                <Field name={`registrations.${count}.email`}>
-                                    Email
-                                </Field>
-                            </FormGroup>
+                        <div className="flex jc-space-between --gap-3">
+                            <Field
+                                useFormik
+                                name={`registrations.${registrationNumber}.email`}
+                            >
+                                Email
+                            </Field>
 
-                            <FormGroup>
-                                <Field name={`registrations.${count}.phone`}>
-                                    Téléphone
-                                </Field>
-                            </FormGroup>
+                            <Field
+                                useFormik
+                                name={`registrations.${registrationNumber}.phone`}
+                            >
+                                Téléphone
+                            </Field>
                         </div>
                     </div>
                 </FormGroups>
 
                 <FormGroups>
-                    <FormGroup>
-                        <SelectField
-                            name={`registrations.${count}.category`}
-                            options={{
-                                peewee: 'Poussin',
-                                benjamin: 'Benjamin',
-                                cub: 'Minime',
-                                cadet: 'Cadet',
-                                junior: 'Junior',
-                                senior_one: 'Senior 1',
-                                senior_two: 'Senior 2',
-                                senior_three: 'Senior 3',
-                            }}
-                        >
-                            Catégorie
-                        </SelectField>
-                    </FormGroup>
+                    <SelectField
+                        useFormik
+                        name={`registrations.${registrationNumber}.category`}
+                        options={{
+                            peewee: 'Poussin',
+                            benjamin: 'Benjamin',
+                            cub: 'Minime',
+                            cadet: 'Cadet',
+                            junior: 'Junior',
+                            senior_one: 'Senior 1',
+                            senior_two: 'Senior 2',
+                            senior_three: 'Senior 3',
+                        }}
+                    >
+                        Catégorie
+                    </SelectField>
                 </FormGroups>
 
                 <FormGroups>
-                    <Field name={`registrations.${count}.club`}>
+                    <Field
+                        useFormik
+                        name={`registrations.${registrationNumber}.club`}
+                    >
                         Club
                     </Field>
                 </FormGroups>
 
                 <FormGroups>
-                    <CheckboxField name={`registrations.${count}.wheelchair`}>
+                    <CheckboxField
+                        useFormik
+                        name={`registrations.${registrationNumber}.wheelchair`}
+                    >
                         Tir en fauteuil roulant
                     </CheckboxField>
                 </FormGroups>
 
                 <FormGroups>
-                    <CheckboxField name={`registrations.${count}.firstYear`}>
+                    <CheckboxField
+                        useFormik
+                        name={`registrations.${registrationNumber}.firstYear`}
+                    >
                         1er année de licence et souhaite effectuer le tir en débutant
                     </CheckboxField>
                 </FormGroups>
@@ -221,62 +194,16 @@ export default function ({ count, selfRemove, departures = [], activeByDefault =
                 <FormGroups>
                     <h3>Sélectionner le ou les départs que vous voulez faire</h3>
 
-                    <FormGroup check btn>
+                    <FormGroup check asButton>
                         <FormGroups className="w-100">
-                            {departures.map((departure: Departure) => (
-                                <div key={departure.id}>
-                                    <FormGroup>
-                                        <CheckboxField
-                                            btn
-                                            name={`registrations.${count}.departures.${departure.id}`}
-                                            value={departure.id}
-                                            // onChange={toggleDeparture}
-                                            // checked={departuresSelected.includes(departure.id)}
-                                        >
-                                            Départ du {(new Date(departure.date)).toLocaleString()} (
-                                            {departure.numberOfRegistered} inscrits / {departure.maxRegistration})
-                                        </CheckboxField>
-                                    </FormGroup>
-
-                                    {/*{ departuresSelected.includes(departure.id) &&*/
-                                        departure.targets.map((target: Target) => (
-                                            <div key={target.id}>
-                                                <FormGroup>
-                                                    <CheckboxField
-                                                        btn
-                                                        name={`registrations.${count}.departures.${departure.id}.targets.${target.id}`}
-                                                        value={target.id}
-                                                        // onChange={toggleTarget}
-                                                        // checked={curentRegistration.targets.includes(target.id)}
-                                                    >
-                                                        {target.type} à {target.distance}m
-                                                    </CheckboxField>
-                                                </FormGroup>
-
-                                                <div className="flex">
-                                                    { ['recurve_bow', 'compound_bow', 'bare_bow'].map((weapon: string) => (
-                                                        <FormGroup
-                                                            key={`${target.id}_weapon_${weapon}`}
-                                                        >
-                                                            <CheckboxField
-                                                                btn
-                                                                name={`registrations.${count}.departures.${departure.id}.targets.${target.id}.weapon.${weapon}`}
-                                                                value={weapon}
-                                                                // onChange={toggleTarget}
-                                                                // checked={curentRegistration.targets.includes(target)}
-                                                            >
-                                                                {weapon}
-                                                            </CheckboxField>
-                                                        </FormGroup>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        ))
-                                    }
-                                </div>
-                            ))}
+                            { departures.map((departure: Departure) => (
+                                <DepartureChoice
+                                    registrationNumber={registrationNumber}
+                                    departure={departure}
+                                    key={registrationNumber + '_' + departure.id}
+                                />
+                            )) }
                         </FormGroups>
-
                     </FormGroup>
                 </FormGroups>
 

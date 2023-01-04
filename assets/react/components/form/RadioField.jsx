@@ -5,10 +5,9 @@ export default function({ asButton = false, ...props })
 {
     return (
         <Field
-            type="checkbox"
+            type="radio"
             invertLabelAndInput={asButton}
             asButton={asButton}
-            {...props}
-        />
+            {...props} />
     )
 }
