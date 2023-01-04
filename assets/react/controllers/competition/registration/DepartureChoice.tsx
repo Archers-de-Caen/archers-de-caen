@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import CheckboxField from "@react/components/form/CheckboxField"
-import TargetChoice from "@react/controllers/competition/registration/TargetChoice"
 import {Target} from "@react/controllers/competition/registration/types/Target"
 import {Departure} from "@react/controllers/competition/registration/types/Departure"
 import FormGroups from "@react/components/form/FormGroups"
-import WeaponChoice from "@react/controllers/competition/registration/WeaponChoice";
 import {FormikContextType, useFormikContext} from "formik";
 import {Registration} from "@react/controllers/competition/registration/types/Registration";
+import RadioField from "@react/components/form/RadioField"
 
 interface DepartureChoiceProps {
     registrationNumber: number,
@@ -101,29 +100,34 @@ export default function ({ registrationNumber, departure }: DepartureChoiceProps
                             className="w-100 flex direction-column item-center"
                             key={registrationNumber + '_' + departure.id + '_' + target.id}
                         >
-                            <TargetChoice
-                                registrationNumber={registrationNumber}
-                                departure={departure}
-                                target={target}
+                            <RadioField
+                                asButton
+                                name={`registrations.${registrationNumber}.departures.${departure.id}.targets`}
+                                id={`registrations.${registrationNumber}.departures.${departure.id}.targets.${target.id}`}
+                                value={target.id}
                                 onChange={handleTargetChange}
                                 checked={departureChecked.target === target.id}
-                            />
+                            >
+                                {target.type} à {target.distance}m
+                            </RadioField>
 
                             { departureChecked && departureChecked.target === target.id && (
                                 <div
-                                    className="w-90 flex --gap-3"
+                                    className="w-90 flex --gap-3 --wrap"
                                     key={registrationNumber + '_' + departure.id + '_' + target.id + '_weapons'}
                                 >
                                     { ['recurve_bow', 'compound_bow', 'bare_bow'].map((weapon: string) => (
-                                        <WeaponChoice
-                                            registrationNumber={registrationNumber}
-                                            departure={departure}
-                                            target={target}
-                                            weapon={weapon}
+                                        <RadioField
                                             key={registrationNumber + '_' + departure.id + '_' + target.id + '_' + weapon}
+                                            asButton
+                                            name={`registrations.${registrationNumber}.departures.${departure.id}.targets.${target.id}.weapons`}
+                                            id={`registrations.${registrationNumber}.departures.${departure.id}.targets.${target.id}.weapons.${weapon}`}
+                                            value={weapon}
                                             onChange={handleWeaponChange}
                                             checked={departureChecked.weapon === weapon}
-                                        />
+                                        >
+                                            {weapon}
+                                        </RadioField>
                                     ))}
                                 </div>
                             )}
