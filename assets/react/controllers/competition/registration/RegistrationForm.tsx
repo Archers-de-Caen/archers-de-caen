@@ -35,9 +35,13 @@ export default function ({ departures }: RegistrationFormProps) {
         alert(JSON.stringify(values, null, 2));
     }
 
+    const validate = (values) => {
+        console.log(values)
+    }
+
     return (
-        <Formik onSubmit={ onSubmit } initialValues={ initialValues }>
-            {({ values, errors, touched, isValidating }: FormikValues) => {
+        <Formik onSubmit={ onSubmit } initialValues={ initialValues } validate={ validate }>
+            {({ values, errors }: FormikValues) => {
                 return (
                     <Form>
                         <Toggleables>
