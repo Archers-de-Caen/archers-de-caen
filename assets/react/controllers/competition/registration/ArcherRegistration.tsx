@@ -17,7 +17,8 @@ interface ArcherRegistrationProps {
     registrationNumber: number,
     selfRemove: Function,
     activeByDefault: boolean,
-    departures: Array<Departure>
+    departures: Array<Departure>,
+    errors: any,
 }
 
 function getArcherInformation(licenseNumber: string): Promise<any>
@@ -30,7 +31,7 @@ function getArcherInformation(licenseNumber: string): Promise<any>
         })
 }
 
-export default function ({ registrationNumber, selfRemove, departures = [], activeByDefault = false }: ArcherRegistrationProps)
+export default function ({ registrationNumber, selfRemove, departures = [], activeByDefault = false, errors }: ArcherRegistrationProps)
 {
     const [ timeoutId, setTimeoutId ] = useState(null)
     const { values, setFieldValue }: FormikContextType<Registration> = useFormikContext()
@@ -87,11 +88,19 @@ export default function ({ registrationNumber, selfRemove, departures = [], acti
             })
     }
 
+    let title = "Nouvelle inscription"
+
+    if (curentRegistration.licenseNumber) {
+        title = curentRegistration.licenseNumber
+
+        if (curentRegistration.firstName) {
+            title += ' | ' + curentRegistration.firstName + ' ' + (curentRegistration.lastName ?? '')
+        }
+    }
+
     return (
         <Toggleable activeByDefault={activeByDefault}>
-            <ToggleableSummary
-                title={curentRegistration.firstName ? `${curentRegistration.firstName} ${curentRegistration.lastName ?? ''}` : "Nouvelle inscription"}
-            />
+            <ToggleableSummary title={title} />
             <ToggleableContent>
                 <FormGroups>
                     <Field
@@ -100,6 +109,12 @@ export default function ({ registrationNumber, selfRemove, departures = [], acti
                         pattern="[0-9]{6}[A-Za-z]"
                         placeholder="123456A"
                         onChange={ handleChangeLicenseNumber }
+                        errors={ errors && errors.licenseNumber }
+                        validate={(value) => {
+                            if (value && !/^\d{6}[A-Z]$/i.test(value)) {
+                                return 'Doit être au format: 123456A'
+                            }
+                        }}
                     >
                         Numéro de licence
                     </Field>
@@ -108,6 +123,7 @@ export default function ({ registrationNumber, selfRemove, departures = [], acti
                 <FormGroups className="mt-2 flex jc-space-between --gap-3 --wrap">
                     <Field
                         useFormik
+                        placeholder="Michel"
                         name={`registrations.${registrationNumber}.firstName`}
                     >
                         Prénom
@@ -115,6 +131,7 @@ export default function ({ registrationNumber, selfRemove, departures = [], acti
 
                     <Field
                         useFormik
+                        placeholder="Dupont"
                         name={`registrations.${registrationNumber}.lastName`}
                         className="w-45"
                     >
@@ -126,6 +143,13 @@ export default function ({ registrationNumber, selfRemove, departures = [], acti
                     <Field
                         useFormik
                         name={`registrations.${registrationNumber}.email`}
+                        placeholder="archer@arc.fr"
+                        errors={ errors && errors.email }
+                        validate={(value) => {
+                            if (value && !/^[A-Z0-9*._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+                                return 'Ne correspond pas au format d\'un email'
+                            }
+                        }}
                     >
                         Email
                     </Field>
@@ -133,6 +157,7 @@ export default function ({ registrationNumber, selfRemove, departures = [], acti
                     <Field
                         useFormik
                         name={`registrations.${registrationNumber}.phone`}
+                        placeholder="06 06 06 06 06"
                     >
                         Téléphone
                     </Field>
@@ -161,6 +186,7 @@ export default function ({ registrationNumber, selfRemove, departures = [], acti
                     <Field
                         useFormik
                         name={`registrations.${registrationNumber}.club`}
+                        placeholder="Archers de Caen"
                     >
                         Club
                     </Field>

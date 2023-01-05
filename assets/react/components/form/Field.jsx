@@ -7,6 +7,7 @@ export default function({
     id = '',
     type = 'text',
     required = false,
+    errors = null,
     ...props
 }) {
     const {
@@ -14,8 +15,13 @@ export default function({
         asButton = false,
         invertLabelAndInput = false,
         useFormik = false,
+        validate = null,
         ...propsFiltered
     } = props
+
+    if (validate && !useFormik) {
+        throw new Error('La propriété "validate" doit être utiliser avec formik')
+    }
 
     const label = (
         <label
@@ -32,6 +38,7 @@ export default function({
             id={id ? id : name}
             name={name}
             required={required}
+            validate={validate}
             {...propsFiltered}
         />
     ) : (
@@ -44,8 +51,22 @@ export default function({
         />
     )
 
+    let className = ''
+
+    if (['radio', 'checkbox'].includes(type)) {
+        className += ' --check'
+    }
+
+    if (asButton) {
+        className += ' --btn'
+    }
+
+    if (errors) {
+        className += ' -error'
+    }
+
     return (
-        <FormGroup className={(['radio', 'checkbox'].includes(type) ? ' --check' : '') + (asButton ? ' --btn' : '')}>
+        <FormGroup className={className}>
             {
                 !invertLabelAndInput ? (
                     <>
@@ -59,6 +80,8 @@ export default function({
                     </>
                 )
             }
+
+            { errors && <div className="errors">{ errors }</div> }
         </FormGroup>
     )
 }
