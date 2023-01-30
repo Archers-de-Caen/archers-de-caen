@@ -8,7 +8,7 @@
     <h1>Nouvelle inscription au concours</h1>
 
     <p>
-        {{ register.gender|trans({'short': 'true'}, 'archer') }} {{ register.firstName }} {{ register.lastName }}
+        {{ register.gender.value|trans({'short': 'true'}, 'archer') }} {{ register.firstName }} {{ register.lastName }}
         s'est inscrit au{% if recap|length %}x{% endif%} départ{% if recap|length %}s{% endif%} du:
     </p>
 
