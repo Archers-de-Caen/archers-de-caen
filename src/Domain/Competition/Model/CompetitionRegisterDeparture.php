@@ -83,7 +83,7 @@ class CompetitionRegisterDeparture
 
     public function getRegistration(): int
     {
-        return $this->getNumberOfRegistered() ?? 0;
+        return $this->getNumberOfRegistered();
     }
 
     public function getCompetitionRegister(): ?CompetitionRegister

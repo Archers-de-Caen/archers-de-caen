@@ -4,9 +4,13 @@
 
     {% for weapon, categories in results %}
 
-        <h3>{{ weapon }}</h3>
+        <h3>{{ weapon|trans({}, 'archer') }}</h3>
 
-        <table>
+        {% for gender, category in categories %}
+
+            <h4>{{ gender|trans({short: false}, 'archer') }}</h4>
+
+            <table>
             <thead class="highlighted">
                 <tr>
                     <th>Categories</th>
@@ -15,13 +19,14 @@
                     <th>Classement</th>
                 </tr>
             </thead>
+
             <tbody>
-                {% for category, results in categories %}
+                {% for categoryValue, results in category %}
                     {% for result in results %}
                         <tr>
                             {% if loop.first %}
                                 <td rowspan="{{ results|length }}">
-                                    {{ category }}
+                                    {{ categoryValue|trans({}, 'archer') }}
                                 </td>
                             {% endif %}
 
@@ -61,6 +66,8 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        {% endfor %}
 
         <div class="text-right">
             <p>

@@ -8,6 +8,7 @@ use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Weapon;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Result\Repository\ResultRepository;
+use App\Infrastructure\Model\GenderTrait;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
 use App\Infrastructure\Model\WeaponTrait;
@@ -31,6 +32,7 @@ abstract class Result
     use IdTrait;
     use TimestampTrait;
     use WeaponTrait;
+    use GenderTrait;
 
     #[ORM\ManyToOne(targetEntity: Archer::class, inversedBy: 'results')]
     private ?Archer $archer = null;

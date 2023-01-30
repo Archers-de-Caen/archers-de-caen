@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Landing\Controller;
 
 use App\Domain\Archer\Config\Category;
+use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Config\Weapon;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Archer\Repository\ArcherRepository;
@@ -126,34 +127,41 @@ final class CompetitionController extends AbstractController
         $recordCount = 0;
         $podiumCount = 0;
 
-        foreach (Weapon::cases() as $weaponToString => $weapon) {
-            foreach (Category::cases() as $categoryToString => $category) {
-                foreach ($competition->getResults() as $result) {
-                    if (
-                        $categoryToString === $result->getCategory()?->value &&
-                        $weaponToString === $result->getWeapon()?->value
-                    ) {
-                        if (!isset($results[$weaponToString])) {
-                            $results[$weaponToString] = [];
-                        }
+        foreach (Weapon::cases() as $weapon) {
+            foreach (Category::cases() as $category) {
+                foreach (Gender::cases() as $gender) {
+                    foreach ($competition->getResults() as $result) {
+                        if (
+                            $category->value === $result->getCategory()?->value &&
+                            $weapon->value === $result->getWeapon()?->value &&
+                            $gender->value === $result->getGender()?->value
+                        ) {
+                            if (!isset($results[$weapon->value])) {
+                                $results[$weapon->value] = [];
+                            }
 
-                        if (!isset($results[$weaponToString][$categoryToString])) {
-                            $results[$weaponToString][$categoryToString] = [];
-                        }
+                            if (!isset($results[$weapon->value][$gender->value])) {
+                                $results[$weapon->value][$gender->value] = [];
+                            }
 
-                        if (($archer = $result->getArcher()) && !in_array($archer, $participants, true)) {
-                            $participants[] = $archer;
-                        }
+                            if (!isset($results[$weapon->value][$gender->value][$category->value])) {
+                                $results[$weapon->value][$gender->value][$category->value] = [];
+                            }
 
-                        if ($result->getRecord()) {
-                            ++$recordCount;
-                        }
+                            if (($archer = $result->getArcher()) && !in_array($archer, $participants, true)) {
+                                $participants[] = $archer;
+                            }
 
-                        if ($result->getRank() <= 3) {
-                            ++$podiumCount;
-                        }
+                            if ($result->getRecord()) {
+                                ++$recordCount;
+                            }
 
-                        $results[$weaponToString][$categoryToString][] = $result;
+                            if ($result->getRank() <= 3) {
+                                ++$podiumCount;
+                            }
+
+                            $results[$weapon->value][$gender->value][$category->value][] = $result;
+                        }
                     }
                 }
             }

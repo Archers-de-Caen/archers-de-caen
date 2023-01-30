@@ -124,7 +124,7 @@
       "@auto-scripts"
     ],
     "dev-server": "php -S localhost:80 -t public",
-    "phpstan": "vendor/bin/phpstan analyse -c phpstan.neon",
+    "lint": "vendor/bin/phpstan analyse -c phpstan.neon",
     "clean-code": "vendor/bin/php-cs-fixer fix src --allow-risky=yes",
     "tests": [
       "@database-init --env=test",

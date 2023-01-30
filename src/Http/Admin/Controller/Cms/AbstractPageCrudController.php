@@ -23,6 +23,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AbstractPageCrudController extends AbstractCrudController
@@ -74,19 +75,29 @@ class AbstractPageCrudController extends AbstractCrudController
         $content = CKEditorField::new('content');
 
         $status = ChoiceField::new('status')
+            ->setChoices(Status::cases())
+            ->setFormType(EnumType::class)
+            ->setFormTypeOption('class', Status::class)
             ->setLabel('Statut')
-            ->setChoices(
-                array_combine(
-                    array_map(static fn (Status $status) => $status->toString(), Status::cases()),
-                    array_map(static fn (Status $status) => $status->value, Status::cases())
-                )
-            ); // TODO: provisoire le temps que le bundle EasyAdmin ce met a jours
+        ;
 
         $image = PhotoField::new('image')
             ->setLabel('Image')
             ->setFormType(PhotoFormType::class)
             ->setRequired(false)
         ;
+
+        /**
+         * Todo: https://github.com/EasyCorp/EasyAdminBundle/pull/4988
+         */
+        if (in_array($pageName, [Crud::PAGE_INDEX, Crud::PAGE_DETAIL], true)) {
+            $status->setChoices(array_reduce(
+                Status::cases(),
+                static fn (array $choices, Status $status) => $choices + [$status->name => $status->value],
+                [],
+            ));
+        }
+
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $title, $status, $image, $createdAt];
@@ -96,18 +107,14 @@ class AbstractPageCrudController extends AbstractCrudController
             return [$id, $title, $status, $image, $content, $createdAt];
         }
 
-        $status = ChoiceField::new('status')
-            ->setLabel('Statut')
-            ->setChoices(Status::toChoicesWithEnumValue());
-
         return [$title, $status, $image, $content];
     }
 
     public function configureFilters(Filters $filters): Filters
     {
         return $filters
-            ->add(ChoiceFilter::new('category')->setChoices(Category::toChoices()))
-            ->add(ChoiceFilter::new('status')->setChoices(Status::toChoices()))
+            ->add(ChoiceFilter::new('category')->setChoices(Category::cases()))
+            ->add(ChoiceFilter::new('status')->setChoices(Status::cases()))
         ;
     }
 }

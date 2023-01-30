@@ -150,7 +150,7 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
     {
         $weapon = ChoiceFilter::new('weapon')
             ->setLabel('Arme')
-            ->setChoices(Weapon::toChoicesWithEnumValue());
+            ->setChoices(Weapon::cases());
 
         $archer = EntityFilter::new('archer');
         $badge = EntityFilter::new('badge');
