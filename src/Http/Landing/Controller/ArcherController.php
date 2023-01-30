@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ArcherController extends AbstractController
+final class ArcherController extends AbstractController
 {
     public const ROUTE_LANDING_ARCHER = 'landing_archer';
 

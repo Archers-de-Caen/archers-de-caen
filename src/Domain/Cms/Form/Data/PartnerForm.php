@@ -13,7 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * Appelé depuis App\Http\Admin\Controller\DataCrudController::createEditFormBuilder.
  */
-class PartnerForm extends AbstractType
+final class PartnerForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

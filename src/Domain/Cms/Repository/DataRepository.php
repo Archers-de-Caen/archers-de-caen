@@ -16,7 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @extends ServiceEntityRepository<Data>
  */
-class DataRepository extends ServiceEntityRepository
+final class DataRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

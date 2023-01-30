@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
     name: 'app:v2-to-v3:wp-posts-shortcut',
     description: 'Migration des actualités de la version 2 du site vers la 3',
 )]
-class V2ToV3ActualityShortcutWpCommand extends Command
+final class V2ToV3ActualityShortcutWpCommand extends Command
 {
     use DownloadTrait;
 
@@ -38,7 +38,7 @@ class V2ToV3ActualityShortcutWpCommand extends Command
         $posts = $this->em->getRepository(Page::class)->findAll();
         $competitions = $this->reformatCompetitionsArray($this->em->getRepository(Competition::class)->findAll());
 
-        $io->progressStart(count($posts));
+        $io->progressStart(\count($posts));
 
         foreach ($posts as $post) {
             $io->progressAdvance();

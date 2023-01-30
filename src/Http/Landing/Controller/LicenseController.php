@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class LicenseController extends AbstractController
+final class LicenseController extends AbstractController
 {
     public const ROUTE_LANDING_LICENSE_NEW = 'landing_license_new';
 

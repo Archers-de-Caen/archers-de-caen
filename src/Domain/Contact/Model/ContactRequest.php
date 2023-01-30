@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Sauvegarde les demandes de contact afin de limiter le spam.
  */
 #[ORM\Entity(ContactRequestRepository::class)]
-class ContactRequest
+final class ContactRequest
 {
     use IdTrait;
     use TimestampTrait;
@@ -49,14 +49,14 @@ class ContactRequest
         return $this->ip;
     }
 
-    public function setIp(string $ip): ContactRequest
+    public function setIp(string $ip): self
     {
         $this->ip = $ip;
 
         return $this;
     }
 
-    public function setRawIp(?string $ip): ContactRequest
+    public function setRawIp(?string $ip): self
     {
         if ($ip) {
             $this->ip = IPUtils::anonymize($ip);

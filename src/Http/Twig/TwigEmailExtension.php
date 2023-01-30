@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Twig;
 
-use Parsedown;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
-class TwigEmailExtension extends AbstractExtension
+final class TwigEmailExtension extends AbstractExtension
 {
     public function getFilters(): array
     {
@@ -30,7 +29,7 @@ class TwigEmailExtension extends AbstractExtension
             return $content;
         }
         $content = preg_replace('/^(^ {2,})(\S+[ \S]*)$/m', '${2}', $content);
-        $content = (new Parsedown())->setSafeMode(false)->text($content);
+        $content = (new \Parsedown())->setSafeMode(false)->text($content);
 
         return $content;
     }

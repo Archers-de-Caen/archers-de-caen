@@ -12,7 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class GalleryCrudController extends AbstractCrudController
+final class GalleryCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {

@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class NewspaperController extends AbstractController
+final class NewspaperController extends AbstractController
 {
     public const ROUTE_LANDING_NEWSPAPERS = 'route_landing_newspapers';
 

@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ContactController extends AbstractController
+final class ContactController extends AbstractController
 {
     public const ROUTE_LANDING_CONTACT = 'landing_contact';
 

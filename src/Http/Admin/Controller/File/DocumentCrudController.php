@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\File;
 
-use App\Domain\Cms\Model\Page;
 use App\Domain\File\Config\DocumentType;
 use App\Domain\File\Model\Document;
 use Doctrine\ORM\QueryBuilder;

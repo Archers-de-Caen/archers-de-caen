@@ -9,7 +9,7 @@ use App\Infrastructure\Fixture\AbstractFixtures;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-class ArcherFixture extends AbstractFixtures
+final class ArcherFixture extends AbstractFixtures
 {
     public const LOAD_DATA_MAX = 15;
     public const REFERENCE = 'ref_archer';

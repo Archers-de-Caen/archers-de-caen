@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Command\V2ToV3;
 
-use Exception;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\ExceptionInterface;
@@ -16,7 +15,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
     name: 'app:v2-to-v3',
     description: 'Migration des records de la version 2 du site vers la 3',
 )]
-class V2ToV3Command extends Command
+final class V2ToV3Command extends Command
 {
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -42,7 +41,7 @@ class V2ToV3Command extends Command
 
                 $command->run($input, $output);
             }
-        } catch (Exception|ExceptionInterface $e) {
+        } catch (\Exception|ExceptionInterface $e) {
             $io->error($e->getMessage());
 
             return self::FAILURE;

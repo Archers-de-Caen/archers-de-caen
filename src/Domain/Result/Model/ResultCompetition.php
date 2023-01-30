@@ -9,7 +9,7 @@ use App\Domain\Result\Repository\ResultCompetitionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ResultCompetitionRepository::class)]
-class ResultCompetition extends Result
+final class ResultCompetition extends Result
 {
     #[ORM\ManyToOne(targetEntity: Competition::class, inversedBy: 'results')]
     private ?Competition $competition = null;

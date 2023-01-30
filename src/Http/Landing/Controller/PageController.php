@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PageController extends AbstractController
+final class PageController extends AbstractController
 {
     public const ROUTE_LANDING_PAGE = 'landing_page';
     public const ROUTE_LANDING_PAGE_SPORT = 'landing_page_sport';
@@ -37,7 +37,7 @@ class PageController extends AbstractController
                 }
             }
 
-            if (!count($tagsName)) {
+            if (!\count($tagsName)) {
                 $tagsName[] = 'no-category';
             }
 

@@ -7,7 +7,6 @@ namespace App\Http\Admin\Controller;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Archer\Model\License;
 use App\Domain\Badge\Model\Badge;
-use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Model\Data;
 use App\Domain\Cms\Model\Gallery;
 use App\Domain\Cms\Model\Page;
@@ -29,18 +28,17 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
-use ReflectionClass;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 
-class DashboardController extends AbstractDashboardController
+final class DashboardController extends AbstractDashboardController
 {
     #[Route('/', name: 'admin_index')]
     public function index(): Response
     {
         return $this->render('@EasyAdmin/page/index.html.twig', [
-            'dashboard_controller_filepath' => (new ReflectionClass(static::class))->getFileName(),
+            'dashboard_controller_filepath' => (new \ReflectionClass(static::class))->getFileName(),
         ]);
     }
 

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Archer\Config;
 
-use ValueError;
-
 enum Category: string
 {
     case PEEWEE = 'peewee'; // Poussin
@@ -24,7 +22,7 @@ enum Category: string
 
     public function isAdult(): bool
     {
-        return in_array($this, [
+        return \in_array($this, [
             self::JUNIOR,
             self::SENIOR_ONE,
             self::SENIOR_TWO,
@@ -33,7 +31,7 @@ enum Category: string
     }
 
     /**
-     * @throws ValueError
+     * @throws \ValueError
      */
     public static function createFromString(string $category): self
     {
@@ -53,7 +51,7 @@ enum Category: string
             'VH', 'Vétéran Homme', 'VF', 'Vétéran Femme', 'V' => self::OLD_VETERAN,
             'SVH', 'Super Vétéran Homme', 'SVF', 'Super Vétéran Femme', 'SV' => self::OLD_GREAT_VETERAN,
 
-            default => throw new ValueError($category.' not found'),
+            default => throw new \ValueError($category.' not found'),
         };
     }
 }

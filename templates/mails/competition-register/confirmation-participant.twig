@@ -23,8 +23,8 @@
     <ul>
         <li>Email : <b>{{ register.email }}</b></li>
         <li>Téléphone : <b>{{ register.phone }}</b></li>
-        <li>Catégorie : <b>{{ register.category.toString }}</b></li>
-        <li>Arme : <b>{{ register.weapon.toString }}</b></li>
+        <li>Catégorie : <b>{{ register.category.value|trans({}, 'archer') }}</b></li>
+        <li>Arme : <b>{{ register.weapon.value|trans({}, 'archer') }}</b></li>
         <li>Numéro de licence : <b>{{ register.licenseNumber }}</b></li>
         <li>Club : <b>{{ register.club }}</b></li>
         <li>1ère année : <b>{{ register.firstYear ? 'Oui' : 'Non' }}</b></li>

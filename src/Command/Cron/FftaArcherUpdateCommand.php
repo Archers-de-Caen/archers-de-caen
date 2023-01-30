@@ -9,12 +9,7 @@ use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Archer\Model\ArcherLicense;
 use App\Domain\Archer\Model\License;
-use CurlHandle;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use DOMDocument;
-use DOMElement;
-use Exception;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,12 +20,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
     name: 'app:ffta:archer-update',
     description: 'Met à jour les archers licencié depuis le site de la FFTA',
 )]
-class FftaArcherUpdateCommand extends Command
+final class FftaArcherUpdateCommand extends Command
 {
     use ArcherTrait;
 
     private string $cookieFile;
-    private CurlHandle $curl;
+    private \CurlHandle $curl;
 
     /**
      * @param string $fftaUsername Injected from service.yaml
@@ -82,11 +77,11 @@ class FftaArcherUpdateCommand extends Command
             return Command::FAILURE;
         }
 
-        $io->info(count($licensesResponse['licences']).' licences récupéré');
+        $io->info(\count($licensesResponse['licences']).' licences récupéré');
 
         $newLicenses = $this->reformatLicencesArray($licensesResponse['licences']);
 
-        $io->info(count($newLicenses).' licences reformaté');
+        $io->info(\count($newLicenses).' licences reformaté');
 
         $archers = $this->reformatArchersArray($this->em->getRepository(Archer::class)->findAll());
         $licenses = $this->em->getRepository(License::class)->findAll();
@@ -94,7 +89,7 @@ class FftaArcherUpdateCommand extends Command
         foreach ($newLicenses as $newLicense) {
             try {
                 $archer = $this->getArcher($archers, $newLicense['license'], $newLicense['name']);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $io->error($e->getMessage());
 
                 break;
@@ -106,14 +101,14 @@ class FftaArcherUpdateCommand extends Command
                     static fn (License $license) => $newLicense['licenseType'] === $license->getTitle()
                 );
 
-                if (!count($license)) {
+                if (!\count($license)) {
                     $io->error('License not found');
 
                     return Command::FAILURE;
                 }
 
                 try {
-                    $io->info('Nouvelle licence: ' . json_encode($newLicense, JSON_THROW_ON_ERROR));
+                    $io->info('Nouvelle licence: '.json_encode($newLicense, \JSON_THROW_ON_ERROR));
                 } catch (\JsonException) {
                     $io->info('Nouvelle licence: impossible d\'encodé $newLicense');
                 }
@@ -130,7 +125,7 @@ class FftaArcherUpdateCommand extends Command
                     (new ArcherLicense())
                         ->setActive(true)
                         ->setDateStart($newLicense['licenseDate'])
-                        ->setDateEnd(DateTime::createFromFormat('Y-m-d', $season.'-08-31') ?: null)
+                        ->setDateEnd(\DateTime::createFromFormat('Y-m-d', $season.'-08-31') ?: null)
                         ->setLicense($license[array_key_first($license)])
                         ->setCategory($category)
                 );
@@ -155,13 +150,13 @@ class FftaArcherUpdateCommand extends Command
      */
     private function getToken(): ?string
     {
-        $pageConnexion = new DOMDocument();
+        $pageConnexion = new \DOMDocument();
         $pageConnexion->validateOnParse = true;
 
-        curl_setopt($this->curl, CURLOPT_URL, 'https://ffta-goal.multimediabs.com/login');
-        curl_setopt($this->curl, CURLOPT_COOKIESESSION, true);
-        curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($this->curl, CURLOPT_COOKIEJAR, $this->cookieFile);
+        curl_setopt($this->curl, \CURLOPT_URL, 'https://ffta-goal.multimediabs.com/login');
+        curl_setopt($this->curl, \CURLOPT_COOKIESESSION, true);
+        curl_setopt($this->curl, \CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($this->curl, \CURLOPT_COOKIEJAR, $this->cookieFile);
 
         $page = (string) curl_exec($this->curl);
 
@@ -169,7 +164,7 @@ class FftaArcherUpdateCommand extends Command
 
         $nodes = $pageConnexion->getElementsByTagName('input');
 
-        /** @var DOMElement $node */
+        /** @var \DOMElement $node */
         foreach ($nodes as $node) {
             if ('authenticityToken' === $node->getAttribute('name')) {
                 return $node->getAttribute('value');
@@ -187,33 +182,33 @@ class FftaArcherUpdateCommand extends Command
             'authenticityToken' => $this->getToken(),
         ];
 
-        curl_setopt($this->curl, CURLOPT_URL, 'https://ffta-goal.multimediabs.com/login');
-        curl_setopt($this->curl, CURLOPT_COOKIESESSION, true);
-        curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($this->curl, CURLOPT_COOKIEJAR, $this->cookieFile);
-        curl_setopt($this->curl, CURLOPT_COOKIEFILE, $this->cookieFile);
-        curl_setopt($this->curl, CURLOPT_POST, true);
-        curl_setopt($this->curl, CURLOPT_POSTFIELDS, $postdata);
-        curl_setopt($this->curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($this->curl, \CURLOPT_URL, 'https://ffta-goal.multimediabs.com/login');
+        curl_setopt($this->curl, \CURLOPT_COOKIESESSION, true);
+        curl_setopt($this->curl, \CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($this->curl, \CURLOPT_COOKIEJAR, $this->cookieFile);
+        curl_setopt($this->curl, \CURLOPT_COOKIEFILE, $this->cookieFile);
+        curl_setopt($this->curl, \CURLOPT_POST, true);
+        curl_setopt($this->curl, \CURLOPT_POSTFIELDS, $postdata);
+        curl_setopt($this->curl, \CURLOPT_FOLLOWLOCATION, true);
 
         curl_exec($this->curl);
     }
 
     private function getLicenses(string $saison): array
     {
-        curl_setopt($this->curl, CURLOPT_URL, "https://ffta-goal.multimediabs.com/licences/afficherlistelicencies?editionAttestation=&idSaison=$saison");
-        curl_setopt($this->curl, CURLOPT_COOKIESESSION, true);
-        curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($this->curl, CURLOPT_COOKIEFILE, $this->cookieFile);
-        curl_setopt($this->curl, CURLOPT_HTTPHEADER, [
+        curl_setopt($this->curl, \CURLOPT_URL, "https://ffta-goal.multimediabs.com/licences/afficherlistelicencies?editionAttestation=&idSaison=$saison");
+        curl_setopt($this->curl, \CURLOPT_COOKIESESSION, true);
+        curl_setopt($this->curl, \CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($this->curl, \CURLOPT_COOKIEFILE, $this->cookieFile);
+        curl_setopt($this->curl, \CURLOPT_HTTPHEADER, [
             'X-Requested-With: XMLHttpRequest',
             'Host: ffta-goal.multimediabs.com',
             'Accept: application/json, text/javascript, */*; q=0.01',
             'Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
             'Connection: keep-alive',
         ]);
-        curl_setopt($this->curl, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($this->curl, CURLOPT_REFERER, 'https://ffta-goal.multimediabs.com/licences/listerLicencies?idStructure=636');
+        curl_setopt($this->curl, \CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($this->curl, \CURLOPT_REFERER, 'https://ffta-goal.multimediabs.com/licences/listerLicencies?idStructure=636');
 
         $json = curl_exec($this->curl);
 
@@ -232,8 +227,8 @@ class FftaArcherUpdateCommand extends Command
                 'gender' => $license[2],
                 'location' => $license[3],
                 'status' => $license[4],
-                'birthDate' => DateTime::createFromFormat('d/m/Y', $license[5]),
-                'licenseDate' => DateTime::createFromFormat('d/m/Y', $license[6]),
+                'birthDate' => \DateTime::createFromFormat('d/m/Y', $license[5]),
+                'licenseDate' => \DateTime::createFromFormat('d/m/Y', $license[6]),
                 'licenseType' => $license[7],
                 'category' => $license[8],
                 'html' => $license[9],

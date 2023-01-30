@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 
 #[IsGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED)]
-class DefaultController extends AbstractController
+final class DefaultController extends AbstractController
 {
     #[Route('/', name: 'app_index')]
     public function index(): Response

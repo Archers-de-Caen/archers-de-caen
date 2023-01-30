@@ -9,7 +9,6 @@ use App\Domain\Competition\Repository\CompetitionRegisterRepository;
 use App\Domain\File\Model\Document;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -18,16 +17,16 @@ use Gedmo\Mapping\Annotation\Slug;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CompetitionRegisterRepository::class)]
-class CompetitionRegister
+final class CompetitionRegister
 {
     use IdTrait;
     use TimestampTrait;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    private ?DateTimeImmutable $dateStart = null;
+    private ?\DateTimeImmutable $dateStart = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    private ?DateTimeImmutable $dateEnd = null;
+    private ?\DateTimeImmutable $dateEnd = null;
 
     #[ORM\Column(type: Types::JSON)]
     #[Assert\NotNull]
@@ -51,7 +50,7 @@ class CompetitionRegister
     private ?string $slug = null;
 
     /**
-     * Nombre d'archers dans l'équipe
+     * Nombre d'archers dans l'équipe.
      */
     #[ORM\Column(type: Types::SMALLINT, options: ['default' => 1])]
     private ?int $byTeam = 1;
@@ -70,24 +69,24 @@ class CompetitionRegister
         $this->departures = new ArrayCollection();
     }
 
-    public function getDateStart(): ?DateTimeImmutable
+    public function getDateStart(): ?\DateTimeImmutable
     {
         return $this->dateStart;
     }
 
-    public function setDateStart(?DateTimeImmutable $dateStart): self
+    public function setDateStart(?\DateTimeImmutable $dateStart): self
     {
         $this->dateStart = $dateStart;
 
         return $this;
     }
 
-    public function getDateEnd(): ?DateTimeImmutable
+    public function getDateEnd(): ?\DateTimeImmutable
     {
         return $this->dateEnd;
     }
 
-    public function setDateEnd(?DateTimeImmutable $dateEnd): self
+    public function setDateEnd(?\DateTimeImmutable $dateEnd): self
     {
         $this->dateEnd = $dateEnd;
 
@@ -108,7 +107,7 @@ class CompetitionRegister
 
     public function addType(Type $type): self
     {
-        if (!in_array($type, $this->types, true)) {
+        if (!\in_array($type, $this->types, true)) {
             $this->types[] = $type;
         }
 

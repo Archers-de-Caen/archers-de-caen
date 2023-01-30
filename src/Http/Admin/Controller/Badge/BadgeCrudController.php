@@ -20,7 +20,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 
-class BadgeCrudController extends AbstractCrudController
+final class BadgeCrudController extends AbstractCrudController
 {
     public function __construct(protected readonly EntityRepository $entityRepository)
     {

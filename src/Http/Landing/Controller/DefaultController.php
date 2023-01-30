@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DefaultController extends AbstractController
+final class DefaultController extends AbstractController
 {
     public const ROUTE_LANDING_INDEX = 'landing_index';
 

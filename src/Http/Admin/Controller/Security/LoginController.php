@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class LoginController extends AbstractController
+final class LoginController extends AbstractController
 {
     public const ROUTE_ADMIN_LOGIN = 'admin_login';
 

@@ -13,7 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Webhook[]    findAll()
  * @method Webhook[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class WebhookRepository extends ServiceEntityRepository
+final class WebhookRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

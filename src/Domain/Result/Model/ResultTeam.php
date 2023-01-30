@@ -13,7 +13,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ResultCompetitionRepository::class)]
-class ResultTeam extends Result
+final class ResultTeam extends Result
 {
     #[ORM\ManyToOne(targetEntity: Competition::class, inversedBy: 'resultsTeams')]
     private ?Competition $competition = null;
@@ -98,7 +98,7 @@ class ResultTeam extends Result
      */
     public function addDuel(array $duel): self
     {
-        if (!in_array($duel, $this->duels, true)) {
+        if (!\in_array($duel, $this->duels, true)) {
             $this->duels[] = $duel;
         }
 
@@ -129,7 +129,7 @@ class ResultTeam extends Result
      */
     public function addFinalRanking(array $finalRanking): self
     {
-        if (!in_array($finalRanking, $this->finalRankings, true)) {
+        if (!\in_array($finalRanking, $this->finalRankings, true)) {
             $this->finalRankings[] = $finalRanking;
         }
 

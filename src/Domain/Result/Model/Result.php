@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace App\Domain\Result\Model;
 
 use App\Domain\Archer\Config\Category;
-use App\Domain\Archer\Config\Weapon;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Result\Repository\ResultRepository;
 use App\Infrastructure\Model\GenderTrait;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
 use App\Infrastructure\Model\WeaponTrait;
-use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -29,10 +27,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 ])]
 abstract class Result
 {
+    use GenderTrait;
     use IdTrait;
     use TimestampTrait;
     use WeaponTrait;
-    use GenderTrait;
 
     #[ORM\ManyToOne(targetEntity: Archer::class, inversedBy: 'results')]
     private ?Archer $archer = null;
@@ -56,11 +54,11 @@ abstract class Result
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     #[Assert\NotNull]
     #[Assert\NotBlank]
-    private ?DateTimeInterface $completionDate = null;
+    private ?\DateTimeInterface $completionDate = null;
 
     public function __toString(): string
     {
-        return $this->getArcher()?->__toString().' | '.$this->getScore().' points'.' | '.$this->getRank();
+        return $this->getArcher()?->__toString().' | '.$this->getScore().' points | '.$this->getRank();
     }
 
     public function getArcher(): ?Archer
@@ -101,7 +99,7 @@ abstract class Result
 
     public function onThePodium(): bool
     {
-        return $this->getRank() !== 0 && $this->getRank() <= 3;
+        return 0 !== $this->getRank() && $this->getRank() <= 3;
     }
 
     public function getCategory(): ?Category
@@ -128,12 +126,12 @@ abstract class Result
         return $this;
     }
 
-    public function getCompletionDate(): ?DateTimeInterface
+    public function getCompletionDate(): ?\DateTimeInterface
     {
         return $this->completionDate;
     }
 
-    public function setCompletionDate(?DateTimeInterface $completionDate): self
+    public function setCompletionDate(?\DateTimeInterface $completionDate): self
     {
         $this->completionDate = $completionDate;
 

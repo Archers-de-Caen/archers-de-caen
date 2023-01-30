@@ -14,7 +14,6 @@ use App\Domain\Result\Model\ResultBadge;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMapping;
-use Exception;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -65,7 +64,7 @@ final class V2ToV3BadgeCommand extends Command
         foreach ($recordResults as $recordResult) {
             try {
                 $archer = $this->getArcher($archers, $recordResult['license'], $recordResult['name']);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $io->error($e->getMessage());
 
                 break;
@@ -79,7 +78,7 @@ final class V2ToV3BadgeCommand extends Command
                         $result->setRecord(false);
                         $result->setScore((int) $recordResult['score']);
                         $result->setWeapon(
-                            Weapon::createFromString(substr($recordResult['category'], strlen($recordResult['category']) - 2, 2))
+                            Weapon::createFromString(substr($recordResult['category'], \strlen($recordResult['category']) - 2, 2))
                         );
                         $result->setCategory(
                             Category::createFromString(substr($recordResult['category'], 0, -2))

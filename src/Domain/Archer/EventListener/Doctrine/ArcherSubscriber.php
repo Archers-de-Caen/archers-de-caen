@@ -10,7 +10,7 @@ use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class ArcherSubscriber implements EventSubscriberInterface
+final class ArcherSubscriber implements EventSubscriberInterface
 {
     public function __construct(private readonly UserPasswordHasherInterface $userPasswordHasher)
     {

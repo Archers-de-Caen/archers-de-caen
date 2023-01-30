@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Archer\Config;
 
-use ValueError;
-
 enum Weapon: string
 {
     case RECURVE_BOW = 'recurve_bow';
@@ -19,7 +17,7 @@ enum Weapon: string
             'CO', 'Arc à poulies', 'Arc a poulies' => self::COMPOUND_BOW,
             'BB', 'Arc nu' => self::BARE_BOW,
 
-            default => throw new ValueError($weapon.' not found'),
+            default => throw new \ValueError($weapon.' not found'),
         };
     }
 

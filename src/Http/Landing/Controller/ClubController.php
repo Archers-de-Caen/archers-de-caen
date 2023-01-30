@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ClubController extends AbstractController
+final class ClubController extends AbstractController
 {
     public const ROUTE_LANDING_CLUB = 'landing_club';
     public const ROUTE_LANDING_PLANNING = 'landing_planning';

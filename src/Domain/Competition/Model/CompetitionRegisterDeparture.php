@@ -7,7 +7,6 @@ namespace App\Domain\Competition\Model;
 use App\Domain\Competition\Repository\CompetitionRegisterDepartureRepository;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -15,14 +14,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CompetitionRegisterDepartureRepository::class)]
-class CompetitionRegisterDeparture
+final class CompetitionRegisterDeparture
 {
     use IdTrait;
     use TimestampTrait;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     #[Groups(['departure'])]
-    private ?DateTimeImmutable $date = null;
+    private ?\DateTimeImmutable $date = null;
 
     #[ORM\Column(type: Types::INTEGER)]
     #[Groups(['departure'])]
@@ -57,12 +56,12 @@ class CompetitionRegisterDeparture
         return $this->getDate()?->format('d/m/Y à H:i') ?? '';
     }
 
-    public function getDate(): ?DateTimeImmutable
+    public function getDate(): ?\DateTimeImmutable
     {
         return $this->date;
     }
 
-    public function setDate(?DateTimeImmutable $date): self
+    public function setDate(?\DateTimeImmutable $date): self
     {
         $this->date = $date;
 

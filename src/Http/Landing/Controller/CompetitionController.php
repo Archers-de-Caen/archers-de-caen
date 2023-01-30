@@ -16,7 +16,6 @@ use App\Domain\Competition\Model\Competition;
 use App\Domain\Competition\Repository\CompetitionRepository;
 use App\Domain\Result\Model\ResultCompetition;
 use App\Domain\Result\Repository\ResultCompetitionRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -148,7 +147,7 @@ final class CompetitionController extends AbstractController
                                 $results[$weapon->value][$gender->value][$category->value] = [];
                             }
 
-                            if (($archer = $result->getArcher()) && !in_array($archer, $participants, true)) {
+                            if (($archer = $result->getArcher()) && !\in_array($archer, $participants, true)) {
                                 $participants[] = $archer;
                             }
 
@@ -175,7 +174,7 @@ final class CompetitionController extends AbstractController
         return $this->render($template, [
             'competition' => $competition,
             'results' => $results,
-            'participantCount' => count($participants),
+            'participantCount' => \count($participants),
             'recordCount' => $recordCount,
             'podiumCount' => $podiumCount,
         ]);

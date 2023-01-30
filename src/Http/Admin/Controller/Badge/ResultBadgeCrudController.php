@@ -111,10 +111,10 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
             ->setFormTypeOption('class', Category::class)
             ->setLabel('Catégorie');
 
-        /**
+        /*
          * Todo: https://github.com/EasyCorp/EasyAdminBundle/pull/4988
          */
-        if (in_array($pageName, [Crud::PAGE_INDEX, Crud::PAGE_DETAIL], true)) {
+        if (\in_array($pageName, [Crud::PAGE_INDEX, Crud::PAGE_DETAIL], true)) {
             $category->setChoices(array_reduce(
                 Category::cases(),
                 static fn (array $choices, Category $category) => $choices + [$category->name => $category->value],

@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Uid\Uuid;
 
-class HelloassoWebhookController extends AbstractController
+final class HelloassoWebhookController extends AbstractController
 {
     public const ROUTE_WEBHOOK_HELLOASSO = 'webhook_helloasso';
 
@@ -48,7 +48,7 @@ class HelloassoWebhookController extends AbstractController
             try {
                 $event = $helloasso->event->decode($content);
                 $webhook
-                    ->setContent((array) json_decode($content, true, 512, JSON_THROW_ON_ERROR))
+                    ->setContent((array) json_decode($content, true, 512, \JSON_THROW_ON_ERROR))
                     ->setType($event->getEventType())
                 ;
 
@@ -64,7 +64,6 @@ class HelloassoWebhookController extends AbstractController
         } else {
             $msg = 'No content in webhook request';
         }
-
 
         $webhook->setResult($msg);
 
@@ -94,7 +93,7 @@ class HelloassoWebhookController extends AbstractController
             $registration->setPaid(true);
         }
 
-        return \count($registrations).' registration paid ('. implode(', ', $registrationIds) .')';
+        return \count($registrations).' registration paid ('.implode(', ', $registrationIds).')';
     }
 
     private function form(Event $event): string

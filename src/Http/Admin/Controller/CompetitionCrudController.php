@@ -29,7 +29,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class CompetitionCrudController extends AbstractCrudController
+final class CompetitionCrudController extends AbstractCrudController
 {
     public function __construct(
         readonly private ResultCompetitionManager $resultCompetitionManager,
@@ -157,7 +157,7 @@ class CompetitionCrudController extends AbstractCrudController
         $context = $this->getContext();
         $competitionData = $context?->getRequest()->request->all()['Competition'];
 
-        if (is_array($competitionData) && isset($competitionData['autoCreateActuality'])) {
+        if (\is_array($competitionData) && isset($competitionData['autoCreateActuality'])) {
             $actuality = $this->competitionManager->createActuality($entityInstance);
 
             parent::persistEntity($entityManager, $actuality);

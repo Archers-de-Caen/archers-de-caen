@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Landing\Controller;
 
-use App\Domain\Competition\Form\CompetitionRegisterDepartureTargetArcherForm;
 use App\Domain\Competition\Form\RegisterForm;
 use App\Domain\Competition\Manager\CompetitionRegisterManager;
+use App\Domain\Competition\Manager\CompetitionRegisterPayment;
 use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher as Registration;
-use App\Domain\Competition\Manager\CompetitionRegisterPayment;
 use App\Domain\Competition\Repository\CompetitionRegisterDepartureTargetArcherRepository as RegistrationRepository;
 use App\Infrastructure\Exception\InvalidSubmitCompetitionRegisterException;
 use Helloasso\Exception\HelloassoException;
@@ -20,7 +19,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class CompetitionRegisterController extends AbstractController
 {
@@ -47,7 +45,7 @@ final class CompetitionRegisterController extends AbstractController
     public function base(CompetitionRegister $competitionRegister): Response
     {
         return $this->redirectToRoute(self::ROUTE_LANDING_COMPETITION_REGISTER_ARCHER, [
-            'slug' => $competitionRegister->getSlug()
+            'slug' => $competitionRegister->getSlug(),
         ]);
     }
 
@@ -87,7 +85,7 @@ final class CompetitionRegisterController extends AbstractController
                 $competitionRegister->getDepartures(),
                 'json',
                 ['groups' => ['id', 'departure']],
-            ), false, 512, JSON_THROW_ON_ERROR);
+            ), false, 512, \JSON_THROW_ON_ERROR);
         } catch (\JsonException) {
             $departures = [];
         }

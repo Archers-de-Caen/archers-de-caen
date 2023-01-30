@@ -9,7 +9,6 @@ use App\Domain\File\Form\PhotoFormType;
 use App\Domain\File\Model\Photo;
 use App\Helper\FormHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PhotoApiController extends AbstractController
+final class PhotoApiController extends AbstractController
 {
     #[Route('/photos', name: 'photos_upload', methods: Request::METHOD_POST)]
     public function upload(Request $request, EntityManagerInterface $em): JsonResponse
@@ -46,7 +45,7 @@ class PhotoApiController extends AbstractController
         try {
             $em->persist($photo);
             $em->flush();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $this->json([
                 'message' => $e->getMessage(),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);

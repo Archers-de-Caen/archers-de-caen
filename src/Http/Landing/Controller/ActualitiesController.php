@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ActualitiesController extends AbstractController
+final class ActualitiesController extends AbstractController
 {
     public const ROUTE_LANDING_ACTUALITIES = 'landing_actualities';
     public const ROUTE_LANDING_ACTUALITY = 'landing_actuality';

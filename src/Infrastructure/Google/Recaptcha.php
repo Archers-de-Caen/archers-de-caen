@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Google;
 
 use Psr\Log\LoggerInterface;
@@ -9,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
-class Recaptcha
+final class Recaptcha
 {
     private string $clientSecret;
     private string $url;
@@ -47,7 +49,7 @@ class Recaptcha
 
         try {
             /** @var array $response */
-            $response = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+            $response = json_decode($request->getContent(), true, 512, \JSON_THROW_ON_ERROR);
         } catch (\JsonException|HttpExceptionInterface|TransportExceptionInterface $e) {
             $this->logger->error($e);
 

@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Helper;
 
-use Exception;
-
-class SecurityHelper
+final class SecurityHelper
 {
     public static function generateApiKey(string $prefix = null): string
     {
@@ -25,7 +23,7 @@ class SecurityHelper
     /**
      * @param int<1, max> $length
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public static function generateRandomToken(int $length = 8, ?string $prefix = null): string
     {

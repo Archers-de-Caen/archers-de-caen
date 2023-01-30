@@ -10,7 +10,7 @@ use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher;
 use App\Domain\Competition\Repository\CompetitionRegisterDepartureTargetArcherRepository;
 use App\Infrastructure\Service\Anonymize;
 
-class ArcherManager
+final class ArcherManager
 {
     public function __construct(
         readonly private CompetitionRegisterDepartureTargetArcherRepository $targetArcherRepository,

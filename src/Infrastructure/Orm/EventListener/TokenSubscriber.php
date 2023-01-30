@@ -8,9 +8,8 @@ use App\Helper\SecurityHelper;
 use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use Exception;
 
-class TokenSubscriber implements EventSubscriberInterface
+final class TokenSubscriber implements EventSubscriberInterface
 {
     public function getSubscribedEvents(): array
     {
@@ -20,7 +19,7 @@ class TokenSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function prePersist(LifecycleEventArgs $args): void
     {
@@ -28,7 +27,7 @@ class TokenSubscriber implements EventSubscriberInterface
 
         if (property_exists($entity, 'token') && method_exists($entity, 'setToken')) {
             /** @var string $prefix */
-            $prefix = constant($entity::class.'::PREFIX_TOKEN');
+            $prefix = \constant($entity::class.'::PREFIX_TOKEN');
 
             $entity->setToken(SecurityHelper::generateRandomToken(8, $prefix));
         }

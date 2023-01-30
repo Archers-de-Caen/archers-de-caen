@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\CompetitionRegister;
 
-use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Competition\Config\Type;
 use App\Domain\Competition\Form\CompetitionRegisterDepartureForm;
@@ -26,11 +25,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
-use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class CompetitionRegisterCrudController extends AbstractCrudController
+final class CompetitionRegisterCrudController extends AbstractCrudController
 {
     public function __construct(
         readonly private UrlGeneratorInterface $urlGenerator,
@@ -170,7 +168,7 @@ class CompetitionRegisterCrudController extends AbstractCrudController
         $context = $this->getContext();
         $competitionData = $context?->getRequest()->request->all()['CompetitionRegister'];
 
-        if (is_array($competitionData) && isset($competitionData['autoCreateActuality'])) {
+        if (\is_array($competitionData) && isset($competitionData['autoCreateActuality'])) {
             $actuality = $this->competitionRegisterManager->createActuality($entityInstance);
 
             parent::persistEntity($entityManager, $actuality);

@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints\Valid;
 /**
  * Appelé depuis App\Http\Admin\Controller\DataCrudController::createEditFormBuilder.
  */
-class ManagementTeamForm extends AbstractType
+final class ManagementTeamForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

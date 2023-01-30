@@ -7,7 +7,6 @@ namespace App\Http\App\Controller;
 use App\Domain\Archer\Form\RegistrationFormType;
 use App\Domain\Archer\Model\Archer;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +17,7 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
 
-class SecurityController extends AbstractController
+final class SecurityController extends AbstractController
 {
     public const ROUTE_APP_LOGIN = 'app_login';
 
@@ -60,12 +59,12 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     #[Route('/deconnexion', name: 'app_logout', methods: 'GET')]
     public function logout(): void
     {
         // controller can be blank: it will never be called!
-        throw new Exception('Don\'t forget to activate logout in security.yaml');
+        throw new \Exception('Don\'t forget to activate logout in security.yaml');
     }
 }

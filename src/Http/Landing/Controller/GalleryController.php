@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class GalleryController extends AbstractController
+final class GalleryController extends AbstractController
 {
     public const ROUTE_LANDING_GALLERIES = 'landing_galleries';
     public const ROUTE_LANDING_GALLERY = 'landing_gallery';

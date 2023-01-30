@@ -12,13 +12,12 @@ use App\Domain\Competition\Admin\Filter\CompetitionRegisterDepartureTargetArcher
 use App\Domain\Competition\Admin\Filter\CompetitionRegisterDepartureTargetArcher\CompetitionRegisterFilter;
 use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher;
+use App\Http\Landing\Controller\DefaultController;
 use Doctrine\ORM\EntityManagerInterface;
 use Doskyft\CsvHelper\ColumnDefinition;
 use Doskyft\CsvHelper\Csv;
 use Doskyft\CsvHelper\Exception\NotCorrectColumnsException;
 use Doskyft\CsvHelper\Types;
-use App\Http\Landing\Controller\DefaultController;
-use DateTimeInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -36,14 +35,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
-use Symfony\Component\Asset\UrlPackage;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CompetitionRegisterArcherCrudController extends AbstractCrudController
+final class CompetitionRegisterArcherCrudController extends AbstractCrudController
 {
     public function __construct(
         readonly private AdminUrlGenerator $adminUrlGenerator,
@@ -148,10 +146,10 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
             ->setLabel('Arme')
         ;
 
-        /**
+        /*
          * Todo: https://github.com/EasyCorp/EasyAdminBundle/pull/4988
          */
-        if (in_array($pageName, [Crud::PAGE_INDEX, Crud::PAGE_DETAIL], true)) {
+        if (\in_array($pageName, [Crud::PAGE_INDEX, Crud::PAGE_DETAIL], true)) {
             $category->setChoices(array_reduce(
                 Category::cases(),
                 static fn (array $choices, Category $category) => $choices + [$category->name => $category->value],
@@ -248,7 +246,7 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
             };
 
             return implode(',', [
-                'date_de_creation' => $registration->getCreatedAt()?->format(DateTimeInterface::RFC822),
+                'date_de_creation' => $registration->getCreatedAt()?->format(\DateTimeInterface::RFC822),
                 'licence' => $registration->getLicenseNumber(),
                 'prenom' => $registration->getFirstName(),
                 'nom' => $registration->getLastName(),
@@ -422,7 +420,7 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
 
         $em->flush();
 
-        $this->addFlash('success', 'Inscription importé ! '.count($registrations).' inscriptions ont étaient importé');
+        $this->addFlash('success', 'Inscription importé ! '.\count($registrations).' inscriptions ont étaient importé');
 
         return $this->redirect($returnUrl);
     }

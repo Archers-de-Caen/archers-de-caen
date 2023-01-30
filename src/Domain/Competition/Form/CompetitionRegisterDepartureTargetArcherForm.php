@@ -16,12 +16,9 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
@@ -31,9 +28,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
+final class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
 {
     public function __construct(
         readonly private ArcherManager $archerManager,
@@ -95,7 +91,7 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
             ])
             ->add('licenseNumber', TextType::class, [
                 'translation_domain' => 'archer',
-                //'' => true,
+                // '' => true,
                 'attr' => [
                     'pattern' => '[0-9]{6}[A-Za-z]',
                     'placeholder' => '123456A',

@@ -7,10 +7,9 @@ namespace App\Infrastructure\Orm\EventListener;
 use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use Exception;
 use Symfony\Bundle\SecurityBundle\Security;
 
-class CreatedBySubscriber implements EventSubscriberInterface
+final class CreatedBySubscriber implements EventSubscriberInterface
 {
     public function __construct(readonly private Security $security)
     {
@@ -24,7 +23,7 @@ class CreatedBySubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function prePersist(LifecycleEventArgs $args): void
     {

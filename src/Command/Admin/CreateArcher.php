@@ -101,31 +101,31 @@ final class CreateArcher extends Command
             } while ($violations->count());
         }
 
-        if (($value = $properties['firstName']['value']) && is_string($value)) {
+        if (($value = $properties['firstName']['value']) && \is_string($value)) {
             $archer->setFirstName($value);
         }
 
-        if (($value = $properties['lastName']['value']) && is_string($value)) {
+        if (($value = $properties['lastName']['value']) && \is_string($value)) {
             $archer->setLastName($value);
         }
 
-        if (($value = $properties['email']['value']) && is_string($value)) {
+        if (($value = $properties['email']['value']) && \is_string($value)) {
             $archer->setEmail($value);
         }
 
-        if (($value = $properties['phone']['value']) && is_string($value)) {
+        if (($value = $properties['phone']['value']) && \is_string($value)) {
             $archer->setPhone($value);
         }
 
-        if (($value = $properties['plainPassword']['value']) && is_string($value)) {
+        if (($value = $properties['plainPassword']['value']) && \is_string($value)) {
             $archer->setPlainPassword($value);
         }
 
-        if (($value = $properties['licenseNumber']['value']) && is_string($value)) {
+        if (($value = $properties['licenseNumber']['value']) && \is_string($value)) {
             $archer->setLicenseNumber($value);
         }
 
-        if (($value = $properties['role']['value']) && is_string($value)) {
+        if (($value = $properties['role']['value']) && \is_string($value)) {
             $archer->addRole($value);
         }
 

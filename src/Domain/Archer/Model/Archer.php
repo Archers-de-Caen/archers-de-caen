@@ -20,13 +20,10 @@ use App\Infrastructure\Model\LastNameTrait;
 use App\Infrastructure\Model\LicenseNumberTrait;
 use App\Infrastructure\Model\PhoneTrait;
 use App\Infrastructure\Model\TimestampTrait;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Exception;
-use RuntimeException;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -38,15 +35,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[UniqueEntity('licenseNumber')]
 class Archer implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface
 {
-    use IdTrait;
-    use TimestampTrait;
-    use FirstNameTrait;
-    use LastNameTrait;
-    use EmailTrait;
-    use PhoneTrait;
-    use LicenseNumberTrait;
-    use GenderTrait;
     use ArcherCategoryTrait;
+    use EmailTrait;
+    use FirstNameTrait;
+    use GenderTrait;
+    use IdTrait;
+    use LastNameTrait;
+    use LicenseNumberTrait;
+    use PhoneTrait;
+    use TimestampTrait;
 
     private const LICENSE_NUMBER_UNIQUE = true;
     private const EMAIL_UNIQUE = true;
@@ -71,7 +68,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     private ?string $plainPassword = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?DateTimeInterface $lastLogin;
+    private ?\DateTimeInterface $lastLogin;
 
     /**
      * @var Collection<int, ArcherLicense>
@@ -119,7 +116,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
 
     public function addRole(?string $role): self
     {
-        if ($role && !in_array($role, $this->roles, true) && in_array($role, self::ROLES)) {
+        if ($role && !\in_array($role, $this->roles, true) && \in_array($role, self::ROLES)) {
             $this->roles[] = $role;
         }
 
@@ -145,12 +142,12 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     /**
      * TODO: a vérifier.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function getUserIdentifier(): string
     {
         if (!$this->getLicenseNumber() && !$this->getEmail()) {
-            throw new RuntimeException('L\'utilisateur doit avoir au moins son numéro de licence ou un email');
+            throw new \RuntimeException('L\'utilisateur doit avoir au moins son numéro de licence ou un email');
         }
 
         return ($this->getLicenseNumber() ?: $this->getEmail()) ?: '';
@@ -192,12 +189,12 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         return $this;
     }
 
-    public function getLastLogin(): ?DateTimeInterface
+    public function getLastLogin(): ?\DateTimeInterface
     {
         return $this->lastLogin;
     }
 
-    public function setLastLogin(?DateTimeInterface $lastLogin): self
+    public function setLastLogin(?\DateTimeInterface $lastLogin): self
     {
         $this->lastLogin = $lastLogin;
 
@@ -267,7 +264,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
             static fn (ResultBadge $one, ResultBadge $two): int => $one->getBadge()?->getLevel() > $two->getBadge()?->getLevel() ? -1 : 1
         );
 
-        return count($resultProgressArrows) ? $resultProgressArrows[0] : null;
+        return \count($resultProgressArrows) ? $resultProgressArrows[0] : null;
     }
 
     /**

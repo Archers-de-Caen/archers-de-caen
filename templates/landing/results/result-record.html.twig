@@ -13,7 +13,7 @@
                        data-weapon="{{ weapon.value }}"
                        data-competition-type="{{ competitionType.value }}"
                 >
-                    <caption>Résultat compétition {{ competitionType.toString }} en {{ weapon.toString }}</caption>
+                    <caption>Résultat compétition {{ competitionType.value|trans({}, 'competition') }} en {{ weapon.value|trans({}, 'archer') }}</caption>
 
                     <thead class="--header-sticky">
                         <tr>
@@ -23,8 +23,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% if resultRecords[competitionType.toString][weapon.toString] is defined %}
-                            {% for result in resultRecords[competitionType.toString][weapon.toString]|sort((a, b) => a.score > b.score ? -1 : 1) %}
+                        {% if resultRecords[competitionType.value|trans({}, 'competition')][weapon.value|trans({}, 'archer')] is defined %}
+                            {% for result in resultRecords[competitionType.value|trans({}, 'competition')][weapon.value|trans({}, 'archer')]|sort((a, b) => a.score > b.score ? -1 : 1) %}
                                 <tr>
                                     <td>{{ result.archer.fullName }}</td>
                                     <td>{{ result.score }}</td>

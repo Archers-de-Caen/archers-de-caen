@@ -10,7 +10,7 @@ use App\Domain\Competition\Model\Competition;
 use App\Http\Landing\Controller\CompetitionController;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class CompetitionManager
+final class CompetitionManager
 {
     public function __construct(readonly private UrlGeneratorInterface $urlGenerator)
     {

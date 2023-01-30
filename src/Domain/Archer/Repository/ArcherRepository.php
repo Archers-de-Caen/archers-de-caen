@@ -16,7 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @extends ServiceEntityRepository<Archer>
  */
-class ArcherRepository extends ServiceEntityRepository
+final class ArcherRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

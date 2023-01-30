@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\File;
 
-use App\Domain\File\Admin\Field\PhotoField;
-use App\Domain\File\Form\PhotoFormType;
-use App\Domain\File\Model\Document;
 use App\Domain\File\Model\Photo;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
@@ -17,15 +14,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
-class PhotoCrudController extends AbstractCrudController
+final class PhotoCrudController extends AbstractCrudController
 {
     public function __construct(
         private readonly EntityRepository $entityRepository,
@@ -64,7 +59,7 @@ class PhotoCrudController extends AbstractCrudController
         $upload = TextareaField::new('imageFile')
             ->setLabel('Fichier')
             ->setFormType(VichImageType::class)
-            //->setTemplatePath('@EasyAdmin/crud/field/photo.html.twig')
+            // ->setTemplatePath('@EasyAdmin/crud/field/photo.html.twig')
         ;
 
         if (Crud::PAGE_INDEX === $pageName) {

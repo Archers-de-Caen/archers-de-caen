@@ -26,7 +26,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class AbstractPageCrudController extends AbstractCrudController
+abstract class AbstractPageCrudController extends AbstractCrudController
 {
     public function __construct(
         readonly protected UrlGeneratorInterface $urlGenerator,
@@ -87,17 +87,16 @@ class AbstractPageCrudController extends AbstractCrudController
             ->setRequired(false)
         ;
 
-        /**
+        /*
          * Todo: https://github.com/EasyCorp/EasyAdminBundle/pull/4988
          */
-        if (in_array($pageName, [Crud::PAGE_INDEX, Crud::PAGE_DETAIL], true)) {
+        if (\in_array($pageName, [Crud::PAGE_INDEX, Crud::PAGE_DETAIL], true)) {
             $status->setChoices(array_reduce(
                 Status::cases(),
                 static fn (array $choices, Status $status) => $choices + [$status->name => $status->value],
                 [],
             ));
         }
-
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $title, $status, $image, $createdAt];

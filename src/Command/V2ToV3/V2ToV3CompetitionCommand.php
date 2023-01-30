@@ -16,7 +16,6 @@ use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMapping;
-use Exception;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,7 +26,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
     name: 'app:v2-to-v3:competition',
     description: 'Migration des résultats des compétitions de la version 2 du site vers la 3',
 )]
-class V2ToV3CompetitionCommand extends Command
+final class V2ToV3CompetitionCommand extends Command
 {
     use ArcherTrait;
 
@@ -97,7 +96,7 @@ class V2ToV3CompetitionCommand extends Command
 
                 try {
                     $archer = $this->getArcher($archers, $resultData['licence'], $resultData['name']);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $io->error($e->getMessage());
 
                     break;
@@ -112,7 +111,7 @@ class V2ToV3CompetitionCommand extends Command
                     ->setScore($resultData['score'])
                     ->setWeapon(Weapon::createFromString($resultData['weapon']));
 
-                if ($resultData['date'] && $date = DateTimeImmutable::createFromFormat('U', $resultData['date']->format('U'))) {
+                if ($resultData['date'] && $date = \DateTimeImmutable::createFromFormat('U', $resultData['date']->format('U'))) {
                     $result->setCompletionDate($date);
                 }
 
@@ -153,7 +152,7 @@ class V2ToV3CompetitionCommand extends Command
             'weapon' => $array[2],
             'shot' => (int) $array[3],
             'score' => (int) $array[4],
-            'date' => $array[5] && ($date = DateTime::createFromFormat('d/m/Y', $array[5])) ? $date : null,
+            'date' => $array[5] && ($date = \DateTime::createFromFormat('d/m/Y', $array[5])) ? $date : null,
             'rank' => (int) $array[6],
             'duel' => $array[7],
             'html' => $array[8],

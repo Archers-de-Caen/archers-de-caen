@@ -20,7 +20,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ContactForm extends AbstractType
+final class ContactForm extends AbstractType
 {
     public function __construct(
         private readonly ParameterBagInterface $parameterBag,
@@ -69,7 +69,7 @@ class ContactForm extends AbstractType
             ])
         ;
 
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($clientIp) {
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($clientIp): void {
             /** @var array $data */
             $data = $event->getData();
 

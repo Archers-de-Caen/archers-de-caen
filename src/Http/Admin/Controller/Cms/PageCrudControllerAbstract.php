@@ -19,7 +19,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class PageCrudControllerAbstract extends AbstractPageCrudController
+final class PageCrudControllerAbstract extends AbstractPageCrudController
 {
     public function configureCrud(Crud $crud): Crud
     {

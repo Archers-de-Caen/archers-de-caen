@@ -28,6 +28,9 @@ enum Type: string
     case SPECIAL_YOUNG = 'special_young';
     case ROSE_TROPHY = 'rose_trophy';
 
+    /**
+     * @deprecated use translator
+     */
     public function toString(): string
     {
         return match ($this) {
@@ -52,33 +55,6 @@ enum Type: string
             self::PROMOTIONAL => 'Promotionnel',
             self::SPECIAL_YOUNG => 'Spécial jeune',
             self::ROSE_TROPHY => 'Trophée des Roses',
-        };
-    }
-
-    public function toArrayValue(): string
-    {
-        return match ($this) {
-            self::INDOOR_4x18_M => self::INDOOR_4x18_M->value,
-            self::INDOOR_2x18_M => self::INDOOR_2x18_M->value,
-            self::INDOOR_2x25_M => self::INDOOR_2x25_M->value,
-            self::INDOOR_2x18_M_2x25_M => self::INDOOR_2x18_M_2x25_M->value,
-            self::FEDERAL_50_M_30_M => self::FEDERAL_50_M_30_M->value,
-            self::FEDERAL_2x50_M => self::FEDERAL_2x50_M->value,
-            self::CAMPAGNE => self::CAMPAGNE->value,
-            self::FITA => self::FITA->value,
-            self::FITA_4x70_M => self::FITA_4x70_M->value,
-            self::FITA_SCRATCH => self::FITA_SCRATCH->value,
-            self::BEURSAULT => self::BEURSAULT->value,
-            self::FLAG_SHOOTING => self::FLAG_SHOOTING->value,
-            self::NATURE => self::NATURE->value,
-            self::THREE_D => self::THREE_D->value,
-            self::FITA_STAR => self::FITA_STAR->value,
-            self::OUTDOOR_INTERNATIONAL => self::OUTDOOR_INTERNATIONAL->value,
-            self::OUTDOOR_NATIONAL => self::OUTDOOR_NATIONAL->value,
-            self::GOLDEN_APPLE_CHALLENGE => self::GOLDEN_APPLE_CHALLENGE->value,
-            self::PROMOTIONAL => self::PROMOTIONAL->value,
-            self::SPECIAL_YOUNG => self::SPECIAL_YOUNG->value,
-            self::ROSE_TROPHY => self::ROSE_TROPHY->value,
         };
     }
 

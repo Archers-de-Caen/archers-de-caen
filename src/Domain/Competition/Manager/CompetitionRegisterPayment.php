@@ -17,7 +17,7 @@ use Helloasso\Models\Carts\InitCheckoutBody;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class CompetitionRegisterPayment
+final class CompetitionRegisterPayment
 {
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
@@ -129,7 +129,7 @@ class CompetitionRegisterPayment
         }
 
         if (!$alreadyPaid && $isArcherDeCaen) {
-            $departureToPaid--;
+            --$departureToPaid;
         }
 
         if ($departureToPaid <= 0) {

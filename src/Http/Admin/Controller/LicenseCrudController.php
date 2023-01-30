@@ -12,7 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class LicenseCrudController extends AbstractCrudController
+final class LicenseCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {

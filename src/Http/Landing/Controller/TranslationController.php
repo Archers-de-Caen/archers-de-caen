@@ -1,19 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Landing\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Yaml\Yaml;
 
-class TranslationController extends AbstractController
+final class TranslationController extends AbstractController
 {
     public const ROUTE_TRANSLATION = 'translation';
 
-    #[Route("/translation", name: self::ROUTE_TRANSLATION)]
+    #[Route('/translation', name: self::ROUTE_TRANSLATION)]
     public function index(Request $request): Response
     {
         $locale = $request->getLocale();
@@ -29,7 +31,7 @@ class TranslationController extends AbstractController
         }
 
         try {
-            $json = json_encode($translations, JSON_THROW_ON_ERROR);
+            $json = json_encode($translations, \JSON_THROW_ON_ERROR);
         } catch (\JsonException) {
             $json = '{}';
         }

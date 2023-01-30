@@ -8,14 +8,13 @@ use App\Domain\Contact\Config\Subject;
 use App\Domain\Contact\Model\ContactRequest;
 use App\Domain\Contact\Repository\ContactRequestRepository;
 use App\Domain\Contact\TooManyContactException;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 
-class ContactService
+final class ContactService
 {
     public function __construct(
         private readonly ContactRequestRepository $repository,
@@ -37,7 +36,7 @@ class ContactService
 
         $lastRequest = $this->repository->findLastRequestForIp($contactRequest->getIp());
 
-        if ($lastRequest && $lastRequest->getCreatedAt() > new DateTime('- 1 hour')) {
+        if ($lastRequest && $lastRequest->getCreatedAt() > new \DateTime('- 1 hour')) {
             throw new TooManyContactException();
         }
 
