@@ -32,15 +32,34 @@ export default function ({ departures }: RegistrationFormProps) {
     }
 
     function onSubmit(values) {
+        const registrations = []
+
+        for (const value of values) {
+            for (const departure of value.departures) {
+                    registrations.push({
+                        licenseNumber: value.licenseNumber,
+                        firstName: value.firstName,
+                        lastName: value.lastName,
+                        email: value.email,
+                        phone: value.phone,
+                        category: value.category,
+                        club: value.club,
+                        wheelchair: value.wheelchair,
+                        firstYear: value.firstYear,
+                        departure: departure.departure,
+                        target: departure.target,
+                        weapon: departure.weapon,
+                })
+            }
+        }
+
+        console.log(registrations)
+
         alert(JSON.stringify(values, null, 2));
     }
 
-    const validate = (values) => {
-        console.log(values)
-    }
-
     return (
-        <Formik onSubmit={ onSubmit } initialValues={ initialValues } validate={ validate }>
+        <Formik onSubmit={ onSubmit } initialValues={ initialValues }>
             {({ values, errors }: FormikValues) => {
                 return (
                     <Form>
@@ -101,7 +120,7 @@ export default function ({ departures }: RegistrationFormProps) {
                                         type="submit"
                                         className="btn -primary"
                                     >
-                                        Suivant
+                                        Valider
                                     </button>
                                 </div>
                             </FormGroup>

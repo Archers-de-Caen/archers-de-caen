@@ -91,7 +91,6 @@ final class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
             ])
             ->add('licenseNumber', TextType::class, [
                 'translation_domain' => 'archer',
-                // '' => true,
                 'attr' => [
                     'pattern' => '[0-9]{6}[A-Za-z]',
                     'placeholder' => '123456A',

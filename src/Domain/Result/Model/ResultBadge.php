@@ -9,7 +9,7 @@ use App\Domain\Badge\Model\Badge;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ArcherRepository::class)]
-final class ResultBadge extends Result
+class ResultBadge extends Result
 {
     #[ORM\ManyToOne(targetEntity: Badge::class, inversedBy: 'resultBadges')]
     private ?Badge $badge = null;

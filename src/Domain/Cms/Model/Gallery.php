@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation\Slug;
 
 #[ORM\Entity(repositoryClass: GalleryRepository::class)]
-final class Gallery
+class Gallery
 {
     use IdTrait;
     use TimestampTrait;
