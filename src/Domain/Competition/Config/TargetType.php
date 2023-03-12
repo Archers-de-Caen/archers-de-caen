@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Competition\Config;
 
-use App\Infrastructure\Config\Enum;
-
-enum TargetType: string implements Enum
+enum TargetType: string
 {
     case MONO_40 = 'mono_40';
     case MONO_60 = 'mono_60';
@@ -31,19 +29,6 @@ enum TargetType: string implements Enum
         };
     }
 
-    public function toArrayValue(): string
-    {
-        return match ($this) {
-            self::MONO_40 => self::MONO_40->value,
-            self::MONO_60 => self::MONO_60->value,
-            self::MONO_80 => self::MONO_80->value,
-            self::MONO_80_REDUCED => self::MONO_80_REDUCED->value,
-            self::MONO_122 => self::MONO_122->value,
-            self::TRI_40 => self::TRI_40->value,
-            self::TRI_60 => self::TRI_60->value,
-        };
-    }
-
     public static function toChoices(): array
     {
         return [
@@ -59,13 +44,5 @@ enum TargetType: string implements Enum
                 'ø 60' => self::TRI_60,
             ],
         ];
-    }
-
-    public static function toChoicesWithEnumValue(): array
-    {
-        return array_combine(
-            array_map(static fn (self $type) => $type->toString(), self::cases()),
-            array_map(static fn (self $type) => $type, self::cases())
-        );
     }
 }

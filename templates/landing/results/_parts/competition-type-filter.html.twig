@@ -8,7 +8,7 @@
             <div class="competition-type form-group --check --btn --white">
                 <input type="radio" id="{{ competitionType.value }}" name="competition-type" value="{{ competitionType.value }}">
                 <label for="{{ competitionType.value }}">
-                    {{ competitionType.toString }}
+                    {{ competitionType.value|trans([], 'competition') }}
                 </label>
             </div>
         {% endfor %}

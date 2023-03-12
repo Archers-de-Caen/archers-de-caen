@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
+use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Competition\Config\Type;
 use App\Domain\Competition\Manager\CompetitionManager;
@@ -11,6 +12,7 @@ use App\Domain\Competition\Model\Competition;
 use App\Domain\Result\Form\ResultCompetitionForm;
 use App\Domain\Result\Form\ResultTeamForm;
 use App\Domain\Result\Manager\ResultCompetitionManager;
+use App\Domain\Result\Model\ResultBadge;
 use App\Domain\Result\Model\ResultCompetition;
 use App\Http\Admin\Controller\Cms\AbstractPageCrudController;
 use App\Http\Landing\Controller\CompetitionController;
@@ -27,7 +29,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use function Symfony\Component\Translation\t;
 
 class CompetitionCrudController extends AbstractCrudController
 {
@@ -80,18 +84,15 @@ class CompetitionCrudController extends AbstractCrudController
             ->setColumns('col-3');
 
         $type = ChoiceField::new('type')
-            ->setLabel('Type');
-
-        if (Crud::PAGE_NEW === $pageName || Crud::PAGE_EDIT === $pageName) {
-            $type->setChoices(Type::toChoicesWithEnumValue());
-        } else {
-            $type->setChoices(
-                array_combine(
-                    array_map(static fn (Type $type) => $type->toString(), Type::cases()),
-                    array_map(static fn (Type $type) => $type->value, Type::cases())
-                )
-            ); // TODO: provisoire le temps que le bundle EasyAdmin ce met a jours
-        }
+            ->setLabel('Type')
+            ->setFormType(EnumType::class)
+            ->setFormTypeOptions([
+                'class' => Type::class,
+                'choice_label' => fn (Type $choice) => t($choice->value, domain: 'competition'),
+                'choices' => Type::cases(),
+            ])
+            ->formatValue(fn ($value, ?Competition $entity) => !$value || !$entity || !$entity->getType() ? '' : t($entity->getType()->value, domain: 'competition'))
+        ;
 
         $createdAt = DateTimeField::new('createdAt')
             ->setLabel('Date de création');

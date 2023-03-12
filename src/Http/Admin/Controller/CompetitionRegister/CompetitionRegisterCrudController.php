@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\CompetitionRegister;
 
+use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Competition\Config\Type;
 use App\Domain\Competition\Form\CompetitionRegisterDepartureForm;
 use App\Domain\Competition\Manager\CompetitionRegisterManager;
 use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\File\Admin\Field\DocumentField;
+use App\Domain\Result\Model\ResultBadge;
 use App\Http\Admin\Controller\Cms\AbstractPageCrudController;
 use App\Http\Landing\Controller\CompetitionRegisterController;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,8 +26,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use function Symfony\Component\Translation\t;
 
 class CompetitionRegisterCrudController extends AbstractCrudController
 {
@@ -108,18 +112,20 @@ class CompetitionRegisterCrudController extends AbstractCrudController
 
         $type = ChoiceField::new('types', 'Types de concours')
             ->allowMultipleChoices()
-        ;
+            ->setFormType(EnumType::class)
+            ->setFormTypeOptions([
+                'class' => Category::class,
+                'choice_label' => fn (Category $choice) => t($choice->value, domain: 'competition'),
+                'choices' => Category::cases(),
+            ])
+            ->formatValue(function ($value, ?CompetitionRegister $entity) {
+                if (!$value || !$entity || !$entity->getTypes()) {
+                    return '';
+                }
 
-        if (Crud::PAGE_NEW === $pageName || Crud::PAGE_EDIT === $pageName) {
-            $type->setChoices(Type::toChoicesWithEnumValue());
-        } else {
-            $type->setChoices(
-                array_combine(
-                    array_map(static fn (Type $type) => $type->toString(), Type::cases()),
-                    array_map(static fn (Type $type) => $type->value, Type::cases())
-                )
-            ); // TODO : provisoire le temps que le bundle EasyAdmin ce met a jours
-        }
+                return implode(', ', array_map(static fn (Type $type) => t($type->value, domain: 'competition'), $entity->getTypes()));
+            })
+        ;
 
         $dateStart = DateField::new('dateStart', 'Date de début');
         $dateEnd = DateField::new('dateEnd', 'Date de fin');

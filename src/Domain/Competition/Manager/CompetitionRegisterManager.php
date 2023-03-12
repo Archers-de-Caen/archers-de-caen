@@ -23,6 +23,7 @@ use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
+use function Symfony\Component\Translation\t;
 
 class CompetitionRegisterManager
 {
@@ -88,7 +89,7 @@ class CompetitionRegisterManager
 
                 $this->em->persist($clonedRegister);
 
-                $recap[] = $departure->getDate()?->format('d/m/Y à H:i').' à '.$target->getDistance().'m sur '.$target->getType()?->toString();
+                $recap[] = $departure->getDate()?->format('d/m/Y à H:i').' à '.$target->getDistance().'m sur '.($target->getType()?->value ? t($target->getType()->value, domain: 'competition') : null);
             }
         }
 

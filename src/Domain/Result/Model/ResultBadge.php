@@ -6,9 +6,10 @@ namespace App\Domain\Result\Model;
 
 use App\Domain\Archer\Repository\ArcherRepository;
 use App\Domain\Badge\Model\Badge;
+use App\Domain\Result\Repository\ResultBadgeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ArcherRepository::class)]
+#[ORM\Entity(repositoryClass: ResultBadgeRepository::class)]
 class ResultBadge extends Result
 {
     #[ORM\ManyToOne(targetEntity: Badge::class, inversedBy: 'resultBadges')]

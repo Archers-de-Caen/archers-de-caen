@@ -7,6 +7,7 @@ namespace App\Http\Admin\Controller;
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Model\Archer;
+use App\Domain\Result\Model\ResultBadge;
 use App\Http\Landing\Controller\DefaultController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -17,7 +18,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use function Symfony\Component\Translation\t;
 
 class ArcherCrudController extends AbstractCrudController
 {
@@ -57,16 +60,30 @@ class ArcherCrudController extends AbstractCrudController
 
         $email = EmailField::new('email');
 
-        $createdAt = DateTimeField::new('createdAt')->setLabel('Date de création');
+        $createdAt = DateTimeField::new('createdAt')
+            ->setLabel('Date de création')
+        ;
 
         $gender = ChoiceField::new('gender')
             ->setLabel('Genre')
-            ->setChoices(Gender::toChoicesWithEnumValue())
+            ->setFormType(EnumType::class)
+            ->setFormTypeOptions([
+                'class' => Gender::class,
+                'choice_label' => fn (Gender $choice) => t($choice->value, domain: 'archer'),
+                'choices' => Gender::cases(),
+            ])
+            ->formatValue(fn ($value, ?Archer $entity) => $entity?->getGender()?->value ? t($entity->getGender()->value, domain: 'archer') : null)
         ;
 
         $category = ChoiceField::new('category')
             ->setLabel('Catégorie')
-            ->setChoices(Category::toChoicesWithEnumValue())
+            ->setFormType(EnumType::class)
+            ->setFormTypeOptions([
+                'class' => Category::class,
+                'choice_label' => fn (Category $choice) => t($choice->value, domain: 'archer'),
+                'choices' => Category::cases(),
+            ])
+            ->formatValue(fn ($value, ?Archer $entity) => $entity?->getCategory()?->value ? t($entity->getCategory()->value, domain: 'archer') : null)
         ;
 
         if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {
@@ -75,9 +92,6 @@ class ArcherCrudController extends AbstractCrudController
             }
 
             yield $createdAt;
-
-            $gender->setChoices(Gender::toChoices());
-            $category->setChoices(Category::toChoices());
         }
 
         yield $licenseNumber;

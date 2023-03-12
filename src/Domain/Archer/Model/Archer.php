@@ -252,9 +252,12 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
      */
     public function getResultsProgressArrow(): Collection
     {
-        return $this->results->filter(static function (Result $result) {
+        /** @var Collection $results */
+        $results = $this->results->filter(static function (Result $result) {
             return $result instanceof ResultBadge && Badge::PROGRESS_ARROW === $result->getBadge()?->getType();
         });
+
+        return $results;
     }
 
     public function getBestProgressArrowObtained(): ?ResultBadge
@@ -275,7 +278,10 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
      */
     public function getResultsCompetition(): Collection
     {
-        return $this->results->filter(static fn (Result $result) => $result instanceof ResultCompetition);
+        /** @var Collection $results */
+        $results = $this->results->filter(static fn (Result $result) => $result instanceof ResultCompetition);
+
+        return $results;
     }
 
     /**
@@ -283,7 +289,10 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
      */
     public function getResultsBadge(): Collection
     {
-        return $this->results->filter(static fn (Result $result) => $result instanceof ResultBadge);
+        /** @var Collection $results */
+        $results =  $this->results->filter(static fn (Result $result) => $result instanceof ResultBadge);
+
+        return $results;
     }
 
     public function addResult(Result $result): self

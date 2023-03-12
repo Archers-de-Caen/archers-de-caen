@@ -19,7 +19,7 @@
         </div>
 
         <div class="flex direction-column border rounded p-2">
-            <strong class="text-xx-large">{{ archer.favoriteWeapon ? archer.favoriteWeapon.toString : 'Non' }}</strong>
+            <strong class="text-xx-large">{{ archer.favoriteWeapon ? archer.favoriteWeapon.value|trans([], 'archer') : 'Non' }}</strong>
             <span class="mt-1">Arme préférée</span>
         </div>
     </div>
@@ -48,11 +48,11 @@
                     </td>
 
                     <td>
-                        {{ result.category.toString }}
+                        {{ result.category.value|trans([], 'archer') }}
                     </td>
 
                     <td>
-                        {{ result.weapon.toString }}
+                        {{ result.weapon.value|trans([], 'archer') }}
                     </td>
 
                     <td>

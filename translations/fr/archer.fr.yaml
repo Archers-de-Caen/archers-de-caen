@@ -1,0 +1,45 @@
+# Categories
+peewee_man: 'Poussin (U11) Homme'
+peewee_woman: 'Poussin (U11) Femme'
+
+cub_man: 'Minime (U13) Homme'
+cub_woman: 'Minime (U13) Femme'
+
+benjamin_man: 'Benjamin (U15) Homme'
+benjamin_woman: 'Benjamin (U15) Femme'
+
+cadet_man: 'Cadet (U18) Homme'
+cadet_woman: 'Cadet (U18) Femme'
+
+junior_man: 'Junior (U21) Homme'
+junior_woman: 'Junior (U21) Femme'
+
+senior_one_man: 'Senior 1 Homme'
+senior_one_woman: 'Senior 1 Femme'
+
+senior_two_man: 'Senior 2 Homme'
+senior_two_woman: 'Senior 2 Femme'
+
+senior_three_man: 'Senior 3 Homme'
+senior_three_woman: 'Senior 3 Femme'
+
+# Olds catégories
+senior_man: 'Senior Homme'
+senior_woman: 'Senior Femme'
+
+veteran_man: 'Vétéran Homme'
+veteran_woman: 'Vétéran Femme'
+
+great_veteran_man: 'Super Vétéran Homme'
+great_veteran_woman: 'Super Vétéran Femme'
+
+# Weapons
+recurve_bow: 'Arc classique'
+compound_bow: 'Arc à poulies'
+bare_bow: 'Arc nu'
+
+# Gender
+man: 'Homme'
+woman: 'Femme'
+other: 'Autre'
+undefined: 'Non défini'

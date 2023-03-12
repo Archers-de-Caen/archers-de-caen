@@ -31,6 +31,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
+use function Symfony\Component\Translation\t;
 
 class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
 {
@@ -56,9 +57,9 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
                     new NotBlank(),
                 ],
             ])
-            ->add('gender', ChoiceType::class, [
+            ->add('gender', EnumType::class, [
                 'label' => 'Genre',
-                'choices' => Gender::toChoicesBasic(),
+                'class' => Gender::class,
                 'choice_attr' => fn (Gender $gender) => ['data-gender' => $gender->value],
                 'expanded' => true,
                 'constraints' => [
@@ -95,9 +96,9 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
                     new Regex('/[0-9]{6}[A-Za-z]/'),
                 ],
             ])
-            ->add('category', ChoiceType::class, [
+            ->add('category', EnumType::class, [
                 'label' => 'Catégorie',
-                'choices' => Category::toChoicesWithEnumValue(),
+                'class' => Category::class,
                 'choice_attr' => fn (Category $category) => ['data-gender' => $category->getGender(), 'data-category' => $category->value],
                 'constraints' => [
                     new NotBlank(),
@@ -120,7 +121,7 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
             ->add('weapon', EnumType::class, [
                 'label' => 'Arme',
                 'class' => Weapon::class,
-                'choice_label' => static fn (Weapon $weapon) => $weapon->toString(),
+                'choice_label' => static fn (Weapon $weapon) => t($weapon->value, domain: 'archer'),
                 'expanded' => true,
                 'required' => true,
             ])

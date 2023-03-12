@@ -21,6 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use function Symfony\Component\Translation\t;
 
 final class CompetitionController extends AbstractController
 {
@@ -126,19 +127,19 @@ final class CompetitionController extends AbstractController
         $recordCount = 0;
         $podiumCount = 0;
 
-        foreach (Weapon::toChoices() as $WeaponToString => $weapon) {
-            foreach (Category::toChoices() as $categoryToString => $category) {
+        foreach (Weapon::cases() as $weapon) {
+            foreach (Category::cases() as $category) {
                 foreach ($competition->getResults() as $result) {
                     if (
-                        $categoryToString === $result->getCategory()?->toString() &&
-                        $WeaponToString === $result->getWeapon()?->toString()
+                        $category->value === $result->getCategory()?->value &&
+                        $weapon->value === $result->getWeapon()?->value
                     ) {
-                        if (!isset($results[$WeaponToString])) {
-                            $results[$WeaponToString] = [];
+                        if (!isset($results[$weapon->value])) {
+                            $results[$weapon->value] = [];
                         }
 
-                        if (!isset($results[$WeaponToString][$categoryToString])) {
-                            $results[$WeaponToString][$categoryToString] = [];
+                        if (!isset($results[$weapon->value][$category->value])) {
+                            $results[$weapon->value][$category->value] = [];
                         }
 
                         if (($archer = $result->getArcher()) && !in_array($archer, $participants, true)) {
@@ -153,7 +154,7 @@ final class CompetitionController extends AbstractController
                             ++$podiumCount;
                         }
 
-                        $results[$WeaponToString][$categoryToString][] = $result;
+                        $results[$weapon->value][$category->value][] = $result;
                     }
                 }
             }
@@ -199,8 +200,8 @@ final class CompetitionController extends AbstractController
                 continue;
             }
 
-            $type = $competition->getType()?->toString();
-            $weapon = $resultRecord->getWeapon()?->toString();
+            $type = $competition->getType()?->value ? t($competition->getType()->value, domain: 'competition')->getMessage() : null;
+            $weapon = $resultRecord->getWeapon()?->value ? t($resultRecord->getWeapon()->value, domain: 'archer')->getMessage() : null;
             $archer = $resultRecord->getArcher()?->getId()?->__toString();
 
             if (!$type || !$weapon || !$archer) {
@@ -230,7 +231,7 @@ final class CompetitionController extends AbstractController
                 Type::getInOrder(),
                 static function (Type $competitionType) use ($resultRecordsOrdered) {
                     foreach ($resultRecordsOrdered as $key => $resultRecordOrdered) {
-                        if (!empty($resultRecordOrdered) && $key === $competitionType->toString()) {
+                        if (!empty($resultRecordOrdered) && $key === t($competitionType->value, domain: 'competition')->getMessage()) {
                             return true;
                         }
                     }

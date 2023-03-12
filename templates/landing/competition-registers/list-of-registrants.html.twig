@@ -31,7 +31,7 @@
                             <td>{{ registerArcher.category.toShortString }}</td>
                             <td>{{ registerArcher.club }}</td>
                             <td>{{ target.distance }} m</td>
-                            <td>{{ target.type.toString }}</td>
+                            <td>{{ target.type.value|trans([], 'competition') }}</td>
                             <td>{{ registerArcher.position }}</td>
                         </tr>
                     {% endfor %}
