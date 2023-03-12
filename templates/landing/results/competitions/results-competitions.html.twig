@@ -29,7 +29,7 @@
                         </a>
                     </td>
                     <td>
-                        <a href="{{ url }}">{{ competition.type.toString }}</a>
+                        <a href="{{ url }}">{{ competition.type.value|trans([], 'competition') }}</a>
                     </td>
                 </tr>
             {% endfor %}

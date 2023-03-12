@@ -4,7 +4,7 @@
 
     {% for weapon, categories in results %}
 
-        <h3>{{ weapon }}</h3>
+        <h3>{{ weapon|trans([], 'archer') }}</h3>
 
         <table>
             <thead class="highlighted">
@@ -21,7 +21,7 @@
                         <tr>
                             {% if loop.first %}
                                 <td rowspan="{{ results|length }}">
-                                    {{ category }}
+                                    {{ category|trans([], 'archer') }}
                                 </td>
                             {% endif %}
 

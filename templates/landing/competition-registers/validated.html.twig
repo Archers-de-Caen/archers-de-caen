@@ -50,13 +50,13 @@
                     <td>
                         <div class="flex direction-column">
                             <b>Catégorie</b>
-                            <span>{{ register.category.toString }}</span>
+                            <span>{{ register.category.value|trans([], 'archer') }}</span>
                         </div>
                     </td>
                     <td>
                         <div class="flex direction-column">
                             <b>Arme</b>
-                            <span>{{ register.weapon.toString }}</span>
+                            <span>{{ register.weapon.value|trans([], 'archer') }}</span>
                         </div>
                     </td>
                 </tr>

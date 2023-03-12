@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function Symfony\Component\Translation\t;
 
 abstract class ResultForm extends AbstractType
 {
@@ -22,7 +23,7 @@ abstract class ResultForm extends AbstractType
             ->add('category', EnumType::class, [
                 'class' => Category::class,
                 'label' => 'Catégorie',
-                'choice_label' => static fn (Category $category) => $category->toString(),
+                'choice_label' => static fn (Category $category) => t($category->value, domain: 'archer'),
             ])
             ->add('rank', IntegerType::class, [
                 'label' => 'Classement',
@@ -34,7 +35,7 @@ abstract class ResultForm extends AbstractType
             ->add('weapon', EnumType::class, [
                 'class' => Weapon::class,
                 'label' => 'Arme',
-                'choice_label' => static fn (Weapon $weapon) => $weapon->toString(),
+                'choice_label' => static fn (Weapon $weapon) => t($weapon->value, domain: 'archer'),
                 'required' => true,
             ])
             ->add('completionDate', DateType::class, [

@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Archer\Config;
 
-use App\Infrastructure\Config\Enum;
 use ValueError;
 
-enum Category: string implements Enum
+enum Category: string
 {
     case PEEWEE_MAN = 'peewee_man'; // Poussin
     case PEEWEE_WOMAN = 'peewee_woman';
@@ -33,52 +32,6 @@ enum Category: string implements Enum
     case OLD_VETERAN_WOMAN = 'veteran_woman';
     case OLD_GREAT_VETERAN_MAN = 'great_veteran_man';
     case OLD_GREAT_VETERAN_WOMAN = 'great_veteran_woman';
-
-    public function toString(bool $withoutGender = false): string
-    {
-        $string = match ($this) {
-            self::PEEWEE_MAN => 'Poussin (U11) Homme',
-            self::PEEWEE_WOMAN => 'Poussin (U11) Femme',
-
-            self::CUB_MAN => 'Minime (U13) Homme',
-            self::CUB_WOMAN => 'Minime (U13) Femme',
-
-            self::BENJAMIN_MAN => 'Benjamin (U15) Homme',
-            self::BENJAMIN_WOMAN => 'Benjamin (U15) Femme',
-
-            self::CADET_MAN => 'Cadet (U18) Homme',
-            self::CADET_WOMAN => 'Cadet (U18) Femme',
-
-            self::JUNIOR_MAN => 'Junior (U21) Homme',
-            self::JUNIOR_WOMAN => 'Junior (U21) Femme',
-
-            self::SENIOR_ONE_MAN => 'Senior 1 Homme',
-            self::SENIOR_ONE_WOMAN => 'Senior 1 Femme',
-
-            self::SENIOR_TWO_MAN => 'Senior 2 Homme',
-            self::SENIOR_TWO_WOMAN => 'Senior 2 Femme',
-
-            self::SENIOR_THREE_MAN => 'Senior 3 Homme',
-            self::SENIOR_THREE_WOMAN => 'Senior 3 Femme',
-
-            // Anciennes catégories
-
-            self::OLD_SENIOR_MAN => 'Senior Homme',
-            self::OLD_SENIOR_WOMAN => 'Senior Femme',
-
-            self::OLD_VETERAN_MAN => 'Vétéran Homme',
-            self::OLD_VETERAN_WOMAN => 'Vétéran Femme',
-
-            self::OLD_GREAT_VETERAN_MAN => 'Super Vétéran Homme',
-            self::OLD_GREAT_VETERAN_WOMAN => 'Super Vétéran Femme',
-        };
-
-        if ($withoutGender) {
-            return str_replace([' Homme', ' Femme'], '', $string);
-        }
-
-        return $string;
-    }
 
     public function toShortString(): string
     {
@@ -116,72 +69,6 @@ enum Category: string implements Enum
             self::OLD_GREAT_VETERAN_MAN => 'SVH',
             self::OLD_GREAT_VETERAN_WOMAN => 'SVF',
         };
-    }
-
-    public function toArrayValue(): string
-    {
-        return match ($this) {
-            self::PEEWEE_MAN => self::PEEWEE_MAN->value,
-            self::PEEWEE_WOMAN => self::PEEWEE_WOMAN->value,
-
-            self::BENJAMIN_MAN => self::BENJAMIN_MAN->value,
-            self::BENJAMIN_WOMAN => self::BENJAMIN_WOMAN->value,
-
-            self::CUB_MAN => self::CUB_MAN->value,
-            self::CUB_WOMAN => self::CUB_WOMAN->value,
-
-            self::CADET_MAN => self::CADET_MAN->value,
-            self::CADET_WOMAN => self::CADET_WOMAN->value,
-
-            self::JUNIOR_MAN => self::JUNIOR_MAN->value,
-            self::JUNIOR_WOMAN => self::JUNIOR_WOMAN->value,
-
-            self::SENIOR_ONE_MAN => self::SENIOR_ONE_MAN->value,
-            self::SENIOR_ONE_WOMAN => self::SENIOR_ONE_WOMAN->value,
-
-            self::SENIOR_TWO_MAN => self::SENIOR_TWO_MAN->value,
-            self::SENIOR_TWO_WOMAN => self::SENIOR_TWO_WOMAN->value,
-
-            self::SENIOR_THREE_MAN => self::SENIOR_THREE_MAN->value,
-            self::SENIOR_THREE_WOMAN => self::SENIOR_THREE_WOMAN->value,
-
-            // Anciennes catégories
-
-            self::OLD_SENIOR_MAN => self::OLD_SENIOR_MAN->value,
-            self::OLD_SENIOR_WOMAN => self::OLD_SENIOR_WOMAN->value,
-
-            self::OLD_VETERAN_MAN => self::OLD_VETERAN_MAN->value,
-            self::OLD_VETERAN_WOMAN => self::OLD_VETERAN_WOMAN->value,
-
-            self::OLD_GREAT_VETERAN_MAN => self::OLD_GREAT_VETERAN_MAN->value,
-            self::OLD_GREAT_VETERAN_WOMAN => self::OLD_GREAT_VETERAN_WOMAN->value,
-        };
-    }
-
-    public static function toChoices(): array
-    {
-        $casesFiltered = array_filter(
-            self::cases(),
-            static fn (Category $category) => !str_starts_with($category->name, 'OLD')
-        );
-
-        return array_combine(
-            array_map(static fn (Category $category) => $category->toString(), $casesFiltered),
-            array_map(static fn (Category $category) => $category->toArrayValue(), $casesFiltered)
-        );
-    }
-
-    public static function toChoicesWithEnumValue(): array
-    {
-        $casesFiltered = array_filter(
-            self::cases(),
-            static fn (Category $category) => !str_starts_with($category->name, 'OLD')
-        );
-
-        return array_combine(
-            array_map(static fn (Category $category) => $category->toString(), $casesFiltered),
-            array_map(static fn (Category $category) => $category, $casesFiltered)
-        );
     }
 
     /**

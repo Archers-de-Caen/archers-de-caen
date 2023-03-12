@@ -37,10 +37,12 @@ class GalleryCrudController extends AbstractCrudController
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $title, $mainPhoto];
-        } elseif (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $title, $mainPhoto, $gallery];
-        } else {
-            return [$title, $mainPhoto, $gallery];
         }
+
+        if (Crud::PAGE_DETAIL === $pageName) {
+            return [$id, $title, $mainPhoto, $gallery];
+        }
+
+        return [$title, $mainPhoto, $gallery];
     }
 }

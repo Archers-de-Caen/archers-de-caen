@@ -44,10 +44,12 @@ class LicenseCrudController extends AbstractCrudController
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $title, $price, $type];
-        } elseif (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $title, $price, $type, $description];
-        } else {
-            return [$title, $price, $type, $description];
         }
+
+        if (Crud::PAGE_DETAIL === $pageName) {
+            return [$id, $title, $price, $type, $description];
+        }
+
+        return [$title, $price, $type, $description];
     }
 }

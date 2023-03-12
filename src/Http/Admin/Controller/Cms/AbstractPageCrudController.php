@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\Cms;
 
+use App\Domain\Archer\Config\Weapon;
 use App\Domain\Cms\Admin\Field\CKEditorField;
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Model\Page;
 use App\Domain\File\Admin\Field\PhotoField;
 use App\Domain\File\Form\PhotoFormType;
+use App\Domain\Result\Model\ResultBadge;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
@@ -23,7 +25,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use function Symfony\Component\Translation\t;
 
 class AbstractPageCrudController extends AbstractCrudController
 {
@@ -75,12 +79,14 @@ class AbstractPageCrudController extends AbstractCrudController
 
         $status = ChoiceField::new('status')
             ->setLabel('Statut')
-            ->setChoices(
-                array_combine(
-                    array_map(static fn (Status $status) => $status->toString(), Status::cases()),
-                    array_map(static fn (Status $status) => $status->value, Status::cases())
-                )
-            ); // TODO: provisoire le temps que le bundle EasyAdmin ce met a jours
+            ->setFormType(EnumType::class)
+            ->setFormTypeOptions([
+                'class' => Status::class,
+                'choice_label' => fn (Status $choice) => t($choice->value, domain: 'page'),
+                'choices' => Status::cases(),
+            ])
+            ->formatValue(fn ($value, ?Page $entity) => !$value || !$entity || !$entity->getStatus() ? '' : t($entity->getStatus()->value, domain: 'page'))
+        ;
 
         $image = PhotoField::new('image')
             ->setLabel('Image')
@@ -96,18 +102,14 @@ class AbstractPageCrudController extends AbstractCrudController
             return [$id, $title, $status, $image, $content, $createdAt];
         }
 
-        $status = ChoiceField::new('status')
-            ->setLabel('Statut')
-            ->setChoices(Status::toChoicesWithEnumValue());
-
         return [$title, $status, $image, $content];
     }
 
     public function configureFilters(Filters $filters): Filters
     {
         return $filters
-            ->add(ChoiceFilter::new('category')->setChoices(Category::toChoices()))
-            ->add(ChoiceFilter::new('status')->setChoices(Status::toChoices()))
+            ->add(ChoiceFilter::new('category')->setChoices(Category::cases()))
+            ->add(ChoiceFilter::new('status')->setChoices(Status::cases()))
         ;
     }
 }

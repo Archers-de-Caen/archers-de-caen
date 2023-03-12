@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Competition\Config;
 
-use App\Infrastructure\Config\Enum;
 use ValueError;
 
-enum Type: string implements Enum
+enum Type: string
 {
     case INDOOR_2x18_M = 'indoor_2_x_18_m';
     case INDOOR_4x18_M = 'indoor_4_x_18_m';
@@ -54,48 +53,6 @@ enum Type: string implements Enum
             self::PROMOTIONAL => 'Promotionnel',
             self::SPECIAL_YOUNG => 'Spécial jeune',
         };
-    }
-
-    public function toArrayValue(): string
-    {
-        return match ($this) {
-            self::INDOOR_4x18_M => self::INDOOR_4x18_M->value,
-            self::INDOOR_2x18_M => self::INDOOR_2x18_M->value,
-            self::INDOOR_2x25_M => self::INDOOR_2x25_M->value,
-            self::INDOOR_2x18_M_2x25_M => self::INDOOR_2x18_M_2x25_M->value,
-            self::FEDERAL_50_M_30_M => self::FEDERAL_50_M_30_M->value,
-            self::FEDERAL_2x50_M => self::FEDERAL_2x50_M->value,
-            self::CAMPAGNE => self::CAMPAGNE->value,
-            self::FITA => self::FITA->value,
-            self::FITA_4x70_M => self::FITA_4x70_M->value,
-            self::FITA_SCRATCH => self::FITA_SCRATCH->value,
-            self::BEURSAULT => self::BEURSAULT->value,
-            self::FLAG_SHOOTING => self::FLAG_SHOOTING->value,
-            self::NATURE => self::NATURE->value,
-            self::THREE_D => self::THREE_D->value,
-            self::FITA_STAR => self::FITA_STAR->value,
-            self::OUTDOOR_INTERNATIONAL => self::OUTDOOR_INTERNATIONAL->value,
-            self::OUTDOOR_NATIONAL => self::OUTDOOR_NATIONAL->value,
-            self::GOLDEN_APPLE_CHALLENGE => self::GOLDEN_APPLE_CHALLENGE->value,
-            self::PROMOTIONAL => self::PROMOTIONAL->value,
-            self::SPECIAL_YOUNG => self::SPECIAL_YOUNG->value,
-        };
-    }
-
-    public static function toChoices(): array
-    {
-        return array_combine(
-            array_map(static fn (self $type) => $type->toString(), self::cases()),
-            array_map(static fn (self $type) => $type->toArrayValue(), self::cases())
-        );
-    }
-
-    public static function toChoicesWithEnumValue(): array
-    {
-        return array_combine(
-            array_map(static fn (self $type) => $type->toString(), self::cases()),
-            array_map(static fn (self $type) => $type, self::cases())
-        );
     }
 
     /**

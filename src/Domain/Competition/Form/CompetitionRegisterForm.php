@@ -12,6 +12,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Valid;
@@ -21,12 +22,12 @@ class CompetitionRegisterForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('types', ChoiceType::class, [
+            ->add('types', EnumType::class, [
                 'label' => 'Types de concours',
                 'required' => true,
                 'multiple' => true,
                 'expanded' => true,
-                'choices' => Type::toChoicesWithEnumValue(),
+                'class' => Type::class,
             ])
             ->add('dateStart', DateType::class, [
                 'label' => 'Date de début',

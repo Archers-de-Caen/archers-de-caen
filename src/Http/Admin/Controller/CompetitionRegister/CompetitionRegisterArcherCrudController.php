@@ -12,6 +12,7 @@ use App\Domain\Competition\Admin\Filter\CompetitionRegisterDepartureTargetArcher
 use App\Domain\Competition\Admin\Filter\CompetitionRegisterDepartureTargetArcher\CompetitionRegisterFilter;
 use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher;
+use App\Domain\Result\Model\ResultBadge;
 use Doctrine\ORM\EntityManagerInterface;
 use Doskyft\CsvHelper\ColumnDefinition;
 use Doskyft\CsvHelper\Csv;
@@ -37,9 +38,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\Asset\UrlPackage;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Response;
+use function Symfony\Component\Translation\t;
 
 class CompetitionRegisterArcherCrudController extends AbstractCrudController
 {
@@ -127,17 +130,35 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
 
         $gender = ChoiceField::new('gender')
             ->setLabel('Genre')
-            ->setChoices(Crud::PAGE_EDIT === $pageName ? Gender::toChoicesWithEnumValue() : Gender::toChoices())
+            ->setFormType(EnumType::class)
+            ->setFormTypeOptions([
+                'class' => Gender::class,
+                'choice_label' => fn (Gender $choice) => t($choice->value, domain: 'archer'),
+                'choices' => Gender::cases(),
+            ])
+            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity) => !$value || !$entity || !$entity->getGender() ? '' : t($entity->getGender()->value, domain: 'archer'))
         ;
 
         $category = ChoiceField::new('category')
             ->setLabel('Catégorie')
-            ->setChoices(Crud::PAGE_EDIT === $pageName ? Category::toChoicesWithEnumValue() : Category::toChoices())
+            ->setFormType(EnumType::class)
+            ->setFormTypeOptions([
+                'class' => Category::class,
+                'choice_label' => fn (Category $choice) => t($choice->value, domain: 'archer'),
+                'choices' => Category::cases(),
+            ])
+            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity) => $entity?->getCategory()?->value ? t($entity->getCategory()->value, domain: 'archer') : null)
         ;
 
         $weapon = ChoiceField::new('weapon')
             ->setLabel('Arme')
-            ->setChoices(Crud::PAGE_EDIT === $pageName ? Weapon::toChoicesWithEnumValue() : Weapon::toChoices())
+            ->setFormType(EnumType::class)
+            ->setFormTypeOptions([
+                'class' => Weapon::class,
+                'choice_label' => fn (Weapon $choice) => t($choice->value, domain: 'archer'),
+                'choices' => Weapon::cases(),
+            ])
+            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity) => !$value || !$entity || !$entity->getWeapon() ? '' : t($entity->getWeapon()->value, domain: 'archer'))
         ;
 
         $club = TextField::new('club')
@@ -219,9 +240,9 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
                 'nom' => $registration->getLastName(),
                 'email' => $registration->getEmail(),
                 'phone' => $registration->getPhone(),
-                'genre' => $registration->getGender()?->toString(),
-                'categorie' => $registration->getCategory()?->toString(),
-                'arme' => $registration->getWeapon()?->toString(),
+                'genre' => $registration->getGender()?->value ? t($registration->getGender()->value, domain: 'archer') : '',
+                'categorie' => $registration->getCategory()?->value ? t($registration->getCategory()->value, domain: 'archer') : '',
+                'arme' => $registration->getWeapon()?->value ? t($registration->getWeapon()->value, domain: 'archer') : '',
                 'club' => $registration->getClub(),
                 'fauteuil_roulant' => $registration->getWheelchair() ? 'Oui' : 'Non',
                 'premiere_annee' => $registration->getFirstYear() ? 'Oui' : 'Non',
