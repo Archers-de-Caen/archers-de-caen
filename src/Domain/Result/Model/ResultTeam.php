@@ -6,13 +6,13 @@ namespace App\Domain\Result\Model;
 
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Competition\Model\Competition;
-use App\Domain\Result\Repository\ResultCompetitionRepository;
+use App\Domain\Result\Repository\ResultTeamRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ResultCompetitionRepository::class)]
+#[ORM\Entity(repositoryClass: ResultTeamRepository::class)]
 class ResultTeam extends Result
 {
     #[ORM\ManyToOne(targetEntity: Competition::class, inversedBy: 'resultsTeams')]
