@@ -167,3 +167,9 @@ if (!file_put_contents(CURRENT_VERSION_FILE, $lastRelease)) {
 }
 
 echo "SUCCESS - Mise à jours terminé !" . PHP_EOL;
+
+mail(
+    to: 'site@archers-caen.fr',
+    subject: '[Archer de Caen] Mise à jours du site !',
+    message: 'le site viens d\'être mis à jours'
+);

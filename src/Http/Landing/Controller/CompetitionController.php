@@ -200,8 +200,8 @@ final class CompetitionController extends AbstractController
                 continue;
             }
 
-            $type = $competition->getType()?->value ? t($competition->getType()->value, domain: 'competition')->getMessage() : null;
-            $weapon = $resultRecord->getWeapon()?->value ? t($resultRecord->getWeapon()->value, domain: 'archer')->getMessage() : null;
+            $type = $competition->getType()?->value;
+            $weapon = $resultRecord->getWeapon()?->value;
             $archer = $resultRecord->getArcher()?->getId()?->__toString();
 
             if (!$type || !$weapon || !$archer) {
