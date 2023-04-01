@@ -114,9 +114,9 @@ class CompetitionRegisterCrudController extends AbstractCrudController
             ->allowMultipleChoices()
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
-                'class' => Category::class,
-                'choice_label' => fn (Category $choice) => t($choice->value, domain: 'competition'),
-                'choices' => Category::cases(),
+                'class' => Type::class,
+                'choice_label' => fn (Type $choice) => t($choice->value, domain: 'competition'),
+                'choices' => Type::cases(),
             ])
             ->formatValue(function ($value, ?CompetitionRegister $entity) {
                 if (!$value || !$entity || !$entity->getTypes()) {
