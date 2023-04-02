@@ -71,6 +71,18 @@ enum Category: string
         };
     }
 
+    public function isOld(): bool
+    {
+        return \in_array($this, [
+            self::OLD_SENIOR_MAN,
+            self::OLD_SENIOR_WOMAN,
+            self::OLD_VETERAN_MAN,
+            self::OLD_VETERAN_WOMAN,
+            self::OLD_GREAT_VETERAN_MAN,
+            self::OLD_GREAT_VETERAN_WOMAN,
+        ], true);
+    }
+
     /**
      * @throws ValueError
      */

@@ -135,6 +135,8 @@
                                 const genderInput = document.querySelector(`input[name="competition_register_departure_target_archer_form[gender]"][data-gender="${body.gender}"]`)
                                 if (genderInput) {
                                     genderInput.checked = true
+
+                                    handleGenderInput(genderInput)
                                 }
 
                                 const categorySelect = document.querySelector(`input[name="competition_register_departure_target_archer_form[category]"]`)
