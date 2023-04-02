@@ -61,9 +61,14 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
                 'label' => 'Genre',
                 'class' => Gender::class,
                 'choice_attr' => fn (Gender $gender) => ['data-gender' => $gender->value],
+                'choice_label' => static fn (Gender $gender) => t($gender->value, domain: 'archer'),
                 'expanded' => true,
                 'constraints' => [
                     new NotBlank(),
+                ],
+                'choices' => [
+                    Gender::MAN,
+                    Gender::WOMAN,
                 ],
             ])
             ->add('phone', TelType::class, [
@@ -100,6 +105,8 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
                 'label' => 'Catégorie',
                 'class' => Category::class,
                 'choice_attr' => fn (Category $category) => ['data-gender' => $category->getGender(), 'data-category' => $category->value],
+                'choice_label' => static fn (Category $category) => t($category->value, domain: 'archer'),
+                'choices' => array_filter(Category::cases(), static fn (Category $category) => !$category->isOld()),
                 'constraints' => [
                     new NotBlank(),
                 ],
