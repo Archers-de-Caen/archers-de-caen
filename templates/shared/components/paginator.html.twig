@@ -1,19 +1,20 @@
 {# for include need: paginator #}
 
 <div class="paginator-container">
+    {% set parameters = app.request.query.all|merge({page: app.request.query.has('page') ? app.request.query.get('page') - 1 : 0 })|merge(routeParams ?? []) %}
     <a
         class="paginator-prev"
         {% if not app.request.query.has('page') or app.request.query.get('page') == 1 %}
             disabled
         {% else %}
-            href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({page: app.request.query.has('page') ? app.request.query.get('page') - 1 : 0 })) }}"
+            href="{{ path(app.request.attributes.get('_route'), parameters) }}"
         {% endif %}
     >
         «
     </a>
 
     {% for page in paginator %}
-        {% set parameters = app.request.query.all|merge({page: page}) %}
+        {% set parameters = app.request.query.all|merge({page: page})|merge(routeParams ?? []) %}
 
         <a
             class="paginator-page {{ page == app.request.query.get('page') or (not app.request.query.has('page') and page == 1) ? 'active' : '' }}"
@@ -27,12 +28,13 @@
         </a>
     {% endfor %}
 
+    {% set parameters = app.request.query.all|merge({page: app.request.query.get('page') ? app.request.query.get('page') + 1 : 2 })|merge(routeParams ?? []) %}
     <a
         class="paginator-next"
         {% if app.request.query.get('page') == paginator|last or paginator|length == 1 %}
             disabled
         {% else %}
-            href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({page: app.request.query.get('page') ? app.request.query.get('page') + 1 : 2 })) }}"
+            href="{{ path(app.request.attributes.get('_route'), parameters) }}"
         {% endif %}
     >
         »
