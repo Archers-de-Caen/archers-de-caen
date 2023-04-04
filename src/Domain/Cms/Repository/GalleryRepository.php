@@ -22,4 +22,22 @@ class GalleryRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Gallery::class);
     }
+
+    public function save(Gallery $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(Gallery $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }
