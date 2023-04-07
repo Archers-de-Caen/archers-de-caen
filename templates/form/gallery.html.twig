@@ -6,13 +6,39 @@
                 <input id="gallery-photo" type="file" multiple class="form-control" />
             </div>
             <output class="gallery-photo-previews">
-                {% for data in form.vars.data %}
-                    <div class="gallery-photo-preview" data-photo-token="{{ data.token }}">
-                        <img src="{{ vich_uploader_asset(data, 'imageFile') }}" title="{{ data.imageOriginalName }}" alt="{{ data.imageOriginalName }}">
-                        <i class="fa fa-trash"></i>
-                    </div>
-                    <input type="hidden" name="{{ form.vars.full_name }}[]" value="{{ data.token }}">
-                {% endfor %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Url</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for data in form.vars.data %}
+                            <tr class="gallery-photo-preview" data-photo-token="{{ data.token }}">
+                                <td>{{ data.imageOriginalName }}</td>
+                                <td>
+                                    {% set url = absolute_url(vich_uploader_asset(data, 'imageFile')) %}
+
+                                    <div class="photo-preview">
+                                        <a href="{{ url }}">{{ url }}</a>
+                                        <img
+                                            src="{{ url }}"
+                                            loading="lazy"
+                                            alt="preview {{ data.imageOriginalName }}"
+                                        >
+                                    </div>
+                                </td>
+                                <td>
+                                    <i class="fa fa-trash"></i>
+                                </td>
+                            </tr>
+
+                            <input type="hidden" name="{{ form.vars.full_name }}[]" value="{{ data.token }}">
+                        {% endfor %}
+                    </tbody>
+                </table>
             </output>
         </div>
 

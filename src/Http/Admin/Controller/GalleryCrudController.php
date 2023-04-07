@@ -32,7 +32,9 @@ class GalleryCrudController extends AbstractCrudController
         $title = TextField::new('title')
             ->setLabel('Titre');
         $mainPhoto = PhotoField::new('mainPhoto')
-            ->setLabel('Image principale');
+            ->setLabel('Image principale')
+            ->setRequired(false)
+        ;
         $gallery = GalleryField::new('photos');
 
         if (Crud::PAGE_INDEX === $pageName) {
