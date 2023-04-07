@@ -19,4 +19,22 @@ class WebhookRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Webhook::class);
     }
+
+    public function save(Webhook $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(Webhook $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }

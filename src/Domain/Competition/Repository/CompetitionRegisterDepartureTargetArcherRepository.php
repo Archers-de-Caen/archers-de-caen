@@ -24,6 +24,24 @@ class CompetitionRegisterDepartureTargetArcherRepository extends ServiceEntityRe
         parent::__construct($registry, CompetitionRegisterDepartureTargetArcher::class);
     }
 
+    public function save(CompetitionRegisterDepartureTargetArcher $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(CompetitionRegisterDepartureTargetArcher $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
     public function findOneArcherByLicenseNumber(string $licenseNumber): ?CompetitionRegisterDepartureTargetArcher
     {
         /** @var CompetitionRegisterDepartureTargetArcher[] $results */

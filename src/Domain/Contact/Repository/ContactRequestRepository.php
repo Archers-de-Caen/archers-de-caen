@@ -19,6 +19,24 @@ class ContactRequestRepository extends ServiceEntityRepository
         parent::__construct($registry, ContactRequest::class);
     }
 
+    public function save(ContactRequest $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(ContactRequest $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
     public function findLastRequestForIp(string $ip): ?ContactRequest
     {
         try {

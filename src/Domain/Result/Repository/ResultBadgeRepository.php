@@ -22,4 +22,22 @@ class ResultBadgeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ResultBadge::class);
     }
+
+    public function save(ResultBadge $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(ResultBadge $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }

@@ -22,4 +22,22 @@ class ResultTeamRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ResultTeam::class);
     }
+
+    public function save(ResultTeam $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(ResultTeam $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }
