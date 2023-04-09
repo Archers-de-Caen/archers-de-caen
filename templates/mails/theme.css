@@ -163,7 +163,7 @@ img {
     -premailer-cellspacing: 0;
     -premailer-width: 570px;
     margin: 0 auto;
-    padding: 0;
+    padding: 10px;
     text-align: center;
     width: 570px;
 }
@@ -177,6 +177,10 @@ img {
 .footer a {
     color: #b0adc5;
     text-decoration: underline;
+}
+
+.footer tr td {
+    padding: 10px;
 }
 
 /* Tables */
@@ -222,20 +226,26 @@ img {
 
 .button {
     -webkit-text-size-adjust: none;
-    border-radius: 4px;
-    color: #fff;
     display: inline-block;
     overflow: hidden;
     text-decoration: none;
+
+    border-radius: 2.5rem; /* $border-radius-big */
+    border: 2px solid #572677; /* $color-primary-purple */
+    padding: 10px 30px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white; /* $color-primary-purple */
+    box-shadow: rgba(0, 0, 0, 0.05) 2px 2px 20px 0; /* $box-shadow */
 }
 
-.button-blue,
+.button-purple,
 .button-primary {
-    background-color: #2d3748;
-    border-bottom: 8px solid #2d3748;
-    border-left: 18px solid #2d3748;
-    border-right: 18px solid #2d3748;
-    border-top: 8px solid #2d3748;
+    background-color: #572677;
+    border-bottom: 8px solid #572677;
+    border-left: 18px solid #572677;
+    border-right: 18px solid #572677;
+    border-top: 8px solid #572677;
 }
 
 .button-green,
@@ -249,11 +259,11 @@ img {
 
 .button-red,
 .button-error {
-    background-color: #e53e3e;
-    border-bottom: 8px solid #e53e3e;
-    border-left: 18px solid #e53e3e;
-    border-right: 18px solid #e53e3e;
-    border-top: 8px solid #e53e3e;
+    background-color: #CC333D;
+    border-bottom: 8px solid #CC333D;
+    border-left: 18px solid #CC333D;
+    border-right: 18px solid #CC333D;
+    border-top: 8px solid #CC333D;
 }
 
 /* Panels */

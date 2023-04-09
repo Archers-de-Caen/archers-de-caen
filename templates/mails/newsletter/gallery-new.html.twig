@@ -1,0 +1,45 @@
+{# @var gallery \App\Domain\Cms\Model\Gallery #}
+
+{% extends layout %}
+
+{% block body %}
+
+    <h1>{{ gallery.title }}</h1>
+
+    <table>
+        <tr>
+            {% if gallery.photos[0] is defined %}
+                <td colspan="2">
+                    <img src="{{ absolute_url(vich_uploader_asset(gallery.photos[0], 'imageFile')) }}" alt="{{ gallery.photos[0].imageName }}">
+                </td>
+            {% endif %}
+        </tr>
+
+        <tr>
+            {% if gallery.photos[1] is defined %}
+                <td>
+                    <img src="{{ absolute_url(vich_uploader_asset(gallery.photos[1], 'imageFile')) }}" alt="{{ gallery.photos[1].imageName }}">
+                </td>
+            {% endif %}
+
+            {% if gallery.photos[2] is defined %}
+                <td>
+                    <img src="{{ absolute_url(vich_uploader_asset(gallery.photos[2], 'imageFile')) }}" alt="{{ gallery.photos[2].imageName }}">
+                </td>
+            {% endif %}
+        </tr>
+    </table>
+
+    <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin-top: 1rem">
+        <tr>
+            <td align="center">
+                <a href="{{ absolute_url(path(constant('App\\Http\\Landing\\Controller\\GalleryController::ROUTE_LANDING_GALLERY'), { slug: gallery.slug })) }}"
+                   class="button button-primary"
+                >
+                    Voir l'album
+                </a>
+            </td>
+        </tr>
+    </table>
+
+{% endblock %}

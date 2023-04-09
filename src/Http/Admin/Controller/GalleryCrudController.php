@@ -5,12 +5,26 @@ declare(strict_types=1);
 namespace App\Http\Admin\Controller;
 
 use App\Domain\Cms\Admin\Field\GalleryField;
+use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Model\Gallery;
+use App\Domain\Cms\Model\Page;
 use App\Domain\File\Admin\Field\PhotoField;
+use App\Domain\Newsletter\NewsletterType;
+use App\Infrastructure\Mailing\ActualityNewsletterMessage;
+use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use function Symfony\Component\Translation\t;
 
 class GalleryCrudController extends AbstractCrudController
 {
@@ -23,6 +37,23 @@ class GalleryCrudController extends AbstractCrudController
     {
         return $crud
             ->addFormTheme('form/gallery.html.twig')
+
+            ->setDefaultSort(['createdAt' => 'DESC'])
+        ;
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        parent::configureActions($actions);
+
+        $publish = Action::new('publish')
+            ->setLabel('Publier')
+            ->linkToCrudAction('publish')
+            ->displayIf(static fn (Gallery $gallery) => Status::DRAFT === $gallery->getStatus())
+        ;
+
+        return $actions
+            ->add(Crud::PAGE_INDEX, $publish)
         ;
     }
 
@@ -37,14 +68,45 @@ class GalleryCrudController extends AbstractCrudController
         ;
         $gallery = GalleryField::new('photos');
 
+        $status = ChoiceField::new('status')
+            ->setLabel('Statut')
+            ->setFormType(EnumType::class)
+            ->setFormTypeOptions([
+                'class' => Status::class,
+                'choice_label' => fn (Status $choice) => t($choice->value, domain: 'page'),
+                'choices' => Status::cases(),
+            ])
+            ->formatValue(fn ($value, ?Gallery $entity) => !$value || !$entity || !$entity->getStatus() ? '' : t($entity->getStatus()->value, domain: 'page'))
+        ;
+
         if (Crud::PAGE_INDEX === $pageName) {
-            return [$id, $title, $mainPhoto];
+            return [$id, $title, $status, $mainPhoto];
         }
 
         if (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $title, $mainPhoto, $gallery];
+            return [$id, $title, $status, $mainPhoto, $gallery];
         }
 
         return [$title, $mainPhoto, $gallery];
+    }
+
+    public function publish(
+        MessageBusInterface $messageBus,
+        AdminContext $context,
+        EntityManagerInterface $em,
+        UrlGeneratorInterface $urlGenerator
+    ): Response {
+        /** @var Gallery $entity */
+        $entity = $context->getEntity()->getInstance();
+
+        $entity->publish();
+
+        $em->flush();
+
+        if ($entity->getId()) {
+            $messageBus->dispatch(new ActualityNewsletterMessage($entity->getId(), NewsletterType::ACTUALITY_NEW));
+        }
+
+        return $this->redirect($context->getReferrer() ?: $urlGenerator->generate(DashboardController::ROUTE_ADMIN_DASHBOARD_CONTROLLER));
     }
 }

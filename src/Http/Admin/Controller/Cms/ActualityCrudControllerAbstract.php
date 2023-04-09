@@ -6,7 +6,9 @@ namespace App\Http\Admin\Controller\Cms;
 
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Model\Page;
+use App\Domain\Newsletter\NewsletterType;
 use App\Http\Landing\Controller\ActualitiesController;
+use App\Infrastructure\Mailing\GalleryNewsletterMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
@@ -16,6 +18,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ActualityCrudControllerAbstract extends AbstractPageCrudController

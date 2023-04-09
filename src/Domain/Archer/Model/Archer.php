@@ -7,6 +7,7 @@ namespace App\Domain\Archer\Model;
 use App\Domain\Archer\Config\Weapon;
 use App\Domain\Archer\Repository\ArcherRepository;
 use App\Domain\Badge\Model\Badge;
+use App\Domain\Newsletter\NewsletterType;
 use App\Domain\Result\Model\Result;
 use App\Domain\Result\Model\ResultBadge;
 use App\Domain\Result\Model\ResultCompetition;
@@ -96,6 +97,9 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
      */
     #[ORM\ManyToMany(targetEntity: ResultTeam::class, mappedBy: 'teammates')]
     private Collection $resultsTeams;
+
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true, enumType: NewsletterType::class)]
+    private array $newsletters = [];
 
     public function __construct()
     {
@@ -374,5 +378,17 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         }
 
         return null;
+    }
+
+    public function getNewsletters(): array
+    {
+        return $this->newsletters;
+    }
+
+    public function setNewsletters(array $newsletters): self
+    {
+        $this->newsletters = $newsletters;
+
+        return $this;
     }
 }

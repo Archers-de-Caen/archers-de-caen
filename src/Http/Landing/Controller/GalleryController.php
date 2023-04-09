@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Landing\Controller;
 
+use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Model\Gallery;
 use App\Domain\Cms\Repository\GalleryRepository;
 use App\Domain\File\Repository\PhotoRepository;
@@ -27,6 +28,8 @@ class GalleryController extends AbstractController
 
         $galleries = new Paginator(
             $galleryRepository->createQueryBuilder('gallery')
+                ->where('gallery.status = :status')
+                ->setParameter('status', Status::PUBLISH->value)
                 ->orderBy('gallery.createdAt', 'DESC')
                 ->setFirstResult($currentPage * $elementByPage)
                 ->setMaxResults($elementByPage) // 24, car sur un écran 1080p la dernière ligne est complete

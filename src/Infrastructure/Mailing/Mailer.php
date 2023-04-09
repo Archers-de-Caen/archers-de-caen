@@ -23,7 +23,10 @@ class Mailer
     ) {
     }
 
-    public function createEmail(string $template, array $templateData = []): ?Email
+    /**
+     * @throws EmailRenderingException
+     */
+    public function createEmail(string $template, array $templateData = []): Email
     {
         try {
             $this->twig->addGlobal('format', 'html');
@@ -34,14 +37,15 @@ class Mailer
         } catch (LoaderError|RuntimeError|SyntaxError $e) {
             $this->logger->error($e);
 
-            return null;
+            throw new EmailRenderingException($e->getMessage(), $e->getCode(), $e);
         }
 
         return (new Email())
             ->from(new Address('noreply@archers-caen.fr', 'Archers de Caen'))
             ->addReplyTo(new Address('contact@archers-caen.fr', 'Archers de Caen'))
             ->html($html)
-            ->text($text);
+            ->text($text)
+        ;
     }
 
     public function send(Email $email): void

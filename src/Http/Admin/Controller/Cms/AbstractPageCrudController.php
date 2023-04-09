@@ -4,19 +4,24 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\Cms;
 
-use App\Domain\Archer\Config\Weapon;
 use App\Domain\Cms\Admin\Field\CKEditorField;
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Model\Page;
 use App\Domain\File\Admin\Field\PhotoField;
 use App\Domain\File\Form\PhotoFormType;
-use App\Domain\Result\Model\ResultBadge;
+use App\Domain\Newsletter\NewsletterType;
+use App\Http\Admin\Controller\DashboardController;
+use App\Infrastructure\Mailing\ActualityNewsletterMessage;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
@@ -26,13 +31,15 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use function Symfony\Component\Translation\t;
 
 class AbstractPageCrudController extends AbstractCrudController
 {
     public function __construct(
-        readonly protected UrlGeneratorInterface $urlGenerator,
+        protected readonly UrlGeneratorInterface $urlGenerator,
     ) {
     }
 
@@ -102,7 +109,7 @@ class AbstractPageCrudController extends AbstractCrudController
             return [$id, $title, $status, $image, $content, $createdAt];
         }
 
-        return [$title, $status, $image, $content];
+        return [$title, $image, $content];
     }
 
     public function configureFilters(Filters $filters): Filters
@@ -111,5 +118,41 @@ class AbstractPageCrudController extends AbstractCrudController
             ->add(ChoiceFilter::new('category')->setChoices(Category::cases()))
             ->add(ChoiceFilter::new('status')->setChoices(Status::cases()))
         ;
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        parent::configureActions($actions);
+
+        $publish = Action::new('publish')
+            ->setLabel('Publier')
+            ->linkToCrudAction('publish')
+            ->displayIf(static fn (Page $page) => Status::DRAFT === $page->getStatus())
+        ;
+
+        return $actions
+            ->add(Crud::PAGE_INDEX, $publish);
+    }
+
+    public function publish(
+        MessageBusInterface $messageBus,
+        AdminContext $context,
+        EntityManagerInterface $em,
+        UrlGeneratorInterface $urlGenerator
+    ): Response {
+        /** @var Page $entity */
+        $entity = $context->getEntity()->getInstance();
+
+        if (Category::ACTUALITY === $entity->getCategory()) {
+            $entity->publish();
+
+            $em->flush();
+
+            if ($entity->getId()) {
+                $messageBus->dispatch(new ActualityNewsletterMessage($entity->getId(), NewsletterType::ACTUALITY_NEW));
+            }
+        }
+
+        return $this->redirect($context->getReferrer() ?: $urlGenerator->generate(DashboardController::ROUTE_ADMIN_DASHBOARD_CONTROLLER));
     }
 }

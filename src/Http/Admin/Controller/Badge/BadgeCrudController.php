@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\Badge;
 
-use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Badge\Model\Badge;
 use App\Domain\Competition\Config\Type;
 use App\Domain\File\Admin\Field\PhotoField;
 use App\Domain\File\Form\PhotoFormType;
-use App\Domain\Result\Model\ResultBadge;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;

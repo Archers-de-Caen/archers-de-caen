@@ -7,7 +7,6 @@ namespace App\Http\Admin\Controller;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Archer\Model\License;
 use App\Domain\Badge\Model\Badge;
-use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Model\Data;
 use App\Domain\Cms\Model\Gallery;
 use App\Domain\Cms\Model\Page;
@@ -37,11 +36,13 @@ use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 
 class DashboardController extends AbstractDashboardController
 {
+    public const ROUTE_ADMIN_DASHBOARD_CONTROLLER = 'admin_index';
+
     public function __construct(private readonly ParameterBagInterface $parameterBag)
     {
     }
 
-    #[Route('/', name: 'admin_index')]
+    #[Route('/', name: self::ROUTE_ADMIN_DASHBOARD_CONTROLLER)]
     public function index(): Response
     {
         return $this->render('@EasyAdmin/page/index.html.twig', [

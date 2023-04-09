@@ -24,6 +24,7 @@ class Page
 {
     use IdTrait;
     use TimestampTrait;
+    use StatusTrait;
 
     #[ORM\Column(type: Types::STRING, length: 191)]
     #[Assert\Length(max: 191)]
@@ -41,10 +42,6 @@ class Page
     #[ORM\Column(type: Types::STRING, length: 191, enumType: Category::class)]
     #[Assert\NotNull]
     private ?Category $category = Category::PAGE;
-
-    #[ORM\Column(type: Types::STRING, length: 191, enumType: Status::class)]
-    #[Assert\NotNull]
-    private ?Status $status = Status::DRAFT;
 
     #[ORM\ManyToOne(targetEntity: Archer::class)]
     private ?Archer $createdBy = null;
@@ -114,18 +111,6 @@ class Page
     public function setCategory(Category $category): self
     {
         $this->category = $category;
-
-        return $this;
-    }
-
-    public function getStatus(): ?Status
-    {
-        return $this->status;
-    }
-
-    public function setStatus(Status $status): self
-    {
-        $this->status = $status;
 
         return $this;
     }
