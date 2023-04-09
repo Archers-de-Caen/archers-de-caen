@@ -36,8 +36,8 @@ class DefaultControllerTest extends WebTestCase
     public function provideUrlsSuccessfulWithoutAuthentication(): array
     {
         return [
-            [DefaultController::ROUTE_LANDING_INDEX, Request::METHOD_GET],
-            [ContactController::ROUTE_LANDING_CONTACT, Request::METHOD_GET],
+            DefaultController::ROUTE_LANDING_INDEX => [DefaultController::ROUTE_LANDING_INDEX, Request::METHOD_GET],
+            ContactController::ROUTE_LANDING_CONTACT => [ContactController::ROUTE_LANDING_CONTACT, Request::METHOD_GET],
         ];
     }
 }
