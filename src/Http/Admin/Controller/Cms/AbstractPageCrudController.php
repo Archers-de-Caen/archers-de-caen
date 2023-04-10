@@ -154,6 +154,6 @@ class AbstractPageCrudController extends AbstractCrudController
             }
         }
 
-        return $this->redirect($context->getReferrer() ?: $urlGenerator->generate(DashboardController::ROUTE_ADMIN_DASHBOARD_CONTROLLER));
+        return $this->redirect($context->getReferrer() ?: $urlGenerator->generate(DashboardController::ROUTE));
     }
 }

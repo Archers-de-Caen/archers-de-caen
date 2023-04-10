@@ -107,6 +107,6 @@ class GalleryCrudController extends AbstractCrudController
             $messageBus->dispatch(new ActualityNewsletterMessage($entity->getId(), NewsletterType::ACTUALITY_NEW));
         }
 
-        return $this->redirect($context->getReferrer() ?: $urlGenerator->generate(DashboardController::ROUTE_ADMIN_DASHBOARD_CONTROLLER));
+        return $this->redirect($context->getReferrer() ?: $urlGenerator->generate(DashboardController::ROUTE));
     }
 }

@@ -35,13 +35,13 @@ use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 
 class DashboardController extends AbstractDashboardController
 {
-    public const ROUTE_ADMIN_DASHBOARD_CONTROLLER = 'admin_index';
+    public const ROUTE = 'admin_index';
 
     public function __construct(private readonly ParameterBagInterface $parameterBag)
     {
     }
 
-    #[Route('/', name: self::ROUTE_ADMIN_DASHBOARD_CONTROLLER)]
+    #[Route('/', name: self::ROUTE)]
     public function index(): Response
     {
         return $this->render('@EasyAdmin/page/index.html.twig', [
