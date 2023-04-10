@@ -18,7 +18,11 @@ return static function (array $context) {
     $kernel = new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
     $app = new Application($kernel);
 
-    $input = new ArrayInput(['command' => 'messenger:consume async --time-limit=3600']);
+    $input = new ArrayInput([
+        'command' => 'messenger:consume',
+        'receivers' => ['async', 'failed'],
+        '--time-limit' => 3600
+    ]);
     $output = new ConsoleOutput();
 
     return $app->run($input, $output);
