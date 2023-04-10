@@ -113,7 +113,9 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::linkToLogout('Déconnexion', 'fas fa-arrow-right-from-bracket');
 
-        yield MenuItem::section($this->parameterBag->get('app.version'));
+        /** @var string $version */
+        $version = $this->parameterBag->get('app.version');
+        yield MenuItem::section($version);
     }
 
     public function configureAssets(): Assets
