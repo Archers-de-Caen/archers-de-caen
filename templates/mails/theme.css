@@ -236,34 +236,23 @@ img {
     cursor: pointer;
     font-weight: bold;
     color: white; /* $color-primary-purple */
-    box-shadow: rgba(0, 0, 0, 0.05) 2px 2px 20px 0; /* $box-shadow */
 }
 
 .button-purple,
 .button-primary {
     background-color: #572677;
-    border-bottom: 8px solid #572677;
-    border-left: 18px solid #572677;
-    border-right: 18px solid #572677;
-    border-top: 8px solid #572677;
 }
 
 .button-green,
 .button-success {
     background-color: #48bb78;
-    border-bottom: 8px solid #48bb78;
-    border-left: 18px solid #48bb78;
-    border-right: 18px solid #48bb78;
-    border-top: 8px solid #48bb78;
+    border: 2px solid #48bb78;
 }
 
 .button-red,
 .button-error {
     background-color: #CC333D;
-    border-bottom: 8px solid #CC333D;
-    border-left: 18px solid #CC333D;
-    border-right: 18px solid #CC333D;
-    border-top: 8px solid #CC333D;
+    border: 2px solid #CC333D;
 }
 
 /* Panels */
