@@ -9,7 +9,7 @@
             <a class="thumbnail -horizontal" href="{{ path(route , { slug: page.slug }) }}" title="{{ page.title }}">
                 <header>
                     <img
-                        src="{{ page.image is defined and page.image ? page.image|imagine_filter('thumbnail_medium') : asset('build/images/photo/cible.jpg') }}"
+                        src="{{ page.image is defined and page.image ? page.image|imagine_filter('thumbnail_medium') : asset('build/images/photo/cible.webp') }}"
                         alt="Photo de la page: {{ page.title }}"
                     >
                 </header>
