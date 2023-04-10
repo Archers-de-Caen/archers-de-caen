@@ -9,6 +9,9 @@ use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher;
 use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher as Registration;
 use App\Domain\Competition\Repository\CompetitionRegisterDepartureTargetArcherRepository as RegistrationRepository;
+use App\Http\Landing\Controller\CompetitionRegister\Payment\EndController;
+use App\Http\Landing\Controller\CompetitionRegister\Payment\ErrorController;
+use App\Http\Landing\Controller\CompetitionRegister\RecapController;
 use App\Http\Landing\Controller\CompetitionRegisterController;
 use Helloasso\Exception\HelloassoException;
 use Helloasso\HelloassoClient;
@@ -51,17 +54,17 @@ class CompetitionRegisterPayment
         $urlParameters = ['slug' => $competition->getSlug(), 'licenseNumber' => $licenseNumber];
 
         $backUrl = $this->urlGenerator->generate(
-            CompetitionRegisterController::ROUTE_LANDING_COMPETITION_REGISTER_VALIDATED,
+            RecapController::ROUTE,
             $urlParameters,
             UrlGeneratorInterface::ABSOLUTE_URL
         );
         $errorUrl = $this->urlGenerator->generate(
-            CompetitionRegisterController::ROUTE_LANDING_COMPETITION_REGISTER_PAYMENT_ERROR,
+            ErrorController::ROUTE,
             $urlParameters,
             UrlGeneratorInterface::ABSOLUTE_URL
         );
         $endUrl = $this->urlGenerator->generate(
-            CompetitionRegisterController::ROUTE_LANDING_COMPETITION_REGISTER_PAYMENT_END,
+            EndController::ROUTE,
             $urlParameters,
             UrlGeneratorInterface::ABSOLUTE_URL
         );

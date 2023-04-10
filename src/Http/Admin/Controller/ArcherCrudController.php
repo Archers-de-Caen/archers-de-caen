@@ -8,7 +8,7 @@ use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Result\Model\ResultBadge;
-use App\Http\Landing\Controller\DefaultController;
+use App\Http\Landing\Controller\IndexController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -108,7 +108,7 @@ class ArcherCrudController extends AbstractCrudController
         $impersonation = Action::new('Se connecter')->linkToUrl(
             function (Archer $archer): string {
                 return $this->urlGenerator->generate(
-                    DefaultController::ROUTE_LANDING_INDEX,
+                    IndexController::ROUTE,
                     ['_switch_user' => $archer->getEmail()],
                     UrlGeneratorInterface::ABSOLUTE_URL
                 );

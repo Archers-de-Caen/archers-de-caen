@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Landing\Controller;
+namespace App\Http\Landing\Controller\Page;
 
 use App\Domain\Cms\Repository\DataRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,18 +13,20 @@ use Symfony\Component\Routing\Annotation\Route;
 
 #[AsController]
 #[Route(
-    path: '/prendre-une-licence',
+    path: '/club',
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-class LicenseController extends AbstractController
+class ClubController extends AbstractController
 {
-    public const ROUTE = 'landing_license_new';
+    public const ROUTE = 'landing_club';
 
     public function __invoke(DataRepository $dataRepository): Response
     {
-        return $this->render('/landing/license/new.html.twig', [
-            'documents' => $dataRepository->findOneBy(['code' => 'TAKE_LICENSE'])?->getContent(),
+        $faqs = $dataRepository->findOneBy(['code' => 'FAQ']);
+
+        return $this->render('/landing/club/index.html.twig', [
+            'faqs' => $faqs,
         ]);
     }
 }

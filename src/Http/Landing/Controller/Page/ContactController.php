@@ -2,25 +2,35 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Landing\Controller;
+namespace App\Http\Landing\Controller\Page;
 
 use App\Domain\Contact\Form\ContactForm;
 use App\Domain\Contact\Model\ContactRequest;
 use App\Domain\Contact\Service\ContactService;
 use App\Domain\Contact\TooManyContactException;
+use App\Http\Landing\Controller\IndexController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[AsController]
+#[Route(
+    path: '/contact',
+    name: self::ROUTE,
+    methods: [
+        Request::METHOD_GET,
+        Request::METHOD_POST
+    ]
+)]
 class ContactController extends AbstractController
 {
-    public const ROUTE_LANDING_CONTACT = 'landing_contact';
+    public const ROUTE = 'landing_contact';
 
-    #[Route('/contact', name: self::ROUTE_LANDING_CONTACT)]
-    public function contact(Request $request, EntityManagerInterface $em, ContactService $contactService): Response
+    public function __invoke(Request $request, EntityManagerInterface $em, ContactService $contactService): Response
     {
         $contact = new ContactRequest();
         $contactForm = $this->createForm(ContactForm::class, $contact, ['clientIp' => $request->getClientIp()]);
@@ -36,7 +46,7 @@ class ContactController extends AbstractController
 
                 $this->addFlash('success', 'Votre message a bien été envoyé.');
 
-                return $this->redirectToRoute(DefaultController::ROUTE_LANDING_INDEX);
+                return $this->redirectToRoute(IndexController::ROUTE);
             } catch (TooManyContactException) {
                 $this->addFlash('error', 'Vous avez déjà envoyé un message, merci de patienter.');
             } catch (TransportExceptionInterface) {

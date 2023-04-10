@@ -18,7 +18,7 @@ use Doskyft\CsvHelper\ColumnDefinition;
 use Doskyft\CsvHelper\Csv;
 use Doskyft\CsvHelper\Exception\NotCorrectColumnsException;
 use Doskyft\CsvHelper\Types;
-use App\Http\Landing\Controller\DefaultController;
+use App\Http\Landing\Controller\IndexController;
 use DateTimeInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -220,14 +220,14 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
         $filterFactory = $this->container->get(FilterFactory::class);
         $filterConfig = $context->getCrud()?->getFiltersConfig();
         if (!$filterConfig) {
-            return $this->redirectToRoute(DefaultController::ROUTE_LANDING_INDEX);
+            return $this->redirectToRoute(IndexController::ROUTE);
         }
 
         $filters = $filterFactory->create($filterConfig, $fields, $context->getEntity());
 
         $search = $context->getSearch();
         if (!$search) {
-            return $this->redirectToRoute(DefaultController::ROUTE_LANDING_INDEX);
+            return $this->redirectToRoute(IndexController::ROUTE);
         }
         $queryBuilder = $this->createIndexQueryBuilder($search, $context->getEntity(), $fields, $filters);
 

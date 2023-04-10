@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Landing\Controller;
+namespace App\Http\Landing\Controller\Actuality;
 
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Config\Status;
@@ -13,15 +13,20 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[AsController]
+#[Route(
+    path: '/actualites',
+    name: self::ROUTE,
+    methods: Request::METHOD_GET
+)]
 class ActualitiesController extends AbstractController
 {
-    public const ROUTE_LANDING_ACTUALITIES = 'landing_actualities';
-    public const ROUTE_LANDING_ACTUALITY = 'landing_actuality';
+    public const ROUTE = 'landing_actualities';
 
-    #[Route('/actualites', name: self::ROUTE_LANDING_ACTUALITIES)]
-    public function actualities(Request $request, PageRepository $pageRepository): Response
+    public function __invoke(Request $request, PageRepository $pageRepository): Response
     {
         $currentPage = ((int) $request->query->get('page') ?: 1) - 1;
         $elementByPage = 24;
@@ -41,29 +46,6 @@ class ActualitiesController extends AbstractController
         return $this->render('/landing/actualities/actualities.html.twig', [
             'actualities' => $actualities,
             'paginator' => PaginatorHelper::pagination($currentPage + 1, (int) ceil($actualities->count() / $elementByPage)),
-        ]);
-    }
-
-    #[Route('/actualite/{slug}', name: self::ROUTE_LANDING_ACTUALITY)]
-    public function page(Page $actuality, PageRepository $pageRepository): Response
-    {
-        $pages = $pageRepository
-            ->findBy([
-                'category' => Category::ACTUALITY->value,
-                'status' => Status::PUBLISH->value,
-            ], ['createdAt' => 'DESC']);
-
-        foreach ($pages as $key => $page) {
-            if ($page->getId() === $actuality->getId()) {
-                $nextPage = $pages[$key + 1] ?? null;
-
-                break;
-            }
-        }
-
-        return $this->render('/landing/actualities/actuality.html.twig', [
-            'page' => $actuality,
-            'nextPage' => $nextPage ?? null,
         ]);
     }
 }

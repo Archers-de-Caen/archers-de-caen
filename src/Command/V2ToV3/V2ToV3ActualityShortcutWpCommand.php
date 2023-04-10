@@ -6,7 +6,7 @@ namespace App\Command\V2ToV3;
 
 use App\Domain\Cms\Model\Page;
 use App\Domain\Competition\Model\Competition;
-use App\Http\Landing\Controller\CompetitionController;
+use App\Http\Landing\Controller\Results\CompetitionController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -136,7 +136,7 @@ class V2ToV3ActualityShortcutWpCommand extends Command
         if (preg_match_all($pattern, $content, $matches)) {
             $id = $matches[1][0];
             if (isset($competitions[$id])) {
-                $iframeUrl = $this->urlGenerator->generate(CompetitionController::ROUTE_LANDING_RESULTS_COMPETITION, [
+                $iframeUrl = $this->urlGenerator->generate(CompetitionController::ROUTE, [
                     'slug' => $competitions[$id]->getSlug(),
                 ], UrlGeneratorInterface::ABSOLUTE_URL).'?iframe=true';
 

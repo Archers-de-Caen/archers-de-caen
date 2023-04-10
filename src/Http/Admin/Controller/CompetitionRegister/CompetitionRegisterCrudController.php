@@ -13,6 +13,7 @@ use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\File\Admin\Field\DocumentField;
 use App\Domain\Result\Model\ResultBadge;
 use App\Http\Admin\Controller\Cms\AbstractPageCrudController;
+use App\Http\Landing\Controller\CompetitionRegister\Registration\IndexController;
 use App\Http\Landing\Controller\CompetitionRegisterController;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -66,7 +67,7 @@ class CompetitionRegisterCrudController extends AbstractCrudController
             ->setLabel('Lien public')
             ->linkToUrl(function (CompetitionRegister $competitionRegister) {
                 return $this->urlGenerator->generate(
-                    CompetitionRegisterController::ROUTE_LANDING_COMPETITION_REGISTER,
+                    IndexController::ROUTE,
                     ['slug' => $competitionRegister->getSlug()],
                     UrlGeneratorInterface::ABSOLUTE_URL
                 );
@@ -161,7 +162,7 @@ class CompetitionRegisterCrudController extends AbstractCrudController
         parent::persistEntity($entityManager, $entityInstance);
 
         $competitionRegisterUrl = $this->urlGenerator->generate(
-            CompetitionRegisterController::ROUTE_LANDING_COMPETITION_REGISTER,
+            IndexController::ROUTE,
             ['slug' => $entityInstance->getSlug()],
             UrlGeneratorInterface::ABSOLUTE_URL
         );

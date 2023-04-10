@@ -41,7 +41,7 @@
                 <tr>
                     <td>
                         <p>
-                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\CompetitionController::ROUTE_LANDING_RESULTS_COMPETITION'), { slug: result.competition.slug }) }}">
+                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Results\\CompetitionController::ROUTE'), { slug: result.competition.slug }) }}">
                                 {{ result.competition|replace({"concours ": ""}) }}
                             </a>
                         </p>

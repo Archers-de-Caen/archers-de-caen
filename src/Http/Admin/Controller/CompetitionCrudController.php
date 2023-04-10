@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
-use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Competition\Config\Type;
 use App\Domain\Competition\Manager\CompetitionManager;
@@ -12,10 +11,9 @@ use App\Domain\Competition\Model\Competition;
 use App\Domain\Result\Form\ResultCompetitionForm;
 use App\Domain\Result\Form\ResultTeamForm;
 use App\Domain\Result\Manager\ResultCompetitionManager;
-use App\Domain\Result\Model\ResultBadge;
 use App\Domain\Result\Model\ResultCompetition;
 use App\Http\Admin\Controller\Cms\AbstractPageCrudController;
-use App\Http\Landing\Controller\CompetitionController;
+use App\Http\Landing\Controller\Results\CompetitionController;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -60,7 +58,7 @@ class CompetitionCrudController extends AbstractCrudController
         $publicLink = Action::new('Page public')->linkToUrl(
             function (Competition $competition): string {
                 return $this->urlGenerator->generate(
-                    CompetitionController::ROUTE_LANDING_RESULTS_COMPETITION,
+                    CompetitionController::ROUTE,
                     ['slug' => $competition->getSlug()],
                     UrlGeneratorInterface::ABSOLUTE_URL
                 );
@@ -149,7 +147,7 @@ class CompetitionCrudController extends AbstractCrudController
 
         parent::persistEntity($entityManager, $entityInstance);
 
-        $competitionUrl = $this->urlGenerator->generate(CompetitionController::ROUTE_LANDING_RESULTS_COMPETITION, [
+        $competitionUrl = $this->urlGenerator->generate(CompetitionController::ROUTE, [
             'slug' => $entityInstance->getSlug(),
         ], UrlGeneratorInterface::ABSOLUTE_URL);
 
@@ -188,7 +186,7 @@ class CompetitionCrudController extends AbstractCrudController
 
         parent::updateEntity($entityManager, $entityInstance);
 
-        $competitionUrl = $this->urlGenerator->generate(CompetitionController::ROUTE_LANDING_RESULTS_COMPETITION, [
+        $competitionUrl = $this->urlGenerator->generate(CompetitionController::ROUTE, [
             'slug' => $entityInstance->getSlug(),
         ], UrlGeneratorInterface::ABSOLUTE_URL);
 

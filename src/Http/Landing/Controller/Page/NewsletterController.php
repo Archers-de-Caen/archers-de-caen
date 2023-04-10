@@ -2,28 +2,27 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Landing\Controller\Archer;
+namespace App\Http\Landing\Controller\Page;
 
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Archer\Repository\ArcherRepository;
 use App\Domain\Newsletter\NewsletterForm;
 use App\Domain\Newsletter\NewsletterRepository;
-use App\Domain\Newsletter\NewsletterType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[AsController]
 #[Route(
     path: '/newsletter',
-    name: NewsletterController::ROUTE,
+    name: self::ROUTE,
     methods: [
         Request::METHOD_GET,
         Request::METHOD_POST
     ]
 )]
-#[AsController]
 class NewsletterController extends AbstractController
 {
     public const ROUTE = 'landing_archer_newsletter';

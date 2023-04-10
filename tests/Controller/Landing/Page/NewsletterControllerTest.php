@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller\Landing;
+namespace App\Tests\Controller\Landing\Page;
 
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Newsletter\NewsletterType;
