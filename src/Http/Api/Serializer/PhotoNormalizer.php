@@ -18,7 +18,6 @@ class PhotoNormalizer implements NormalizerInterface
         private readonly UploaderHelper $uploaderHelper,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly string $baseHost,
-
         #[Autowire(service: ObjectNormalizer::class)]
         private readonly NormalizerInterface $normalizer
     ) {
@@ -28,13 +27,13 @@ class PhotoNormalizer implements NormalizerInterface
      * @param Photo $object
      *
      * @throws ExceptionInterface
-    */
+     */
     public function normalize(mixed $object, string $format = null, array $context = []): array
     {
         /** @var array $data */
         $data = $this->normalizer->normalize($object, $format, $context);
 
-        $url = $this->baseHost . $this->uploaderHelper->asset($object, 'imageFile');
+        $url = $this->baseHost.$this->uploaderHelper->asset($object, 'imageFile');
 
         $data['url'] = $url;
 

@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: self::ROUTE,
     methods: [
         Request::METHOD_GET,
-        Request::METHOD_POST
+        Request::METHOD_POST,
     ]
 )]
 class DepartureController extends AbstractController
@@ -39,7 +39,7 @@ class DepartureController extends AbstractController
     ): Response {
         if (!$session->has(SessionService::SESSION_KEY_COMPETITION_REGISTER)) {
             return $this->redirectToRoute(ArcherController::ROUTE, [
-                'slug' => $competitionRegister->getSlug()
+                'slug' => $competitionRegister->getSlug(),
             ]);
         }
 

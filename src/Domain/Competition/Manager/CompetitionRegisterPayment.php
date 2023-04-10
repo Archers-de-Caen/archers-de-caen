@@ -12,7 +12,6 @@ use App\Domain\Competition\Repository\CompetitionRegisterDepartureTargetArcherRe
 use App\Http\Landing\Controller\CompetitionRegister\Payment\EndController;
 use App\Http\Landing\Controller\CompetitionRegister\Payment\ErrorController;
 use App\Http\Landing\Controller\CompetitionRegister\RecapController;
-use App\Http\Landing\Controller\CompetitionRegisterController;
 use Helloasso\Exception\HelloassoException;
 use Helloasso\HelloassoClient;
 use Helloasso\Models\Carts\CheckoutPayer;
@@ -90,16 +89,15 @@ class CompetitionRegisterPayment
             ->setBackUrl($backUrl)
             ->setErrorUrl($errorUrl)
             ->setReturnUrl($endUrl)
-            ->setPayer((new CheckoutPayer())
-                ->setFirstName($firstRegistration->getFirstName())
-                ->setLastName($firstRegistration->getLastName())
-                ->setEmail($firstRegistration->getEmail())
+            ->setPayer(
+                (new CheckoutPayer())
+                    ->setFirstName($firstRegistration->getFirstName())
+                    ->setLastName($firstRegistration->getLastName())
+                    ->setEmail($firstRegistration->getEmail())
             )
             ->setMetadata([
                 'registrations' => array_map(
-                    static function (CompetitionRegisterDepartureTargetArcher $registration) {
-                        return $registration->getId()?->__toString();
-                    },
+                    static fn (CompetitionRegisterDepartureTargetArcher $registration) => $registration->getId()?->__toString(),
                     $registrations
                 ),
             ])
@@ -132,7 +130,7 @@ class CompetitionRegisterPayment
         }
 
         if (!$alreadyPaid && $isArcherDeCaen) {
-            $departureToPaid--;
+            --$departureToPaid;
         }
 
         if ($departureToPaid <= 0) {

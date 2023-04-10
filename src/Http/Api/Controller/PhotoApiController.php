@@ -9,7 +9,6 @@ use App\Domain\File\Form\PhotoFormType;
 use App\Domain\File\Model\Photo;
 use App\Helper\FormHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -46,7 +45,7 @@ class PhotoApiController extends AbstractController
         try {
             $em->persist($photo);
             $em->flush();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $this->json([
                 'message' => $e->getMessage(),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);

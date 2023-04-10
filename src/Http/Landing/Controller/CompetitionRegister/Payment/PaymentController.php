@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Landing\Controller\CompetitionRegister\Payment;
 
+use App\Domain\Competition\Manager\CompetitionRegisterPayment;
 use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher as Registration;
-use App\Domain\Competition\Manager\CompetitionRegisterPayment;
 use App\Domain\Competition\Repository\CompetitionRegisterDepartureTargetArcherRepository as RegistrationRepository;
 use App\Http\Landing\Controller\CompetitionRegister\RecapController;
 use App\Http\Landing\Controller\CompetitionRegister\Registration\DepartureController;
-use App\Http\Landing\Controller\CompetitionRegisterController;
 use Helloasso\Exception\HelloassoException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

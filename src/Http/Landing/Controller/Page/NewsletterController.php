@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: self::ROUTE,
     methods: [
         Request::METHOD_GET,
-        Request::METHOD_POST
+        Request::METHOD_POST,
     ]
 )]
 class NewsletterController extends AbstractController
@@ -49,7 +49,7 @@ class NewsletterController extends AbstractController
             /** @var string $email */
             $email = $form->get('email')->getData();
 
-            if ($archer->getEmail() !== null && $archer->getEmail() !== $email) {
+            if (null !== $archer->getEmail() && $archer->getEmail() !== $email) {
                 $this->addFlash('error', 'Ce numéro de licence est associé à une adresse email différente !');
 
                 return $this->redirectToRoute(self::ROUTE);

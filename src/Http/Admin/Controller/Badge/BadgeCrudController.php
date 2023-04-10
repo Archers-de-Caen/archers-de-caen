@@ -20,6 +20,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
+
 use function Symfony\Component\Translation\t;
 
 class BadgeCrudController extends AbstractCrudController

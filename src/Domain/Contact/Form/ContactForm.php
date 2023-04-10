@@ -19,7 +19,6 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use function Symfony\Component\Translation\t;
 
 class ContactForm extends AbstractType
 {
@@ -71,7 +70,7 @@ class ContactForm extends AbstractType
             ])
         ;
 
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($clientIp) {
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($clientIp): void {
             /** @var array $data */
             $data = $event->getData();
 

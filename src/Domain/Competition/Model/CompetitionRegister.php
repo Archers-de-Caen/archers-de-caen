@@ -9,7 +9,6 @@ use App\Domain\Competition\Repository\CompetitionRegisterRepository;
 use App\Domain\File\Model\Document;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -24,10 +23,10 @@ class CompetitionRegister
     use TimestampTrait;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    private ?DateTimeImmutable $dateStart = null;
+    private ?\DateTimeImmutable $dateStart = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    private ?DateTimeImmutable $dateEnd = null;
+    private ?\DateTimeImmutable $dateEnd = null;
 
     #[ORM\Column(type: Types::JSON)]
     #[Assert\NotNull]
@@ -64,24 +63,24 @@ class CompetitionRegister
         $this->departures = new ArrayCollection();
     }
 
-    public function getDateStart(): ?DateTimeImmutable
+    public function getDateStart(): ?\DateTimeImmutable
     {
         return $this->dateStart;
     }
 
-    public function setDateStart(?DateTimeImmutable $dateStart): self
+    public function setDateStart(?\DateTimeImmutable $dateStart): self
     {
         $this->dateStart = $dateStart;
 
         return $this;
     }
 
-    public function getDateEnd(): ?DateTimeImmutable
+    public function getDateEnd(): ?\DateTimeImmutable
     {
         return $this->dateEnd;
     }
 
-    public function setDateEnd(?DateTimeImmutable $dateEnd): self
+    public function setDateEnd(?\DateTimeImmutable $dateEnd): self
     {
         $this->dateEnd = $dateEnd;
 

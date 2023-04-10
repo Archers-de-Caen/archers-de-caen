@@ -24,6 +24,7 @@ use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
+
 use function Symfony\Component\Translation\t;
 
 class CompetitionRegisterManager

@@ -65,7 +65,6 @@ class HelloassoWebhookController extends AbstractController
             $msg = 'No content in webhook request';
         }
 
-
         $webhook->setResult($msg);
 
         $this->em->persist($webhook);
@@ -94,7 +93,7 @@ class HelloassoWebhookController extends AbstractController
             $registration->setPaid(true);
         }
 
-        return \count($registrations).' registration paid ('. implode(', ', $registrationIds) .')';
+        return \count($registrations).' registration paid ('.implode(', ', $registrationIds).')';
     }
 
     private function form(Event $event): string

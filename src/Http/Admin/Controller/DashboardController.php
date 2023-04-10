@@ -28,7 +28,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
-use ReflectionClass;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -46,7 +45,7 @@ class DashboardController extends AbstractDashboardController
     public function index(): Response
     {
         return $this->render('@EasyAdmin/page/index.html.twig', [
-            'dashboard_controller_filepath' => (new ReflectionClass(static::class))->getFileName(),
+            'dashboard_controller_filepath' => (new \ReflectionClass(static::class))->getFileName(),
         ]);
     }
 

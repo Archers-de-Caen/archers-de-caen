@@ -21,13 +21,10 @@ use App\Infrastructure\Model\LastNameTrait;
 use App\Infrastructure\Model\LicenseNumberTrait;
 use App\Infrastructure\Model\PhoneTrait;
 use App\Infrastructure\Model\TimestampTrait;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Exception;
-use RuntimeException;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -72,7 +69,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     private ?string $plainPassword = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?DateTimeInterface $lastLogin;
+    private ?\DateTimeInterface $lastLogin;
 
     /**
      * @var Collection<int, ArcherLicense>
@@ -149,12 +146,12 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     /**
      * TODO: a vérifier.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function getUserIdentifier(): string
     {
         if (!$this->getLicenseNumber() && !$this->getEmail()) {
-            throw new RuntimeException('L\'utilisateur doit avoir au moins son numéro de licence ou un email');
+            throw new \RuntimeException('L\'utilisateur doit avoir au moins son numéro de licence ou un email');
         }
 
         return ($this->getLicenseNumber() ?: $this->getEmail()) ?: '';
@@ -196,12 +193,12 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         return $this;
     }
 
-    public function getLastLogin(): ?DateTimeInterface
+    public function getLastLogin(): ?\DateTimeInterface
     {
         return $this->lastLogin;
     }
 
-    public function setLastLogin(?DateTimeInterface $lastLogin): self
+    public function setLastLogin(?\DateTimeInterface $lastLogin): self
     {
         $this->lastLogin = $lastLogin;
 
@@ -257,9 +254,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     public function getResultsProgressArrow(): Collection
     {
         /** @var Collection $results */
-        $results = $this->results->filter(static function (Result $result) {
-            return $result instanceof ResultBadge && Badge::PROGRESS_ARROW === $result->getBadge()?->getType();
-        });
+        $results = $this->results->filter(static fn (Result $result) => $result instanceof ResultBadge && Badge::PROGRESS_ARROW === $result->getBadge()?->getType());
 
         return $results;
     }
@@ -294,7 +289,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     public function getResultsBadge(): Collection
     {
         /** @var Collection $results */
-        $results =  $this->results->filter(static fn (Result $result) => $result instanceof ResultBadge);
+        $results = $this->results->filter(static fn (Result $result) => $result instanceof ResultBadge);
 
         return $results;
     }
@@ -353,17 +348,11 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     {
         $resultsCompetitions = $this->getResultsCompetition();
 
-        $bareBow = $resultsCompetitions->filter(static function (Result $resultCompetition): bool {
-            return Weapon::BARE_BOW === $resultCompetition->getWeapon();
-        })->count();
+        $bareBow = $resultsCompetitions->filter(static fn (Result $resultCompetition): bool => Weapon::BARE_BOW === $resultCompetition->getWeapon())->count();
 
-        $compoundBow = $resultsCompetitions->filter(static function (Result $resultCompetition): bool {
-            return Weapon::COMPOUND_BOW === $resultCompetition->getWeapon();
-        })->count();
+        $compoundBow = $resultsCompetitions->filter(static fn (Result $resultCompetition): bool => Weapon::COMPOUND_BOW === $resultCompetition->getWeapon())->count();
 
-        $recurveBow = $resultsCompetitions->filter(static function (Result $resultCompetition): bool {
-            return Weapon::RECURVE_BOW === $resultCompetition->getWeapon();
-        })->count();
+        $recurveBow = $resultsCompetitions->filter(static fn (Result $resultCompetition): bool => Weapon::RECURVE_BOW === $resultCompetition->getWeapon())->count();
 
         if ($bareBow > $compoundBow && $bareBow > $recurveBow) {
             return Weapon::BARE_BOW;

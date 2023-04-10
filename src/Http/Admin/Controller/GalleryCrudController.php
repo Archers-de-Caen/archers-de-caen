@@ -7,7 +7,6 @@ namespace App\Http\Admin\Controller;
 use App\Domain\Cms\Admin\Field\GalleryField;
 use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Model\Gallery;
-use App\Domain\Cms\Model\Page;
 use App\Domain\File\Admin\Field\PhotoField;
 use App\Domain\Newsletter\NewsletterType;
 use App\Infrastructure\Mailing\ActualityNewsletterMessage;
@@ -24,6 +23,7 @@ use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
 use function Symfony\Component\Translation\t;
 
 class GalleryCrudController extends AbstractCrudController

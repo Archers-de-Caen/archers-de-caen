@@ -22,7 +22,7 @@ class NewsletterForm extends AbstractType
                 'class' => NewsletterType::class,
                 'multiple' => true,
                 'expanded' => true,
-                'choice_translation_domain' => 'newsletter'
+                'choice_translation_domain' => 'newsletter',
             ])
             ->add('email', EmailType::class, [
                 'required' => true,
@@ -42,7 +42,7 @@ class NewsletterForm extends AbstractType
                 ],
             ])
             ->add('submit', SubmitType::class, [
-                'label' => "S'inscrire"
+                'label' => "S'inscrire",
             ])
         ;
     }

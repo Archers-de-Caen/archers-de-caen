@@ -10,11 +10,9 @@ use App\Domain\Archer\Config\Weapon;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Badge\Model\Badge;
 use App\Domain\Result\Model\ResultBadge;
-use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMapping;
-use Exception;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -145,7 +143,7 @@ class V2ToV3ProgressArrowCommand extends Command
         foreach ($progressArrowResults as $progressArrowResult) {
             try {
                 $archer = $this->getArcher($archers, $progressArrowResult['licence'], $progressArrowResult['nom']);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $io->error($e->getMessage());
 
                 break;
@@ -162,7 +160,7 @@ class V2ToV3ProgressArrowCommand extends Command
                     $result->setWeapon(Weapon::createFromString($progressArrowResult[$color.'_arme']));
                     $result->setCompletionDate($progressArrowResult[$color.'_date']);
 
-                    if ($progressArrowResult[$color.'_date'] && ($date = DateTimeImmutable::createFromFormat('U', $progressArrowResult[$color.'_date']->format('U')))) {
+                    if ($progressArrowResult[$color.'_date'] && ($date = \DateTimeImmutable::createFromFormat('U', $progressArrowResult[$color.'_date']->format('U')))) {
                         $result->setCompletionDate($date);
                     }
 

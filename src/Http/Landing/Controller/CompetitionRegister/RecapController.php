@@ -7,7 +7,6 @@ namespace App\Http\Landing\Controller\CompetitionRegister;
 use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\Competition\Repository\CompetitionRegisterDepartureTargetArcherRepository as RegistrationRepository;
 use App\Http\Landing\Controller\CompetitionRegister\Registration\DepartureController;
-use App\Http\Landing\Controller\CompetitionRegisterController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

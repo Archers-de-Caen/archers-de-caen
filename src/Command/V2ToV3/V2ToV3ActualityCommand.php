@@ -13,7 +13,6 @@ use App\Domain\File\Model\Photo;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMapping;
-use DOMElement;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -85,7 +84,7 @@ class V2ToV3ActualityCommand extends Command
              * Permet de récupérer les images du poste est de les enregistrer
              */
             $crawler->filter('img')->each(function (Crawler $crawler, $i) use (&$mainImage) {
-                /** @var DOMElement $node */
+                /** @var \DOMElement $node */
                 foreach ($crawler as $node) {
                     $src = $crawler->attr('src') ?? '';
 
@@ -112,7 +111,7 @@ class V2ToV3ActualityCommand extends Command
 
                     $crawler->html($node->nodeValue);
 
-                    $crawler->getNode(0)?->parentNode?->insertBefore(new DOMElement('br'), $node->nextSibling);
+                    $crawler->getNode(0)?->parentNode?->insertBefore(new \DOMElement('br'), $node->nextSibling);
 
                     if (0 === $i) {
                         $mainImage = $image;

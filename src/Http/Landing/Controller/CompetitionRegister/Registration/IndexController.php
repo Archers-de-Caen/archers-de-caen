@@ -29,7 +29,7 @@ class IndexController extends AbstractController
         $session->remove(SessionService::SESSION_KEY_COMPETITION_REGISTER);
 
         return $this->redirectToRoute(ArcherController::ROUTE, [
-            'slug' => $competitionRegister->getSlug()
+            'slug' => $competitionRegister->getSlug(),
         ]);
     }
 }

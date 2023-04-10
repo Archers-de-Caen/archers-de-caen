@@ -8,7 +8,6 @@ use App\Domain\Archer\Repository\ArcherLicenseRepository;
 use App\Infrastructure\Model\ArcherCategoryTrait;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
-use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -28,10 +27,10 @@ class ArcherLicense
     private ?License $license = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?DateTimeInterface $dateStart;
+    private ?\DateTimeInterface $dateStart;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?DateTimeInterface $dateEnd;
+    private ?\DateTimeInterface $dateEnd;
 
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
     private ?bool $active = false;
@@ -41,24 +40,24 @@ class ArcherLicense
         return $this->archer;
     }
 
-    public function getDateStart(): ?DateTimeInterface
+    public function getDateStart(): ?\DateTimeInterface
     {
         return $this->dateStart;
     }
 
-    public function setDateStart(?DateTimeInterface $dateStart): self
+    public function setDateStart(?\DateTimeInterface $dateStart): self
     {
         $this->dateStart = $dateStart;
 
         return $this;
     }
 
-    public function getDateEnd(): ?DateTimeInterface
+    public function getDateEnd(): ?\DateTimeInterface
     {
         return $this->dateEnd;
     }
 
-    public function setDateEnd(?DateTimeInterface $dateEnd): self
+    public function setDateEnd(?\DateTimeInterface $dateEnd): self
     {
         $this->dateEnd = $dateEnd;
 

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Landing\Controller\CompetitionRegister\Payment;
 
 use App\Http\Landing\Controller\CompetitionRegister\RecapController;
-use App\Http\Landing\Controller\CompetitionRegisterController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
     path: '/inscription-concours/{slug}/paiement/{licenseNumber}/fini',
     name: self::ROUTE,
     methods: Request::METHOD_GET
-)]final class EndController extends AbstractController
+)]
+final class EndController extends AbstractController
 {
     public const ROUTE = 'landing_competition_register_payment_end';
 

@@ -6,7 +6,6 @@ namespace App\Http\Landing\Controller\Actuality;
 
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Config\Status;
-use App\Domain\Cms\Model\Page;
 use App\Domain\Cms\Repository\PageRepository;
 use App\Helper\PaginatorHelper;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -34,8 +33,8 @@ class ActualitiesController extends AbstractController
         $actualities = new Paginator(
             $pageRepository
                 ->createQueryBuilder('p')
-                ->where("p.category = :category")
-                ->andWhere("p.status = :status")
+                ->where('p.category = :category')
+                ->andWhere('p.status = :status')
                 ->setParameter('status', Status::PUBLISH->value)
                 ->setParameter('category', Category::ACTUALITY->value)
                 ->orderBy('p.createdAt', 'DESC')

@@ -9,5 +9,6 @@ use App\Domain\Newsletter\NewsletterType;
 interface NewsletterMessage
 {
     public function getType(): NewsletterType;
+
     public function getContext(): array;
 }

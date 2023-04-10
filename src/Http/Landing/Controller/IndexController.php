@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Landing\Controller;
 
-use App\Domain\Archer\Model\Archer;
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Repository\DataRepository;
 use App\Domain\Cms\Repository\PageRepository;
-use App\Helper\PaginatorHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

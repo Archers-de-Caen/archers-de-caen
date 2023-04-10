@@ -7,24 +7,23 @@ namespace App\Command\V2ToV3;
 use App\Domain\File\Model\Document;
 use App\Domain\File\Model\Photo;
 use App\Domain\File\Model\UploadableInterface;
-use RuntimeException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 trait DownloadTrait
 {
     /**
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function downloadFile(string $src): UploadableInterface
     {
         $name = explode('/', $src)[count(explode('/', $src)) - 1];
 
         if (!$filePath = tempnam(sys_get_temp_dir(), 'download')) {
-            throw new RuntimeException('tempnam bug');
+            throw new \RuntimeException('tempnam bug');
         }
 
         if (!$file = fopen($filePath, 'wb')) {
-            throw new RuntimeException('fopen bug');
+            throw new \RuntimeException('fopen bug');
         }
 
         fwrite($file, @file_get_contents($src) ?: ''); /* @ for ignore warning like http 404 error */

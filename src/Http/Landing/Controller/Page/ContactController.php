@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: self::ROUTE,
     methods: [
         Request::METHOD_GET,
-        Request::METHOD_POST
+        Request::METHOD_POST,
     ]
 )]
 class ContactController extends AbstractController

@@ -37,5 +37,4 @@ class SessionService
             $this->serializer->serialize($registerDepartureTargetArcher, 'json')
         );
     }
-
 }

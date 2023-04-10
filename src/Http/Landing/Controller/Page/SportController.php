@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Landing\Controller\Page;
 
-use App\Domain\Cms\Model\Page;
 use App\Domain\Cms\Repository\PageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

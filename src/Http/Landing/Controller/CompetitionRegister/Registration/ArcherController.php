@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: self::ROUTE,
     methods: [
         Request::METHOD_GET,
-        Request::METHOD_POST
+        Request::METHOD_POST,
     ]
 )]
 class ArcherController extends AbstractController
@@ -41,7 +41,7 @@ class ArcherController extends AbstractController
             $sessionService->serializeRegisterArcher($session, $register);
 
             return $this->redirectToRoute(DepartureController::ROUTE, [
-                'slug' => $competitionRegister->getSlug()
+                'slug' => $competitionRegister->getSlug(),
             ]);
         }
 

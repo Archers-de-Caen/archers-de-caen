@@ -10,7 +10,6 @@ use App\Domain\Result\Model\ResultCompetition;
 use App\Domain\Result\Model\ResultTeam;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -38,10 +37,10 @@ class Competition
     private ?string $location = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    private ?DateTimeImmutable $dateStart = null;
+    private ?\DateTimeImmutable $dateStart = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    private ?DateTimeImmutable $dateEnd = null;
+    private ?\DateTimeImmutable $dateEnd = null;
 
     #[ORM\Column(type: Types::STRING, length: 191, enumType: Type::class)]
     #[Assert\NotNull]
@@ -92,24 +91,24 @@ class Competition
         return $this;
     }
 
-    public function getDateStart(): ?DateTimeImmutable
+    public function getDateStart(): ?\DateTimeImmutable
     {
         return $this->dateStart;
     }
 
-    public function setDateStart(?DateTimeImmutable $dateStart): self
+    public function setDateStart(?\DateTimeImmutable $dateStart): self
     {
         $this->dateStart = $dateStart;
 
         return $this;
     }
 
-    public function getDateEnd(): ?DateTimeImmutable
+    public function getDateEnd(): ?\DateTimeImmutable
     {
         return $this->dateEnd;
     }
 
-    public function setDateEnd(?DateTimeImmutable $dateEnd): self
+    public function setDateEnd(?\DateTimeImmutable $dateEnd): self
     {
         $this->dateEnd = $dateEnd;
 

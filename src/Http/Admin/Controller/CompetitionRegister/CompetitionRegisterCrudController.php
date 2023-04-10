@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\CompetitionRegister;
 
-use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Competition\Config\Type;
 use App\Domain\Competition\Form\CompetitionRegisterDepartureForm;
 use App\Domain\Competition\Manager\CompetitionRegisterManager;
 use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\File\Admin\Field\DocumentField;
-use App\Domain\Result\Model\ResultBadge;
 use App\Http\Admin\Controller\Cms\AbstractPageCrudController;
 use App\Http\Landing\Controller\CompetitionRegister\Registration\IndexController;
-use App\Http\Landing\Controller\CompetitionRegisterController;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -30,6 +27,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
 use function Symfony\Component\Translation\t;
 
 class CompetitionRegisterCrudController extends AbstractCrudController
@@ -52,12 +50,8 @@ class CompetitionRegisterCrudController extends AbstractCrudController
         return $crud
             ->setPageTitle('index', "Formulaire d'inscription au concours de Caen")
             ->setPageTitle('new', "Ajouter un formulaire d'inscription")
-            ->setPageTitle('detail', function (CompetitionRegister $competitionRegister) {
-                return (string) $competitionRegister;
-            })
-            ->setPageTitle('edit', function (CompetitionRegister $competitionRegister) {
-                return sprintf("Edition du formulaire l'inscription <b>%s</b>", $competitionRegister);
-            })
+            ->setPageTitle('detail', fn (CompetitionRegister $competitionRegister) => (string) $competitionRegister)
+            ->setPageTitle('edit', fn (CompetitionRegister $competitionRegister) => sprintf("Edition du formulaire l'inscription <b>%s</b>", $competitionRegister))
         ;
     }
 
@@ -97,9 +91,7 @@ class CompetitionRegisterCrudController extends AbstractCrudController
         ;
 
         return $actions
-            ->update(Crud::PAGE_INDEX, 'new', function (Action $action) {
-                return $action->setLabel("Créer un formulaire d'inscription");
-            })
+            ->update(Crud::PAGE_INDEX, 'new', fn (Action $action) => $action->setLabel("Créer un formulaire d'inscription"))
             ->add(Crud::PAGE_INDEX, $publicLink)
             ->add(Crud::PAGE_INDEX, $registerList)
             ->add(Crud::PAGE_INDEX, $generateActuality)
