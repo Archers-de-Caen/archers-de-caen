@@ -5,12 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Api\Controller\Photo;
 
 use App\Domain\Archer\Model\Archer;
-use App\Domain\File\Form\PhotoFormType;
 use App\Domain\File\Model\Photo;
-use App\Helper\FormHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
