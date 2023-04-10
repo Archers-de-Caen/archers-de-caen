@@ -4,6 +4,11 @@
   display: flex;
   align-items: center;
   overflow: auto;
+  background-color: $color-white;
+  width: fit-content;
+  margin: auto;
+  border-radius: $border-radius-big;
+  padding: .5rem;
 
   .paginator-prev, .paginator-next, .paginator-page {
     padding: 10px 15px;
