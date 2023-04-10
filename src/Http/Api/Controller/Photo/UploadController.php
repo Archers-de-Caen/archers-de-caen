@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Api\Controller;
+namespace App\Http\Api\Controller\Photo;
 
 use App\Domain\Archer\Model\Archer;
 use App\Domain\File\Form\PhotoFormType;
@@ -14,12 +14,20 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PhotoApiController extends AbstractController
+#[AsController]
+#[Route(
+    path: '/photos',
+    name: self::ROUTE,
+    methods: Request::METHOD_POST
+)]
+class UploadController extends AbstractController
 {
-    #[Route('/photos', name: 'photos_upload', methods: Request::METHOD_POST)]
-    public function upload(Request $request, EntityManagerInterface $em): JsonResponse
+    public const ROUTE = 'photos_upload';
+
+    public function __invoke(Request $request, EntityManagerInterface $em): JsonResponse
     {
         if (!$this->isGranted(Archer::ROLE_ADMIN)) {
             return $this->json('only admin', Response::HTTP_FORBIDDEN);
@@ -52,21 +60,5 @@ class PhotoApiController extends AbstractController
         }
 
         return $this->json($photo, Response::HTTP_CREATED, [], ['groups' => ['Photo', 'Timestamp', 'Token']]);
-    }
-
-    #[Route('/photos/{token}', name: 'photos_delete', methods: Request::METHOD_DELETE)]
-    public function delete(Photo $photo, EntityManagerInterface $em): JsonResponse
-    {
-        if (!$this->isGranted(Archer::ROLE_ADMIN)) {
-            return $this->json([
-                'message' => 'Vous devez être administrateur pour supprimer cette photo !',
-                'messageCode' => 'only_admin',
-            ], Response::HTTP_FORBIDDEN);
-        }
-
-        $em->remove($photo);
-        $em->flush();
-
-        return $this->json(null, Response::HTTP_NO_CONTENT);
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\App\Controller;
+namespace App\Http\App\Controller\Security;
 
 use App\Domain\Archer\Form\RegistrationFormType;
 use App\Domain\Archer\Model\Archer;
@@ -10,32 +10,32 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
 
-class SecurityController extends AbstractController
+#[AsController]
+#[Route(
+    path: '/inscription',
+    name: self::ROUTE,
+    methods: [
+        Request::METHOD_GET,
+        Request::METHOD_POST,
+    ]
+)]
+class RegisterController extends AbstractController
 {
-    public const ROUTE_APP_LOGIN = 'app_login';
+    public const ROUTE = 'app_register';
 
-    #[Route('/connexion', name: self::ROUTE_APP_LOGIN)]
-    public function login(AuthenticationUtils $authenticationUtils): Response
-    {
-        $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('app/security/login.html.twig', [
-            'last_username' => $lastUsername,
-            'error' => $error,
-        ]);
-    }
-
-    #[Route('/inscription', name: 'app_register')]
-    public function register(Request $request, EntityManagerInterface $em, UserAuthenticatorInterface $authenticator, AbstractLoginFormAuthenticator $loginFormAuthenticator): ?Response
-    {
+    public function __invoke(
+        Request $request,
+        EntityManagerInterface $em,
+        UserAuthenticatorInterface $authenticator,
+        AbstractLoginFormAuthenticator $loginFormAuthenticator
+    ): ?Response {
         if ($this->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY)) {
             return $this->redirectToRoute('');
         }
@@ -56,15 +56,5 @@ class SecurityController extends AbstractController
         return $this->render('app/security/register.html.twig', [
             'form' => $form->createView(),
         ]);
-    }
-
-    /**
-     * @throws \Exception
-     */
-    #[Route('/deconnexion', name: 'app_logout', methods: 'GET')]
-    public function logout(): void
-    {
-        // controller can be blank: it will never be called!
-        throw new \Exception('Don\'t forget to activate logout in security.yaml');
     }
 }
