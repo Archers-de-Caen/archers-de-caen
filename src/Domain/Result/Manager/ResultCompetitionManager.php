@@ -9,7 +9,6 @@ use App\Domain\Result\Model\Result;
 use App\Domain\Result\Model\ResultBadge;
 use App\Domain\Result\Model\ResultCompetition;
 use Doctrine\ORM\EntityManagerInterface;
-use UnexpectedValueException;
 
 class ResultCompetitionManager
 {
@@ -20,15 +19,15 @@ class ResultCompetitionManager
     public function awardingBadges(ResultCompetition $resultCompetition): void
     {
         if (!$archer = $resultCompetition->getArcher()) {
-            throw new UnexpectedValueException('Archer not defined');
+            throw new \UnexpectedValueException('Archer not defined');
         }
 
         if (!$competition = $resultCompetition->getCompetition()) {
-            throw new UnexpectedValueException('Competition not defined');
+            throw new \UnexpectedValueException('Competition not defined');
         }
 
         if (!$competition->getType()) {
-            throw new UnexpectedValueException('Type not defined');
+            throw new \UnexpectedValueException('Type not defined');
         }
 
         /**
@@ -87,7 +86,7 @@ class ResultCompetitionManager
                 return false;
             }
 
-            return $badge->getConditions()['weapon'] === $resultCompetition->getWeapon()?->value && $badge->getConditions()['type'] === 'minScore';
+            return $badge->getConditions()['weapon'] === $resultCompetition->getWeapon()?->value && 'minScore' === $badge->getConditions()['type'];
         });
 
         uasort($badges, static function (Badge $first, Badge $second): int {
@@ -120,15 +119,15 @@ class ResultCompetitionManager
     public function awardingRecord(ResultCompetition $resultCompetition): ResultCompetition
     {
         if (!$archer = $resultCompetition->getArcher()) {
-            throw new UnexpectedValueException('Archer not defined');
+            throw new \UnexpectedValueException('Archer not defined');
         }
 
         if (!$competition = $resultCompetition->getCompetition()) {
-            throw new UnexpectedValueException('Competition not defined');
+            throw new \UnexpectedValueException('Competition not defined');
         }
 
         if (!$competition->getType()) {
-            throw new UnexpectedValueException('Type not defined');
+            throw new \UnexpectedValueException('Type not defined');
         }
 
         // Filtrage des records de l'archer, selon le type de competition et d'arme que l'archer vien d'accomplir.

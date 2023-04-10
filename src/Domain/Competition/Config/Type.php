@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Competition\Config;
 
-use ValueError;
-
 enum Type: string
 {
     case INDOOR_2x18_M = 'indoor_2_x_18_m';
@@ -56,7 +54,7 @@ enum Type: string
     }
 
     /**
-     * @throws ValueError
+     * @throws \ValueError
      */
     public static function createFromString(string $type): self
     {
@@ -80,7 +78,7 @@ enum Type: string
             strtolower('Challenge de la Pomme d\'Or') => self::GOLDEN_APPLE_CHALLENGE,
             strtolower('Promotionnel') => self::PROMOTIONAL,
 
-            default => throw new ValueError($type.' not found'),
+            default => throw new \ValueError($type.' not found'),
         };
     }
 

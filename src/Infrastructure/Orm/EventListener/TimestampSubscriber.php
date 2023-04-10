@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Orm\EventListener;
 
-use DateTime;
 use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
@@ -24,7 +23,7 @@ class TimestampSubscriber implements EventSubscriberInterface
         $entity = $args->getObject();
 
         if (method_exists($entity, 'setCreatedAt')) {
-            $entity->setCreatedAt(new DateTime());
+            $entity->setCreatedAt(new \DateTime());
         }
     }
 
@@ -33,7 +32,7 @@ class TimestampSubscriber implements EventSubscriberInterface
         $entity = $args->getObject();
 
         if (property_exists($entity, 'updatedAt') && method_exists($entity, 'setUpdatedAt')) {
-            $entity->setUpdatedAt(new DateTime());
+            $entity->setUpdatedAt(new \DateTime());
         }
     }
 }

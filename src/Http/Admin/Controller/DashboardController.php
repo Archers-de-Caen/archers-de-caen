@@ -7,7 +7,6 @@ namespace App\Http\Admin\Controller;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Archer\Model\License;
 use App\Domain\Badge\Model\Badge;
-use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Model\Data;
 use App\Domain\Cms\Model\Gallery;
 use App\Domain\Cms\Model\Page;
@@ -23,13 +22,12 @@ use App\Http\Admin\Controller\Cms\ActualityCrudControllerAbstract;
 use App\Http\Admin\Controller\Cms\PageCrudControllerAbstract;
 use App\Http\Admin\Controller\File\DocumentCrudController;
 use App\Http\Admin\Controller\File\NewspaperCrudController;
-use App\Http\Landing\Controller\DefaultController;
+use App\Http\Landing\Controller\IndexController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
-use ReflectionClass;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,15 +35,17 @@ use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 
 class DashboardController extends AbstractDashboardController
 {
+    public const ROUTE = 'admin_index';
+
     public function __construct(private readonly ParameterBagInterface $parameterBag)
     {
     }
 
-    #[Route('/', name: 'admin_index')]
+    #[Route('/', name: self::ROUTE)]
     public function index(): Response
     {
         return $this->render('@EasyAdmin/page/index.html.twig', [
-            'dashboard_controller_filepath' => (new ReflectionClass(static::class))->getFileName(),
+            'dashboard_controller_filepath' => (new \ReflectionClass(static::class))->getFileName(),
         ]);
     }
 
@@ -104,7 +104,7 @@ class DashboardController extends AbstractDashboardController
             ->setController(NewspaperCrudController::class);
 
         yield MenuItem::section();
-        yield MenuItem::linkToRoute('Revenir au site', 'fas fa-left-long', DefaultController::ROUTE_LANDING_INDEX);
+        yield MenuItem::linkToRoute('Revenir au site', 'fas fa-left-long', IndexController::ROUTE);
 
         if ($this->isGranted(AuthenticatedVoter::IS_IMPERSONATOR, $this->getUser())) {
             yield MenuItem::linkToExitImpersonation('Revenir sur son compte', 'fas fa-portal-exit')

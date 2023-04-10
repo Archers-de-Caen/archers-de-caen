@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Domain\Archer\Model\Archer;
-use Exception;
 
 trait ArcherTrait
 {
@@ -28,7 +27,7 @@ trait ArcherTrait
     }
 
     /**
-     * @throws Exception Si pas de numéro de licence fourni
+     * @throws \Exception Si pas de numéro de licence fourni
      */
     public function getArcher(array &$archers, ?string $license, string $name): Archer
     {
@@ -46,7 +45,7 @@ trait ArcherTrait
 
             $archers[$archer->getLicenseNumber()] = $archer;
         } else {
-            throw new Exception('Licence not found');
+            throw new \Exception('Licence not found');
         }
 
         return $archer;

@@ -1,6 +1,6 @@
 {% from 'landing/_parts/file.html.twig' import file %}
 
-{% set registerUrl = path(constant('App\\Http\\Landing\\Controller\\CompetitionRegisterController::ROUTE_LANDING_COMPETITION_REGISTER'), { slug: competitionRegister.slug }) %}
+{% set registerUrl = path(constant('App\\Http\\Landing\\Controller\\CompetitionRegister\\Registration\\IndexController::ROUTE'), { slug: competitionRegister.slug }) %}
 
 <div class="w-100 flex jc-center mt-3">
     <a href="{{ registerUrl }}"
@@ -10,7 +10,7 @@
     </a>
 </div>
 
-{% set rateUrl = path(constant('App\\Http\\Landing\\Controller\\CompetitionRegisterController::ROUTE_LANDING_COMPETITION_REGISTER_REGISTRATION_RATE'), { slug: competitionRegister.slug }) %}
+{% set rateUrl = path(constant('App\\Http\\Landing\\Controller\\CompetitionRegister\\RegistrationRateController::ROUTE'), { slug: competitionRegister.slug }) %}
 
 <h2>Taux de réservation</h2>
 <iframe src="{{ rateUrl }}" class="fit-height-content" title="Taux de réservation"></iframe>
@@ -25,7 +25,7 @@
     <iframe src="{{ vich_uploader_asset(competitionRegister.mandate) }}" class="mt-3" height="500px" title="Mandat du concours"></iframe>
 {% endif %}
 
-{% set listUrl = path(constant('App\\Http\\Landing\\Controller\\CompetitionRegisterController::ROUTE_LANDING_COMPETITION_REGISTER_LIST_OF_REGISTRANTS'), { slug: competitionRegister.slug }) %}
+{% set listUrl = path(constant('App\\Http\\Landing\\Controller\\CompetitionRegister\\ListOfRegistrantsController::ROUTE'), { slug: competitionRegister.slug }) %}
 
 <h2>Liste des inscrits</h2>
 <iframe src="{{ listUrl }}" class="fit-height-content" title="Liste des inscrits"></iframe>

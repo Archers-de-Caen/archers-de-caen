@@ -14,6 +14,7 @@ use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher;
 use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher as Registration;
 use App\Domain\Competition\Repository\CompetitionRegisterDepartureTargetArcherRepository as RegistrationRepository;
 use App\Infrastructure\Exception\InvalidSubmitCompetitionRegisterException;
+use App\Infrastructure\Mailing\EmailRenderingException;
 use App\Infrastructure\Mailing\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -23,6 +24,7 @@ use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
+
 use function Symfony\Component\Translation\t;
 
 class CompetitionRegisterManager
@@ -121,13 +123,13 @@ class CompetitionRegisterManager
             return;
         }
 
-        $email = $this->mailer
-            ->createEmail('/mails/competition-register/confirmation-participant.twig', [
-                'recap' => $recap,
-                'register' => $register,
-            ]);
-
-        if (!$email) {
+        try {
+            $email = $this->mailer
+                ->createEmail('/mails/competition-register/confirmation-participant.twig', [
+                    'recap' => $recap,
+                    'register' => $register,
+                ]);
+        } catch (EmailRenderingException) {
             return;
         }
 
@@ -144,13 +146,13 @@ class CompetitionRegisterManager
             return;
         }
 
-        $email = $this->mailer
-            ->createEmail('/mails/competition-register/register-owner-notification.twig', [
-                'recap' => $recap,
-                'register' => $register,
-            ]);
-
-        if (!$email) {
+        try {
+            $email = $this->mailer
+                ->createEmail('/mails/competition-register/register-owner-notification.twig', [
+                    'recap' => $recap,
+                    'register' => $register,
+                ]);
+        } catch (EmailRenderingException $e) {
             return;
         }
 

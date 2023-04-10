@@ -118,7 +118,7 @@
             <div class="flex jc-space-between mt-3">
                 <a
                     class="btn -primary"
-                    href="{{ path(constant('App\\Http\\Landing\\Controller\\DefaultController::ROUTE_LANDING_INDEX')) }}"
+                    href="{{ path(constant('App\\Http\\Landing\\Controller\\IndexController::ROUTE')) }}"
                 >
                     Revenir à l'accueil
                 </a>
@@ -127,7 +127,7 @@
                     <a
                         class="btn -primary"
                         href="{{ path(
-                            constant('App\\Http\\Landing\\Controller\\CompetitionRegisterController::ROUTE_LANDING_COMPETITION_REGISTER_PAYMENT'),
+                            constant('App\\Http\\Landing\\Controller\\CompetitionRegister\\Payment\\PaymentController::ROUTE'),
                             { slug: competitionRegister.slug, licenseNumber: register.licenseNumber }
                         ) }}"
                     >
@@ -137,7 +137,7 @@
 
                 <a
                     class="btn -primary"
-                    href="{{ path(constant('App\\Http\\Landing\\Controller\\CompetitionRegisterController::ROUTE_LANDING_COMPETITION_REGISTER'), { slug: competitionRegister.slug }) }}"
+                    href="{{ path(constant('App\\Http\\Landing\\Controller\\CompetitionRegister\\Registration\\IndexController::ROUTE'), { slug: competitionRegister.slug }) }}"
                 >
                     Nouvelle inscription
                 </a>

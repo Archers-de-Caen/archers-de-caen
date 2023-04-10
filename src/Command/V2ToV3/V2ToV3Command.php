@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Command\V2ToV3;
 
-use Exception;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\ExceptionInterface;
@@ -42,7 +41,7 @@ class V2ToV3Command extends Command
 
                 $command->run($input, $output);
             }
-        } catch (Exception|ExceptionInterface $e) {
+        } catch (\Exception|ExceptionInterface $e) {
             $io->error($e->getMessage());
 
             return self::FAILURE;

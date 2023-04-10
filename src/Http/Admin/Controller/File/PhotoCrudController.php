@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\File;
 
-use App\Domain\File\Admin\Field\PhotoField;
-use App\Domain\File\Form\PhotoFormType;
-use App\Domain\File\Model\Document;
 use App\Domain\File\Model\Photo;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
@@ -17,9 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Vich\UploaderBundle\Form\Type\VichImageType;
@@ -39,6 +34,11 @@ class PhotoCrudController extends AbstractCrudController
         return Photo::class;
     }
 
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud->setDefaultSort(['createdAt' => 'DESC']);
+    }
+
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
         return $this->entityRepository->createQueryBuilder($searchDto, $entityDto, $fields, $filters)
@@ -56,19 +56,17 @@ class PhotoCrudController extends AbstractCrudController
 
         $link = UrlField::new('imageName')
             ->setLabel('Lien')
-            ->formatValue(function (string $value, Photo $photo) {
-                return $this->baseHost.$this->uploaderHelper->asset($photo);
-            })
+            ->formatValue(fn (string $value, Photo $photo): string => $this->baseHost.$this->uploaderHelper->asset($photo))
         ;
 
         $upload = TextareaField::new('imageFile')
             ->setLabel('Fichier')
             ->setFormType(VichImageType::class)
-            //->setTemplatePath('@EasyAdmin/crud/field/photo.html.twig')
+            // ->setTemplatePath('@EasyAdmin/crud/field/photo.html.twig')
         ;
 
         if (Crud::PAGE_INDEX === $pageName) {
-            return [$id, $upload, $link, $createdAt];
+            return [$id, $link, $createdAt];
         }
 
         return [$upload];

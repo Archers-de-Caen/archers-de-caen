@@ -87,6 +87,14 @@
           width: 450px;
         }
       }
+
+      &:nth-child(4) {
+        margin: 100px auto auto;
+
+        .content {
+          width: 650px;
+        }
+      }
     }
   }
 }

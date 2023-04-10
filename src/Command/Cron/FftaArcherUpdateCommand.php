@@ -9,12 +9,7 @@ use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Archer\Model\ArcherLicense;
 use App\Domain\Archer\Model\License;
-use CurlHandle;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use DOMDocument;
-use DOMElement;
-use Exception;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,7 +25,7 @@ class FftaArcherUpdateCommand extends Command
     use ArcherTrait;
 
     private string $cookieFile;
-    private CurlHandle $curl;
+    private \CurlHandle $curl;
 
     /**
      * @param string $fftaUsername Injected from service.yaml
@@ -94,7 +89,7 @@ class FftaArcherUpdateCommand extends Command
         foreach ($newLicenses as $newLicense) {
             try {
                 $archer = $this->getArcher($archers, $newLicense['license'], $newLicense['name']);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $io->error($e->getMessage());
 
                 break;
@@ -113,7 +108,7 @@ class FftaArcherUpdateCommand extends Command
                 }
 
                 try {
-                    $io->info('Nouvelle licence: ' . json_encode($newLicense, JSON_THROW_ON_ERROR));
+                    $io->info('Nouvelle licence: '.json_encode($newLicense, JSON_THROW_ON_ERROR));
                 } catch (\JsonException) {
                     $io->info('Nouvelle licence: impossible d\'encodé $newLicense');
                 }
@@ -130,7 +125,7 @@ class FftaArcherUpdateCommand extends Command
                     (new ArcherLicense())
                         ->setActive(true)
                         ->setDateStart($newLicense['licenseDate'])
-                        ->setDateEnd(DateTime::createFromFormat('Y-m-d', $season.'-08-31') ?: null)
+                        ->setDateEnd(\DateTime::createFromFormat('Y-m-d', $season.'-08-31') ?: null)
                         ->setLicense($license[array_key_first($license)])
                         ->setCategory($category)
                 );
@@ -155,7 +150,7 @@ class FftaArcherUpdateCommand extends Command
      */
     private function getToken(): ?string
     {
-        $pageConnexion = new DOMDocument();
+        $pageConnexion = new \DOMDocument();
         $pageConnexion->validateOnParse = true;
 
         curl_setopt($this->curl, CURLOPT_URL, 'https://ffta-goal.multimediabs.com/login');
@@ -169,7 +164,7 @@ class FftaArcherUpdateCommand extends Command
 
         $nodes = $pageConnexion->getElementsByTagName('input');
 
-        /** @var DOMElement $node */
+        /** @var \DOMElement $node */
         foreach ($nodes as $node) {
             if ('authenticityToken' === $node->getAttribute('name')) {
                 return $node->getAttribute('value');
@@ -232,8 +227,8 @@ class FftaArcherUpdateCommand extends Command
                 'gender' => $license[2],
                 'location' => $license[3],
                 'status' => $license[4],
-                'birthDate' => DateTime::createFromFormat('d/m/Y', $license[5]),
-                'licenseDate' => DateTime::createFromFormat('d/m/Y', $license[6]),
+                'birthDate' => \DateTime::createFromFormat('d/m/Y', $license[5]),
+                'licenseDate' => \DateTime::createFromFormat('d/m/Y', $license[6]),
                 'licenseType' => $license[7],
                 'category' => $license[8],
                 'html' => $license[9],

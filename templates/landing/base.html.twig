@@ -34,8 +34,8 @@
                 <div class="header-content">
                     <ul>
                         <li class="mr-2">{{ socialNetwork() }}</li>
-                        <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\NewspaperController::ROUTE_LANDING_NEWSPAPERS')) }}">La gazette</a></li>
-                        <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\ContactController::ROUTE_LANDING_CONTACT')) }}">Contact</a></li>
+                        <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\NewspaperController::ROUTE')) }}">La gazette</a></li>
+                        <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ContactController::ROUTE')) }}">Contact</a></li>
                         {# <li><a href="{{ path('app_index') }}">Espace licencié</a></li> #}
                         {% if is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_ADMIN')) %}
                             <li><a href="{{ path('admin_index') }}">Admin</a></li>
@@ -46,39 +46,39 @@
             </div>
             <div class="header-primary">
                 <div class="header-content">
-                    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\DefaultController::ROUTE_LANDING_INDEX')) }}" class="header-image">
+                    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\IndexController::ROUTE')) }}" class="header-image">
                         <img src="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.svg') }}" alt="Logo des archers de Caen">
-                        <img src="{{ asset('build/images/logo-archers-de-caen/calligraphie.jpg') }}" alt="Logo des archers de Caen" class="logo-text">
+                        <header class="logo-text">Archers de CAEN</header>
                     </a>
                     <ul>
                         <li>
-                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\ActualitiesController::ROUTE_LANDING_ACTUALITIES')) }}">
+                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Actuality\\ActualitiesController::ROUTE')) }}">
                                 Actualités
                             </a>
                         </li>
                         <li>
-                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\ClubController::ROUTE_LANDING_CLUB')) }}">
+                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ClubController::ROUTE')) }}">
                                 Club
                             </a>
                         </li>
                         <li>
-                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\CompetitionController::ROUTE_LANDING_RESULTS')) }}">
+                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Results\\ResultsController::ROUTE')) }}">
                                 Résultats
                             </a>
                         </li>
                         <li>
-                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\PageController::ROUTE_LANDING_PAGE_SPORT')) }}">
+                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\SportController::ROUTE')) }}">
                                 Sport
                             </a>
                         </li>
                         <li>
-                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\GalleryController::ROUTE_LANDING_GALLERIES')) }}">
+                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Gallery\\GalleriesController::ROUTE')) }}">
                                 Photos
                             </a>
                         </li>
 
                         <li>
-                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\ShopController::ROUTE_LANDING_INDEX')) }}">
+                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\ShopController::ROUTE')) }}">
                                 Boutique
                             </a>
                         </li>
@@ -128,7 +128,7 @@
                         <li><a href="{{ path('landing_page', { slug: 'labels', type: 'p' }) }}">Labels</a></li>
                         <li><a href="{{ path('landing_page', { slug: 'presse-et-medias', type: 'p' }) }}">Presse et médias</a></li>
                         <li><a href="{{ path('landing_page', { slug: 'historique', type: 'p' }) }}">Historique</a></li>
-                        <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\ContactController::ROUTE_LANDING_CONTACT')) }}">Contact</a></li>
+                        <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ContactController::ROUTE')) }}">Contact</a></li>
                     </ul>
                 </div>
 

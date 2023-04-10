@@ -12,14 +12,12 @@ use App\Domain\Competition\Admin\Filter\CompetitionRegisterDepartureTargetArcher
 use App\Domain\Competition\Admin\Filter\CompetitionRegisterDepartureTargetArcher\CompetitionRegisterFilter;
 use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher;
-use App\Domain\Result\Model\ResultBadge;
+use App\Http\Landing\Controller\IndexController;
 use Doctrine\ORM\EntityManagerInterface;
 use Doskyft\CsvHelper\ColumnDefinition;
 use Doskyft\CsvHelper\Csv;
 use Doskyft\CsvHelper\Exception\NotCorrectColumnsException;
 use Doskyft\CsvHelper\Types;
-use App\Http\Landing\Controller\DefaultController;
-use DateTimeInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -37,11 +35,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
-use Symfony\Component\Asset\UrlPackage;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Response;
+
 use function Symfony\Component\Translation\t;
 
 class CompetitionRegisterArcherCrudController extends AbstractCrudController
@@ -220,21 +218,21 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
         $filterFactory = $this->container->get(FilterFactory::class);
         $filterConfig = $context->getCrud()?->getFiltersConfig();
         if (!$filterConfig) {
-            return $this->redirectToRoute(DefaultController::ROUTE_LANDING_INDEX);
+            return $this->redirectToRoute(IndexController::ROUTE);
         }
 
         $filters = $filterFactory->create($filterConfig, $fields, $context->getEntity());
 
         $search = $context->getSearch();
         if (!$search) {
-            return $this->redirectToRoute(DefaultController::ROUTE_LANDING_INDEX);
+            return $this->redirectToRoute(IndexController::ROUTE);
         }
         $queryBuilder = $this->createIndexQueryBuilder($search, $context->getEntity(), $fields, $filters);
 
         /* @phpstan-ignore-next-line */
         $data = array_map(static function (CompetitionRegisterDepartureTargetArcher $registration): string {
             return implode(',', [
-                'date_de_creation' => $registration->getCreatedAt()?->format(DateTimeInterface::RFC822),
+                'date_de_creation' => $registration->getCreatedAt()?->format(\DateTimeInterface::RFC822),
                 'licence' => $registration->getLicenseNumber(),
                 'prenom' => $registration->getFirstName(),
                 'nom' => $registration->getLastName(),

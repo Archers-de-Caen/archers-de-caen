@@ -27,11 +27,15 @@
           min-height: 20px;
           height: 80px;
           transition: height .5s ease;
+        }
 
-          &.logo-text {
-            height: 40px;
-            margin-left: 10px;
-          }
+        .logo-text {
+          font-family: "Galaxy BT", serif;
+          text-transform: none;
+          font-size: 2.3rem;
+          color: $color-primary;
+
+          margin-left: 1rem;
         }
       }
 
@@ -126,10 +130,8 @@
     .header-primary {
       .header-content {
         .header-image {
-          img {
-            &.logo-text {
-              display: none;
-            }
+          .logo-text {
+            display: none;
           }
         }
       }

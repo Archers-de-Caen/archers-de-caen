@@ -14,23 +14,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Uid\Uuid;
 
+#[AsController]
+#[Route(
+    path: 'webhook/helloasso',
+    name: self::ROUTE,
+    methods: Request::METHOD_POST
+)]
 class HelloassoWebhookController extends AbstractController
 {
-    public const ROUTE_WEBHOOK_HELLOASSO = 'webhook_helloasso';
+    public const ROUTE = 'webhook_helloasso';
 
     public function __construct(private readonly EntityManagerInterface $em)
     {
     }
 
-    #[Route(
-        'webhook/helloasso',
-        name: self::ROUTE_WEBHOOK_HELLOASSO,
-        methods: [Request::METHOD_POST]
-    )]
-    public function index(Request $request, ParameterBagInterface $parameterBag): Response
+    public function __invoke(Request $request, ParameterBagInterface $parameterBag): Response
     {
         $parameter = $parameterBag->all();
         $helloasso = new HelloassoClient(
@@ -65,7 +67,6 @@ class HelloassoWebhookController extends AbstractController
             $msg = 'No content in webhook request';
         }
 
-
         $webhook->setResult($msg);
 
         $this->em->persist($webhook);
@@ -94,7 +95,7 @@ class HelloassoWebhookController extends AbstractController
             $registration->setPaid(true);
         }
 
-        return \count($registrations).' registration paid ('. implode(', ', $registrationIds) .')';
+        return \count($registrations).' registration paid ('.implode(', ', $registrationIds).')';
     }
 
     private function form(Event $event): string

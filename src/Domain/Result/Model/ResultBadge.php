@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Result\Model;
 
-use App\Domain\Archer\Repository\ArcherRepository;
 use App\Domain\Badge\Model\Badge;
 use App\Domain\Result\Repository\ResultBadgeRepository;
 use Doctrine\ORM\Mapping as ORM;

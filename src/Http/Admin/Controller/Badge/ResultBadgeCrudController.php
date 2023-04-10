@@ -29,6 +29,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
+
 use function Symfony\Component\Translation\t;
 
 abstract class ResultBadgeCrudController extends AbstractCrudController

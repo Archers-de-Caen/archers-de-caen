@@ -1,0 +1,31 @@
+{% extends '/landing/base.html.twig' %}
+
+{% block title %}Newsletter{% endblock %}
+
+{% block main %}
+    {{ form_start(form) }}
+
+        <div class="form-groups">
+            {{ form_label(form.types) }}
+
+            {% for type in form.types %}
+                <div class="form-group --check">
+                    {{ form_label(type) }}
+                    {{ form_widget(type) }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="form-groups">
+            <div class="mt-3">
+                {{ form_row(form.email) }}
+                {{ form_row(form.licenseNumber) }}
+            </div>
+        </div>
+
+        <div class="flex jc-end mt-3">
+            {{ form_row(form.submit, { row_attr: { class: 'btn -primary' } }) }}
+        </div>
+
+    {{ form_end(form) }}
+{% endblock %}

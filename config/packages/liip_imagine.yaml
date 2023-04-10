@@ -8,6 +8,12 @@ liip_imagine:
         default:
             web_path: ~
 
+    webp:
+        generate: true
+
+    default_filter_set_settings:
+        format: webp
+
     filter_sets:
         cache: ~
 

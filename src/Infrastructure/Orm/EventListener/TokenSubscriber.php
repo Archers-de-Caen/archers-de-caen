@@ -8,7 +8,6 @@ use App\Helper\SecurityHelper;
 use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use Exception;
 
 class TokenSubscriber implements EventSubscriberInterface
 {
@@ -20,7 +19,7 @@ class TokenSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function prePersist(LifecycleEventArgs $args): void
     {
