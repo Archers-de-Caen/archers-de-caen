@@ -125,8 +125,8 @@
       "@auto-scripts"
     ],
     "dev-server": "php -S localhost:80 -t public",
-    "phpstan": "vendor/bin/phpstan analyse -c phpstan.neon",
-    "clean-code": "vendor/bin/php-cs-fixer fix src --allow-risky=yes",
+    "lint": "vendor/bin/phpstan analyse -c tools/phpstan/phpstan.neon",
+    "clean": "vendor/bin/php-cs-fixer fix src --allow-risky=yes --config=tools/php-cs-fixer/.php-cs-fixer.php",
     "tests": [
       "@database-init --env=test",
       "vendor/bin/phpunit.bat --bootstrap tests/bootstrap.php --configuration phpunit.xml.dist --testdox",

@@ -86,6 +86,8 @@ class ArcherCrudController extends AbstractCrudController
             ->formatValue(fn ($value, ?Archer $entity) => $entity?->getCategory()?->value ? t($entity->getCategory()->value, domain: 'archer') : null)
         ;
 
+        $newsletters = TextField::new('newslettersToString');
+
         if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {
             if ($this->isGranted(Archer::ROLE_DEVELOPER)) {
                 yield $id;
@@ -101,6 +103,7 @@ class ArcherCrudController extends AbstractCrudController
         yield $phone;
         yield $gender;
         yield $category;
+        yield $newsletters;
     }
 
     public function configureActions(Actions $actions): Actions
