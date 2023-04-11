@@ -144,14 +144,12 @@ class AbstractPageCrudController extends AbstractCrudController
         /** @var Page $entity */
         $entity = $context->getEntity()->getInstance();
 
-        if (Category::ACTUALITY === $entity->getCategory()) {
-            $entity->publish();
+        $entity->publish();
 
-            $em->flush();
+        $em->flush();
 
-            if ($entity->getId()) {
-                $messageBus->dispatch(new ActualityNewsletterMessage($entity->getId(), NewsletterType::ACTUALITY_NEW));
-            }
+        if (Category::ACTUALITY === $entity->getCategory() && $entity->getId()) {
+            $messageBus->dispatch(new ActualityNewsletterMessage($entity->getId(), NewsletterType::ACTUALITY_NEW));
         }
 
         return $this->redirect($context->getReferrer() ?: $urlGenerator->generate(DashboardController::ROUTE));
