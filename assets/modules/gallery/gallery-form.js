@@ -31,6 +31,8 @@ window.onload = function() {
             newTr.appendChild(newTdUrl)
             newTr.appendChild(newTdAction)
 
+            output.querySelector('table').insertBefore(newTr, null)
+
             fetch('/api/photos', {
                 method: 'POST',
                 body
@@ -69,7 +71,6 @@ window.onload = function() {
                         newTdAction.appendChild(trash)
 
                         output.appendChild(input)
-                        output.querySelector('table').insertBefore(newTr, null)
                     } else {
                         removePhoto(newTr)
 
