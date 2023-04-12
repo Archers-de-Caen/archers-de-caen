@@ -10,6 +10,7 @@ use App\Domain\Cms\Model\Gallery;
 use App\Domain\File\Admin\Field\PhotoField;
 use App\Domain\Newsletter\NewsletterType;
 use App\Infrastructure\Mailing\ActualityNewsletterMessage;
+use App\Infrastructure\Mailing\GalleryNewsletterMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -104,7 +105,7 @@ class GalleryCrudController extends AbstractCrudController
         $em->flush();
 
         if ($entity->getId()) {
-            $messageBus->dispatch(new ActualityNewsletterMessage($entity->getId(), NewsletterType::ACTUALITY_NEW));
+            $messageBus->dispatch(new GalleryNewsletterMessage($entity->getId(), NewsletterType::GALLERY_NEW));
         }
 
         return $this->redirect($context->getReferrer() ?: $urlGenerator->generate(DashboardController::ROUTE));
