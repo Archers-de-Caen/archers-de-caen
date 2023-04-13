@@ -49,7 +49,7 @@ class NewsletterController extends AbstractController
             /** @var string $email */
             $email = $form->get('email')->getData();
 
-            if (null !== $archer->getEmail() && $archer->getEmail() !== $email) {
+            if (null !== $archer->getEmail() && strtolower($archer->getEmail()) !== strtolower($email)) {
                 $this->addFlash('error', 'Ce numéro de licence est associé à une adresse email différente !');
 
                 return $this->redirectToRoute(self::ROUTE);
@@ -71,7 +71,7 @@ class NewsletterController extends AbstractController
         }
 
         return $this->render('/landing/archers/newsletter.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 }
