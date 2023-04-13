@@ -18,6 +18,7 @@ security:
             form_login:
                 login_path: app_login
                 check_path: app_login
+                enable_csrf: true
             logout:
                 path: app_logout
             # https://symfony.com/doc/current/security/impersonating_user.html
@@ -27,7 +28,6 @@ security:
                 provider: app_user_provider
             remember_me:
                 secret: '%kernel.secret%' # required
-                lifetime: 604800 # 1 week in seconds
                 always_remember_me: true
 
     # Easy way to control access for large sections of your site
