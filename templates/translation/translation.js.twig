@@ -1,0 +1,20 @@
+function trans(text, domain = null)
+{
+    const translations = JSON.parse('{{ json|raw }}');
+
+    if (domain) {
+        if (translations[domain] && translations[domain][text]) {
+            return translations[domain][text]
+        }
+
+        return text
+    }
+
+    for (const trans in translations) {
+        if (translations[trans][text]) {
+            return translations[trans][text]
+        }
+    }
+
+    return text
+}

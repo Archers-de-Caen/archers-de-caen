@@ -65,8 +65,12 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
             );
     }
 
-    public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
-    {
+    public function createIndexQueryBuilder(
+        SearchDto $searchDto,
+        EntityDto $entityDto,
+        FieldCollection $fields,
+        FilterCollection $filters
+    ): QueryBuilder {
         return $this->entityRepository->createQueryBuilder($searchDto, $entityDto, $fields, $filters)
             ->join('entity.badge', 'badge')
             ->andWhere(sprintf("badge.type = '%s'", $this->badgeType))

@@ -1,4 +1,8 @@
 export function hide(element) {
+    if (!element) {
+        return
+    }
+
     element.style.display = 'none'
 
     element.querySelectorAll('input, select').forEach((input) => {
@@ -7,6 +11,10 @@ export function hide(element) {
 }
 
 export function show(element, type = 'block') {
+    if (!element) {
+        return
+    }
+
     element.style.display = type
 
     element.querySelectorAll('input, select').forEach((input) => {

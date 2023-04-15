@@ -10,15 +10,6 @@ enum Weapon: string
     case COMPOUND_BOW = 'compound_bow';
     case BARE_BOW = 'bare_bow';
 
-    public function toString(): string
-    {
-        return match ($this) {
-            self::RECURVE_BOW => 'Arc classique',
-            self::COMPOUND_BOW => 'Arc à poulies',
-            self::BARE_BOW => 'Arc nu',
-        };
-    }
-
     public static function createFromString(string $weapon): self
     {
         return match ($weapon) {

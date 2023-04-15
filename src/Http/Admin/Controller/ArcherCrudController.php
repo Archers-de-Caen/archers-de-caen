@@ -65,6 +65,9 @@ class ArcherCrudController extends AbstractCrudController
         ;
 
         $gender = ChoiceField::new('gender')
+            ->setChoices(Gender::cases())
+            ->setFormType(EnumType::class)
+            ->setFormTypeOption('class', Gender::class)
             ->setLabel('Genre')
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
@@ -76,6 +79,9 @@ class ArcherCrudController extends AbstractCrudController
         ;
 
         $category = ChoiceField::new('category')
+            ->setChoices(Category::cases())
+            ->setFormType(EnumType::class)
+            ->setFormTypeOption('class', Category::class)
             ->setLabel('Catégorie')
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([

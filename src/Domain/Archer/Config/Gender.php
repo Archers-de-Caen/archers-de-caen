@@ -11,15 +11,6 @@ enum Gender: string
     case OTHER = 'other';
     case UNDEFINED = 'undefined';
 
-    public function toShortString(): string
-    {
-        return match ($this) {
-            self::MAN => 'M.',
-            self::WOMAN => 'Mme.',
-            self::OTHER, self::UNDEFINED => '',
-        };
-    }
-
     public static function createFromString(string $gender): self
     {
         return match ($gender) {
@@ -28,5 +19,13 @@ enum Gender: string
 
             default => throw new \ValueError($gender.' not found'),
         };
+    }
+
+    public function isBasic(): bool
+    {
+        return \in_array($this, [
+            self::MAN,
+            self::WOMAN,
+        ], true);
     }
 }

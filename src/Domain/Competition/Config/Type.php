@@ -26,7 +26,11 @@ enum Type: string
     case GOLDEN_APPLE_CHALLENGE = 'golden_apple_challenge';
     case PROMOTIONAL = 'promotional';
     case SPECIAL_YOUNG = 'special_young';
+    case ROSE_TROPHY = 'rose_trophy';
 
+    /**
+     * @deprecated use translator
+     */
     public function toString(): string
     {
         return match ($this) {
@@ -50,6 +54,7 @@ enum Type: string
             self::GOLDEN_APPLE_CHALLENGE => 'Challenge de la Pomme d\'Or',
             self::PROMOTIONAL => 'Promotionnel',
             self::SPECIAL_YOUNG => 'Spécial jeune',
+            self::ROSE_TROPHY => 'Trophée des Roses',
         };
     }
 
@@ -77,6 +82,7 @@ enum Type: string
             strtolower('TAE National') => self::OUTDOOR_NATIONAL,
             strtolower('Challenge de la Pomme d\'Or') => self::GOLDEN_APPLE_CHALLENGE,
             strtolower('Promotionnel') => self::PROMOTIONAL,
+            strtolower('Trophée des Roses') => self::ROSE_TROPHY,
 
             default => throw new \ValueError($type.' not found'),
         };
@@ -108,6 +114,7 @@ enum Type: string
             self::GOLDEN_APPLE_CHALLENGE,
             self::PROMOTIONAL,
             self::SPECIAL_YOUNG,
+            self::ROSE_TROPHY,
         ];
     }
 }

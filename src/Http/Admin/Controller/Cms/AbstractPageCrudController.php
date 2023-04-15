@@ -86,6 +86,9 @@ class AbstractPageCrudController extends AbstractCrudController
         $content = CKEditorField::new('content');
 
         $status = ChoiceField::new('status')
+            ->setChoices(Status::cases())
+            ->setFormType(EnumType::class)
+            ->setFormTypeOption('class', Status::class)
             ->setLabel('Statut')
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
@@ -101,6 +104,17 @@ class AbstractPageCrudController extends AbstractCrudController
             ->setFormType(PhotoFormType::class)
             ->setRequired(false)
         ;
+
+        /*
+         * Todo: https://github.com/EasyCorp/EasyAdminBundle/pull/4988
+         */
+        if (\in_array($pageName, [Crud::PAGE_INDEX, Crud::PAGE_DETAIL], true)) {
+            $status->setChoices(array_reduce(
+                Status::cases(),
+                static fn (array $choices, Status $status) => $choices + [$status->name => $status->value],
+                [],
+            ));
+        }
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $title, $status, $image, $createdAt];

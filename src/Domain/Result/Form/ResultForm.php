@@ -22,6 +22,7 @@ abstract class ResultForm extends AbstractType
     {
         $builder
             ->add('category', EnumType::class, [
+                'translation_domain' => 'archer',
                 'class' => Category::class,
                 'label' => 'Catégorie',
                 'choice_label' => static fn (Category $category) => t($category->value, domain: 'archer'),
@@ -34,6 +35,7 @@ abstract class ResultForm extends AbstractType
                 'label' => 'Score',
             ])
             ->add('weapon', EnumType::class, [
+                'translation_domain' => 'archer',
                 'class' => Weapon::class,
                 'label' => 'Arme',
                 'choice_label' => static fn (Weapon $weapon) => t($weapon->value, domain: 'archer'),

@@ -18,9 +18,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
@@ -36,24 +34,26 @@ use Symfony\Component\Validator\Constraints\Regex;
 
 class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
 {
-    public function __construct(readonly private ArcherManager $archerManager, readonly private EntityManagerInterface $em)
-    {
+    public function __construct(
+        readonly private ArcherManager $archerManager,
+        readonly private EntityManagerInterface $em
+    ) {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /** @var CompetitionRegister $competitionRegister */
+        $competitionRegister = $options['competitionRegister'];
+
         $builder
             ->add('firstName', TextType::class, [
-                'label' => 'Prénom',
-                'attr' => [
-                    'placeholder' => 'Link',
-                ],
+                'translation_domain' => 'archer',
                 'constraints' => [
                     new NotBlank(),
                 ],
             ])
             ->add('lastName', TextType::class, [
-                'label' => 'Nom',
+                'translation_domain' => 'archer',
                 'constraints' => [
                     new NotBlank(),
                 ],
@@ -73,7 +73,7 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
                 ],
             ])
             ->add('phone', TelType::class, [
-                'label' => 'Téléphone',
+                'translation_domain' => 'archer',
                 'attr' => [
                     'pattern' => '[0-9]{10}',
                     'placeholder' => '0606060606',
@@ -83,7 +83,7 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
                 ],
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Email',
+                'translation_domain' => 'archer',
                 'attr' => [
                     'placeholder' => 'contact@archers-caen.fr',
                 ],
@@ -93,7 +93,7 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
                 ],
             ])
             ->add('licenseNumber', TextType::class, [
-                'label' => 'Numéro de licence',
+                'translation_domain' => 'archer',
                 'attr' => [
                     'pattern' => '[0-9]{6}[A-Za-z]',
                     'placeholder' => '123456A',
@@ -113,7 +113,7 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
                 ],
             ])
             ->add('club', TextType::class, [
-                'label' => 'Club',
+                'translation_domain' => 'archer',
                 'attr' => [
                     'placeholder' => 'Archers de Caen',
                 ],
@@ -123,52 +123,46 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
             ])
 
             ->add('wheelchair', CheckboxType::class, [
-                'label' => 'Tir en fauteuil roulant',
+                'translation_domain' => 'archer',
                 'required' => false,
             ])
             ->add('weapon', EnumType::class, [
-                'label' => 'Arme',
+                'translation_domain' => 'archer',
                 'class' => Weapon::class,
                 'choice_label' => static fn (Weapon $weapon) => t($weapon->value, domain: 'archer'),
                 'expanded' => true,
                 'required' => true,
             ])
             ->add('firstYear', CheckboxType::class, [
-                'label' => '1<sup>er</sup> année de licence et souhaite effectuer le tir en débutant',
+                'translation_domain' => 'competition_register',
                 'label_html' => true,
-                'required' => false,
-            ])
-            ->add('additionalInformation', TextareaType::class, [
-                'label' => 'Autre chose ?',
                 'required' => false,
             ])
         ;
 
-        /** @var ?CompetitionRegister $competitionRegister */
-        $competitionRegister = $options['competitionRegister'];
+        foreach ($competitionRegister->getDepartures() as $departure) {
+            $builder
+                ->add($departure->getId().'-targets', EntityType::class, [
+                    'class' => CompetitionRegisterDepartureTarget::class,
+                    'translation_domain' => 'competition_register',
+                    'label' => 'departures',
+                    'expanded' => true,
+                    'mapped' => false,
+                    'choice_attr' => function () use ($departure) {
+                        return [
+                            'disabled' => $departure->getRegistration() >= $departure->getMaxRegistration(),
+                        ];
+                    },
+                    'query_builder' => function (EntityRepository $er) use ($departure) {
+                        return $er->createQueryBuilder('crdt')
+                            ->join('crdt.departure', 'departure')
+                            ->where('departure.id = :uuid')
+                            ->setParameter('uuid', $departure->getId(), 'uuid');
+                    },
+                ]);
 
-        if ($competitionRegister) {
-            foreach ($competitionRegister->getDepartures() as $departure) {
-                $builder
-                    ->add($departure->getId().'-targets', EntityType::class, [
-                        'class' => CompetitionRegisterDepartureTarget::class,
-                        'label' => 'Départs',
-                        'expanded' => true,
-                        'mapped' => false,
-                        'choice_attr' => function () use ($departure) {
-                            return [
-                                'disabled' => $departure->getRegistration() >= $departure->getMaxRegistration(),
-                            ];
-                        },
-                        'query_builder' => function (EntityRepository $er) use ($departure) {
-                            return $er->createQueryBuilder('crdt')
-                                ->join('crdt.departure', 'departure')
-                                ->where('departure.id = :uuid')
-                                ->setParameter('uuid', $departure->getId(), 'uuid');
-                        },
-                    ]);
-
-                $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($competitionRegister): void {
+            $builder->addEventListener(FormEvents::POST_SUBMIT,
+                function (FormEvent $event) use ($competitionRegister): void {
                     /** @var CompetitionRegisterDepartureTargetArcher $registerArcher */
                     $registerArcher = $event->getData();
                     $targetCount = 0;
@@ -193,7 +187,11 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
                                 ->getSingleScalarResult();
 
                             if ($count) {
-                                $targetForm->addError(new FormError('Vous êtes déjà inscrit sur le départ du '.$departure));
+                                $error = new FormError(
+                                    'Vous êtes déjà inscrit sur le départ du '.$departure,
+                                );
+
+                                $targetForm->addError($error);
                             }
                         }
                     }
@@ -201,18 +199,19 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
                     if (!$targetCount) {
                         $event->getForm()->addError(new FormError('Vous devez sélectionner au moins, un départ !'));
                     }
-                });
-            }
+                }
+            );
         }
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
             /** @var array $registerArcher */
             $registerArcher = $event->getData();
 
+            $emailIsSet = !empty($registerArcher['email']) && !str_contains($registerArcher['email'], '***');
+            $phoneIsSet = !empty($registerArcher['phone']) && !str_contains($registerArcher['phone'], '***');
+
             if (
-                $registerArcher['licenseNumber'] &&
-                empty($registerArcher['email']) &&
-                empty($registerArcher['phone']) &&
+                $registerArcher['licenseNumber'] && !$emailIsSet && !$phoneIsSet &&
                 $archer = $this->archerManager->findArcherFromLicense($registerArcher['licenseNumber'])
             ) {
                 $registerArcher['email'] = $archer->getEmail();
@@ -221,13 +220,6 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
                 $event->setData($registerArcher);
             }
         });
-
-        $builder->add('submit', SubmitType::class, [
-            'label' => 'Valider',
-            'attr' => [
-                'class' => 'btn -primary',
-            ],
-        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

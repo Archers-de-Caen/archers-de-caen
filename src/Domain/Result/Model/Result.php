@@ -7,6 +7,7 @@ namespace App\Domain\Result\Model;
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Result\Repository\ResultRepository;
+use App\Infrastructure\Model\GenderTrait;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
 use App\Infrastructure\Model\WeaponTrait;
@@ -26,6 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 ])]
 abstract class Result
 {
+    use GenderTrait;
     use IdTrait;
     use TimestampTrait;
     use WeaponTrait;

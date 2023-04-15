@@ -23,6 +23,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\HttpFoundation\Response;
@@ -103,7 +104,7 @@ class CompetitionRegisterCrudController extends AbstractCrudController
         $id = IdField::new('id')
             ->setPermission(Archer::ROLE_DEVELOPER);
 
-        $type = ChoiceField::new('types', 'Types de concours')
+        $types = ChoiceField::new('types', 'Types de concours')
             ->allowMultipleChoices()
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
@@ -131,6 +132,10 @@ class CompetitionRegisterCrudController extends AbstractCrudController
             ->setRequired(false)
         ;
 
+        $byTeam = IntegerField::new('byTeam', 'Par équipe')
+            ->setHelp('1 = en individuel')
+        ;
+
         $autoCreateActuality = BooleanField::new('autoCreateActuality')
             ->setLabel('Créer automatiquement l\'article ?')
             ->setFormTypeOption('mapped', false)
@@ -141,7 +146,7 @@ class CompetitionRegisterCrudController extends AbstractCrudController
             return [$id, $dateStart, $dateEnd];
         }
 
-        return [$type, $dateStart, $dateEnd, $departures, $mandate, $autoCreateActuality];
+        return [$types, $byTeam, $dateStart, $dateEnd, $departures, $mandate, $autoCreateActuality];
     }
 
     /**
