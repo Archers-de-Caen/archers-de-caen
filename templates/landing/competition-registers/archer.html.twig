@@ -6,7 +6,7 @@
     <div class="page-content">
         {{ include('landing/competition-registers/_parts/mandate.html.twig') }}
         {% set url = path(
-            constant('App\\Http\\Landing\\Controller\\CompetitionRegisterController::ROUTE_LANDING_COMPETITION_REGISTER_VALIDATED'),
+            constant('App\\Http\\Landing\\Controller\\CompetitionRegister\\RecapController::ROUTE'),
             { slug: competitionRegister.slug, licenseNumber: '__licenseNumber__' }
         ) %}
         <p>

@@ -14,6 +14,8 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 
+use function Symfony\Component\Translation\t;
+
 final class ContactService
 {
     public function __construct(
@@ -51,7 +53,7 @@ final class ContactService
 
         $message = (new Email())
             ->text($contactRequest->getContent())
-            ->subject("Site::Contact : {$contactRequest->getName()} : {$contactRequest->getSubject()->toString()}")
+            ->subject("Site::Contact : {$contactRequest->getName()} : ".t($contactRequest->getSubject()->value, domain: 'mail'))
             ->from('noreply@archers-caen.fr')
             ->replyTo(new Address($contactRequest->getEmail(), $contactRequest->getName()))
             ->to($email);

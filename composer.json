@@ -30,6 +30,7 @@
     "sentry/sentry-symfony": "^4.3",
     "symfony/asset": "6.2.*",
     "symfony/console": "6.2.*",
+    "symfony/doctrine-messenger": "6.2.*",
     "symfony/dom-crawler": "6.2.*",
     "symfony/dotenv": "6.2.*",
     "symfony/expression-language": "6.2.*",
@@ -41,6 +42,7 @@
     "symfony/http-client": "6.2.*",
     "symfony/intl": "6.2.*",
     "symfony/mailer": "6.2.*",
+    "symfony/messenger": "6.2.*",
     "symfony/mime": "6.2.*",
     "symfony/monolog-bundle": "^3.1",
     "symfony/notifier": "6.2.*",
@@ -125,8 +127,8 @@
       "@auto-scripts"
     ],
     "dev-server": "php -S localhost:80 -t public",
-    "lint": "vendor/bin/phpstan analyse -c phpstan.neon",
-    "clean-code": "vendor/bin/php-cs-fixer fix src --allow-risky=yes",
+    "lint": "vendor/bin/phpstan analyse -c tools/phpstan/phpstan.neon",
+    "clean": "vendor/bin/php-cs-fixer fix src --allow-risky=yes --config=tools/php-cs-fixer/.php-cs-fixer.php",
     "tests": [
       "@database-init --env=test",
       "vendor/bin/phpunit.bat --bootstrap tests/bootstrap.php --configuration phpunit.xml.dist --testdox",

@@ -11,15 +11,4 @@ enum Subject: string
     case GDPR = 'gdpr';
     case WEB_SITE = 'web_site';
     case OTHER = 'other';
-
-    public function toString(): string
-    {
-        return match ($this) {
-            self::CLUB => 'Club',
-            self::PRESS => 'Presse',
-            self::GDPR => 'RGPD',
-            self::WEB_SITE => 'Site web',
-            self::OTHER => 'Autre',
-        };
-    }
 }

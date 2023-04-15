@@ -1,15 +1,15 @@
 {% macro pages(pages) %}
     <div class="thumbnails">
         {% for page in pages %}
-            {% set route = constant('App\\Http\\Landing\\Controller\\PageController::ROUTE_LANDING_PAGE') %}
+            {% set route = constant('App\\Http\\Landing\\Controller\\Page\\PageController::ROUTE') %}
             {% if page.category.value == 'actuality' %}
-                {% set route = constant('App\\Http\\Landing\\Controller\\ActualitiesController::ROUTE_LANDING_ACTUALITY') %}
+                {% set route = constant('App\\Http\\Landing\\Controller\\Actuality\\ActualityController::ROUTE') %}
             {% endif %}
 
             <a class="thumbnail -horizontal" href="{{ path(route , { slug: page.slug }) }}" title="{{ page.title }}">
                 <header>
                     <img
-                        src="{{ page.image is defined and page.image ? page.image|imagine_filter('thumbnail_medium') : asset('build/images/photo/cible.jpg') }}"
+                        src="{{ page.image is defined and page.image ? page.image|imagine_filter('thumbnail_medium') : asset('build/images/photo/cible.webp') }}"
                         alt="Photo de la page: {{ page.title }}"
                     >
                 </header>

@@ -19,6 +19,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
+
+use function Symfony\Component\Translation\t;
 
 final class BadgeCrudController extends AbstractCrudController
 {
@@ -56,18 +59,15 @@ final class BadgeCrudController extends AbstractCrudController
         $conditions = ArrayField::new('conditions');
 
         $competitionType = ChoiceField::new('competitionType')
-            ->setLabel('Type de competition');
-
-        if (Crud::PAGE_NEW === $pageName || Crud::PAGE_EDIT === $pageName) {
-            $competitionType->setChoices(Type::toChoicesWithEnumValue());
-        } else {
-            $competitionType->setChoices(
-                array_combine(
-                    array_map(static fn (Type $competitionType) => $competitionType->toString(), Type::cases()),
-                    array_map(static fn (Type $competitionType) => $competitionType->value, Type::cases())
-                )
-            ); // TODO : provisoire le temps que le bundle EasyAdmin ce met a jours
-        }
+            ->setLabel('Type de competition')
+            ->setFormType(EnumType::class)
+            ->setFormTypeOptions([
+                'class' => Type::class,
+                'choice_label' => fn (Type $choice) => t($choice->value, domain: 'competition'),
+                'choices' => Type::cases(),
+            ])
+            ->formatValue(fn ($value, ?Badge $entity) => !$value || !$entity || !$entity->getCompetitionType() ? '' : t($entity->getCompetitionType()->value, domain: 'competition'))
+        ;
 
         if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {
             if ($this->isGranted(Archer::ROLE_DEVELOPER)) {

@@ -62,9 +62,7 @@ final class DocumentCrudController extends AbstractCrudController
 
         $link = UrlField::new('documentName')
             ->setLabel('Fichier')
-            ->formatValue(function (string $value, Document $document) {
-                return $this->baseHost.$this->uploaderHelper->asset($document, 'documentFile');
-            })
+            ->formatValue(fn (string $value, Document $document) => $this->baseHost.$this->uploaderHelper->asset($document, 'documentFile'))
         ;
 
         if (Crud::PAGE_INDEX === $pageName) {

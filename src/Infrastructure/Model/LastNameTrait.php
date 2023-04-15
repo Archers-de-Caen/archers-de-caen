@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 trait LastNameTrait
 {
-    #[ORM\Column(type: Types::STRING, length: 191)]
+    #[ORM\Column(type: Types::STRING, length: 191, nullable: true)]
     #[Assert\Length(max: 191)]
     #[Assert\NotBlank]
     #[Assert\NotNull]

@@ -7,7 +7,7 @@ namespace App\Domain\Competition\Manager;
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Model\Page;
 use App\Domain\Competition\Model\Competition;
-use App\Http\Landing\Controller\CompetitionController;
+use App\Http\Landing\Controller\Results\CompetitionController;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class CompetitionManager
@@ -22,7 +22,7 @@ final class CompetitionManager
      */
     public function createActuality(Competition $competition): Page
     {
-        $iframeUrl = $this->urlGenerator->generate(CompetitionController::ROUTE_LANDING_RESULTS_COMPETITION, [
+        $iframeUrl = $this->urlGenerator->generate(CompetitionController::ROUTE, [
             'slug' => $competition->getSlug(),
         ]).'?iframe=true';
 

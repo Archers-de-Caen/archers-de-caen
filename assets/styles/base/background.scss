@@ -1,11 +1,19 @@
 @import "../variable";
 
 .bg {
-  &-primary, &-yellow {
+  &-primary {
+    background-color: $color-primary-purple !important;
+  }
+
+  &-yellow {
     background-color: $color-yellow !important;
   }
 
-  &-secondary, &-grey {
+  &-secondary {
+    background-color: $color-secondary !important;
+  }
+
+  &-grey {
     background-color: $color-grey !important;
   }
 

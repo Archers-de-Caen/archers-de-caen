@@ -13,7 +13,7 @@ use App\Domain\Result\Form\ResultTeamForm;
 use App\Domain\Result\Manager\ResultCompetitionManager;
 use App\Domain\Result\Model\ResultCompetition;
 use App\Http\Admin\Controller\Cms\AbstractPageCrudController;
-use App\Http\Landing\Controller\CompetitionController;
+use App\Http\Landing\Controller\Results\CompetitionController;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -27,9 +27,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class CompetitionCrudController extends AbstractCrudController
+use function Symfony\Component\Translation\t;
+
+class CompetitionCrudController extends AbstractCrudController
 {
     public function __construct(
         readonly private ResultCompetitionManager $resultCompetitionManager,
@@ -56,7 +59,7 @@ final class CompetitionCrudController extends AbstractCrudController
         $publicLink = Action::new('Page public')->linkToUrl(
             function (Competition $competition): string {
                 return $this->urlGenerator->generate(
-                    CompetitionController::ROUTE_LANDING_RESULTS_COMPETITION,
+                    CompetitionController::ROUTE,
                     ['slug' => $competition->getSlug()],
                     UrlGeneratorInterface::ABSOLUTE_URL
                 );
@@ -80,18 +83,15 @@ final class CompetitionCrudController extends AbstractCrudController
             ->setColumns('col-3');
 
         $type = ChoiceField::new('type')
-            ->setLabel('Type');
-
-        if (Crud::PAGE_NEW === $pageName || Crud::PAGE_EDIT === $pageName) {
-            $type->setChoices(Type::toChoicesWithEnumValue());
-        } else {
-            $type->setChoices(
-                array_combine(
-                    array_map(static fn (Type $type) => $type->toString(), Type::cases()),
-                    array_map(static fn (Type $type) => $type->value, Type::cases())
-                )
-            ); // TODO: provisoire le temps que le bundle EasyAdmin ce met a jours
-        }
+            ->setLabel('Type')
+            ->setFormType(EnumType::class)
+            ->setFormTypeOptions([
+                'class' => Type::class,
+                'choice_label' => fn (Type $choice) => t($choice->value, domain: 'competition'),
+                'choices' => Type::cases(),
+            ])
+            ->formatValue(fn ($value, ?Competition $entity) => !$value || !$entity || !$entity->getType() ? '' : t($entity->getType()->value, domain: 'competition'))
+        ;
 
         $createdAt = DateTimeField::new('createdAt')
             ->setLabel('Date de création');
@@ -148,7 +148,7 @@ final class CompetitionCrudController extends AbstractCrudController
 
         parent::persistEntity($entityManager, $entityInstance);
 
-        $competitionUrl = $this->urlGenerator->generate(CompetitionController::ROUTE_LANDING_RESULTS_COMPETITION, [
+        $competitionUrl = $this->urlGenerator->generate(CompetitionController::ROUTE, [
             'slug' => $entityInstance->getSlug(),
         ], UrlGeneratorInterface::ABSOLUTE_URL);
 
@@ -187,7 +187,7 @@ final class CompetitionCrudController extends AbstractCrudController
 
         parent::updateEntity($entityManager, $entityInstance);
 
-        $competitionUrl = $this->urlGenerator->generate(CompetitionController::ROUTE_LANDING_RESULTS_COMPETITION, [
+        $competitionUrl = $this->urlGenerator->generate(CompetitionController::ROUTE, [
             'slug' => $entityInstance->getSlug(),
         ], UrlGeneratorInterface::ABSOLUTE_URL);
 

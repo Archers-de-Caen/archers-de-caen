@@ -34,6 +34,11 @@ final class PhotoCrudController extends AbstractCrudController
         return Photo::class;
     }
 
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud->setDefaultSort(['createdAt' => 'DESC']);
+    }
+
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
         return $this->entityRepository->createQueryBuilder($searchDto, $entityDto, $fields, $filters)
@@ -51,9 +56,7 @@ final class PhotoCrudController extends AbstractCrudController
 
         $link = UrlField::new('imageName')
             ->setLabel('Lien')
-            ->formatValue(function (string $value, Photo $photo) {
-                return $this->baseHost.$this->uploaderHelper->asset($photo);
-            })
+            ->formatValue(fn (string $value, Photo $photo): string => $this->baseHost.$this->uploaderHelper->asset($photo))
         ;
 
         $upload = TextareaField::new('imageFile')
@@ -63,7 +66,7 @@ final class PhotoCrudController extends AbstractCrudController
         ;
 
         if (Crud::PAGE_INDEX === $pageName) {
-            return [$id, $upload, $link, $createdAt];
+            return [$id, $link, $createdAt];
         }
 
         return [$upload];

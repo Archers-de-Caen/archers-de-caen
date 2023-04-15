@@ -141,7 +141,8 @@ echo "INFO - Suppression du dossier de l'ancienne version" . PHP_EOL;
 if (is_dir(PRODUCTION_BK_PATH)) {
     shell_exec('rm ' . PRODUCTION_BK_PATH . ' -rf' . GET_COMMAND_ERROR);
 
-    /** @phpstan-ignore-next-line */
+    clearstatcache(true, PRODUCTION_BK_PATH);
+
     if (is_dir(PRODUCTION_BK_PATH)) {
         die('ERROR - Ancienne version non supprimé');
     }
@@ -167,3 +168,9 @@ if (!file_put_contents(CURRENT_VERSION_FILE, $lastRelease)) {
 }
 
 echo "SUCCESS - Mise à jours terminé !" . PHP_EOL;
+
+mail(
+    to: 'site@archers-caen.fr',
+    subject: '[Archer de Caen] Mise à jours du site !',
+    message: 'le site viens d\'être mis à jours'
+);

@@ -32,6 +32,6 @@
         <li>Information supplémentaire : <b>{{ register.additionalInformation ?: 'Non' }}</b></li>
     </ul>
 
-    <p>En cas d'erreur, merci de nous contacter en réponse à ce mail ou <a href="{{ absolute_url(path(constant('App\\Http\\Landing\\Controller\\ContactController::ROUTE_LANDING_CONTACT'))) }}">ici</a></p>
+    <p>En cas d'erreur, merci de nous contacter en réponse à ce mail ou <a href="{{ absolute_url(path(constant('App\\Http\\Landing\\Controller\\Page\\ContactController::ROUTE'))) }}">ici</a></p>
 
 {% endblock %}

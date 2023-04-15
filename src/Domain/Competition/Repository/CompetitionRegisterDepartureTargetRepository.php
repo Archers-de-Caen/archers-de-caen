@@ -22,4 +22,22 @@ final class CompetitionRegisterDepartureTargetRepository extends ServiceEntityRe
     {
         parent::__construct($registry, CompetitionRegisterDepartureTarget::class);
     }
+
+    public function save(CompetitionRegisterDepartureTarget $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(CompetitionRegisterDepartureTarget $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }

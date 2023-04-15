@@ -26,22 +26,22 @@ final class ContactRequest
     private string $ip = '';
 
     #[ORM\Column(type: Types::STRING, length: 191)]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 191)]
     private string $name;
 
     #[ORM\Column(type: Types::STRING, length: 191)]
-    #[Assert\NotBlank()]
-    #[Assert\Email()]
+    #[Assert\NotBlank]
+    #[Assert\Email]
     private string $email;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank]
     #[Assert\Length(min: 10)]
     private string $content;
 
     #[ORM\Column(type: Types::STRING, length: 191, enumType: Subject::class)]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank]
     private Subject $subject;
 
     public function getIp(): string

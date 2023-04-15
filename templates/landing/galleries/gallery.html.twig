@@ -1,5 +1,9 @@
 {% extends '/landing/base.html.twig' %}
 
+{% block meta %}
+    <meta name="robots" content="noimageindex" />
+{% endblock meta %}
+
 {% block body %}
     <div class="bg-target shape-target"></div>
 
@@ -9,7 +13,7 @@
         </div>
 
         <div class="thumbnails" id="galleries">
-            {% for photo in gallery.photos %}
+            {% for photo in photos %}
                 {# @var photo \App\Domain\File\Model\Photo #}
 
                 <div class="thumbnail -horizontal">
@@ -23,6 +27,10 @@
                     </header>
                 </div>
             {% endfor %}
+        </div>
+
+        <div class="mt-3">
+            {{ include('/shared/components/paginator.html.twig', { paginator, routeParams: { slug: gallery.slug } }) }}
         </div>
     </div>
 {% endblock %}

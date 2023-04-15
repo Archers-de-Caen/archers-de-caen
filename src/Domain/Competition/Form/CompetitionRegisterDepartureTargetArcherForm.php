@@ -29,6 +29,8 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 
+use function Symfony\Component\Translation\t;
+
 final class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
 {
     public function __construct(
@@ -56,17 +58,17 @@ final class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
                 ],
             ])
             ->add('gender', EnumType::class, [
-                'translation_domain' => 'archer',
-                'label_translation_parameters' => ['short' => 'false'],
+                'label' => 'Genre',
                 'class' => Gender::class,
-                'choice_label' => static fn (Gender $gender) => $gender->value,
-                'choices' => array_filter(
-                    Gender::cases(),
-                    static fn (Gender $gender) => $gender->isBasic()
-                ),
+                'choice_attr' => fn (Gender $gender) => ['data-gender' => $gender->value],
+                'choice_label' => static fn (Gender $gender) => t($gender->value, domain: 'archer'),
                 'expanded' => true,
                 'constraints' => [
                     new NotBlank(),
+                ],
+                'choices' => [
+                    Gender::MAN,
+                    Gender::WOMAN,
                 ],
             ])
             ->add('phone', TelType::class, [
@@ -100,13 +102,11 @@ final class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
                 ],
             ])
             ->add('category', EnumType::class, [
-                'translation_domain' => 'archer',
+                'label' => 'Catégorie',
                 'class' => Category::class,
-                'choices' => array_filter(
-                    Category::cases(),
-                    static fn (Category $category) => !str_starts_with($category->name, 'OLD')
-                ),
-                'choice_label' => static fn (Category $category) => $category->value,
+                'choice_attr' => fn (Category $category) => ['data-gender' => $category->getGender(), 'data-category' => $category->value],
+                'choice_label' => static fn (Category $category) => t($category->value, domain: 'archer'),
+                'choices' => array_filter(Category::cases(), static fn (Category $category) => !$category->isOld()),
                 'constraints' => [
                     new NotBlank(),
                 ],
@@ -128,7 +128,7 @@ final class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
             ->add('weapon', EnumType::class, [
                 'translation_domain' => 'archer',
                 'class' => Weapon::class,
-                'choice_label' => static fn (Weapon $weapon) => $weapon->value,
+                'choice_label' => static fn (Weapon $weapon) => t($weapon->value, domain: 'archer'),
                 'expanded' => true,
                 'required' => true,
             ])

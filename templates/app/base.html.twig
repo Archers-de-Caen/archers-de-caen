@@ -22,10 +22,9 @@
             <div class="header-secondary">
                 <div class="header-content">
                     <ul>
-                        <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\NewspaperController::ROUTE_LANDING_NEWSPAPERS')) }}">La gazette</a></li>
-                        <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\ContactController::ROUTE_LANDING_CONTACT')) }}">Contact</a></li>
-                        <li><a href="{{ path('app_index') }}">Espace licencié</a></li>
-{#                        <li><a href="#">🔍</a></li>#}
+                        <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ContactController::ROUTE')) }}">Contact</a></li>
+                        <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\IndexController::ROUTE')) }}">Revenir au site</a></li>
+                        <li><a href="{{ path(constant('App\\Http\\Admin\\Controller\\DashboardController::ROUTE')) }}">Admin</a></li>
                     </ul>
                 </div>
             </div>
@@ -35,11 +34,6 @@
                         <img src="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.svg') }}" alt="Logo des archers de Caen">
                     </a>
                     <ul>
-                        <li><a href="{{ path('landing_actualities') }}">Actualités</a></li>
-                        <li><a href="{{ path('landing_page', { slug: 'le-club', type: 'p' }) }}">Le club</a></li>
-                        <li><a href="{{ path('landing_page', { slug: 'les-resultats', type: 'p' }) }}">Les résultats</a></li>
-                        <li><a href="{{ path('landing_page', { slug: 'le-sport', type: 'p' }) }}">Le sport</a></li>
-                        <li><a href="{{ path('landing_galleries') }}">Photo</a></li>
                     </ul>
                     <div class="menu-responsive-btn hamburger-menu">
                         <div class="hamburger-menu-bar"></div>
@@ -52,26 +46,5 @@
         <div class="body">
             {% block body %}{% endblock %}
         </div>
-
-        <footer class="footer">
-            <div class="footer-container">
-                <div class="menu">
-                    <p>© Archers de Caen {{ 'now'|date('Y') }}. Tous droits réservés.</p>
-                    <ul>
-                        <li><a href="{{ path('landing_page', { slug: 'politique-de-confidentialite', type: 'p' }) }}">Politique de confidentialité</a></li>
-                        <li><a href="{{ path('landing_page', { slug: 'reglement-intérieur', type: 'p' }) }}">Règlement intérieur</a></li>
-                        <li><a href="{{ path('landing_page', { slug: 'statuts', type: 'p' }) }}">Statuts</a></li>
-                        <li><a href="{{ path('landing_page', { slug: 'labels', type: 'p' }) }}">Labels</a></li>
-                        <li><a href="{{ path('landing_page', { slug: 'presse-et-medias', type: 'p' }) }}">Presse et médias</a></li>
-                        <li><a href="{{ path('landing_style_guide') }}">Guide de style</a></li>
-                        <li><a href="{{ path('landing_page', { slug: 'historique', type: 'p' }) }}">Historique</a></li>
-                        <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\ContactController::ROUTE_LANDING_CONTACT')) }}">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="logo">
-                    <img src="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.svg') }}" alt="Logo des archers de Caen">
-                </div>
-            </div>
-        </footer>
     </body>
 </html>

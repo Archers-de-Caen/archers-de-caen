@@ -19,7 +19,7 @@
         </div>
 
         <div class="flex direction-column border rounded p-2">
-            <strong class="text-xx-large">{{ archer.favoriteWeapon ? archer.favoriteWeapon.value|trans({}, 'archer') : 'Non' }}</strong>
+            <strong class="text-xx-large">{{ archer.favoriteWeapon ? archer.favoriteWeapon.value|trans([], 'archer') : 'Non' }}</strong>
             <span class="mt-1">Arme préférée</span>
         </div>
     </div>
@@ -41,18 +41,18 @@
                 <tr>
                     <td>
                         <p>
-                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\CompetitionController::ROUTE_LANDING_RESULTS_COMPETITION'), { slug: result.competition.slug }) }}">
+                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Results\\CompetitionController::ROUTE'), { slug: result.competition.slug }) }}">
                                 {{ result.competition|replace({"concours ": ""}) }}
                             </a>
                         </p>
                     </td>
 
                     <td>
-                        {{ result.category.value|trans({}, 'archer') }}
+                        {{ result.category.value|trans([], 'archer') }}
                     </td>
 
                     <td>
-                        {{ result.weapon.value|trans({}, 'archer') }}
+                        {{ result.weapon.value|trans([], 'archer') }}
                     </td>
 
                     <td>

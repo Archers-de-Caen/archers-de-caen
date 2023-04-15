@@ -1,5 +1,9 @@
 {% extends '/landing/base.html.twig' %}
 
+{% block meta %}
+    <meta name="robots" content="noimageindex" />
+{% endblock meta %}
+
 {% block body %}
     <div class="bg-target shape-target"></div>
 
@@ -13,9 +17,8 @@
                 <a class="thumbnail -horizontal" href="{{ path('landing_gallery', { slug: gallery.slug }) }}" title="{{ gallery.title }}">
                     <header>
                         <img
-                            src="{{ gallery.mainPhoto is defined and gallery.mainPhoto ? gallery.mainPhoto|imagine_filter('thumbnail') : asset('build/images/photo/cible.jpg') }}"
+                            src="{{ gallery.mainPhoto is defined and gallery.mainPhoto ? gallery.mainPhoto|imagine_filter('thumbnail') : asset('build/images/photo/cible.webp') }}"
                             alt="Photo de la galerie: {{ gallery.title }}"
-                            decoding="async"
                         >
                     </header>
                     <footer>
@@ -23,6 +26,10 @@
                     </footer>
                 </a>
             {% endfor %}
+        </div>
+
+        <div class="mt-3">
+            {{ include('/shared/components/paginator.html.twig', { paginator }) }}
         </div>
     </div>
 {% endblock %}

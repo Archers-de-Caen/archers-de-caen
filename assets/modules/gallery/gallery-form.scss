@@ -1,42 +1,19 @@
 @import "../../styles/variable";
 
 .gallery-form {
+  margin-bottom: 150px; // Pour l'affichage des preview d'image
+
   .gallery-photo-previews {
     margin-top: 10px;
     display: flex;
     flex-wrap: wrap;
 
+    td, th {
+      color: var(--text-primary-color);
+    }
+
     .gallery-photo-preview {
-      margin: 10px;
-
-      max-width: 100px;
-      width: 100px;
-
-      max-height: 100px;
-      height: 100px;
-
-      position: relative;
-
-      .loading, .fa {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        color: $color-white;
-        display: flex;
-      }
-
-      .loading {
-        background-color: rgba(0, 0, 0, .75);
-        border-radius: $border-radius-small;
-        justify-content: center;
-        align-items: center;
-      }
-
       .fa {
-        justify-content: end;
-        align-items: start;
         margin: 5px;
         cursor: pointer;
 
@@ -45,11 +22,23 @@
         }
       }
 
-      img {
-        object-fit: cover;
-        width: 100%;
-        height: 100%;
-        border-radius: $border-radius-small;
+      .photo-preview {
+        img {
+          display: none;
+        }
+
+        a:hover + img {
+          display: block;
+
+          width: 150px;
+          max-width: 150px;
+          height: 150px;
+          max-height: 150px;
+
+          object-fit: contain;
+
+          position: absolute;
+        }
       }
     }
   }

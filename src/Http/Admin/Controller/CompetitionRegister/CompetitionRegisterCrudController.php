@@ -11,7 +11,7 @@ use App\Domain\Competition\Manager\CompetitionRegisterManager;
 use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\File\Admin\Field\DocumentField;
 use App\Http\Admin\Controller\Cms\AbstractPageCrudController;
-use App\Http\Landing\Controller\CompetitionRegisterController;
+use App\Http\Landing\Controller\CompetitionRegister\Registration\IndexController;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -25,8 +25,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
+use function Symfony\Component\Translation\t;
 
 final class CompetitionRegisterCrudController extends AbstractCrudController
 {
@@ -48,12 +51,8 @@ final class CompetitionRegisterCrudController extends AbstractCrudController
         return $crud
             ->setPageTitle('index', "Formulaire d'inscription au concours de Caen")
             ->setPageTitle('new', "Ajouter un formulaire d'inscription")
-            ->setPageTitle('detail', function (CompetitionRegister $competitionRegister) {
-                return (string) $competitionRegister;
-            })
-            ->setPageTitle('edit', function (CompetitionRegister $competitionRegister) {
-                return sprintf("Edition du formulaire l'inscription <b>%s</b>", $competitionRegister);
-            })
+            ->setPageTitle('detail', fn (CompetitionRegister $competitionRegister) => (string) $competitionRegister)
+            ->setPageTitle('edit', fn (CompetitionRegister $competitionRegister) => sprintf("Edition du formulaire l'inscription <b>%s</b>", $competitionRegister))
         ;
     }
 
@@ -63,7 +62,7 @@ final class CompetitionRegisterCrudController extends AbstractCrudController
             ->setLabel('Lien public')
             ->linkToUrl(function (CompetitionRegister $competitionRegister) {
                 return $this->urlGenerator->generate(
-                    CompetitionRegisterController::ROUTE_LANDING_COMPETITION_REGISTER,
+                    IndexController::ROUTE,
                     ['slug' => $competitionRegister->getSlug()],
                     UrlGeneratorInterface::ABSOLUTE_URL
                 );
@@ -93,9 +92,7 @@ final class CompetitionRegisterCrudController extends AbstractCrudController
         ;
 
         return $actions
-            ->update(Crud::PAGE_INDEX, 'new', function (Action $action) {
-                return $action->setLabel("Créer un formulaire d'inscription");
-            })
+            ->update(Crud::PAGE_INDEX, 'new', fn (Action $action) => $action->setLabel("Créer un formulaire d'inscription"))
             ->add(Crud::PAGE_INDEX, $publicLink)
             ->add(Crud::PAGE_INDEX, $registerList)
             ->add(Crud::PAGE_INDEX, $generateActuality)
@@ -109,12 +106,19 @@ final class CompetitionRegisterCrudController extends AbstractCrudController
 
         $types = ChoiceField::new('types', 'Types de concours')
             ->allowMultipleChoices()
-            ->setChoices(
-                array_combine(
-                    array_map(static fn (Type $type) => $type->toString(), Type::cases()),
-                    array_map(static fn (Type $type) => $type->value, Type::cases())
-                )
-            ) // TODO : provisoire le temps que le bundle EasyAdmin ce met a jours
+            ->setFormType(EnumType::class)
+            ->setFormTypeOptions([
+                'class' => Type::class,
+                'choice_label' => fn (Type $choice) => t($choice->value, domain: 'competition'),
+                'choices' => Type::cases(),
+            ])
+            ->formatValue(function ($value, ?CompetitionRegister $entity) {
+                if (!$value || !$entity || !$entity->getTypes()) {
+                    return '';
+                }
+
+                return implode(', ', array_map(static fn (Type $type) => t($type->value, domain: 'competition'), $entity->getTypes()));
+            })
         ;
 
         $dateStart = DateField::new('dateStart', 'Date de début');
@@ -155,7 +159,7 @@ final class CompetitionRegisterCrudController extends AbstractCrudController
         parent::persistEntity($entityManager, $entityInstance);
 
         $competitionRegisterUrl = $this->urlGenerator->generate(
-            CompetitionRegisterController::ROUTE_LANDING_COMPETITION_REGISTER,
+            IndexController::ROUTE,
             ['slug' => $entityInstance->getSlug()],
             UrlGeneratorInterface::ABSOLUTE_URL
         );

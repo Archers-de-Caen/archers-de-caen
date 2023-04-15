@@ -19,6 +19,7 @@ final class Gallery
 {
     use IdTrait;
     use TimestampTrait;
+    use StatusTrait;
 
     #[ORM\Column(type: Types::STRING, length: 191)]
     private ?string $title;

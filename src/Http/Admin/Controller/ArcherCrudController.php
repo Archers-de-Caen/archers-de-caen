@@ -7,7 +7,7 @@ namespace App\Http\Admin\Controller;
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Model\Archer;
-use App\Http\Landing\Controller\DefaultController;
+use App\Http\Landing\Controller\IndexController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -19,6 +19,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
+use function Symfony\Component\Translation\t;
 
 final class ArcherCrudController extends AbstractCrudController
 {
@@ -58,13 +60,22 @@ final class ArcherCrudController extends AbstractCrudController
 
         $email = EmailField::new('email');
 
-        $createdAt = DateTimeField::new('createdAt')->setLabel('Date de création');
+        $createdAt = DateTimeField::new('createdAt')
+            ->setLabel('Date de création')
+        ;
 
         $gender = ChoiceField::new('gender')
             ->setChoices(Gender::cases())
             ->setFormType(EnumType::class)
             ->setFormTypeOption('class', Gender::class)
             ->setLabel('Genre')
+            ->setFormType(EnumType::class)
+            ->setFormTypeOptions([
+                'class' => Gender::class,
+                'choice_label' => fn (Gender $choice) => t($choice->value, domain: 'archer'),
+                'choices' => Gender::cases(),
+            ])
+            ->formatValue(fn ($value, ?Archer $entity) => $entity?->getGender()?->value ? t($entity->getGender()->value, domain: 'archer') : null)
         ;
 
         $category = ChoiceField::new('category')
@@ -72,24 +83,16 @@ final class ArcherCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOption('class', Category::class)
             ->setLabel('Catégorie')
+            ->setFormType(EnumType::class)
+            ->setFormTypeOptions([
+                'class' => Category::class,
+                'choice_label' => fn (Category $choice) => t($choice->value, domain: 'archer'),
+                'choices' => Category::cases(),
+            ])
+            ->formatValue(fn ($value, ?Archer $entity) => $entity?->getCategory()?->value ? t($entity->getCategory()->value, domain: 'archer') : null)
         ;
 
-        /*
-         * Todo: https://github.com/EasyCorp/EasyAdminBundle/pull/4988
-         */
-        if (\in_array($pageName, [Crud::PAGE_INDEX, Crud::PAGE_DETAIL], true)) {
-            $category->setChoices(array_reduce(
-                Category::cases(),
-                static fn (array $choices, Category $category) => $choices + [$category->name => $category->value],
-                [],
-            ));
-
-            $gender->setChoices(array_reduce(
-                Gender::cases(),
-                static fn (array $choices, Gender $gender) => $choices + [$gender->name => $gender->value],
-                [],
-            ));
-        }
+        $newsletters = TextField::new('newslettersToString');
 
         if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {
             if ($this->isGranted(Archer::ROLE_DEVELOPER)) {
@@ -106,6 +109,7 @@ final class ArcherCrudController extends AbstractCrudController
         yield $phone;
         yield $gender;
         yield $category;
+        yield $newsletters;
     }
 
     public function configureActions(Actions $actions): Actions
@@ -113,7 +117,7 @@ final class ArcherCrudController extends AbstractCrudController
         $impersonation = Action::new('Se connecter')->linkToUrl(
             function (Archer $archer): string {
                 return $this->urlGenerator->generate(
-                    DefaultController::ROUTE_LANDING_INDEX,
+                    IndexController::ROUTE,
                     ['_switch_user' => $archer->getEmail()],
                     UrlGeneratorInterface::ABSOLUTE_URL
                 );

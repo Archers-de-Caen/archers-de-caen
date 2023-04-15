@@ -4,7 +4,7 @@
 
     {% for weapon, categories in results %}
 
-        <h3>{{ weapon|trans({}, 'archer') }}</h3>
+        <h3>{{ weapon|trans([], 'archer') }}</h3>
 
         {% for gender, category in categories %}
 
@@ -26,13 +26,13 @@
                         <tr>
                             {% if loop.first %}
                                 <td rowspan="{{ results|length }}">
-                                    {{ categoryValue|trans({}, 'archer') }}
+                                    {{ category|trans([], 'archer') }}
                                 </td>
                             {% endif %}
 
                             <td>
                                 <p>
-                                    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\ArcherController::ROUTE_LANDING_ARCHER'), { licenseNumber: result.archer.licenseNumber }) }}"
+                                    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Archer\\ArcherRecapController::ROUTE'), { licenseNumber: result.archer.licenseNumber }) }}"
                                        target="_parent"
                                     >
                                         {{ result.archer.fullName }}

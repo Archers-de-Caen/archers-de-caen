@@ -12,7 +12,7 @@ use App\Domain\Competition\Admin\Filter\CompetitionRegisterDepartureTargetArcher
 use App\Domain\Competition\Admin\Filter\CompetitionRegisterDepartureTargetArcher\CompetitionRegisterFilter;
 use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher;
-use App\Http\Landing\Controller\DefaultController;
+use App\Http\Landing\Controller\IndexController;
 use Doctrine\ORM\EntityManagerInterface;
 use Doskyft\CsvHelper\ColumnDefinition;
 use Doskyft\CsvHelper\Csv;
@@ -41,7 +41,9 @@ use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class CompetitionRegisterArcherCrudController extends AbstractCrudController
+use function Symfony\Component\Translation\t;
+
+class CompetitionRegisterArcherCrudController extends AbstractCrudController
 {
     public function __construct(
         readonly private AdminUrlGenerator $adminUrlGenerator,
@@ -130,6 +132,13 @@ final class CompetitionRegisterArcherCrudController extends AbstractCrudControll
             ->setFormType(EnumType::class)
             ->setFormTypeOption('class', Gender::class)
             ->setLabel('Genre')
+            ->setFormType(EnumType::class)
+            ->setFormTypeOptions([
+                'class' => Gender::class,
+                'choice_label' => fn (Gender $choice) => t($choice->value, domain: 'archer'),
+                'choices' => Gender::cases(),
+            ])
+            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity) => !$value || !$entity || !$entity->getGender() ? '' : t($entity->getGender()->value, domain: 'archer'))
         ;
 
         $category = ChoiceField::new('category')
@@ -137,6 +146,13 @@ final class CompetitionRegisterArcherCrudController extends AbstractCrudControll
             ->setFormType(EnumType::class)
             ->setFormTypeOption('class', Category::class)
             ->setLabel('Catégorie')
+            ->setFormType(EnumType::class)
+            ->setFormTypeOptions([
+                'class' => Category::class,
+                'choice_label' => fn (Category $choice) => t($choice->value, domain: 'archer'),
+                'choices' => Category::cases(),
+            ])
+            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity) => $entity?->getCategory()?->value ? t($entity->getCategory()->value, domain: 'archer') : null)
         ;
 
         $weapon = ChoiceField::new('weapon')
@@ -144,6 +160,13 @@ final class CompetitionRegisterArcherCrudController extends AbstractCrudControll
             ->setFormType(EnumType::class)
             ->setFormTypeOption('class', Weapon::class)
             ->setLabel('Arme')
+            ->setFormType(EnumType::class)
+            ->setFormTypeOptions([
+                'class' => Weapon::class,
+                'choice_label' => fn (Weapon $choice) => t($choice->value, domain: 'archer'),
+                'choices' => Weapon::cases(),
+            ])
+            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity) => !$value || !$entity || !$entity->getWeapon() ? '' : t($entity->getWeapon()->value, domain: 'archer'))
         ;
 
         /*
@@ -228,14 +251,14 @@ final class CompetitionRegisterArcherCrudController extends AbstractCrudControll
         $filterFactory = $this->container->get(FilterFactory::class);
         $filterConfig = $context->getCrud()?->getFiltersConfig();
         if (!$filterConfig) {
-            return $this->redirectToRoute(DefaultController::ROUTE_LANDING_INDEX);
+            return $this->redirectToRoute(IndexController::ROUTE);
         }
 
         $filters = $filterFactory->create($filterConfig, $fields, $context->getEntity());
 
         $search = $context->getSearch();
         if (!$search) {
-            return $this->redirectToRoute(DefaultController::ROUTE_LANDING_INDEX);
+            return $this->redirectToRoute(IndexController::ROUTE);
         }
         $queryBuilder = $this->createIndexQueryBuilder($search, $context->getEntity(), $fields, $filters);
 
@@ -252,9 +275,9 @@ final class CompetitionRegisterArcherCrudController extends AbstractCrudControll
                 'nom' => $registration->getLastName(),
                 'email' => $registration->getEmail(),
                 'phone' => $registration->getPhone(),
-                'genre' => $enumTranslator($registration->getGender()),
-                'categorie' => $enumTranslator($registration->getCategory()),
-                'arme' => $enumTranslator($registration->getWeapon()),
+                'genre' => $registration->getGender()?->value ? t($registration->getGender()->value, domain: 'archer') : '',
+                'categorie' => $registration->getCategory()?->value ? t($registration->getCategory()->value, domain: 'archer') : '',
+                'arme' => $registration->getWeapon()?->value ? t($registration->getWeapon()->value, domain: 'archer') : '',
                 'club' => $registration->getClub(),
                 'fauteuil_roulant' => $registration->getWheelchair() ? 'Oui' : 'Non',
                 'premiere_annee' => $registration->getFirstYear() ? 'Oui' : 'Non',

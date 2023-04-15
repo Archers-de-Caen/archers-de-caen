@@ -54,8 +54,17 @@
                             <td>
                                 <table class="footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
                                     <tr>
-                                        <td class="content-cell" align="center"></td>
+                                        <td align="center">Archers de Caen, {{ parameters.postal_address }}</td>
                                     </tr>
+                                    <tr>
+                                        <td align="center">
+                                            <a href="{{ absolute_url(path(constant('App\\Http\\Landing\\Controller\\IndexController::ROUTE'))) }}">Site web</a> |
+                                            <a href="{{ social_network.facebook }}" rel="nofollow">Facebook</a> |
+                                            <a href="{{ social_network.youtube }}" rel="nofollow">Youtube</a> |
+                                            <a href="{{ social_network.instagram }}" rel="nofollow">Instagram</a>
+                                        </td>
+                                    </tr>
+                                    {% block footer_link %}{% endblock %}
                                 </table>
                             </td>
                         </tr>

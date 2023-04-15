@@ -6,7 +6,7 @@
         {% for weapon in weapons %}
             <div class="weapon form-group --check --btn --white">
                 <input type="radio" id="{{ weapon.value }}" name="weapon" value="{{ weapon.value }}">
-                <label for="{{ weapon.value }}">{{ weapon.value|trans({}, 'archer') }}</label>
+                <label for="{{ weapon.value }}">{{ weapon.value|trans([], 'archer') }}</label>
             </div>
         {% endfor %}
     </div>

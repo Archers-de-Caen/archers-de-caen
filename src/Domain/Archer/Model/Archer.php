@@ -7,6 +7,7 @@ namespace App\Domain\Archer\Model;
 use App\Domain\Archer\Config\Weapon;
 use App\Domain\Archer\Repository\ArcherRepository;
 use App\Domain\Badge\Model\Badge;
+use App\Domain\Newsletter\NewsletterType;
 use App\Domain\Result\Model\Result;
 use App\Domain\Result\Model\ResultBadge;
 use App\Domain\Result\Model\ResultCompetition;
@@ -93,6 +94,9 @@ final class Archer implements UserInterface, PasswordAuthenticatedUserInterface,
      */
     #[ORM\ManyToMany(targetEntity: ResultTeam::class, mappedBy: 'teammates')]
     private Collection $resultsTeams;
+
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true, enumType: NewsletterType::class)]
+    private array $newsletters = [];
 
     public function __construct()
     {
@@ -249,9 +253,10 @@ final class Archer implements UserInterface, PasswordAuthenticatedUserInterface,
      */
     public function getResultsProgressArrow(): Collection
     {
-        return $this->results->filter(static function (Result $result) {
-            return $result instanceof ResultBadge && Badge::PROGRESS_ARROW === $result->getBadge()?->getType();
-        });
+        /** @var Collection $results */
+        $results = $this->results->filter(static fn (Result $result) => $result instanceof ResultBadge && Badge::PROGRESS_ARROW === $result->getBadge()?->getType());
+
+        return $results;
     }
 
     public function getBestProgressArrowObtained(): ?ResultBadge
@@ -272,7 +277,10 @@ final class Archer implements UserInterface, PasswordAuthenticatedUserInterface,
      */
     public function getResultsCompetition(): Collection
     {
-        return $this->results->filter(static fn (Result $result) => $result instanceof ResultCompetition);
+        /** @var Collection $results */
+        $results = $this->results->filter(static fn (Result $result) => $result instanceof ResultCompetition);
+
+        return $results;
     }
 
     /**
@@ -280,7 +288,10 @@ final class Archer implements UserInterface, PasswordAuthenticatedUserInterface,
      */
     public function getResultsBadge(): Collection
     {
-        return $this->results->filter(static fn (Result $result) => $result instanceof ResultBadge);
+        /** @var Collection $results */
+        $results = $this->results->filter(static fn (Result $result) => $result instanceof ResultBadge);
+
+        return $results;
     }
 
     public function addResult(Result $result): self
@@ -337,17 +348,11 @@ final class Archer implements UserInterface, PasswordAuthenticatedUserInterface,
     {
         $resultsCompetitions = $this->getResultsCompetition();
 
-        $bareBow = $resultsCompetitions->filter(static function (Result $resultCompetition): bool {
-            return Weapon::BARE_BOW === $resultCompetition->getWeapon();
-        })->count();
+        $bareBow = $resultsCompetitions->filter(static fn (Result $resultCompetition): bool => Weapon::BARE_BOW === $resultCompetition->getWeapon())->count();
 
-        $compoundBow = $resultsCompetitions->filter(static function (Result $resultCompetition): bool {
-            return Weapon::COMPOUND_BOW === $resultCompetition->getWeapon();
-        })->count();
+        $compoundBow = $resultsCompetitions->filter(static fn (Result $resultCompetition): bool => Weapon::COMPOUND_BOW === $resultCompetition->getWeapon())->count();
 
-        $recurveBow = $resultsCompetitions->filter(static function (Result $resultCompetition): bool {
-            return Weapon::RECURVE_BOW === $resultCompetition->getWeapon();
-        })->count();
+        $recurveBow = $resultsCompetitions->filter(static fn (Result $resultCompetition): bool => Weapon::RECURVE_BOW === $resultCompetition->getWeapon())->count();
 
         if ($bareBow > $compoundBow && $bareBow > $recurveBow) {
             return Weapon::BARE_BOW;
@@ -362,5 +367,25 @@ final class Archer implements UserInterface, PasswordAuthenticatedUserInterface,
         }
 
         return null;
+    }
+
+    public function getNewsletters(): array
+    {
+        return $this->newsletters;
+    }
+
+    public function setNewsletters(array $newsletters): self
+    {
+        $this->newsletters = $newsletters;
+
+        return $this;
+    }
+
+    /**
+     * call in easyadmin crud.
+     */
+    public function getNewslettersToString(): string
+    {
+        return implode(', ', array_map(static fn (NewsletterType $newsletterType) => $newsletterType->value, $this->getNewsletters()));
     }
 }

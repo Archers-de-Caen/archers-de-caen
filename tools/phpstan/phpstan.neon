@@ -1,0 +1,13 @@
+includes:
+    - ../../vendor/phpstan/phpstan-symfony/extension.neon
+    - ../../vendor/phpstan/phpstan-symfony/rules.neon
+
+parameters:
+    level: 9 #  you can currently choose from 9 levels (0 is the loosest and 8 is the strictest).
+    # As Symfony code generator commands does not fill those return types, it's quite inconvenient to set a level greater than 5.
+    paths:
+        - ../../src
+        - ../../tests
+
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false

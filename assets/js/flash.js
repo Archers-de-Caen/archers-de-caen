@@ -1,7 +1,6 @@
 import Swal from "sweetalert2";
 
 window.addEventListener('load', function() {
-    console.log("Flash loaded");
     document.querySelectorAll('.flash').forEach(function(flash) {
         let title = ''
         if (flash.dataset.type === 'success') {

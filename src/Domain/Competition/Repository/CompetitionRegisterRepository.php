@@ -22,4 +22,22 @@ final class CompetitionRegisterRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, CompetitionRegister::class);
     }
+
+    public function save(CompetitionRegister $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(CompetitionRegister $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }

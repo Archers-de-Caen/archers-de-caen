@@ -6,15 +6,22 @@ namespace App\Http\Landing\Controller;
 
 use App\Domain\Cms\Repository\DataRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class LicenseController extends AbstractController
+#[AsController]
+#[Route(
+    path: '/prendre-une-licence',
+    name: self::ROUTE,
+    methods: Request::METHOD_GET
+)]
+class LicenseController extends AbstractController
 {
-    public const ROUTE_LANDING_LICENSE_NEW = 'landing_license_new';
+    public const ROUTE = 'landing_license_new';
 
-    #[Route('/prendre-une-licence', name: self::ROUTE_LANDING_LICENSE_NEW)]
-    public function index(DataRepository $dataRepository): Response
+    public function __invoke(DataRepository $dataRepository): Response
     {
         return $this->render('/landing/license/new.html.twig', [
             'documents' => $dataRepository->findOneBy(['code' => 'TAKE_LICENSE'])?->getContent(),

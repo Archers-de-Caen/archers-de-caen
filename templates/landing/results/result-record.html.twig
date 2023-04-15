@@ -90,7 +90,7 @@
                     const target = e.currentTarget
 
                     document.querySelectorAll(`.results[data-competition-type="${target.value}"][data-weapon="${weaponValue}"]`).forEach((result) => {
-                        show(result)
+                        show(result, 'table')
                     })
                 })
             })

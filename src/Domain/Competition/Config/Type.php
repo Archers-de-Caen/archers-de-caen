@@ -58,14 +58,6 @@ enum Type: string
         };
     }
 
-    public static function toChoicesWithEnumValue(): array
-    {
-        return array_combine(
-            array_map(static fn (self $type) => $type->toString(), self::cases()),
-            array_map(static fn (self $type) => $type, self::cases())
-        );
-    }
-
     /**
      * @throws \ValueError
      */

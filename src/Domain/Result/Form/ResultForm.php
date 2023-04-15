@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use function Symfony\Component\Translation\t;
+
 abstract class ResultForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -23,7 +25,7 @@ abstract class ResultForm extends AbstractType
                 'translation_domain' => 'archer',
                 'class' => Category::class,
                 'label' => 'Catégorie',
-                'choice_label' => static fn (Category $category) => $category->value,
+                'choice_label' => static fn (Category $category) => t($category->value, domain: 'archer'),
             ])
             ->add('rank', IntegerType::class, [
                 'label' => 'Classement',
@@ -36,7 +38,7 @@ abstract class ResultForm extends AbstractType
                 'translation_domain' => 'archer',
                 'class' => Weapon::class,
                 'label' => 'Arme',
-                'choice_label' => static fn (Weapon $weapon) => $weapon->value,
+                'choice_label' => static fn (Weapon $weapon) => t($weapon->value, domain: 'archer'),
                 'required' => true,
             ])
             ->add('completionDate', DateType::class, [

@@ -53,7 +53,8 @@ final class ContactForm extends AbstractType
                 'class' => Subject::class,
                 'label' => 'Sujet',
                 'expanded' => true,
-                'choice_label' => static fn (Subject $subject) => $subject->toString(),
+                'choice_label' => static fn (Subject $subject) => $subject->value,
+                'choice_translation_domain' => 'mail',
             ])
             ->add('recaptcha', HiddenType::class, [
                 'mapped' => false,

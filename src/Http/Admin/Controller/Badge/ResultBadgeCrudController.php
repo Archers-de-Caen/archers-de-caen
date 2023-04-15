@@ -30,6 +30,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 
+use function Symfony\Component\Translation\t;
+
 abstract class ResultBadgeCrudController extends AbstractCrudController
 {
     protected string $badgeType = '';
@@ -47,9 +49,7 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
     {
         return $crud
             ->setPageTitle(Crud::PAGE_DETAIL, fn (ResultBadge $resultBadge) => (string) $resultBadge)
-            ->setPageTitle(Crud::PAGE_EDIT, function (ResultBadge $resultBadge) {
-                return sprintf('Edition de l\'archer <b>%s</b>', $resultBadge);
-            })
+            ->setPageTitle(Crud::PAGE_EDIT, fn (ResultBadge $resultBadge) => sprintf('Edition du résultat <b>%s</b>', $resultBadge))
             ->setDefaultSort(['completionDate' => 'DESC'])
         ;
     }
@@ -97,36 +97,30 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
         $archer = AssociationField::new('archer');
         $score = IntegerField::new('score');
         $completionDate = DateField::new('completionDate')
-            ->setLabel('Date d\'obtention');
+            ->setLabel('Date d\'obtention')
+        ;
 
         $weapon = ChoiceField::new('weapon')
-            ->setChoices(Weapon::cases())
+            ->setLabel('Arme')
             ->setFormType(EnumType::class)
-            ->setFormTypeOption('class', Weapon::class)
-            ->setLabel('Arme');
+            ->setFormTypeOptions([
+                'class' => Weapon::class,
+                'choice_label' => fn (Weapon $choice) => t($choice->value, domain: 'archer'),
+                'choices' => Weapon::cases(),
+            ])
+            ->formatValue(fn ($value, ?ResultBadge $entity) => !$value || !$entity || !$entity->getWeapon() ? '' : t($entity->getWeapon()->value, domain: 'archer'))
+        ;
 
         $category = ChoiceField::new('category')
-            ->setChoices(Category::cases())
+            ->setLabel('Catégorie')
             ->setFormType(EnumType::class)
-            ->setFormTypeOption('class', Category::class)
-            ->setLabel('Catégorie');
-
-        /*
-         * Todo: https://github.com/EasyCorp/EasyAdminBundle/pull/4988
-         */
-        if (\in_array($pageName, [Crud::PAGE_INDEX, Crud::PAGE_DETAIL], true)) {
-            $category->setChoices(array_reduce(
-                Category::cases(),
-                static fn (array $choices, Category $category) => $choices + [$category->name => $category->value],
-                [],
-            ));
-
-            $weapon->setChoices(array_reduce(
-                Weapon::cases(),
-                static fn (array $choices, Weapon $weapon) => $choices + [$weapon->name => $weapon->value],
-                [],
-            ));
-        }
+            ->setFormTypeOptions([
+                'class' => Category::class,
+                'choice_label' => fn (Category $choice) => t($choice->value, domain: 'archer'),
+                'choices' => Category::cases(),
+            ])
+            ->formatValue(fn ($value, ?ResultBadge $entity) => !$value || !$entity || !$entity->getCategory() ? '' : t($entity->getCategory()->value, domain: 'archer'))
+        ;
 
         if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {
             if ($this->isGranted(Archer::ROLE_DEVELOPER)) {
@@ -150,7 +144,8 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
     {
         $weapon = ChoiceFilter::new('weapon')
             ->setLabel('Arme')
-            ->setChoices(Weapon::cases());
+            ->setChoices(Weapon::cases())
+        ;
 
         $archer = EntityFilter::new('archer');
         $badge = EntityFilter::new('badge');

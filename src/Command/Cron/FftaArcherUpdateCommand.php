@@ -108,7 +108,7 @@ final class FftaArcherUpdateCommand extends Command
                 }
 
                 try {
-                    $io->info('Nouvelle licence: '.json_encode($newLicense, \JSON_THROW_ON_ERROR));
+                    $io->info('Nouvelle licence: '.json_encode($newLicense, JSON_THROW_ON_ERROR));
                 } catch (\JsonException) {
                     $io->info('Nouvelle licence: impossible d\'encodé $newLicense');
                 }
