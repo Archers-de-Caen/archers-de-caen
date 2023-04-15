@@ -8,7 +8,7 @@ use App\Domain\File\Form\PhotoFormType;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 
-final class PhotoField implements FieldInterface
+class PhotoField implements FieldInterface
 {
     use FieldTrait;
 

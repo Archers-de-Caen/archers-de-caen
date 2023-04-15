@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-final class SeasonChoiceController extends AbstractController
+class SeasonChoiceController extends AbstractController
 {
     public const ROUTE = 'landing_results_competitions_seasons';
 

@@ -22,7 +22,7 @@ use function Symfony\Component\Translation\t;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-final class RecordController extends AbstractController
+class RecordController extends AbstractController
 {
     public const ROUTE = 'landing_results_record';
 

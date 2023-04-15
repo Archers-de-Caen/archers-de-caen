@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
     name: 'app:archers:create',
     description: 'Permet de créer un archer',
 )]
-final class CreateArcher extends Command
+class CreateArcher extends Command
 {
     public function __construct(
         private readonly ValidatorInterface $validator,
