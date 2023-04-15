@@ -16,7 +16,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BadgeRepository::class)]
-class Badge
+final class Badge
 {
     use IdTrait;
     use TimestampTrait;

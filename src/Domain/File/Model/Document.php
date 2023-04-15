@@ -22,7 +22,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: DocumentRepository::class)]
-class Document implements UploadableInterface
+final class Document implements UploadableInterface
 {
     use IdTrait;
     use TimestampTrait;

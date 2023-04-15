@@ -13,7 +13,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ResultCompetitionRepository::class)]
-class ResultTeam extends Result
+final class ResultTeam extends Result
 {
     #[ORM\ManyToOne(targetEntity: Competition::class, inversedBy: 'resultsTeams')]
     private ?Competition $competition = null;

@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CompetitionRegisterDepartureRepository::class)]
-class CompetitionRegisterDeparture
+final class CompetitionRegisterDeparture
 {
     use IdTrait;
     use TimestampTrait;

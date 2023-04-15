@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PageRepository::class)]
 #[ORM\Table(options: ['collate' => 'utf8mb4_unicode_ci', 'charset' => 'utf8mb4'])]
-class Page
+final class Page
 {
     use IdTrait;
     use TimestampTrait;
