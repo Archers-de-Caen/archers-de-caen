@@ -14,7 +14,7 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-final class Mailer
+class Mailer
 {
     public function __construct(
         private readonly Environment $twig,
