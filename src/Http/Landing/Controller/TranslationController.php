@@ -11,12 +11,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Yaml\Yaml;
 
+#[Route(
+    path: '/translation',
+    name: self::ROUTE,
+    methods: Request::METHOD_GET
+)]
 class TranslationController extends AbstractController
 {
-    public const ROUTE_TRANSLATION = 'translation';
+    public const ROUTE = 'translation';
 
-    #[Route('/translation', name: self::ROUTE_TRANSLATION)]
-    public function index(Request $request): Response
+    public function __invoke(Request $request): Response
     {
         $locale = $request->getLocale();
         $translations = [];
