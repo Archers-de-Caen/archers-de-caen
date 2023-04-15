@@ -18,7 +18,7 @@ use Gedmo\Mapping\Annotation\Slug;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CompetitionRepository::class)]
-final class Competition
+class Competition
 {
     use IdTrait;
     use TimestampTrait;

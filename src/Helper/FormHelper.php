@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 
-final class FormHelper
+class FormHelper
 {
     public static function getErrorsArray(FormInterface $form): array
     {

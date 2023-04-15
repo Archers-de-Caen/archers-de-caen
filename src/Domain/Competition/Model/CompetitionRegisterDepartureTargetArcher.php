@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CompetitionRegisterDepartureTargetArcherRepository::class)]
 #[ORM\UniqueConstraint(name: 'unique_archer_by_target', columns: ['target_id', 'license_number'])]
-final class CompetitionRegisterDepartureTargetArcher
+class CompetitionRegisterDepartureTargetArcher
 {
     use ArcherCategoryTrait;
     use EmailTrait;

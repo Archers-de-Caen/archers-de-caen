@@ -16,7 +16,7 @@ use Symfony\Component\Mime\Email;
 
 use function Symfony\Component\Translation\t;
 
-final class ContactService
+class ContactService
 {
     public function __construct(
         private readonly ContactRequestRepository $repository,

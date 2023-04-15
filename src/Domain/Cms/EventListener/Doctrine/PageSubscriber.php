@@ -11,7 +11,7 @@ use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Bundle\SecurityBundle\Security;
 
-final class PageSubscriber implements EventSubscriberInterface
+class PageSubscriber implements EventSubscriberInterface
 {
     public function __construct(private readonly Security $security)
     {

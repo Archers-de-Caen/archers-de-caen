@@ -16,7 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @extends ServiceEntityRepository<Gallery>
  */
-final class GalleryRepository extends ServiceEntityRepository
+class GalleryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

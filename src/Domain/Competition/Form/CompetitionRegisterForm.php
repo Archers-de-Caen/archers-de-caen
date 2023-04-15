@@ -16,7 +16,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Valid;
 
-final class CompetitionRegisterForm extends AbstractType
+class CompetitionRegisterForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

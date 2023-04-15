@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Sauvegarde les demandes de contact afin de limiter le spam.
  */
 #[ORM\Entity(ContactRequestRepository::class)]
-final class ContactRequest
+class ContactRequest
 {
     use IdTrait;
     use TimestampTrait;

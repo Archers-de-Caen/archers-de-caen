@@ -16,7 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @extends ServiceEntityRepository<Page>
  */
-final class PageRepository extends ServiceEntityRepository
+class PageRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

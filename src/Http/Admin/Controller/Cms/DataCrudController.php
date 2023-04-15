@@ -18,7 +18,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Form\FormBuilderInterface;
 
-final class DataCrudController extends AbstractCrudController
+class DataCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {

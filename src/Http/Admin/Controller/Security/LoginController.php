@@ -24,7 +24,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
         Request::METHOD_POST,
     ]
 )]
-final class LoginController extends AbstractController
+class LoginController extends AbstractController
 {
     public const ROUTE = 'admin_login';
 

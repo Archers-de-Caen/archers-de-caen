@@ -20,7 +20,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-final class ContactForm extends AbstractType
+class ContactForm extends AbstractType
 {
     public function __construct(
         private readonly ParameterBagInterface $parameterBag,

@@ -9,7 +9,7 @@ use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
-final class TokenSubscriber implements EventSubscriberInterface
+class TokenSubscriber implements EventSubscriberInterface
 {
     public function getSubscribedEvents(): array
     {

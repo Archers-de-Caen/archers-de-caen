@@ -16,7 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @extends ServiceEntityRepository<ResultBadge>
  */
-final class ResultBadgeRepository extends ServiceEntityRepository
+class ResultBadgeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

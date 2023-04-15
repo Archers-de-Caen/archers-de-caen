@@ -7,7 +7,7 @@ namespace App\Http\Twig;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
-final class TwigEmailExtension extends AbstractExtension
+class TwigEmailExtension extends AbstractExtension
 {
     public function getFilters(): array
     {

@@ -8,7 +8,7 @@ use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
-final class TimestampSubscriber implements EventSubscriberInterface
+class TimestampSubscriber implements EventSubscriberInterface
 {
     public function getSubscribedEvents(): array
     {

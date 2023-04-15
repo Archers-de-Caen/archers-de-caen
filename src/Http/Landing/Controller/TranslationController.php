@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Yaml\Yaml;
 
-final class TranslationController extends AbstractController
+class TranslationController extends AbstractController
 {
     public const ROUTE_TRANSLATION = 'translation';
 

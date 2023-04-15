@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * Appelé depuis App\Http\Admin\Controller\DataCrudController::createEditFormBuilder.
  */
-final class IndexForm extends AbstractType
+class IndexForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

@@ -33,7 +33,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 
-final class DashboardController extends AbstractDashboardController
+class DashboardController extends AbstractDashboardController
 {
     public const ROUTE = 'admin_index';
 

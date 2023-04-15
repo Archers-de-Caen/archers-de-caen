@@ -23,7 +23,7 @@ use Symfony\Component\Form\Extension\Core\Type\EnumType;
 
 use function Symfony\Component\Translation\t;
 
-final class BadgeCrudController extends AbstractCrudController
+class BadgeCrudController extends AbstractCrudController
 {
     public function __construct(protected readonly EntityRepository $entityRepository)
     {

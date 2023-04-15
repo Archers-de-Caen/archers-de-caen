@@ -24,7 +24,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: PhotoRepository::class)]
-final class Photo implements UploadableInterface
+class Photo implements UploadableInterface
 {
     use IdTrait;
     use TimestampTrait;

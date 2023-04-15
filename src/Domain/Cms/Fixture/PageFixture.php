@@ -14,7 +14,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-final class PageFixture extends AbstractFixtures implements DependentFixtureInterface
+class PageFixture extends AbstractFixtures implements DependentFixtureInterface
 {
     public const LOAD_DATA_MAX = 100;
     public const REFERENCE = 'ref_page';

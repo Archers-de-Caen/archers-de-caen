@@ -26,7 +26,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use function Symfony\Component\Translation\t;
 
-final class GalleryCrudController extends AbstractCrudController
+class GalleryCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {

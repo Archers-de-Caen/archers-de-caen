@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * Appelé depuis App\Http\Admin\Controller\DataCrudController::createEditFormBuilder.
  */
-final class TakeLicenseForm extends AbstractType
+class TakeLicenseForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

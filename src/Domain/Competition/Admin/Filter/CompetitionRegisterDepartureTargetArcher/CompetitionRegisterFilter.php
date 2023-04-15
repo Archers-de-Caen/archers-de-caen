@@ -13,7 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\FilterDataDto;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\FilterTrait;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Filter\Type\EntityFilterType;
 
-final class CompetitionRegisterFilter implements FilterInterface
+class CompetitionRegisterFilter implements FilterInterface
 {
     use FilterTrait;
 

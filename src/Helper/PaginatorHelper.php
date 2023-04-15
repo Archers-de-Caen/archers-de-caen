@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Helper;
 
-final class PaginatorHelper
+class PaginatorHelper
 {
     public static function pagination(int $current, int $last): array
     {

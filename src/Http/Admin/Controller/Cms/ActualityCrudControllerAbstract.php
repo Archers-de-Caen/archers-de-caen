@@ -18,7 +18,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class ActualityCrudControllerAbstract extends AbstractPageCrudController
+class ActualityCrudControllerAbstract extends AbstractPageCrudController
 {
     public function configureCrud(Crud $crud): Crud
     {

@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
-final class GalleryForm extends AbstractType
+class GalleryForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

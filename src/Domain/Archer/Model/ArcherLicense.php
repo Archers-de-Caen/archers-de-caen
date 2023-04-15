@@ -12,7 +12,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ArcherLicenseRepository::class)]
-final class ArcherLicense
+class ArcherLicense
 {
     use ArcherCategoryTrait;
     use IdTrait;

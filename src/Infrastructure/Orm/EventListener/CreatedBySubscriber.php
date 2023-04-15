@@ -9,7 +9,7 @@ use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Bundle\SecurityBundle\Security;
 
-final class CreatedBySubscriber implements EventSubscriberInterface
+class CreatedBySubscriber implements EventSubscriberInterface
 {
     public function __construct(readonly private Security $security)
     {

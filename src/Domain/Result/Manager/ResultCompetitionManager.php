@@ -10,7 +10,7 @@ use App\Domain\Result\Model\ResultBadge;
 use App\Domain\Result\Model\ResultCompetition;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class ResultCompetitionManager
+class ResultCompetitionManager
 {
     public function __construct(readonly private EntityManagerInterface $em)
     {

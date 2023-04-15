@@ -20,7 +20,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
     name: 'app:ffta:archer-update',
     description: 'Met à jour les archers licencié depuis le site de la FFTA',
 )]
-final class FftaArcherUpdateCommand extends Command
+class FftaArcherUpdateCommand extends Command
 {
     use ArcherTrait;
 
