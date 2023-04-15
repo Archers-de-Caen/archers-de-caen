@@ -62,6 +62,7 @@ Encore
 
     .enableSassLoader()
 
+    // uncomment if you use TypeScript
     .enableTypeScriptLoader()
     .addPlugin(new TsconfigPathsPlugin({
         configFile: path.resolve(__dirname, './tsconfig.json'),
@@ -70,6 +71,7 @@ Encore
         '@react': path.resolve(__dirname, "assets/react/")
     })
 
+    // uncomment if you use React
     .enableReactPreset()
 
     // uncomment to get integrity="..." attributes on your script & link tags
