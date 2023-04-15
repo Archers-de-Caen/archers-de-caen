@@ -41,5 +41,14 @@
             </td>
         </tr>
     </table>
+{% endblock %}
 
+{% block footer_link %}
+    <tr>
+        <td align="center">
+            <a href="{{ absolute_url(path(constant('App\\Http\\Landing\\Controller\\Page\\NewsletterController::ROUTE'))) }}">
+                Se désinscrire
+            </a>
+        </td>
+    </tr>
 {% endblock %}
