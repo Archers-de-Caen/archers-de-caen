@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-final class CompetitionRegisterController extends AbstractController
+class CompetitionRegisterController extends AbstractController
 {
     public const ROUTE = 'api_competition_register';
 

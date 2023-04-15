@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-final class PaymentController extends AbstractController
+class PaymentController extends AbstractController
 {
     public const ROUTE = 'landing_competition_register_payment';
 

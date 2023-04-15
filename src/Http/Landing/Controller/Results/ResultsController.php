@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-final class ResultsController extends AbstractController
+class ResultsController extends AbstractController
 {
     public const ROUTE = 'landing_results';
 
