@@ -77,11 +77,11 @@ class FftaArcherUpdateCommand extends Command
             return Command::FAILURE;
         }
 
-        $io->info(count($licensesResponse['licences']).' licences récupéré');
+        $io->info(\count($licensesResponse['licences']).' licences récupéré');
 
         $newLicenses = $this->reformatLicencesArray($licensesResponse['licences']);
 
-        $io->info(count($newLicenses).' licences reformaté');
+        $io->info(\count($newLicenses).' licences reformaté');
 
         $archers = $this->reformatArchersArray($this->em->getRepository(Archer::class)->findAll());
         $licenses = $this->em->getRepository(License::class)->findAll();
@@ -101,14 +101,14 @@ class FftaArcherUpdateCommand extends Command
                     static fn (License $license) => $newLicense['licenseType'] === $license->getTitle()
                 );
 
-                if (!count($license)) {
+                if (!\count($license)) {
                     $io->error('License not found');
 
                     return Command::FAILURE;
                 }
 
                 try {
-                    $io->info('Nouvelle licence: '.json_encode($newLicense, JSON_THROW_ON_ERROR));
+                    $io->info('Nouvelle licence: '.json_encode($newLicense, \JSON_THROW_ON_ERROR));
                 } catch (\JsonException) {
                     $io->info('Nouvelle licence: impossible d\'encodé $newLicense');
                 }
@@ -153,10 +153,10 @@ class FftaArcherUpdateCommand extends Command
         $pageConnexion = new \DOMDocument();
         $pageConnexion->validateOnParse = true;
 
-        curl_setopt($this->curl, CURLOPT_URL, 'https://ffta-goal.multimediabs.com/login');
-        curl_setopt($this->curl, CURLOPT_COOKIESESSION, true);
-        curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($this->curl, CURLOPT_COOKIEJAR, $this->cookieFile);
+        curl_setopt($this->curl, \CURLOPT_URL, 'https://ffta-goal.multimediabs.com/login');
+        curl_setopt($this->curl, \CURLOPT_COOKIESESSION, true);
+        curl_setopt($this->curl, \CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($this->curl, \CURLOPT_COOKIEJAR, $this->cookieFile);
 
         $page = (string) curl_exec($this->curl);
 
@@ -182,33 +182,33 @@ class FftaArcherUpdateCommand extends Command
             'authenticityToken' => $this->getToken(),
         ];
 
-        curl_setopt($this->curl, CURLOPT_URL, 'https://ffta-goal.multimediabs.com/login');
-        curl_setopt($this->curl, CURLOPT_COOKIESESSION, true);
-        curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($this->curl, CURLOPT_COOKIEJAR, $this->cookieFile);
-        curl_setopt($this->curl, CURLOPT_COOKIEFILE, $this->cookieFile);
-        curl_setopt($this->curl, CURLOPT_POST, true);
-        curl_setopt($this->curl, CURLOPT_POSTFIELDS, $postdata);
-        curl_setopt($this->curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($this->curl, \CURLOPT_URL, 'https://ffta-goal.multimediabs.com/login');
+        curl_setopt($this->curl, \CURLOPT_COOKIESESSION, true);
+        curl_setopt($this->curl, \CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($this->curl, \CURLOPT_COOKIEJAR, $this->cookieFile);
+        curl_setopt($this->curl, \CURLOPT_COOKIEFILE, $this->cookieFile);
+        curl_setopt($this->curl, \CURLOPT_POST, true);
+        curl_setopt($this->curl, \CURLOPT_POSTFIELDS, $postdata);
+        curl_setopt($this->curl, \CURLOPT_FOLLOWLOCATION, true);
 
         curl_exec($this->curl);
     }
 
     private function getLicenses(string $saison): array
     {
-        curl_setopt($this->curl, CURLOPT_URL, "https://ffta-goal.multimediabs.com/licences/afficherlistelicencies?editionAttestation=&idSaison=$saison");
-        curl_setopt($this->curl, CURLOPT_COOKIESESSION, true);
-        curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($this->curl, CURLOPT_COOKIEFILE, $this->cookieFile);
-        curl_setopt($this->curl, CURLOPT_HTTPHEADER, [
+        curl_setopt($this->curl, \CURLOPT_URL, "https://ffta-goal.multimediabs.com/licences/afficherlistelicencies?editionAttestation=&idSaison=$saison");
+        curl_setopt($this->curl, \CURLOPT_COOKIESESSION, true);
+        curl_setopt($this->curl, \CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($this->curl, \CURLOPT_COOKIEFILE, $this->cookieFile);
+        curl_setopt($this->curl, \CURLOPT_HTTPHEADER, [
             'X-Requested-With: XMLHttpRequest',
             'Host: ffta-goal.multimediabs.com',
             'Accept: application/json, text/javascript, */*; q=0.01',
             'Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
             'Connection: keep-alive',
         ]);
-        curl_setopt($this->curl, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($this->curl, CURLOPT_REFERER, 'https://ffta-goal.multimediabs.com/licences/listerLicencies?idStructure=636');
+        curl_setopt($this->curl, \CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($this->curl, \CURLOPT_REFERER, 'https://ffta-goal.multimediabs.com/licences/listerLicencies?idStructure=636');
 
         $json = curl_exec($this->curl);
 

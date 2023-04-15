@@ -406,7 +406,7 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
 
         $em->flush();
 
-        $this->addFlash('success', 'Inscription importé ! '.count($registrations).' inscriptions ont étaient importé');
+        $this->addFlash('success', 'Inscription importé ! '.\count($registrations).' inscriptions ont étaient importé');
 
         return $this->redirect($returnUrl);
     }

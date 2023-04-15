@@ -49,14 +49,14 @@ class ContactRequest
         return $this->ip;
     }
 
-    public function setIp(string $ip): ContactRequest
+    public function setIp(string $ip): self
     {
         $this->ip = $ip;
 
         return $this;
     }
 
-    public function setRawIp(?string $ip): ContactRequest
+    public function setRawIp(?string $ip): self
     {
         if ($ip) {
             $this->ip = IPUtils::anonymize($ip);

@@ -101,7 +101,7 @@ class CompetitionRegister
 
     public function addType(Type $type): self
     {
-        if (!in_array($type, $this->types, true)) {
+        if (!\in_array($type, $this->types, true)) {
             $this->types[] = $type;
         }
 

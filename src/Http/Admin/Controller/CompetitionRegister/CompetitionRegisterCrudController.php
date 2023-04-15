@@ -167,7 +167,7 @@ class CompetitionRegisterCrudController extends AbstractCrudController
         $context = $this->getContext();
         $competitionData = $context?->getRequest()->request->all()['CompetitionRegister'];
 
-        if (is_array($competitionData) && isset($competitionData['autoCreateActuality'])) {
+        if (\is_array($competitionData) && isset($competitionData['autoCreateActuality'])) {
             $actuality = $this->competitionRegisterManager->createActuality($entityInstance);
 
             parent::persistEntity($entityManager, $actuality);

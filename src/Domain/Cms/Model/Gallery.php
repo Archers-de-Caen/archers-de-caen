@@ -18,8 +18,8 @@ use Gedmo\Mapping\Annotation\Slug;
 class Gallery
 {
     use IdTrait;
-    use TimestampTrait;
     use StatusTrait;
+    use TimestampTrait;
 
     #[ORM\Column(type: Types::STRING, length: 191)]
     private ?string $title;

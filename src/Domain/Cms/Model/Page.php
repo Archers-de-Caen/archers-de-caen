@@ -22,8 +22,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Page
 {
     use IdTrait;
-    use TimestampTrait;
     use StatusTrait;
+    use TimestampTrait;
 
     #[ORM\Column(type: Types::STRING, length: 191)]
     #[Assert\Length(max: 191)]

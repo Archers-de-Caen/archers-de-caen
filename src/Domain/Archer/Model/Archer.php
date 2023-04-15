@@ -36,15 +36,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[UniqueEntity('licenseNumber')]
 class Archer implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface
 {
-    use IdTrait;
-    use TimestampTrait;
-    use FirstNameTrait;
-    use LastNameTrait;
-    use EmailTrait;
-    use PhoneTrait;
-    use LicenseNumberTrait;
-    use GenderTrait;
     use ArcherCategoryTrait;
+    use EmailTrait;
+    use FirstNameTrait;
+    use GenderTrait;
+    use IdTrait;
+    use LastNameTrait;
+    use LicenseNumberTrait;
+    use PhoneTrait;
+    use TimestampTrait;
 
     private const LICENSE_NUMBER_UNIQUE = true;
     private const EMAIL_UNIQUE = true;
@@ -120,7 +120,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
 
     public function addRole(?string $role): self
     {
-        if ($role && !in_array($role, $this->roles, true) && in_array($role, self::ROLES)) {
+        if ($role && !\in_array($role, $this->roles, true) && \in_array($role, self::ROLES)) {
             $this->roles[] = $role;
         }
 
@@ -269,7 +269,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
             static fn (ResultBadge $one, ResultBadge $two): int => $one->getBadge()?->getLevel() > $two->getBadge()?->getLevel() ? -1 : 1
         );
 
-        return count($resultProgressArrows) ? $resultProgressArrows[0] : null;
+        return \count($resultProgressArrows) ? $resultProgressArrows[0] : null;
     }
 
     /**
