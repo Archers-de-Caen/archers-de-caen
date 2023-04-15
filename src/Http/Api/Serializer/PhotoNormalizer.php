@@ -7,8 +7,6 @@ namespace App\Http\Api\Serializer;
 use App\Domain\File\Model\Photo;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
@@ -18,7 +16,6 @@ class PhotoNormalizer implements NormalizerInterface
     public function __construct(
         private readonly UploaderHelper $uploaderHelper,
         private readonly string $baseHost,
-
         #[Autowire(service: ObjectNormalizer::class)]
         private readonly NormalizerInterface $normalizer
     ) {
