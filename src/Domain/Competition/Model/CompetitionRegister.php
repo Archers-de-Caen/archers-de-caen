@@ -28,7 +28,7 @@ class CompetitionRegister
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?\DateTimeImmutable $dateEnd = null;
 
-    #[ORM\Column(type: Types::JSON)]
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, enumType: Type::class)]
     #[Assert\NotNull]
     private array $types = [];
 
@@ -101,7 +101,7 @@ class CompetitionRegister
 
     public function addType(Type $type): self
     {
-        if (!in_array($type, $this->types, true)) {
+        if (!\in_array($type, $this->types, true)) {
             $this->types[] = $type;
         }
 

@@ -20,12 +20,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Mime\Address;
+
+use function Symfony\Component\Translation\t;
+
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
-
-use function Symfony\Component\Translation\t;
 
 class CompetitionRegisterManager
 {

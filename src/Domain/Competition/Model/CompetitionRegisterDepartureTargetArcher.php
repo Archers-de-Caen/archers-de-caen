@@ -23,15 +23,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\UniqueConstraint(name: 'unique_archer_by_target', columns: ['target_id', 'license_number'])]
 class CompetitionRegisterDepartureTargetArcher
 {
-    use IdTrait;
-    use TimestampTrait;
-    use FirstNameTrait;
-    use LastNameTrait;
-    use EmailTrait;
-    use PhoneTrait;
-    use LicenseNumberTrait;
-    use GenderTrait;
     use ArcherCategoryTrait;
+    use EmailTrait;
+    use FirstNameTrait;
+    use GenderTrait;
+    use IdTrait;
+    use LastNameTrait;
+    use LicenseNumberTrait;
+    use PhoneTrait;
+    use TimestampTrait;
     use WeaponTrait;
 
     private const LICENSE_NUMBER_UNIQUE = false;

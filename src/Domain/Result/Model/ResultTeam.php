@@ -98,7 +98,7 @@ class ResultTeam extends Result
      */
     public function addDuel(array $duel): self
     {
-        if (!in_array($duel, $this->duels, true)) {
+        if (!\in_array($duel, $this->duels, true)) {
             $this->duels[] = $duel;
         }
 
@@ -129,7 +129,7 @@ class ResultTeam extends Result
      */
     public function addFinalRanking(array $finalRanking): self
     {
-        if (!in_array($finalRanking, $this->finalRankings, true)) {
+        if (!\in_array($finalRanking, $this->finalRankings, true)) {
             $this->finalRankings[] = $finalRanking;
         }
 

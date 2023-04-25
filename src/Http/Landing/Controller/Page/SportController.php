@@ -34,7 +34,7 @@ class SportController extends AbstractController
                 }
             }
 
-            if (!count($tagsName)) {
+            if (!\count($tagsName)) {
                 $tagsName[] = 'no-category';
             }
 

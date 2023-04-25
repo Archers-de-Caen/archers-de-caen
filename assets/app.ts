@@ -6,6 +6,13 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
+
+import { registerReactControllerComponents } from '@symfony/ux-react'
+registerReactControllerComponents(require.context('./react/controllers', true, /\.(j|t)sx?$/))
+
+// start the Stimulus application
+import './bootstrap';
+
 import './styles/app.scss';
 
 import './modules/header/header'
@@ -27,9 +34,6 @@ const feather = require('feather-icons')
 window.onload = function () {
     feather.replace()
 }
-
-// start the Stimulus application
-// import './bootstrap';
 
 require('@fortawesome/fontawesome-free/css/all.min.css');
 require('@fortawesome/fontawesome-free/js/all.js');

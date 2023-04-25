@@ -8,7 +8,7 @@ use App\Domain\File\Form\DocumentFormType;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 
-final class DocumentField implements FieldInterface
+class DocumentField implements FieldInterface
 {
     use FieldTrait;
 

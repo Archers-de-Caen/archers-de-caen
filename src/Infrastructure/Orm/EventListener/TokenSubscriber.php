@@ -27,7 +27,7 @@ class TokenSubscriber implements EventSubscriberInterface
 
         if (property_exists($entity, 'token') && method_exists($entity, 'setToken')) {
             /** @var string $prefix */
-            $prefix = constant($entity::class.'::PREFIX_TOKEN');
+            $prefix = \constant($entity::class.'::PREFIX_TOKEN');
 
             $entity->setToken(SecurityHelper::generateRandomToken(8, $prefix));
         }

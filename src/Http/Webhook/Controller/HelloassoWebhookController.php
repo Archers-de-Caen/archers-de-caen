@@ -50,7 +50,7 @@ class HelloassoWebhookController extends AbstractController
             try {
                 $event = $helloasso->event->decode($content);
                 $webhook
-                    ->setContent((array) json_decode($content, true, 512, JSON_THROW_ON_ERROR))
+                    ->setContent((array) json_decode($content, true, 512, \JSON_THROW_ON_ERROR))
                     ->setType($event->getEventType())
                 ;
 

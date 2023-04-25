@@ -14,9 +14,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ArcherLicenseRepository::class)]
 class ArcherLicense
 {
+    use ArcherCategoryTrait;
     use IdTrait;
     use TimestampTrait;
-    use ArcherCategoryTrait;
 
     #[ORM\ManyToOne(targetEntity: Archer::class, inversedBy: 'archerLicenses')]
     #[ORM\JoinColumn(nullable: false)]

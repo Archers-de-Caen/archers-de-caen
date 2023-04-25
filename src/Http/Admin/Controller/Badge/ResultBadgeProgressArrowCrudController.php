@@ -8,7 +8,7 @@ use App\Domain\Badge\Model\Badge;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 
-final class ResultBadgeProgressArrowCrudController extends ResultBadgeCrudController
+class ResultBadgeProgressArrowCrudController extends ResultBadgeCrudController
 {
     public function __construct(EntityRepository $entityRepository)
     {

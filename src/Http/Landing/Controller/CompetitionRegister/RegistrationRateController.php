@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-final class RegistrationRateController extends AbstractController
+class RegistrationRateController extends AbstractController
 {
     public const ROUTE = 'landing_competition_register_registration_rate';
 

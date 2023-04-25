@@ -9,7 +9,6 @@ use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Model\Gallery;
 use App\Domain\File\Admin\Field\PhotoField;
 use App\Domain\Newsletter\NewsletterType;
-use App\Infrastructure\Mailing\ActualityNewsletterMessage;
 use App\Infrastructure\Mailing\GalleryNewsletterMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;

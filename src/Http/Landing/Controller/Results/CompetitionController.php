@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-final class CompetitionController extends AbstractController
+class CompetitionController extends AbstractController
 {
     public const ROUTE = 'landing_results_competition';
 
@@ -45,7 +45,7 @@ final class CompetitionController extends AbstractController
                             $results[$weapon->value][$category->value] = [];
                         }
 
-                        if (($archer = $result->getArcher()) && !in_array($archer, $participants, true)) {
+                        if (($archer = $result->getArcher()) && !\in_array($archer, $participants, true)) {
                             $participants[] = $archer;
                         }
 
@@ -71,7 +71,7 @@ final class CompetitionController extends AbstractController
         return $this->render($template, [
             'competition' => $competition,
             'results' => $results,
-            'participantCount' => count($participants),
+            'participantCount' => \count($participants),
             'recordCount' => $recordCount,
             'podiumCount' => $podiumCount,
         ]);

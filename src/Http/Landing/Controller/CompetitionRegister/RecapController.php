@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-final class RecapController extends AbstractController
+class RecapController extends AbstractController
 {
     public const ROUTE = 'landing_competition_register_validated';
 

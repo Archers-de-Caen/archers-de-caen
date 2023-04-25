@@ -133,7 +133,7 @@ enum Category: string
 
     public function isAdult(): bool
     {
-        return in_array($this, [
+        return \in_array($this, [
             self::JUNIOR_MAN,
             self::JUNIOR_WOMAN,
 
