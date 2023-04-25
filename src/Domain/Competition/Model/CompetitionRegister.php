@@ -28,7 +28,7 @@ class CompetitionRegister
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?\DateTimeImmutable $dateEnd = null;
 
-    #[ORM\Column(type: Types::JSON)]
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, enumType: Type::class)]
     #[Assert\NotNull]
     private array $types = [];
 
