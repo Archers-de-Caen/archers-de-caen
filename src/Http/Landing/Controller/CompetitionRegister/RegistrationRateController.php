@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 #[AsController]
 #[Route(
-    path: '/inscription-concours/{slug}/liste-des-inscrits',
+    path: '/inscription-concours/{slug}/taux-inscription',
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
