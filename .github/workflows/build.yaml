@@ -10,12 +10,9 @@ jobs:
   composer:
     runs-on: ubuntu-latest
     steps:
-      #  To automatically get bug fixes and new Php versions for shivammathur/setup-php,
-      # change this to (see https://github.com/shivammathur/setup-php#bookmark-versioning):
-      # uses: shivammathur/setup-php@v2
-      - uses: shivammathur/setup-php@2cb9b829437ee246e9b3cac53555a39208ca6d28
+      - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: 8.1
 
       - uses: actions/checkout@v3
 
@@ -30,6 +27,12 @@ jobs:
 
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: vendor
 
   npm:
     runs-on: ubuntu-latest
@@ -54,3 +57,9 @@ jobs:
         run: |
           npm install
           npm run build
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: node_modules
