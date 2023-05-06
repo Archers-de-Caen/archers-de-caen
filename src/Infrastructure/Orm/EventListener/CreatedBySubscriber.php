@@ -29,7 +29,7 @@ class CreatedBySubscriber implements EventSubscriberInterface
     {
         $entity = $args->getObject();
 
-        if (property_exists($entity, 'createdBy') && method_exists($entity, 'setCreatedBy')) {
+        if (property_exists($entity, 'createdBy') && method_exists($entity, 'setCreatedBy') && $this->security->getUser()) {
             $entity->setCreatedBy($this->security->getUser());
         }
     }

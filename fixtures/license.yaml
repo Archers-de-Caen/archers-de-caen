@@ -1,0 +1,8 @@
+App\Domain\Archer\Model\License:
+  license (template):
+    title: <sentence()>
+    type: <word()>
+    description: <sentence()>
+    price: <numberBetween(1, 200)>
+
+  license_{1..3} (extends license):
