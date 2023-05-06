@@ -25,6 +25,14 @@ jobs:
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
+      - name: Archive composer artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: |
+            vendor
+            node_modules
+
   build-npm:
     runs-on: ubuntu-latest
     steps:
@@ -48,3 +56,11 @@ jobs:
         run: |
           npm install
           npm run build
+
+      - name: Archive composer artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: |
+            vendor
+            node_modules
