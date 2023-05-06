@@ -23,19 +23,21 @@ jobs:
             ${{ runner.os }}-php-
 
       - name: Install Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+        run: |
+          composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+          php bin/console asset:install
 
       - name: "Création de vendor.zip"
         uses: montudor/action-zip@v1
         with:
-          args: zip -q -r vendor.zip vendor
+          args: zip -q -r build-composer.zip vendor public/bundles
 
       - name: Archive composer artifacts
         uses: actions/upload-artifact@v3
         with:
           name: build-composer
           path: |
-            vendor.zip
+            build-composer.zip
 
   build-npm:
     runs-on: ubuntu-latest
@@ -51,24 +53,24 @@ jobs:
         id: npm-cache
         uses: actions/cache@v3
         with:
-          path: vendor
+          path: node_modules
           key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-php-
+            ${{ runner.os }}-npm-
 
       - name: "Npm run scripts"
         run: |
           npm install
           npm run build
 
-      - name: "Création de node_modules.zip"
+      - name: "Création de build-npm.zip"
         uses: montudor/action-zip@v1
         with:
-          args: zip -q -r node_modules.zip node_modules
+          args: zip -q -r build-npm.zip node_modules public/build
 
       - name: Archive composer artifacts
         uses: actions/upload-artifact@v3
         with:
           name: build-npm
           path: |
-            node_modules.zip
+            build-npm.zip
