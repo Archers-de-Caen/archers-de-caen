@@ -7,10 +7,10 @@ on:
 
 jobs:
   build:
-    uses: Archers-de-Caen/archers-de-caen/.github/workflows/build.yaml@d80cc19d05ad9fc19d50b6dbc895d3cceb5a9bad
+    uses: Archers-de-Caen/archers-de-caen/.github/workflows/build.yaml@0fd739c837d7229aeee03daac49da26c28c74af0
 
   test:
-    uses: Archers-de-Caen/archers-de-caen/.github/workflows/tests.yaml@d80cc19d05ad9fc19d50b6dbc895d3cceb5a9bad
+    uses: Archers-de-Caen/archers-de-caen/.github/workflows/tests.yaml@0fd739c837d7229aeee03daac49da26c28c74af0
 
   tagged-release:
     name: "Tagged Release"
