@@ -27,27 +27,10 @@ jobs:
           composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
           php bin/console asset:install
 
-      - name: "Création de vendor.zip"
-        uses: montudor/action-zip@v1
-        with:
-          args: zip -q -r build-composer.zip vendor public/bundles
-
-      - name: Archive composer artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-composer
-          path: |
-            build-composer.zip
-
-  build-npm:
-    runs-on: ubuntu-latest
-    steps:
       - name: "🖥️ Setup node"
         uses: actions/setup-node@v3
         with:
           node-version: 18
-
-      - uses: actions/checkout@v3
 
       - name: Cache NPM packages
         id: npm-cache
@@ -63,14 +46,14 @@ jobs:
           npm install
           npm run build
 
-      - name: "Création de build-npm.zip"
+      - name: "Création de build.zip"
         uses: montudor/action-zip@v1
         with:
-          args: zip -q -r build-npm.zip node_modules public/build
+          args: zip -q -r build.zip node_modules public/build vendor public/bundles
 
       - name: Archive composer artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: build-npm
+          name: build
           path: |
-            build-npm.zip
+            build.zip
