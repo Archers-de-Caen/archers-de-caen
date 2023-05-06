@@ -35,6 +35,8 @@ class PaymentController extends AbstractController
         CompetitionRegisterPayment $competitionRegisterPayment,
         LoggerInterface $logger
     ): Response {
+        return $this->redirect('https://www.helloasso.com/associations/archers-de-caen/evenements/inscriptions-tae-des-archers-de-caen');
+
         $registrations = $competitionRegisterDepartureTargetArcherRepository
             ->findByCompetitionRegisterAndLicenseNumber($competitionRegister, $licenseNumber);
 

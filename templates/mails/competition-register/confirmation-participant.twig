@@ -32,6 +32,9 @@
         <li>Information supplémentaire : <b>{{ register.additionalInformation ?: 'Non' }}</b></li>
     </ul>
 
+    {% set url = absolute_url(path(constant('App\\Http\\Landing\\Controller\\CompetitionRegister\\Payment\\PaymentController::ROUTE'), { slug: register.target.departure.competitionRegister.slug, licenseNumber: register.licenseNumber })) %}
+    <p>Paiement possible par carte bleu <a href="{{ url }}">ici</a></p>
+
     <p>En cas d'erreur, merci de nous contacter en réponse à ce mail ou <a href="{{ absolute_url(path(constant('App\\Http\\Landing\\Controller\\Page\\ContactController::ROUTE'))) }}">ici</a></p>
 
 {% endblock %}
