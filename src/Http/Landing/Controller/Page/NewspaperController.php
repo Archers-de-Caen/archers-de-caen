@@ -16,6 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(
     path: '/gazettes',
     name: self::ROUTE,
+    options: ['sitemap' => true],
     methods: Request::METHOD_GET
 )]
 class NewspaperController extends AbstractController

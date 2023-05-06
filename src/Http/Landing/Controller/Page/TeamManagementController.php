@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(
     path: '/equipe-de-direction',
     name: self::ROUTE,
+    options: ['sitemap' => true],
     methods: Request::METHOD_GET
 )]
 class TeamManagementController extends AbstractController

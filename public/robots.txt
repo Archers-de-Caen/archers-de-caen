@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: https://archers-caen.fr/sitemap.xml

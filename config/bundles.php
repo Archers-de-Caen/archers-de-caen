@@ -18,4 +18,5 @@ return [
     Sentry\SentryBundle\SentryBundle::class => ['prod' => true],
     Liip\ImagineBundle\LiipImagineBundle::class => ['all' => true],
     Symfony\UX\React\ReactBundle::class => ['all' => true],
+    Presta\SitemapBundle\PrestaSitemapBundle::class => ['all' => true],
 ];

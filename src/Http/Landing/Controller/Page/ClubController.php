@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(
     path: '/club',
     name: self::ROUTE,
+    options: ['sitemap' => true],
     methods: Request::METHOD_GET
 )]
 class ClubController extends AbstractController

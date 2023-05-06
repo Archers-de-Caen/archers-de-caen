@@ -18,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(
     path: '/newsletter',
     name: self::ROUTE,
+    options: ['sitemap' => true],
     methods: [
         Request::METHOD_GET,
         Request::METHOD_POST,

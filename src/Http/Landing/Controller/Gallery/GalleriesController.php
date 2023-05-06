@@ -18,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(
     path: '/galeries',
     name: self::ROUTE,
+    options: ['sitemap' => true],
     methods: Request::METHOD_GET
 )]
 class GalleriesController extends AbstractController

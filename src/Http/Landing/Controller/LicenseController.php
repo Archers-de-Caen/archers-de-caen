@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(
     path: '/prendre-une-licence',
     name: self::ROUTE,
+    options: ['sitemap' => true],
     methods: Request::METHOD_GET
 )]
 class LicenseController extends AbstractController
