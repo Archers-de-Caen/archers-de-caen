@@ -3,7 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Symfony
+name: Symfony Tests
 
 on:
   push:
@@ -15,6 +15,9 @@ permissions:
   contents: read
 
 jobs:
+  build:
+    uses: Archers-de-Caen/archers-de-caen/.github/workflows/build.yaml
+
   symfony-tests:
     runs-on: ubuntu-latest
     steps:
@@ -26,35 +29,6 @@ jobs:
           php-version: '8.1'
 
       - uses: actions/checkout@v3
-
-      - name: Copy .env.test.local
-        run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
-
-      - name: Cache Composer packages
-        id: composer-cache
-        uses: actions/cache@v3
-        with:
-          path: vendor
-          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-php-
-
-      - name: Install Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-
-      - name: Cache NPM packages
-        id: npm-cache
-        uses: actions/cache@v3
-        with:
-          path: vendor
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-php-
-
-      - name: "🖥️ Npm run scripts"
-        run: |
-          npm install
-          npm run build
 
       - name: Create Database
         env:
