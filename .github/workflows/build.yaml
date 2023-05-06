@@ -34,23 +34,23 @@ jobs:
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
   npm:
-    - runs-on: ubuntu-latest
-      steps:
-        - name: "🖥️ Setup node"
-          uses: actions/setup-node@v3
-          with:
-            node-version: 18
+    runs-on: ubuntu-latest
+    steps:
+      - name: "🖥️ Setup node"
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
-        - name: Cache NPM packages
-          id: npm-cache
-          uses: actions/cache@v3
-          with:
-            path: vendor
-            key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-            restore-keys: |
-              ${{ runner.os }}-php-
+      - name: Cache NPM packages
+        id: npm-cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
 
-        - name: "🖥️ Npm run scripts"
-          run: |
-            npm install
-            npm run build
+      - name: "🖥️ Npm run scripts"
+        run: |
+          npm install
+          npm run build

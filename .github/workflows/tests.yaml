@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   build:
-    uses: Archers-de-Caen/archers-de-caen/.github/workflows/build.yaml
+    uses: Archers-de-Caen/archers-de-caen/.github/workflows/build.yaml@a0648b8243d8385cfa01749d9a9ea844733f13ba
 
   symfony-tests:
     runs-on: ubuntu-latest
