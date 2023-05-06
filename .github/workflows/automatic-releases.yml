@@ -1,17 +1,16 @@
 name: Création d'une release
 
 on:
-  workflow_dispatch:
   push:
     tags:
       - "v*"
 
 jobs:
   build:
-    uses: Archers-de-Caen/archers-de-caen/.github/workflows/build.yaml@a0648b8243d8385cfa01749d9a9ea844733f13ba
+    uses: Archers-de-Caen/archers-de-caen/.github/workflows/build.yaml@d80cc19d05ad9fc19d50b6dbc895d3cceb5a9bad
 
   test:
-    uses: Archers-de-Caen/archers-de-caen/.github/workflows/tests.yaml@a0648b8243d8385cfa01749d9a9ea844733f13ba
+    uses: Archers-de-Caen/archers-de-caen/.github/workflows/tests.yaml@d80cc19d05ad9fc19d50b6dbc895d3cceb5a9bad
 
   tagged-release:
     name: "Tagged Release"
