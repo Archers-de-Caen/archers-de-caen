@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build
+
     steps:
       - uses: shivammathur/setup-php@v2
         with:
@@ -47,3 +48,9 @@ jobs:
         env:
           DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
         run: vendor/bin/phpunit --bootstrap tests/bootstrap.php --configuration phpunit.xml.dist --testdox
+
+  lint:
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    uses: ./.github/workflows/lint.yml
