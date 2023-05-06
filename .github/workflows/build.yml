@@ -25,13 +25,17 @@ jobs:
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
+      - name: "Création de vendor.zip"
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -q -r vendor.zip vendor
+
       - name: Archive composer artifacts
         uses: actions/upload-artifact@v3
         with:
           name: build
           path: |
-            vendor
-            node_modules
+            vendor.zip
 
   build-npm:
     runs-on: ubuntu-latest
@@ -52,15 +56,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-php-
 
-      - name: "🖥️ Npm run scripts"
+      - name: "Npm run scripts"
         run: |
           npm install
           npm run build
+
+      - name: "Création de node_modules.zip"
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -q -r node_modules.zip node_modules
 
       - name: Archive composer artifacts
         uses: actions/upload-artifact@v3
         with:
           name: build
           path: |
-            vendor
-            node_modules
+            node_modules.zip
