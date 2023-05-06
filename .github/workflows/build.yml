@@ -33,7 +33,7 @@ jobs:
       - name: Archive composer artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: build
+          name: build-composer
           path: |
             vendor.zip
 
@@ -69,6 +69,6 @@ jobs:
       - name: Archive composer artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: build
+          name: build-npm
           path: |
             node_modules.zip
