@@ -3,10 +3,10 @@
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-        <title>{% block title %}{% endblock %}{% if block('title') %} | {% endif %}Les Archers de Caen</title>
+        <title>{{ block('title')|trim }}{% if block('title') %} | {% endif %}Les Archers de Caen</title>
 
         <meta charset="UTF-8">
-        <meta name="description" content="{% block description %}{% endblock %}">
+        <meta name="description" content="{{ block('description')|trim }}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         {% block meta %}{% endblock %}
