@@ -1,3 +1,6 @@
+include:
+  - ./archer.yaml
+
 App\Domain\Cms\Model\Data:
   data (template):
     createdBy: '@archer_developer'
