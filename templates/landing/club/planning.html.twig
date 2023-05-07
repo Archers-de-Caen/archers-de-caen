@@ -1,6 +1,17 @@
 {% extends "/landing/base.html.twig" %}
 
-{% block title %}Créneaux d’entraînement{% endblock %}
+{% block title %}
+    Créneaux d’entraînement
+{% endblock %}
+
+{% block description %}
+    Lundi, mardi, mercredi, jeudi, vendredi, samedi, les archers de Caen vous accueil 6 fois par semaine
+{% endblock description %}
+
+{% block og %}
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.png') }}" />
+{% endblock og %}
 
 {% block main %}
     <div class="page-content mt-3">

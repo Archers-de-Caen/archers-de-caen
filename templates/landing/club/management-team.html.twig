@@ -1,6 +1,17 @@
 {% extends "/landing/base.html.twig" %}
 
-{% block title %}L'équipe de direction{% endblock %}
+{% block title %}
+    L'équipe de direction
+{% endblock %}
+
+{% block description %}
+    Découvrez l'équipe qui vous accueil et vous accompagne au sain au club.
+{% endblock %}
+
+{% block og %}
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.png') }}" />
+{% endblock og %}
 
 {% block main %}
     <div class="page-content mt-3">

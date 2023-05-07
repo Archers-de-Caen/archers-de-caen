@@ -29,4 +29,13 @@ enum Gender: string
             default => throw new \ValueError($gender.' not found'),
         };
     }
+
+    public function toOpenGraphValue(): string
+    {
+        return match ($this) {
+            self::MAN => 'male',
+            self::WOMAN => 'female',
+            self::OTHER, self::UNDEFINED => '',
+        };
+    }
 }

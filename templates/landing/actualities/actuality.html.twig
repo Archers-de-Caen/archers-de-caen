@@ -1,6 +1,22 @@
 {% extends '/landing/base.html.twig' %}
 {# @var page \App\Domain\Cms\Model\Page #}
 
+{% block title %}
+    {{ page.title }}
+{% endblock title %}
+
+{% block og %}
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="{{ page.createdAt|date(constant('DATE_ISO8601')) }}" />
+    <meta property="article:modified_time" content="{% if page.updatedAt %}{{ page.updatedAt|date(constant('DATE_ISO8601')) }}{% endif %}" />
+    <meta property="article:author" content="{% if page.createdBy %}{{ page.createdBy.fullName }}{% endif %}" />
+    <meta property="article:section" content="Sport" />
+    {% for tag in page.tags %}
+        <meta property="article:tag" content="{{ tag.name }}" />
+    {% endfor %}
+    <meta property="og:image" content="{{ page.image is defined and page.image ? page.image|imagine_filter('thumbnail_medium') : asset('build/images/photo/cible.webp') }}" />
+{% endblock og %}
+
 {% block body %}
     <div class="shape-target"></div>
     <div class="actuality-container">

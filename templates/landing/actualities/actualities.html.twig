@@ -1,6 +1,19 @@
 {% extends '/landing/base.html.twig' %}
 {% from 'landing/pages/_parts/pages.html.twig' import pages %}
 
+{% block title %}
+    L’actualité du Club
+{% endblock title %}
+
+{% block description %}
+    Toutes les actualités du club, résultat de concours, etc.
+{% endblock description %}
+
+{% block og %}
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.png') }}" />
+{% endblock og %}
+
 {% block body %}
     <div class="thumbnail-page actualities">
         <div class="bg-target shape-target"></div>

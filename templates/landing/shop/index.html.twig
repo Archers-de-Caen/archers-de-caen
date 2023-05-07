@@ -2,6 +2,15 @@
 
 {% block title %}Boutique{% endblock %}
 
+{% block description %}
+    Retrouvez ici, le maillot, l'écusson du club et plein d'autres produits a l'effigie du club
+{% endblock description %}
+
+{% block og %}
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.png') }}" />
+{% endblock og %}
+
 {% block main %}
     <p>Les articles achetés devront être retirés au club, pas d'envois !</p>
 

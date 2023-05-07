@@ -1,6 +1,17 @@
 {% extends '/landing/base.html.twig' %}
 
-{% block title %}Newsletter{% endblock %}
+{% block title %}
+    Newsletter
+{% endblock %}
+
+{% block description %}
+    Inscription à la newsletter des Archers de Caen
+{% endblock description %}
+
+{% block og %}
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.png') }}" />
+{% endblock %}
 
 {% block main %}
     {{ form_start(form) }}

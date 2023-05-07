@@ -3,13 +3,19 @@
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-        <title>{{ block('title')|trim }}{% if block('title') %} | {% endif %}Les Archers de Caen</title>
+        <title>{% if block('title') is defined %}{{ block('title')|trim }} | {% endif %}Les Archers de Caen</title>
 
         <meta charset="UTF-8">
-        <meta name="description" content="{{ block('description')|trim }}">
+        <meta name="description" content="{% if block('description') is defined %}{{ block('description')|trim }}{% endif %}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% block meta %}{% endblock meta %}
 
-        {% block meta %}{% endblock %}
+        <meta property="og:site_name" content="Les Archers de Caen" />
+        <meta property="og:title" content="{% if block('title') is defined %}{{ block('title')|trim }}{% endif %}" />
+        <meta property="og:description" content="{% if block('description') is defined %}{{ block('description')|trim }}{% endif %}" />
+        <meta property="og:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" />
+        <meta property="og:locale" content="FR_fr" />
+        {% block og %}{% endblock og %}
 
         <link rel="icon" href="/favicon/favicon.ico">
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">

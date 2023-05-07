@@ -1,8 +1,21 @@
 {% extends '/landing/base.html.twig' %}
 
+{% block title %}
+    {{ gallery.title }}
+{% endblock title %}
+
+{% block description %}
+    Galerie photo: {{ gallery.title }}
+{% endblock description %}
+
 {% block meta %}
     <meta name="robots" content="noimageindex" />
 {% endblock meta %}
+
+{% block og %}
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="{{ gallery.mainPhoto is defined and gallery.mainPhoto ? gallery.mainPhoto|imagine_filter('thumbnail') : asset('build/images/photo/cible.webp') }}" />
+{% endblock og %}
 
 {% block body %}
     <div class="bg-target shape-target"></div>
