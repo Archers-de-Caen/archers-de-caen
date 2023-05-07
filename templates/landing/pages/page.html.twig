@@ -14,7 +14,7 @@
     {% for tag in page.tags %}
         <meta property="article:tag" content="{{ tag.name }}" />
     {% endfor %}
-    <meta property="og:image" content="{{ page.image is defined and page.image ? page.image|imagine_filter('thumbnail_medium') : asset('build/images/photo/cible.webp') }}" />
+    <meta property="og:image" content="{{ page.image is defined and page.image ? page.image|imagine_filter('thumbnail_medium') : absolute_url(asset('build/images/photo/cible.webp')) }}" />
 {% endblock og %}
 
 {% block body %}

@@ -14,7 +14,7 @@
 
 {% block og %}
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="{{ gallery.mainPhoto is defined and gallery.mainPhoto ? gallery.mainPhoto|imagine_filter('thumbnail') : asset('build/images/photo/cible.webp') }}" />
+    <meta property="og:image" content="{{ gallery.mainPhoto is defined and gallery.mainPhoto ? gallery.mainPhoto|imagine_filter('thumbnail') : absolute_url(asset('build/images/photo/cible.webp')) }}" />
 {% endblock og %}
 
 {% block body %}

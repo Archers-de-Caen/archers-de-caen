@@ -1,5 +1,11 @@
 {% from 'landing/_parts/social-networks.html.twig' import socialNetwork %}
 <!-- Site réalisé par Damien HEBERT damienhebert.fr -->
+
+{% set currentUrl = '' %}
+{% if app.request.attributes.get('_route') %}
+    {% set currentUrl = url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+{% endif %}
+
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -13,15 +19,37 @@
         <meta property="og:site_name" content="Les Archers de Caen" />
         <meta property="og:title" content="{% if block('title') is defined %}{{ block('title')|trim }}{% endif %}" />
         <meta property="og:description" content="{% if block('description') is defined %}{{ block('description')|trim }}{% endif %}" />
-        <meta property="og:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" />
+        <meta property="og:url" content="{{ currentUrl }}" />
         <meta property="og:locale" content="FR_fr" />
         {% block og %}{% endblock og %}
+
+        <script type="application/ld+json">
+            {
+                "@context" : "http://schema.org",
+                "@type" : "Organization",
+                "name" : "Les archers de Caen",
+                "url" : "{{ router.request_context.scheme }}://{{ router.request_context.host }}",
+                "sameAs" : [
+                    "{{ social_network.youtube }}",
+                    "{{ social_network.facebook }}",
+                    "{{ social_network.instagram }}"
+                ],
+                "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "Avenue Albert 1er",
+                    "postalCode": "14000",
+                    "addressCountry": "FR"
+                }
+            }
+        </script>
 
         <link rel="icon" href="/favicon/favicon.ico">
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
         <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
         <link rel="manifest" href="/favicon/site.webmanifest">
+
+        <link rel="canonical" href="{{ currentUrl }}">
 
         <!-- Permet d'afficher des preview de média, ajouté via ckeditor -->
         <script async charset="utf-8" src="//cdn.embedly.com/widgets/platform.js"></script>
@@ -109,7 +137,7 @@
                     <div class="page-title-container">
                         <div class="page-title">
                             <h1 class="title">
-                                {{ block('title') }}
+                                {% if block('title') is defined %}{{ block('title') }}{% endif %}
                             </h1>
                         </div>
                     </div>
@@ -134,13 +162,41 @@
                             <li><a href="https://archers-caen.fr">Production</a></li>
                         {% endif %}
 
-                        <li><a href="{{ path('landing_page', { slug: 'politique-de-confidentialite', type: 'p' }) }}">Politique de confidentialité</a></li>
-                        <li><a href="{{ path('landing_page', { slug: 'reglement-intérieur', type: 'p' }) }}">Règlement intérieur</a></li>
-                        <li><a href="{{ path('landing_page', { slug: 'statuts', type: 'p' }) }}">Statuts</a></li>
-                        <li><a href="{{ path('landing_page', { slug: 'labels', type: 'p' }) }}">Labels</a></li>
-                        <li><a href="{{ path('landing_page', { slug: 'presse-et-medias', type: 'p' }) }}">Presse et médias</a></li>
-                        <li><a href="{{ path('landing_page', { slug: 'historique', type: 'p' }) }}">Historique</a></li>
-                        <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ContactController::ROUTE')) }}">Contact</a></li>
+                        <li>
+                            <a href="{{ path('landing_page', { slug: 'politique-de-confidentialite', type: 'p' }) }}">
+                                Politique de confidentialité
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('landing_page', { slug: 'reglement-intérieur', type: 'p' }) }}">
+                                Règlement intérieur
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('landing_page', { slug: 'statuts', type: 'p' }) }}">
+                                Statuts
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('landing_page', { slug: 'labels', type: 'p' }) }}">
+                                Labels
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('landing_page', { slug: 'presse-et-medias', type: 'p' }) }}">
+                                Presse et médias
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('landing_page', { slug: 'historique', type: 'p' }) }}">
+                                Historique
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ContactController::ROUTE')) }}">
+                                Contact
+                            </a>
+                        </li>
                     </ul>
                 </div>
 
