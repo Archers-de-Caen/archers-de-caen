@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(
     path: '/boutique',
     name: ShopController::ROUTE,
+    options: ['sitemap' => true],
     methods: [Request::METHOD_GET]
 )]
 class ShopController extends AbstractController

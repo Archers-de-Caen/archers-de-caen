@@ -1,0 +1,18 @@
+App\Domain\Cms\Model\Page:
+  page (template):
+    title: <sentence()>
+    content: <randomHtml(6, 10)>
+    category: page
+    status: <randomElement([draft, publish, delete])>
+    createdBy: '@archer_editor'
+
+  page_{1..10} (extends page):
+
+  actuality_{1..20} (extends page):
+    category: actuality
+
+  actuality_with_content (extends page):
+    title: Using PHP 8.1 enumerations in Symfony
+    content: <file_get_contents('fixtures/page-content.html.twig')>
+    category: actuality
+    status: publish

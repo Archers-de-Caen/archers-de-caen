@@ -1,8 +1,21 @@
 {% extends '/landing/base.html.twig' %}
 
+{% block title %}
+    Galeries photo
+{% endblock title %}
+
+{% block description %}
+    Retrouvez toutes les photos du club
+{% endblock description %}
+
 {% block meta %}
     <meta name="robots" content="noimageindex" />
 {% endblock meta %}
+
+{% block og %}
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.png') }}" />
+{% endblock og %}
 
 {% block body %}
     <div class="bg-target shape-target"></div>

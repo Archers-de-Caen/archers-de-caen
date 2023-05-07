@@ -3,17 +3,24 @@
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-        <title>{% block title %}{% endblock %}{% if block('title') %} | {% endif %}Les Archers de Caen</title>
+        <title>{% if block('title') is defined %}{{ block('title')|trim }} | {% endif %}Les Archers de Caen</title>
 
         <meta charset="UTF-8">
-        <meta name="description" content="{% block description %}{% endblock %}">
+        <meta name="description" content="{% if block('description') is defined %}{{ block('description')|trim }}{% endif %}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% block meta %}{% endblock meta %}
 
-        {% block meta %}{% endblock %}
+        <meta property="og:site_name" content="Les Archers de Caen" />
+        <meta property="og:title" content="{% if block('title') is defined %}{{ block('title')|trim }}{% endif %}" />
+        <meta property="og:description" content="{% if block('description') is defined %}{{ block('description')|trim }}{% endif %}" />
+        <meta property="og:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" />
+        <meta property="og:locale" content="FR_fr" />
+        {% block og %}{% endblock og %}
 
-        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+        <link rel="icon" href="/favicon/favicon.ico">
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
         <link rel="manifest" href="/favicon/site.webmanifest">
 
         <!-- Permet d'afficher des preview de média, ajouté via ckeditor -->

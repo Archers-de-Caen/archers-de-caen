@@ -2,7 +2,18 @@
 
 {% from 'landing/_parts/file.html.twig' import file %}
 
-{% block title %}La gazette{% endblock %}
+{% block title %}
+    La gazette
+{% endblock %}
+
+{% block description %}
+    Le club des Archers de Caen proposent depuis 2006 une gazette mensuelle.
+{% endblock description %}
+
+{% block og %}
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.png') }}" />
+{% endblock og %}
 
 {% block main %}
     <div class="page-content">

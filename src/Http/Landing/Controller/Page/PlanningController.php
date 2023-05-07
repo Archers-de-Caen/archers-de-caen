@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(
     path: '/planning',
     name: self::ROUTE,
+    options: ['sitemap' => true],
     methods: Request::METHOD_GET
 )]
 class PlanningController extends AbstractController

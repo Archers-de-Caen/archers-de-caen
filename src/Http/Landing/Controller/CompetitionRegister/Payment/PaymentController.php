@@ -36,33 +36,5 @@ class PaymentController extends AbstractController
         LoggerInterface $logger
     ): Response {
         return $this->redirect('https://www.helloasso.com/associations/archers-de-caen/evenements/inscriptions-tae-des-archers-de-caen');
-
-        $registrations = $competitionRegisterDepartureTargetArcherRepository
-            ->findByCompetitionRegisterAndLicenseNumber($competitionRegister, $licenseNumber);
-
-        $registrations = array_filter($registrations, static fn (Registration $crdta) => !$crdta->isPaid());
-
-        if (!$registrations) {
-            $this->addFlash('success', 'Vous n\'avez rien à payer');
-
-            return $this->redirectToRoute(DepartureController::ROUTE, [
-                'slug' => $competitionRegister->getSlug(),
-            ]);
-        }
-
-        try {
-            return $this->redirect($competitionRegisterPayment->generatePaymentLink($registrations));
-        } catch (HelloassoException $e) {
-            $logger->error($e);
-
-            $this->addFlash('danger', 'Une erreur est survenue avec notre prestataire de paiement');
-        } catch (\InvalidArgumentException $e) {
-            $this->addFlash('danger', $e->getMessage());
-        }
-
-        return $this->redirectToRoute(RecapController::ROUTE, [
-            'slug' => $competitionRegister->getSlug(),
-            'licenseNumber' => $licenseNumber,
-        ]);
     }
 }

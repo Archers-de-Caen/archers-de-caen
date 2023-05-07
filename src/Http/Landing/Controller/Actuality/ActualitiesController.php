@@ -19,6 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(
     path: '/actualites',
     name: self::ROUTE,
+    options: ['sitemap' => true],
     methods: Request::METHOD_GET
 )]
 class ActualitiesController extends AbstractController

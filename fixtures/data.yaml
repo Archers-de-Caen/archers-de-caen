@@ -1,0 +1,290 @@
+App\Domain\Cms\Model\Data:
+  data (template):
+    createdBy: '@archer_developer'
+
+  index_page_element (extends data):
+    code: INDEX_PAGE_ELEMENT
+    description: Index - Element de la page d'accueil
+    formType: App\Domain\Cms\Form\Data\IndexForm
+    content:
+      - title: L'optique que vous souhaitez
+        description: |
+          La structure et ses bénévoles permettent la formation et l’entraînement à la pratique de ce sport olympique
+          avec plusieurs optiques possibles : la compétition ou le loisir sportif
+        image: https://archers-caen.fr/images/photo/p1080298-631f3fd2e1c15453936857-64342a88ec70e309652774.webp
+        button:
+          text: null
+          url: null
+      - title: L'expérience
+        description: |
+          Depuis 1964, il forme de nombreuses personnes à la pratique de ce sport olympique.
+          Chaque année, de nombreux archers caennais participent à diverses compétitions et championnats à l’échelle
+          départementale, régionale et même nationale.
+        image: https://archers-caen.fr/images/photo/p1080209-631f40d2f4235265794220-64342a8f7d00b147461487.webp
+        button:
+          text: Le club
+          url: /club
+      - title: Quand vous voulez
+        description: |
+          Avec 6 créneaux d’entraînement en salle - soit plus de 14 heures par semaine - et 4 entraîneurs diplomés,
+          les Archers de Caen offrent une structure et organisation idéales pour découvrir le tir à l’arc, le pratiquer
+          en loisir, ou s’entraîner activement en vue de compétitions.
+        image: https://archers-caen.fr/images/photo/p1080196-631f40407dd51631044125-64342a7fdbab3082398290.webp
+        button:
+          text: Les créneaux
+          url: /club#quand
+      - title: Newsletter
+        description: |
+          Ne manquez pas une seule mise à jour du site ! Abonnez-vous à notre newsletter pour être informé(e) de
+          toutes les dernières actualités et photos. Rejoignez-nous et ne manquez rien !
+        image: null
+        button:
+          text: S'inscrire
+          url: /newsletter
+
+  partner (extends data):
+    code: PARTNER
+    description: Partenaires commerciaux
+    formType: App\Domain\Cms\Form\Data\PartnerForm
+    content:
+      - name: Crêperie O’p’tit chef
+        description: |
+          15 % sur les menus pour les Archers de Caen\r\nMenu découverte Tir
+          à l’Arc : pour l’achat d’un menu « Archers de Caen », une séance découverte de
+          Tir à l’Arc offerte !
+        image:
+        contact: |
+          36, rue de l’Oratoire
+          14000 CAEN
+          Tél. : 02 31 85 47 68
+      - name: NORMANDIE ACIERS
+        description: |
+          Spécialiste de l’oxycoupage
+          net de la découpe laser.
+          Fournisseur de nos trophées individuels et réalisateur du trophée du
+          Challenge des Archers de CAEN
+        image: https://archers-caen.fr/images/photo/nlj-631e63c6cb20b183472482.png
+        contact: |
+          Boulevard de l’Europe
+          14540 BOURGUEBUS
+          Tél. : 02 31 23 11 15
+          Fax.: 02 31 23 11 29
+
+  management_team (extends data):
+    code: MANAGEMENT_TEAM
+    description: Club - L'équipe de direction
+    formType: App\Domain\Cms\Form\Data\ManagementTeam\ManagementTeamForm
+    content:
+      - name: Bureau exécutif
+        order: 1
+        archers:
+          - firstName: William
+            lastName: Carville
+            function: Président
+            image: https://archers-caen.fr/images/photo/will-6320d4836bd6d871128385.jpg
+          - firstName: Tony
+            lastName: Lerebourg
+            function: Vice-Président
+            image: https://archers-caen.fr/images/photo/photo-6322252b78f60766035696.jpg
+          - firstName: Valérie
+            lastName: Carville
+            function: Secrétaire
+            image: https://archers-caen.fr/images/photo/valerie-photo-membre-633027a05899a759162385.jpg
+          - firstName: Elise
+            lastName: Lebon
+            function: Secrétaire adjointe
+            image: https://archers-caen.fr/images/photo/amazon-archer-silhouette-6320d5e83c434446900799.png
+
+          - firstName: Jacques
+            lastName: Lhote
+            function: Trésorier
+            image: https://archers-caen.fr/images/photo/image-6320da168c65a799616577.jpeg
+
+          - firstName: Régis
+            lastName: Aubert
+            function: Trésorier Adjoint
+            image: https://archers-caen.fr/images/photo/1663090013440-6320d9763bd35985607856.jpg
+      - name: Membres d'honneur
+        order: 2
+        archers:
+          - firstName: Gérard
+            lastName: Jeanne
+            function: Président d'honneur
+            image: https://archers-caen.fr/images/photo/img-7098-6320da8aabc56889480843.jpg
+          - firstName: Jean-Pierre
+            lastName: Marc
+            function: Président d'honneur
+            image: https://archers-caen.fr/images/photo/marc-jeanpierre-632203174f301919096633.jpg
+      - name: Commission sportive
+        order: 3
+        archers:
+          - firstName: William
+            lastName: CARVILLE
+            function: Responsable entraîneurs - Entraîneur fédéral
+            image: https://archers-caen.fr/images/photo/will-6320d4836bd6d871128385.jpg
+          - firstName: Philippe
+            lastName: Durand
+            function: Référent jeunes, entraînements et compétitions
+            image: https://archers-caen.fr/images/photo/phildurand-photo-membre-633029c65e80b310872957.jpg
+          - firstName: Gérard
+            lastName: Jeanne
+            function: Entraîneur fédéral
+            image: https://archers-caen.fr/images/photo/img-7098-6320da8aabc56889480843.jpg
+          - firstName: Damien
+            lastName: Hébert
+            function: Entraîneur fédéral en formation
+            image: https://archers-caen.fr/images/photo/dsc04866-1-63222708b4438482751844.jpg
+          - firstName: Ghyslain
+            lastName: GRECIET
+            function: Entraîneur (B.E.)
+            image: https://archers-caen.fr/images/photo/ghyslain-photo-membre-63302ed0cbb78069479816.jpg
+      - name: Commission matériel
+        order: 4
+        archers:
+          - firstName: Tony
+            lastName: Lerebourg
+            function: Responsable matériel
+            image: https://archers-caen.fr/images/photo/photo-6322252b78f60766035696.jpg
+          - firstName: Régis
+            lastName: Aubert
+            function: Gestion stock matériel et réparation
+            image: https://archers-caen.fr/images/photo/1663090013440-6320d9763bd35985607856.jpg
+      - name: Commission logistique
+        order: 5
+        archers:
+          - firstName: Olivier
+            lastName: Guesdon
+            function: Responsable Logistique
+            image: https://archers-caen.fr/images/photo/ogtirext-6320d49117cec066840600.jpg
+          - firstName: Tony
+            lastName: Lerebourg
+            function: Logistique matériel et achat
+            image: https://archers-caen.fr/images/photo/photo-6322252b78f60766035696.jpg
+          - firstName: Régis
+            lastName: Aubert
+            function: Logistique concours et matériel divers
+            image: https://archers-caen.fr/images/photo/1663090013440-6320d9763bd35985607856.jpg
+      - name: Commission animation
+        order: 6
+        archers:
+          - firstName: Claryce
+            lastName: Bouteiller
+            function: Organisation des animations internes
+            image: https://archers-caen.fr/images/photo/claryce-photo-membre-6330261e1d41f741276802.jpg
+          - firstName: Elisabeth
+            lastName: Rousselet
+            function: Organisation des animations internes
+            image: https://archers-caen.fr/images/photo/amazon-archer-silhouette-6320d5e83c434446900799.png
+      - name: Commission information et communication
+        order: 7
+        archers:
+          - firstName: Damien
+            lastName: Hébert
+            function: Responsable communication - Gestion site internet
+            image: https://archers-caen.fr/images/photo/dsc04866-1-63222708b4438482751844.jpg
+          - firstName: Jacques
+            lastName: Lhote
+            function: Inscription concours Championnats départementaux et Régionaux - Référent
+              CD14
+            image: https://archers-caen.fr/images/photo/image-6320da168c65a799616577.jpeg
+          - firstName: Jean-Pierre
+            lastName: Marc
+            function: Référent interne, conseil sur règlements et instances
+            image: https://archers-caen.fr/images/photo/marc-jeanpierre-632203174f301919096633.jpg
+          - firstName: Valérie
+            lastName: Carville
+            function: Rédaction Gazette
+            image: https://archers-caen.fr/images/photo/valerie-photo-membre-633027a05899a759162385.jpg
+      - name: Commission administration
+        order: 8
+        archers:
+          - firstName: Valérie
+            lastName: Carville
+            function: Responsable administration - Gestion licences
+            image: https://archers-caen.fr/images/photo/valerie-photo-membre-633027a05899a759162385.jpg
+          - firstName: Elise
+            lastName: Lebon
+            function: Administration et gestion licences
+            image: https://archers-caen.fr/images/photo/amazon-archer-silhouette-6320d5e83c434446900799.png
+          - firstName: William
+            lastName: Carville
+            function: Contact partenaires
+            image: https://archers-caen.fr/images/photo/will-6320d4836bd6d871128385.jpg
+      - name: Commission sport au féminin
+        order: 9
+        archers:
+          - firstName: Elisabeth
+            lastName: Rousselet
+            function: Responsable commission sport au féminin
+            image: https://archers-caen.fr/images/photo/amazon-archer-silhouette-6320d5e83c434446900799.png
+          - firstName: Elise
+            lastName: Lebon
+            function:
+            image: https://archers-caen.fr/images/photo/amazon-archer-silhouette-6320d5e83c434446900799.png
+          - firstName: Valérie
+            lastName: Carville
+            function:
+            image: https://archers-caen.fr/images/photo/valerie-photo-membre-633027a05899a759162385.jpg
+          - firstName: Aurélie
+            lastName: Garnier
+            function:
+            image: https://archers-caen.fr/images/photo/amazon-archer-silhouette-6320d5e83c434446900799.png
+          - firstName: Claryce
+            lastName: Bouteiller
+            function:
+            image: https://archers-caen.fr/images/photo/claryce-photo-membre-6330261e1d41f741276802.jpg
+
+  faq (extends data):
+    code: FAQ
+    description: Club - Foire aux questions
+    formType: App\Domain\Cms\Form\Data\FaqForm
+    content:
+      - question: J'aimerais découvrir le tir à l'arc, comment faire ?
+        answer: |
+          \<p>C'est simple ! Nous vous invitons à venir quand vous le souhaitez, sur
+          le créneau <a href="https://archers-caen.fr/club#quand">du lundi ou du mardi</a>
+          selon votre âge et ce sera avec plaisir que nous vous accueillerons pour vous
+          apprendre les fondamentaux du tir à l'arc, gratuitement pendant deux séances de
+          découverte.</p>
+      - question: Quel est le montant de la licence ?
+        answer: |
+          \<p>Les différents tarifs de la licence sont disponibles <a href="https://archers-caen.fr/club#combien">ici</a>.</p>
+      - question: Comment puis-je payer la licence ?
+        answer: |
+          \<p>Vous pouvez payer en chèque, en espèces, en Atouts Normandie, en carte
+          bancaire (via le site), virement bancaire et pass'port.</p>
+      - question: Que dois-je fournir pour prendre ma licence ?
+        answer: |
+          \<p><strong>Le plus simple</strong> est de vous inscrire via le site, <a href="https://archers-caen.fr/prendre-une-licence">ici</a>.&nbsp;</p>
+          <p>Sinon, vous devez fournir : la fiche d’inscription
+          (fournie au club ou <a href="https://archers-caen.fr/build/documents/adhesion-licences-creation-formulaire-v2-63302afdbee3d428537945.pdf">ici</a>),
+          le certificat médical de non-contre-indication à la pratique du tir à l’arc (y compris en compétition) de moins d’un an,
+          une photo d’identité numérique sera à appliquer sur la licence via le site internet de la Fédération Française de
+          Tir à l’Arc (FFTA)</p>
+      - question: Je n'ai pas d'arc ! Dois-je en acheter un pour venir pratiquer ?
+        answer: |
+          \<p>Non ! Nous mettons à disposition des arcs initiation permettant de découvrir
+          le tir à l'arc, sans devoir investir dans du matériel dès la première année.</p>
+      - question: Quand puis-je venir tirer ?
+        answer: |
+          \<p>Nos créneaux sont disponibles <a href="https://archers-caen.fr/club#quand">ici</a>.</p>
+      - question: J'ai une autre question, comment puis-je vous contacter ?
+        answer: |
+          \<p>Nos informations de contact sont disponibles <a href="https://archers-caen.fr/contact">ici</a>.</p>
+
+
+  index_actuality_locked (extends data):
+    code: INDEX_ACTUALITY_LOCKED
+    description: Index - Actualité affiché en permanence sur la page d'accueil
+    formType: App\Domain\Cms\Form\Data\Element\TextForm
+    content:
+      - text: calendrier-concours-estival-2023
+
+  take_license (extends data):
+    code: TAKE_LICENSE
+    description: Prendre une licence - Documents
+    formType: App\Domain\Cms\Form\Data\TakeLicenseForm
+    content:
+      - license_form: https://archers-caen.fr/document/adhesion-licences-creation-formulaire-v2-63302afdbee3d428537945.pdf
+        assurance: https://archers-caen.fr/document/notice-assurance-2022-2026-63a744ddc1a8a495657602.pdf
+        health: https://archers-caen.fr/document/questionnaire-de-sante-adulte-1-63302b4f31439754714635.pdf

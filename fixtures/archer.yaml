@@ -1,0 +1,39 @@
+App\Domain\Archer\Model\Archer:
+  archer (template):
+    firstName: <firstName()>
+    lastName: <lastName()>
+    email: <email()>
+    phone: <e164PhoneNumber()>
+    licenseNumber: <numberBetween(100000, 999999)><randomLetter()>
+    plainPassword: <password()>
+    roles:
+      - ROLE_ARCHER
+
+  archer_{1..10} (extends archer):
+
+  archer_editor (extends archer):
+    firstName: Editor
+    lastName: Editor
+    email: editor\@archers-caen.fr
+    licenseNumber: 999999E
+    plainPassword: Pwd123
+    roles:
+      - ROLE_EDITOR
+
+  archer_admin (extends archer):
+    firstName: Admin
+    lastName: Admin
+    email: admin\@archers-caen.fr
+    licenseNumber: 999999A
+    plainPassword: Pwd123
+    roles:
+      - ROLE_ADMIN
+
+  archer_developer (extends archer):
+    firstName: Dev
+    lastName: Dev
+    email: dev\@archers-caen.fr
+    licenseNumber: 999999D
+    plainPassword: Pwd123
+    roles:
+      - ROLE_DEVELOPER

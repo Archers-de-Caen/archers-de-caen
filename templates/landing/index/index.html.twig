@@ -2,11 +2,18 @@
 {% from '/landing/actualities/actualities.html.twig' import actualities %}
 {% from 'landing/pages/_parts/pages.html.twig' import pages %}
 
+{% block title %}
+    Le tir à l'arc depuis 1964
+{% endblock %}
+
 {% block description %}
-    Avec 6 créneaux d’entraînement en salle - soit plus de 14 heures par semaine - et 4 entraîneurs diplômés,
-    les Archers de Caen offrent une structure et organisation idéales pour découvrir le tir à l’arc, le pratiquer en loisir,
-    ou s’entraîner activement en vue de compétitions.
+    Avec 6 créneaux d’entraînement et 4 entraîneurs diplômés, le club offre une structure idéale pour pratiquer le tir à l'arc.
 {% endblock description %}
+
+{% block og %}
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.png') }}" />
+{% endblock og %}
 
 {% block body %}
     <div class="index-page">

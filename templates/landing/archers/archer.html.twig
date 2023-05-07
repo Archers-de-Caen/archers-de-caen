@@ -2,7 +2,22 @@
 {# @var archer \App\Domain\Archer\Model\Archer #}
 {# @var progressArrows \App\Domain\Badge\Model\Badge[] #}
 
-{% block title %}{{ archer }}{% endblock %}
+{% block title %}
+    {{ archer }}
+{% endblock title %}
+
+{% block description %}
+    Palmarès de {{ archer.fullName }}, résultat au concours, flèches de progression, etc.
+{% endblock description %}
+
+{% block og %}
+    <meta property="og:type" content="profile" />
+    <meta property="og:image" content="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.png') }}" />
+    <meta property="profile:first_name" content="{{ archer.firstName }}" />
+    <meta property="profile:last_name" content="{{ archer.lastName }}" />
+    <meta property="profile:username" content="{{ archer.licenseNumber }}" />
+    <meta property="profile:gender" content="{{ archer.gender.toOpenGraphValue }}" />
+{% endblock %}
 
 {% block main %}
     <h2>Récapitulatif</h2>
