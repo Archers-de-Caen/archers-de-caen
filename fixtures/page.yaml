@@ -1,3 +1,6 @@
+include:
+  - ./archer.yaml
+
 App\Domain\Cms\Model\Page:
   page (template):
     title: <sentence()>
@@ -11,8 +14,14 @@ App\Domain\Cms\Model\Page:
   actuality_{1..20} (extends page):
     category: actuality
 
-  actuality_with_content (extends page):
+  actuality_with_real_content (extends page):
     title: Using PHP 8.1 enumerations in Symfony
     content: <file_get_contents('fixtures/page-content.html.twig')>
     category: actuality
+    status: publish
+
+  page_with_real_content (extends page):
+    title: Using PHP 8.1 enumerations in Symfony
+    content: <file_get_contents('fixtures/page-content.html.twig')>
+    category: page
     status: publish

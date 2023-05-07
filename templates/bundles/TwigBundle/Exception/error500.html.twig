@@ -1,0 +1,9 @@
+{% extends '@Twig/Exception/error.html.twig' %}
+
+{% block message %}
+    Une erreur à eu lieu, si l'erreur persiste merci de nous contacter
+{% endblock message %}
+
+{% block image %}
+    {{ asset('build/images/errors/bug.svg') }}
+{% endblock image %}

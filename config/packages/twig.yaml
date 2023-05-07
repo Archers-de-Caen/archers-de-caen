@@ -19,6 +19,11 @@ twig:
             instagram: "https://www.instagram.com/archerscaen/"
             youtube: "https://www.youtube.com/channel/UCkbHDxHZnQmr05kvKf5mqkQ"
 
+        router:
+            request_context:
+                scheme: '%router.request_context.scheme%'
+                host: '%router.request_context.host%'
+
 when@test:
     twig:
         strict_variables: true

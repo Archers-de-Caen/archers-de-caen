@@ -1,0 +1,52 @@
+{% extends 'landing/base.html.twig' %}
+
+{% block body %}
+    <div class="page-container">
+        <div class="flex jc-space-between">
+            <div class="flex direction-column jc-space-between" style="height: 500px">
+                <div>
+                    <h1>{{ status_text|trans([], 'http') }}</h1>
+
+                    <p>
+                        {% if block('message') is defined %}
+                            {{ block('message') }}
+                        {% endif %}
+                    </p>
+                </div>
+
+                <ul>
+                    <li>
+                        <a href="{{ path(constant('App\\Http\\Landing\\Controller\\IndexController::ROUTE')) }}">
+                            Retourner sur notre page d'accueil
+                            <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Actuality\\ActualitiesController::ROUTE')) }}">
+                            Découvrir nos derniers actualités
+                            <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ContactController::ROUTE')) }}">
+                            Nous contacter si vous avez besoin d'aide
+                            <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </a>
+                    </li>
+                </ul>
+
+                <p>
+                    <a class="btn -primary" href="javascript:history.back()">
+                        <i class="fa-solid fa-arrow-left mr-1"></i>
+                        Retourner sur la dernière page
+                    </a>
+                </p>
+            </div>
+
+            <img
+                src="{% if block('image') is defined %}{{ block('image') }}{% else %}{{ asset('build/images/errors/settings.svg') }}{% endif %}"
+                alt="Image de l'erreur"
+            >
+        </div>
+    </div>
+{% endblock body %}
