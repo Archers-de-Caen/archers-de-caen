@@ -1,0 +1,62 @@
+Continue: Continuer
+Switching Protocols: Changement de protocoles
+Processing: Traitement en cours
+Early Hints: Suggestions précoces
+OK: OK
+Created: Créé
+Accepted: Accepté
+Non-Authoritative Information: Information non autorisée
+No Content: Pas de contenu
+Reset Content: Réinitialiser le contenu
+Partial Content: Contenu partiel
+Multi-Status: Multi-Statut
+Already Reported: Déjà signalé
+IM Used: IM utilisé
+Multiple Choices: Choix multiples
+Moved Permanently: Déplacé de manière permanente
+Found: Trouvé
+See Other: Voir un autre
+Not Modified: Non modifié
+Use Proxy: Utiliser un proxy
+Temporary Redirect: Redirection temporaire
+Permanent Redirect: Redirection permanente
+Bad Request: Requête incorrecte
+Unauthorized: Non autorisé
+Payment Required: Paiement requis
+Forbidden: Interdit
+Not Found: Introuvable
+Method Not Allowed: Méthode non autorisée
+Not Acceptable: Non acceptable
+Proxy Authentication Required: Authentification du proxy requise
+Request Timeout: Délai d'attente de la requête
+Conflict: Conflit
+Gone: Parti
+Length Required: Longueur requise
+Precondition Failed: Échec de la condition préalable
+Content Too Large: Contenu trop volumineux
+URI Too Long: URI trop long
+Unsupported Media Type: Type de média non pris en charge
+Range Not Satisfiable: Plage non satisfaisable
+Expectation Failed: Échec de l'attente
+I'm a teapot: Je suis une théière
+Misdirected Request: Requête mal dirigée
+Unprocessable Content: Contenu non traitable
+Locked: Verrouillé
+Failed Dependency: Dépendance en échec
+Too Early: Trop tôt
+Upgrade Required: Mise à niveau requise
+Precondition Required: Condition préalable requise
+Too Many Requests: Trop de requêtes
+Request Header Fields Too Large: En-têtes de requête trop volumineux
+Unavailable For Legal Reasons: Indisponible pour des raisons légales
+Internal Server Error: Erreur interne du serveur
+Not Implemented: Non implémenté
+Bad Gateway: Mauvaise passerelle
+Service Unavailable: Service indisponible
+Gateway Timeout: Délai d'attente de la passerelle
+HTTP Version Not Supported: Version HTTP non prise en charge
+Variant Also Negotiates: La variante négocie également
+Insufficient Storage: Espace de stockage insuffisant
+Loop Detected: Boucle détectée
+Not Extended: Non étendu
+Network Authentication Required: Authentification réseau requise

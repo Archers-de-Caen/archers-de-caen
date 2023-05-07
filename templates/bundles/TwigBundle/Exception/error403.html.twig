@@ -1,0 +1,9 @@
+{% extends '@Twig/Exception/error.html.twig' %}
+
+{% block message %}
+    Vous n'avez pas la permission d'accéder à cette page
+{% endblock message %}
+
+{% block image %}
+    {{ asset('build/images/errors/online-protection.svg') }}
+{% endblock image %}

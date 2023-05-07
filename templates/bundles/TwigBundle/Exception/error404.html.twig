@@ -1,0 +1,9 @@
+{% extends '@Twig/Exception/error.html.twig' %}
+
+{% block message %}
+    Cette page n'existe pas (encore) !
+{% endblock message %}
+
+{% block image %}
+    {{ asset('build/images/errors/404-page-not-found.svg') }}
+{% endblock image %}

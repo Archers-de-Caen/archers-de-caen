@@ -1,0 +1,9 @@
+{% extends '@Twig/Exception/error.html.twig' %}
+
+{% block message %}
+    Vous devez vous connecter pour accéder à cette page
+{% endblock message %}
+
+{% block image %}
+    {{ asset('build/images/errors/authentication.svg') }}
+{% endblock image %}
