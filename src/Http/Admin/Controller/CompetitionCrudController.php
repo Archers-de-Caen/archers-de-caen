@@ -17,6 +17,7 @@ use App\Http\Landing\Controller\Results\CompetitionController;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
@@ -51,23 +52,44 @@ class CompetitionCrudController extends AbstractCrudController
     {
         return $crud
             ->setDefaultSort(['dateStart' => 'DESC'])
+            ->overrideTemplate('crud/index', '@EasyAdmin\page\competition\index.html.twig')
         ;
     }
 
     public function configureActions(Actions $actions): Actions
     {
-        $publicLink = Action::new('Page public')->linkToUrl(
-            function (Competition $competition): string {
-                return $this->urlGenerator->generate(
-                    CompetitionController::ROUTE,
-                    ['slug' => $competition->getSlug()],
-                    UrlGeneratorInterface::ABSOLUTE_URL
-                );
-            }
-        );
+        $publicLink = Action::new('publicLink', 'Page public')
+            ->linkToUrl(
+                function (Competition $competition): string {
+                    return $this->urlGenerator->generate(
+                        CompetitionController::ROUTE,
+                        ['slug' => $competition->getSlug()],
+                        UrlGeneratorInterface::ABSOLUTE_URL
+                    );
+                }
+            )
+        ;
+
+        $copyIframe = Action::new('iframe')
+            ->linkToUrl(
+                function (Competition $competition): string {
+                    return $this->urlGenerator->generate(
+                        name: CompetitionController::ROUTE,
+                        parameters: ['slug' => $competition->getSlug(), 'iframe' => true],
+                        referenceType: UrlGeneratorInterface::ABSOLUTE_URL
+                    );
+                }
+            )
+            ->setHtmlAttributes([
+                'data-bs-toggle' => 'modal',
+                'data-bs-target' => '#modal-copy-string',
+            ])
+        ;
 
         return $actions
-            ->add(Crud::PAGE_INDEX, $publicLink);
+            ->add(Crud::PAGE_INDEX, $publicLink)
+            ->add(Crud::PAGE_INDEX, $copyIframe)
+        ;
     }
 
     public function configureFields(string $pageName): iterable

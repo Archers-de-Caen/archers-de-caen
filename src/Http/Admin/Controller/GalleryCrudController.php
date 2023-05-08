@@ -9,6 +9,7 @@ use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Model\Gallery;
 use App\Domain\File\Admin\Field\PhotoField;
 use App\Domain\Newsletter\NewsletterType;
+use App\Http\Landing\Controller\Gallery\GalleryController;
 use App\Infrastructure\Mailing\GalleryNewsletterMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -28,6 +29,11 @@ use function Symfony\Component\Translation\t;
 
 class GalleryCrudController extends AbstractCrudController
 {
+    public function __construct(
+        private readonly UrlGeneratorInterface $urlGenerator,
+    ) {
+    }
+
     public static function getEntityFqcn(): string
     {
         return Gallery::class;
@@ -52,8 +58,19 @@ class GalleryCrudController extends AbstractCrudController
             ->displayIf(static fn (Gallery $gallery) => Status::DRAFT === $gallery->getStatus())
         ;
 
+        $publicLink = Action::new('public-link')
+            ->setLabel('Lien public')
+            ->linkToUrl(function (Gallery $gallery) {
+                return $this->urlGenerator->generate(GalleryController::ROUTE, [
+                    'slug' => $gallery->getSlug(),
+                ], UrlGeneratorInterface::ABSOLUTE_URL);
+            })
+        ;
+
+
         return $actions
             ->add(Crud::PAGE_INDEX, $publish)
+            ->add(Crud::PAGE_INDEX, $publicLink);
         ;
     }
 
