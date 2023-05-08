@@ -16,9 +16,9 @@ jobs:
   tests:
     needs:
       - build
-    uses: ./.github/workflows/_build.yml
+    uses: ./.github/workflows/_phpunit.yml
 
   lint:
     needs:
       - build
-    uses: ./.github/workflows/_build.yml
+    uses: ./.github/workflows/_lint.yml
