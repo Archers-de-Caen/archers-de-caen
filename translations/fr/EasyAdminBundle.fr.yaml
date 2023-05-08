@@ -3,3 +3,7 @@ import_action_modal:
   content: 'Veillez à bien respecter le modèle CSV fourni, de plus attention les doublons ne sont pas géré si vous importé deux fois une même ligne, elle sera importé deux fois'
   action: 'Importer'
   csv_model: 'Modèle CSV'
+
+copy_string_modal:
+  title: 'Copier'
+  action: 'Copier'

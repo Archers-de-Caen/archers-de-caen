@@ -1,0 +1,8 @@
+{% extends '@!EasyAdmin/crud/index.html.twig' %}
+
+{% block main %}
+    {{ parent() }}
+
+    {{ include('@EasyAdmin/crud/includes/_copy_string_action_modal.html.twig', {}, with_context = false) }}
+{% endblock main %}
+
