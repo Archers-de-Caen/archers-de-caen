@@ -54,7 +54,7 @@ static_analysis:
   script:
     - php -d memory_limit=1G vendor/bin/phpstan analyse -c phpstan.neon
 
-phunit:
+phpunit:
   stage: test
   dependencies:
     - build

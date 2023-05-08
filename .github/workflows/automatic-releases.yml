@@ -7,42 +7,21 @@ on:
 
 jobs:
   build:
-    uses: ./.github/workflows/build.yml
+    uses: ./.github/workflows/_build.yml
 
   tests:
-    uses: ./.github/workflows/tests.yml
+    needs:
+      - build
+    uses: ./.github/workflows/_phpunit.yml
+
+  lint:
+    needs:
+      - build
+    uses: ./.github/workflows/_lint.yml
 
   tagged-release:
-    name: "Tagged Release"
-    runs-on: "ubuntu-latest"
     needs:
       - build
       - tests
-
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
-
-      - name: Download build artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: build
-
-      - name: "Décompression des dépendances"
-        uses: montudor/action-zip@v1
-        with:
-          args: unzip -qq build.zip
-
-      - name: "🖥️ Création de production.zip"
-        uses: montudor/action-zip@v1
-        with:
-          args: zip -q -r production.zip assets config migrations public src templates tests translations vendor .env composer.json composer.lock package.json package-lock.json symfony.lock webpack.config.js bin/console tools
-
-      - name: "⭐ Création de la release"
-        uses: "marvinpinto/action-automatic-releases@latest"
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          prerelease: false
-          files: |
-            LICENSE.txt
-            production.zip
+      - lint
+    uses: ./.github/workflows/_create-releases.yml
