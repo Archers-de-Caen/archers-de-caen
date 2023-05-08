@@ -5,8 +5,11 @@ liip_imagine:
 
     # le cache
     resolvers:
-        default:
-            web_path: ~
+        cache_provider:
+            web_path:
+                web_root: "%kernel.project_dir%/public"
+
+    cache: cache_provider
 
     webp:
         generate: true
@@ -56,3 +59,7 @@ when@prod:
                 filesystem:
                     data_root:
                         - '%kernel.project_dir%/../uploaded-files/images/photo'
+        resolvers:
+            cache_provider:
+                web_path:
+                    web_root: "%kernel.project_dir%/../uploaded-files"
