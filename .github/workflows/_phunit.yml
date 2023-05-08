@@ -1,0 +1,42 @@
+name: Symfony Tests
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  symfony-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+
+      - uses: actions/checkout@v3
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+
+      - name: "Décompression des dépendances"
+        uses: montudor/action-zip@v1
+        with:
+          args: unzip -qq build.zip
+
+      - name: Create Database
+        env:
+          DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
+        run: |
+          mkdir -p data
+          touch data/database.sqlite
+          php bin/console doctrine:database:create --no-interaction
+          php bin/console doctrine:schema:create --no-interaction
+
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        env:
+          DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
+        run: vendor/bin/phpunit --bootstrap tests/bootstrap.php --configuration phpunit.xml.dist --testdox
