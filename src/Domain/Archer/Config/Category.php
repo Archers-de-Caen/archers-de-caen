@@ -93,14 +93,14 @@ enum Category: string
             'BH', 'Benjamin Homme', 'U13 Homme' => self::BENJAMIN_MAN,
             'BF', 'Benjamin Femme', 'Benjamine Femme', 'U13 Femme' => self::BENJAMIN_WOMAN,
 
-            'JH', 'Junior Homme', 'U15 Homme' => self::JUNIOR_MAN,
-            'JF', 'Junior Femme', 'U15 Femme' => self::JUNIOR_WOMAN,
+            'MH', 'Minime Homme', 'U15 Homme' => self::CUB_MAN,
+            'MF', 'Minime Femme', 'U15 Femme' => self::CUB_WOMAN,
 
-            'MH', 'Minime Homme', 'U18 Homme' => self::CUB_MAN,
-            'MF', 'Minime Femme', 'U18 Femme' => self::CUB_WOMAN,
+            'CH', 'Cadet Homme', 'U18 Homme' => self::CADET_MAN,
+            'CF', 'Cadet Femme', 'U18 Femme' => self::CADET_WOMAN,
 
-            'CH', 'Cadet Homme', 'U21 Homme' => self::CADET_MAN,
-            'CF', 'Cadet Femme', 'U21 Femme' => self::CADET_WOMAN,
+            'JH', 'Junior Homme', 'U21 Homme' => self::JUNIOR_MAN,
+            'JF', 'Junior Femme', 'U21 Femme' => self::JUNIOR_WOMAN,
 
             'S1H', 'Senior 1 Homme' => self::SENIOR_ONE_MAN,
             'S1F', 'Senior 1 Femme' => self::SENIOR_ONE_WOMAN,
