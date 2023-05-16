@@ -45,5 +45,50 @@
         <div class="mt-3">
             {{ include('/shared/components/paginator.html.twig', { paginator, routeParams: { slug: gallery.slug } }) }}
         </div>
+
+        <div class="share-bar">
+            {% set galleryUrl = absolute_url(path(constant('App\\Http\\Landing\\Controller\\Gallery\\GalleryController::ROUTE'), { slug: gallery.slug })) %}
+
+            {% set facebookLink = 'https://www.facebook.com/sharer.php?u=' ~ galleryUrl|url_encode %}
+            <a
+                class="share-bar-btn share-bar-btn-width-15 btn -secondary -outline"
+                href="{{ facebookLink }}"
+                onclick="openInNewTab(this.href); return false;"
+            >
+                <i data-feather="facebook"></i>
+            </a>
+
+            {% set twitterLink = 'https://twitter.com/share?text=' ~ gallery.title ~ '&url=' ~ galleryUrl|url_encode %}
+            <a
+                class="share-bar-btn share-bar-btn-width-15 btn -secondary -outline"
+                href="{{ twitterLink }}"
+                onclick="openInNewTab(this.href); return false;"
+            >
+                <i data-feather="twitter"></i>
+            </a>
+
+            {% set emailLink = 'mailto:?subject=' ~ gallery.title ~ '&body=' ~ galleryUrl|url_encode ~ ' ' ~ gallery.title %}
+            <a
+                class="share-bar-btn share-bar-btn-width-15 btn -secondary -outline"
+                href="{{ emailLink }}"
+                onclick="openInNewTab(this.href); return false;"
+            >
+                <i data-feather="mail"></i>
+            </a>
+
+            <a
+                class="share-bar-btn share-bar-btn-width-15 copy-btn btn -secondary -outline"
+                href="{{ galleryUrl }}"
+            >
+                <i data-feather="clipboard"></i>
+            </a>
+
+{# TODO            <a#}
+{#                class="share-bar-btn share-bar-btn-width-15 copy-btn btn -secondary -outline"#}
+{#                href="{{ galleryUrl }}"#}
+{#            >#}
+{#                <i data-feather="download"></i>#}
+{#            </a>#}
+        </div>
     </div>
 {% endblock %}

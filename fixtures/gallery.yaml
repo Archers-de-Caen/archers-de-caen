@@ -1,0 +1,16 @@
+include:
+  - ./archer.yaml
+
+App\Domain\Cms\Model\Gallery:
+  gallery (template):
+    title: <sentence()>
+    status: <randomElement([draft, publish, delete])>
+
+  gallery_{1..10} (extends gallery):
+  gallery_100_photos (extends gallery):
+    title: <sentence()>
+    status: 'publish'
+
+App\Domain\File\Model\Photo:
+  photo (template):
+    imageName: <image()>

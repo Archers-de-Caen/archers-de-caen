@@ -50,28 +50,30 @@
                 <h1>{{ page.title }}</h1>
             </div>
 
-            <div class="actuality-share">
-                {% set facebookLink = 'https://www.facebook.com/sharer.php?u=' ~ absolute_url(path('landing_actuality', { slug: page.slug }))|url_encode %}
+            <div class="share-bar">
+                {% set actualityUrl = absolute_url(path('landing_actuality', { slug: page.slug })) %}
+
+                {% set facebookLink = 'https://www.facebook.com/sharer.php?u=' ~ actualityUrl|url_encode %}
                 <a
-                    class="actuality-share-btn btn -secondary -outline"
+                    class="share-bar-btn btn -secondary -outline"
                     href="{{ facebookLink }}"
                     onclick="openInNewTab(this.href); return false;"
                 >
                     <i data-feather="facebook"></i>
                 </a>
 
-                {% set twitterLink = 'https://twitter.com/share?text=' ~ page.title ~ '&url=' ~ absolute_url(path('landing_actuality', { slug: page.slug }))|url_encode %}
+                {% set twitterLink = 'https://twitter.com/share?text=' ~ page.title ~ '&url=' ~actualityUrl|url_encode %}
                 <a
-                    class="actuality-share-btn btn -secondary -outline"
+                    class="share-bar-btn btn -secondary -outline"
                     href="{{ twitterLink }}"
                     onclick="openInNewTab(this.href); return false;"
                 >
                     <i data-feather="twitter"></i>
                 </a>
 
-                {% set emailLink = 'mailto:?subject=' ~ page.title ~ '&body=' ~ absolute_url(path('landing_actuality', { slug: page.slug }))|url_encode ~ ' ' ~ page.title %}
+                {% set emailLink = 'mailto:?subject=' ~ page.title ~ '&body=' ~ actualityUrl|url_encode ~ ' ' ~ page.title %}
                 <a
-                    class="actuality-share-btn btn -secondary -outline"
+                    class="share-bar-btn btn -secondary -outline"
                     href="{{ emailLink }}"
                     onclick="openInNewTab(this.href); return false;"
                 >
@@ -79,8 +81,8 @@
                 </a>
 
                 <a
-                    class="actuality-share-btn copy-btn btn -secondary -outline"
-                    href="{{ absolute_url(path('landing_actuality', { slug: page.slug })) }}"
+                    class="share-bar-btn copy-btn btn -secondary -outline"
+                    href="{{ actualityUrl }}"
                 >
                     <i data-feather="clipboard"></i>
                 </a>

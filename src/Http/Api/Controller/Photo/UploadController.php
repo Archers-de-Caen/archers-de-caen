@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[AsController]
 #[Route(
@@ -23,16 +24,13 @@ use Symfony\Component\Routing\Annotation\Route;
     name: self::ROUTE,
     methods: Request::METHOD_POST
 )]
+#[IsGranted(Archer::ROLE_ADMIN, message: 'only admin', statusCode: Response::HTTP_FORBIDDEN)]
 class UploadController extends AbstractController
 {
     public const ROUTE = 'photos_upload';
 
     public function __invoke(Request $request, EntityManagerInterface $em): JsonResponse
     {
-        if (!$this->isGranted(Archer::ROLE_ADMIN)) {
-            return $this->json('only admin', Response::HTTP_FORBIDDEN);
-        }
-
         $photo = new Photo();
 
         /** @var UploadedFile $imageFile */

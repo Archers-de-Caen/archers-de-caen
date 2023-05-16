@@ -27,16 +27,12 @@
 
         <div class="thumbnails">
             {% for gallery in galleries %}
-                <a class="thumbnail -horizontal" href="{{ path('landing_gallery', { slug: gallery.slug }) }}" title="{{ gallery.title }}">
-                    <header>
-                        <img
-                            src="{{ gallery.mainPhoto is defined and gallery.mainPhoto ? gallery.mainPhoto|imagine_filter('thumbnail') : asset('build/images/photo/cible.webp') }}"
-                            alt="Photo de la galerie: {{ gallery.title }}"
-                        >
-                    </header>
-                    <footer>
-                        <p>{{ gallery.title }}</p>
-                    </footer>
+                <a class="thumbnail" href="{{ path('landing_gallery', { slug: gallery.slug }) }}" title="{{ gallery.title }}">
+                    <img
+                        src="{{ gallery.mainPhoto is defined and gallery.mainPhoto ? gallery.mainPhoto|imagine_filter('thumbnail') : asset('build/images/photo/cible.webp') }}"
+                        alt="Photo de la galerie: {{ gallery.title }}"
+                    >
+                    <p>{{ gallery.title }}</p>
                 </a>
             {% endfor %}
         </div>

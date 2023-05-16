@@ -53,26 +53,6 @@
       }
     }
 
-    .actuality-share {
-      display: flex;
-      justify-content: space-between;
-      flex: 1;
-      margin: 20px 0;
-
-      .actuality-share-btn {
-        width: 20%;
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        img, svg {
-          min-height: 20px;
-          min-width: 20px;
-        }
-      }
-    }
-
     .actuality-content {
       overflow: auto;
 

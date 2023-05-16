@@ -1,0 +1,27 @@
+@import "../variable";
+
+.share-bar {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+  padding: 1rem;
+  background-color: $color-white;
+  border-radius: $border-radius-big;
+
+  .share-bar-btn {
+    width: 20%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &-width-15 {
+      width: 15%;
+    }
+
+    img, svg {
+      min-height: 20px;
+      min-width: 20px;
+    }
+  }
+}

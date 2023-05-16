@@ -7,31 +7,52 @@
   align-items: center;
 
   .title {
-    margin: 50px 0;
+    margin: 100px 0;
     text-align: center;
   }
 
   .thumbnails {
-    display: flex;
-    flex-flow: row wrap;
-    align-content: space-between;
-    justify-content: center;
+    display: block;
+    margin: 0 auto;
+
+    @media screen and (min-width: map-get($grid-breakpoints, sm)) {
+      column-gap: 1rem;
+      columns: 2 360px;
+    }
+
+    @media screen and (min-width: map-get($grid-breakpoints, md)) {
+      columns: 3 310px;
+    }
+
+    @media screen and (min-width: map-get($grid-breakpoints, lg)) {
+      columns: 4 280px;
+    }
+
+    @media screen and (min-width: map-get($grid-breakpoints, xl)) {
+      columns: 5 260px;
+    }
 
     .thumbnail {
-      width: 200px;
-      height: 350px;
       display: block;
-      margin: 0 20px 20px;
+      height: fit-content;
+      width: 80%;
+      margin: 0 auto 1rem auto;
+      border-radius: $border-radius-normal;
 
-      &.-horizontal {
-        width: 350px;
-        height: 200px;
+      @media screen and (min-width: map-get($grid-breakpoints, sm)) {
+        width: 360px;
       }
 
-      footer {
-        p {
-          margin: 0;
-        }
+      @media screen and (min-width: map-get($grid-breakpoints, md)) {
+        width: 310px;
+      }
+
+      @media screen and (min-width: map-get($grid-breakpoints, lg)) {
+        width: 280px;
+      }
+
+      @media screen and (min-width: map-get($grid-breakpoints, xl)) {
+        width: 260px;
       }
     }
   }

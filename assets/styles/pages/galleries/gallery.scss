@@ -1,0 +1,11 @@
+@import "../../variable";
+
+#galleries {
+  .thumbnail {
+    header {
+      img {
+        border-radius: $border-radius-normal;
+      }
+    }
+  }
+}
