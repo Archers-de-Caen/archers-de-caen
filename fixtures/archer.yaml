@@ -11,11 +11,20 @@ App\Domain\Archer\Model\Archer:
 
   archer_{1..10} (extends archer):
 
+  archer (extends archer):
+    firstName: Archer
+    lastName: Archer
+    email: archer\@archers-caen.fr
+    licenseNumber: 999999A
+    plainPassword: Pwd123
+    roles:
+      - ROLE_ARCHER
+
   archer_editor (extends archer):
     firstName: Editor
     lastName: Editor
     email: editor\@archers-caen.fr
-    licenseNumber: 999999E
+    licenseNumber: 999999B
     plainPassword: Pwd123
     roles:
       - ROLE_EDITOR
@@ -24,7 +33,7 @@ App\Domain\Archer\Model\Archer:
     firstName: Admin
     lastName: Admin
     email: admin\@archers-caen.fr
-    licenseNumber: 999999A
+    licenseNumber: 999999C
     plainPassword: Pwd123
     roles:
       - ROLE_ADMIN
