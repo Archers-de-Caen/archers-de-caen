@@ -11,7 +11,7 @@ App\Domain\Archer\Model\Archer:
 
   archer_{1..10} (extends archer):
 
-  archer (extends archer):
+  archer_basic (extends archer):
     firstName: Archer
     lastName: Archer
     email: archer\@archers-caen.fr
