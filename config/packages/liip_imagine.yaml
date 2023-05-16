@@ -47,7 +47,7 @@ when@prod:
                 filesystem:
                     data_root:
                         - '%kernel.project_dir%/../uploaded-files/images/photo'
-        resolvers:
-            cache_provider:
-                web_path:
-                    web_root: "%kernel.project_dir%/../uploaded-files"
+#        resolvers:
+#            cache_provider:
+#                web_path:
+#                    web_root: "%kernel.project_dir%/../uploaded-files"
