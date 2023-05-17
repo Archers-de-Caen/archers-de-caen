@@ -1,10 +1,6 @@
-{% macro thumbnail(link, img, title, horizontal = false) %}
-    <a class="thumbnail{% if horizontal %} -horizontal{% endif %}" href="{{ link }}" title="{{ title }}">
-        <header>
-            <img src="{{ img }}" alt="Photo de la galerie">
-        </header>
-        <footer>
-            <p>{{ title }}</p>
-        </footer>
+{% macro thumbnail(link, img, title) %}
+    <a class="thumbnail" href="{{ link }}" title="{{ title }}">
+        <img src="{{ img }}" alt="Photo de la galerie">
+        <p>{{ title }}</p>
     </a>
 {% endmacro %}

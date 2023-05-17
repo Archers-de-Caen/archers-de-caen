@@ -12,7 +12,8 @@
     width: 80%;
 
     .actuality-main-image {
-      height: 400px;
+      min-height: 300px;
+      max-height: 600px;
       width: 100%;
       object-fit: cover;
       border-radius: 0 0 $border-radius-normal $border-radius-normal;
@@ -50,26 +51,6 @@
 
       h1 {
         color: $color-grey;
-      }
-    }
-
-    .actuality-share {
-      display: flex;
-      justify-content: space-between;
-      flex: 1;
-      margin: 20px 0;
-
-      .actuality-share-btn {
-        width: 20%;
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        img, svg {
-          min-height: 20px;
-          min-width: 20px;
-        }
       }
     }
 

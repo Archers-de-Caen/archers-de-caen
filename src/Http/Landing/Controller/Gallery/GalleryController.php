@@ -27,7 +27,7 @@ class GalleryController extends AbstractController
     public function __invoke(Request $request, Gallery $gallery, PhotoRepository $photoRepository): Response
     {
         $currentPage = ((int) $request->query->get('page') ?: 1) - 1;
-        $elementByPage = 16;
+        $elementByPage = 24;
 
         $photos = new Paginator(
             $photoRepository->createQueryBuilder('photo')

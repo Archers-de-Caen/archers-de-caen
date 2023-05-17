@@ -1,3 +1,5 @@
+@import "../../variable";
+
 .results-page {
   min-height: 1000px;
 
@@ -18,12 +20,12 @@
       display: unset;
       margin: unset;
 
-      footer {
-        justify-content: center;
+      p {
+        font-weight: bold;
+      }
 
-        p {
-          font-weight: bold;
-        }
+      img {
+        object-fit: cover;
       }
 
       &:nth-child(1) {

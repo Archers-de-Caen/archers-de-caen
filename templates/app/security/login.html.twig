@@ -28,8 +28,28 @@
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
             <div class="right">
+                {% if 'dev' == app.environment %}
+                    <button type="button" class="btn -secondary auto-connect" data-username="archer@archers-caen.fr" data-password="Pwd123">Archer</button>
+                    <button type="button" class="btn -secondary auto-connect" data-username="editor@archers-caen.fr" data-password="Pwd123">Editor</button>
+                    <button type="button" class="btn -secondary auto-connect" data-username="admin@archers-caen.fr" data-password="Pwd123">Admin</button>
+                    <button type="button" class="btn -secondary auto-connect" data-username="dev@archers-caen.fr" data-password="Pwd123">Developer</button>
+                {% endif %}
+
                 <button type="submit" class="btn -primary">Connexion</button>
             </div>
         </form>
     </div>
+
+    {% if 'dev' == app.environment %}
+        <script>
+            document.querySelectorAll('.auto-connect').forEach((element) => {
+                element.addEventListener('click', (event) => {
+                    const target = event.currentTarget
+
+                    document.querySelector('#username').value = target.dataset.username
+                    document.querySelector('#password').value = target.dataset.password
+                })
+            })
+        </script>
+    {% endif %}
 {% endblock %}

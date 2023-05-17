@@ -11,7 +11,7 @@ App\Domain\Cms\Model\Page:
 
   page_{1..10} (extends page):
 
-  actuality_{1..20} (extends page):
+  actuality_{1..100} (extends page):
     category: actuality
 
   actuality_with_real_content (extends page):
