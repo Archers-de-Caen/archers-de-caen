@@ -22,6 +22,8 @@ parameters:
     hello_asso_secret: "%env(HELLO_ASSO_SECRET)%"
     hello_asso_organization_name: "%env(HELLO_ASSO_ORGANIZATION_NAME)%"
 
+    trapta_password: "%env(TRAPTA_PASSWORD)%"
+
 services:
     # default configuration for services in *this* file
     _defaults:

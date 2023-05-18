@@ -10,20 +10,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 
-// le .php est dû au fonctionnement de TraptaCloud
 #[AsController]
 #[Route(
-    path: '/trapta/updatepositions.php',
+    path: '/trapta/competition/{eventName}/position',
     name: self::ROUTE,
-    options: ['sitemap' => true],
-    methods: [Request::METHOD_GET, Request::METHOD_POST]
+    methods: [Request::METHOD_GET]
 )]
-class UpdatePositionsController extends AbstractController
+class PositionController extends AbstractController
 {
-    public const ROUTE = 'landing_trapta_update_position';
+    public const ROUTE = 'landing_trapta_position';
 
-    public function __invoke(): Response
+    public function __invoke(string $eventName): Response
     {
-        return $this->render('/landing/trapta/index.html.twig');
+        return $this->render('/landing/trapta/position.html.twig');
     }
 }

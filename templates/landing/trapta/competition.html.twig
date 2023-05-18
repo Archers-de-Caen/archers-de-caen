@@ -1,0 +1,30 @@
+{% extends 'landing/base.html.twig' %}
+
+{% block title %}
+    Competition
+{% endblock title %}
+
+{% block main %}
+    <ul>
+        <li>
+            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Trapta\\PositionController::ROUTE'), { eventName: 'test' }) }}">
+                Position
+            </a>
+        </li>
+        <li>
+            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Trapta\\PositionController::ROUTE'), { eventName: 'test' }) }}">
+                Tir individuels
+            </a>
+        </li>
+        <li>
+            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Trapta\\PositionController::ROUTE'), { eventName: 'test' }) }}">
+                Par équipes
+            </a>
+        </li>
+        <li>
+            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Trapta\\PositionController::ROUTE'), { eventName: 'test' }) }}">
+                Matches
+            </a>
+        </li>
+    </ul>
+{% endblock main %}
