@@ -1,0 +1,63 @@
+{% from 'landing/_parts/social-networks.html.twig' import socialNetwork %}
+
+<header class="header">
+    <div class="header-secondary">
+        <div class="header-content">
+            <ul>
+                <li class="mr-2">{{ socialNetwork() }}</li>
+                <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\NewspaperController::ROUTE')) }}">La gazette</a></li>
+                <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ContactController::ROUTE')) }}">Contact</a></li>
+                {# <li><a href="{{ path('app_index') }}">Espace licencié</a></li> #}
+                {% if is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_ADMIN')) %}
+                    <li><a href="{{ path('admin_index') }}">Admin</a></li>
+                {% endif %}
+                {# <li><a href="#">🔍</a></li>#}
+            </ul>
+        </div>
+    </div>
+    <div class="header-primary">
+        <div class="header-content">
+            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\IndexController::ROUTE')) }}" class="header-image">
+                <img src="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.svg') }}" alt="Logo des archers de Caen">
+                <header class="logo-text">Archers de CAEN</header>
+            </a>
+            <ul>
+                <li>
+                    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Actuality\\ActualitiesController::ROUTE')) }}">
+                        Actualités
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ClubController::ROUTE')) }}">
+                        Club
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Results\\ResultsController::ROUTE')) }}">
+                        Résultats
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\SportController::ROUTE')) }}">
+                        Sport
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Gallery\\GalleriesController::ROUTE')) }}">
+                        Photos
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\ShopController::ROUTE')) }}">
+                        Boutique
+                    </a>
+                </li>
+            </ul>
+            <div class="menu-responsive-btn hamburger-menu">
+                <div class="hamburger-menu-bar"></div>
+                <div class="hamburger-menu-bar"></div>
+            </div>
+        </div>
+    </div>
+</header>
