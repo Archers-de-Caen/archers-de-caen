@@ -120,3 +120,34 @@ window.onresize = () => {
 
     document.querySelector(".header .header-primary .menu-responsive-btn").classList.remove('-close')
 }
+
+// Permet d'ouvrir le menu
+document.querySelectorAll(".header .header-primary ul li").forEach((element) => {
+    element.addEventListener('click', (event) => {
+        event.preventDefault()
+
+        const target = event.currentTarget
+
+        closeHeaderElement()
+
+        target.closest('li').querySelector('.header-element').classList.add('-active')
+    })
+})
+
+// Ferme le menu si on clique en dehors
+document.addEventListener('click', (event) => {
+    const target = event.target
+
+    if (
+        !target.closest('.header-element') &&
+        !target.closest('.header-primary')
+    ) {
+        closeHeaderElement()
+    }
+})
+
+function closeHeaderElement() {
+    document.querySelectorAll('.header-element').forEach((element) => {
+        element.classList.remove('-active')
+    })
+}

@@ -26,7 +26,7 @@
       font-weight: bold !important;
     }
 
-    &lighter {
+    &normal {
       font-weight: normal !important;
     }
 
@@ -65,5 +65,23 @@
 
   &white {
     color: $color-white !important;
+  }
+
+  &line-height- {
+    &small {
+      line-height: 1.2;
+    }
+
+    &medium {
+      line-height: 1.5;
+    }
+
+    &normal {
+      line-height: 1.7;
+    }
+
+    &large {
+      line-height: 2;
+    }
   }
 }
