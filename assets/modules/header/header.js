@@ -130,7 +130,7 @@ document.querySelectorAll(".header .header-primary ul li").forEach((element) => 
 
         closeHeaderElement()
 
-        target.closest('li').querySelector('.header-element').classList.add('-active')
+        document.querySelector('#' + target.dataset.headerElement + '.header-element').classList.add('-active')
     })
 })
 
@@ -144,6 +144,10 @@ document.addEventListener('click', (event) => {
     ) {
         closeHeaderElement()
     }
+})
+
+document.querySelectorAll('.header-element .back').forEach((back) => {
+    back.addEventListener('click', closeHeaderElement)
 })
 
 function closeHeaderElement() {
