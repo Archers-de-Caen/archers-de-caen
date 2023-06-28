@@ -245,7 +245,7 @@
             en individuel et en équipe.
         </p>
     </div>
-    <div class="results-page">
+    <div>
         <div class="thumbnails">
             {{ thumbnail(path('landing_results_arrow'), asset('build/images/photo/fleche_de_progression.webp'), 'Fleches de progression') }}
             {{ thumbnail(path('landing_results_competitions_seasons'), asset('build/images/photo/trapa_et_coupe.webp'), 'Concours') }}
@@ -332,7 +332,7 @@
             {% endfor %}
         </div>
 
-        <a href="{{ path('landing_actualities') }}" class="highlighted">
+        <a href="{{ path('landing_actualities') }}" class="highlighted mt-3">
             <span>Voir tous les albums</span>
             <i class="fa-solid fa-arrow-right ml-1"></i>
         </a>
