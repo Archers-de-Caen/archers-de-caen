@@ -3,4 +3,14 @@
   justify-content: space-between;
   align-items: center;
   width: 75px;
+
+  &-vertical {
+    flex-direction: column;
+    width: inherit;
+    align-items: start;
+
+    a {
+      margin-top: .5rem;
+    }
+  }
 }

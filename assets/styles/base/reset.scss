@@ -74,6 +74,7 @@ p {
 
 a {
   cursor: unset;
+  display: inline-block;
 
   &:not([disabled]):not([class="btn"]) {
     cursor: pointer;

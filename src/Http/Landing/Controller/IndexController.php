@@ -6,7 +6,9 @@ namespace App\Http\Landing\Controller;
 
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Config\Status;
+use App\Domain\Cms\Model\Page;
 use App\Domain\Cms\Repository\DataRepository;
+use App\Domain\Cms\Repository\GalleryRepository;
 use App\Domain\Cms\Repository\PageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,14 +34,24 @@ class IndexController extends AbstractController
             $actualityLocked = $pageRepository->findOneBy(['slug' => $actualityLockedData[array_key_first($actualityLockedData)]]);
         }
 
-        $actualities = $pageRepository->findBy(
-            [
-                'category' => Category::ACTUALITY->value,
-                'status' => Status::PUBLISH,
-            ],
-            ['createdAt' => 'DESC'],
-            $actualityLocked ? 3 : 4
-        );
+        /** @var array<Page> $actualities */
+        $actualities = $pageRepository->createQueryBuilder('p')
+            ->select('p', 'image')
+            ->leftJoin('p.image', 'image')
+
+            ->where('p.category = :category')
+            ->setParameter('category', Category::ACTUALITY->value)
+
+            ->andWhere('p.status = :status')
+            ->setParameter('status', Status::PUBLISH)
+
+            ->orderBy('p.createdAt', 'DESC')
+
+            ->setMaxResults($actualityLocked ? 3 : 4)
+
+            ->getQuery()
+            ->getResult()
+        ;
 
         if ($actualityLocked) {
             $actualities[] = $actualityLocked;

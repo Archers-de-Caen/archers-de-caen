@@ -24,7 +24,7 @@ class SportController extends AbstractController
 
     public function __invoke(PageRepository $pageRepository): Response
     {
-        $pages = $pageRepository->findTagNameBy('sport');
+        $pages = $pageRepository->findByTagName('sport');
 
         $pagesSortByTags = [];
         foreach ($pages as $page) {

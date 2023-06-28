@@ -1,22 +1,24 @@
-{% macro socialNetwork() %}
-    <div class="social-networks">
+{% macro socialNetwork(text = false) %}
+    <div class="social-networks{% if text %} social-networks-vertical{% endif %}">
         <a href="{{ social_network.youtube }}"
            rel="nofollow"
            aria-label="Compte Youtube des Archers de Caen"
         >
-            <i class="fa-brands fa-youtube"></i>
+            <i class="fa-brands fa-youtube"></i>{% if text %} Youtube{% endif %}
         </a>
+
         <a href="{{ social_network.facebook }}"
            rel="nofollow"
            aria-label="Compte Facebook des Archers de Caen"
         >
-            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-facebook"></i>{% if text %} Facebook{% endif %}
         </a>
+
         <a href="{{ social_network.instagram }}"
            rel="nofollow"
            aria-label="Compte Instagram des Archers de Caen"
         >
-            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-instagram"></i>{% if text %} Instagram{% endif %}
         </a>
     </div>
 {% endmacro %}

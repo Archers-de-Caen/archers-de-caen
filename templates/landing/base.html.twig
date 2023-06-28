@@ -1,55 +1,13 @@
-{% from 'landing/_parts/social-networks.html.twig' import socialNetwork %}
 <!-- Site réalisé par Damien HEBERT damienhebert.fr -->
-
-{% set currentUrl = '' %}
-{% if app.request.attributes.get('_route') %}
-    {% set currentUrl = url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
-{% endif %}
-
 <!DOCTYPE html>
 <html lang="fr">
     <head>
         <title>{% if block('title') is defined %}{{ block('title')|trim }} | {% endif %}Les Archers de Caen</title>
 
-        <meta charset="UTF-8">
-        <meta name="description" content="{% if block('description') is defined %}{{ block('description')|trim }}{% endif %}">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        {% block meta %}{% endblock meta %}
-
-        <meta property="og:site_name" content="Les Archers de Caen" />
-        <meta property="og:title" content="{% if block('title') is defined %}{{ block('title')|trim }}{% endif %}" />
-        <meta property="og:description" content="{% if block('description') is defined %}{{ block('description')|trim }}{% endif %}" />
-        <meta property="og:url" content="{{ currentUrl }}" />
-        <meta property="og:locale" content="FR_fr" />
-        {% block og %}{% endblock og %}
-
-        <script type="application/ld+json">
-            {
-                "@context" : "http://schema.org",
-                "@type" : "Organization",
-                "name" : "Les archers de Caen",
-                "url" : "{{ router.request_context.scheme }}://{{ router.request_context.host }}",
-                "sameAs" : [
-                    "{{ social_network.youtube }}",
-                    "{{ social_network.facebook }}",
-                    "{{ social_network.instagram }}"
-                ],
-                "address": {
-                    "@type": "PostalAddress",
-                    "streetAddress": "Avenue Albert 1er",
-                    "postalCode": "14000",
-                    "addressCountry": "FR"
-                }
-            }
-        </script>
-
-        <link rel="icon" href="/favicon.ico">
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
-        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
-        <link rel="manifest" href="/favicon/site.webmanifest">
-
-        <link rel="canonical" href="{{ currentUrl }}">
+        {{ include('landing/_meta.html.twig') }}
+        {{ include('landing/_og.html.twig') }}
+        {{ include('landing/_shema.html.twig') }}
+        {{ include('landing/_link.html.twig') }}
 
         <!-- Permet d'afficher des preview de média, ajouté via ckeditor -->
         <script async charset="utf-8" src="//cdn.embedly.com/widgets/platform.js"></script>
@@ -62,6 +20,7 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
+
     <body>
         {% for label, messages in app.flashes %}
             {% for message in messages %}
@@ -69,67 +28,7 @@
             {% endfor %}
         {% endfor %}
 
-        <header class="header">
-            <div class="header-secondary">
-                <div class="header-content">
-                    <ul>
-                        <li class="mr-2">{{ socialNetwork() }}</li>
-                        <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\NewspaperController::ROUTE')) }}">La gazette</a></li>
-                        <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ContactController::ROUTE')) }}">Contact</a></li>
-                        {# <li><a href="{{ path('app_index') }}">Espace licencié</a></li> #}
-                        {% if is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_ADMIN')) %}
-                            <li><a href="{{ path('admin_index') }}">Admin</a></li>
-                        {% endif %}
-                        {# <li><a href="#">🔍</a></li>#}
-                    </ul>
-                </div>
-            </div>
-            <div class="header-primary">
-                <div class="header-content">
-                    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\IndexController::ROUTE')) }}" class="header-image">
-                        <img src="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.svg') }}" alt="Logo des archers de Caen">
-                        <header class="logo-text">Archers de CAEN</header>
-                    </a>
-                    <ul>
-                        <li>
-                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Actuality\\ActualitiesController::ROUTE')) }}">
-                                Actualités
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ClubController::ROUTE')) }}">
-                                Club
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Results\\ResultsController::ROUTE')) }}">
-                                Résultats
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\SportController::ROUTE')) }}">
-                                Sport
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Gallery\\GalleriesController::ROUTE')) }}">
-                                Photos
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\ShopController::ROUTE')) }}">
-                                Boutique
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="menu-responsive-btn hamburger-menu">
-                        <div class="hamburger-menu-bar"></div>
-                        <div class="hamburger-menu-bar"></div>
-                    </div>
-                </div>
-            </div>
-        </header>
+        {{ include('landing/_header.html.twig') }}
 
         <div class="body">
             {% block body %}
@@ -147,64 +46,7 @@
             {% endblock %}
         </div>
 
-        <footer class="footer">
-            <div class="footer-container">
-                <div class="menu">
-                    <p>© Archers de Caen {{ 'now'|date('Y') }}. Tous droits réservés.</p>
-                    <ul>
-                        <li>{{ socialNetwork() }}</li>
-
-                        {% if app.environment == 'dev' or is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_DEVELOPER')) %}
-                            <li><a href="{{ path('landing_style_guide') }}">Guide de style</a></li>
-                        {% endif %}
-
-                        {% if app.environment == 'dev' %}
-                            <li><a href="https://archers-caen.fr">Production</a></li>
-                        {% endif %}
-
-                        <li>
-                            <a href="{{ path('landing_page', { slug: 'politique-de-confidentialite', type: 'p' }) }}">
-                                Politique de confidentialité
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ path('landing_page', { slug: 'reglement-intérieur', type: 'p' }) }}">
-                                Règlement intérieur
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ path('landing_page', { slug: 'statuts', type: 'p' }) }}">
-                                Statuts
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ path('landing_page', { slug: 'labels', type: 'p' }) }}">
-                                Labels
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ path('landing_page', { slug: 'presse-et-medias', type: 'p' }) }}">
-                                Presse et médias
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ path('landing_page', { slug: 'historique', type: 'p' }) }}">
-                                Historique
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ContactController::ROUTE')) }}">
-                                Contact
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="logo">
-                    <img src="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.svg') }}" alt="Logo des archers de Caen">
-                </div>
-            </div>
-        </footer>
+        {{ include('landing/_footer.html.twig') }}
 
         {% block javascript_footer %}{% endblock %}
     </body>

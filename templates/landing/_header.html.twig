@@ -1,0 +1,359 @@
+{% from 'landing/_parts/social-networks.html.twig' import socialNetwork %}
+{% from '/shared/components/thumbnail.html.twig' import thumbnail %}
+
+{# from App\Http\Landing\Twig\GetHeaderDataExtension::getHeaderData() #}
+{% set headerData = getHeaderData() %}
+
+<header class="header">
+    <div class="header-secondary">
+        <div class="header-content">
+            <ul>
+                <li class="mr-2">{{ socialNetwork() }}</li>
+                <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\NewspaperController::ROUTE')) }}">La gazette</a></li>
+                <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ContactController::ROUTE')) }}">Contact</a></li>
+                {# <li><a href="{{ path('app_index') }}">Espace licencié</a></li> #}
+                {% if is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_ADMIN')) %}
+                    <li><a href="{{ path('admin_index') }}">Admin</a></li>
+                {% endif %}
+                {# <li><a href="#">🔍</a></li>#}
+            </ul>
+        </div>
+    </div>
+
+    <div class="header-primary">
+        <div class="header-content">
+            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\IndexController::ROUTE')) }}" class="header-image">
+                <img src="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.svg') }}" alt="Logo des archers de Caen">
+                <header class="logo-text">Archers de CAEN</header>
+            </a>
+            <ul>
+                <li data-header-element="actualities">Actualités</li>
+                <li data-header-element="club">Club</li>
+                <li data-header-element="results">Résultats</li>
+                <li data-header-element="sport">Sport</li>
+                <li data-header-element="galleries">Photos</li>
+                <li data-header-element="shop">Boutique</li>
+            </ul>
+            <div class="menu-responsive-btn hamburger-menu">
+                <div class="hamburger-menu-bar"></div>
+                <div class="hamburger-menu-bar"></div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="header-element" id="actualities">
+    <div>
+        <div class="flex item-center">
+            <div class="back">
+                <i class="fa fa-arrow-left mr-3"></i>
+            </div>
+            <p class="title">Actualités</p>
+        </div>
+        <p class="description">
+            Ne manquez pas une seule mise à jour du site ! Abonnez-vous à notre newsletter pour être
+            informé(e) de toutes les dernières actualités et photos. Rejoignez-nous et ne manquez rien !
+        </p>
+        <p class="description">
+            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\NewsletterController::ROUTE')) }}">S'inscrire</a>
+        </p>
+    </div>
+
+    <div>
+        <ul>
+            {% for actuality in headerData.actualities %}
+                <li>
+                    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Actuality\\ActualityController::ROUTE') , { slug: actuality.slug }) }}"
+                       title="{{ actuality.title }}"
+                    >
+                        {{ actuality.title }}
+                    </a>
+                </li>
+
+                {% if loop.last %}
+                    <li class="mt-2">
+                        <a href="{{ path('landing_actualities') }}" class="show-all-actualities highlighted">
+                            <span>Voir toutes les actualités</span>
+                            <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div>
+        <p>Retrouvez-nous sur</p>
+
+        {{ socialNetwork(true) }}
+    </div>
+</div>
+<div class="header-element" id="club">
+    <div>
+        <div class="flex item-center">
+            <div class="back">
+                <i class="fa fa-arrow-left mr-3"></i>
+            </div>
+            <p class="title">Le club</p>
+        </div>
+        <p class="description">
+            Depuis 1964, le club forme de nombreuses personnes à la pratique de ce sport olympique.
+            Chaque année, de nombreux archers caennais participent à diverses compétitions et
+            championnats à l’échelle départementale, régionale et même nationale.
+        </p>
+    </div>
+    <div class="flex text-line-height-small">
+        <div>
+            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ClubController::ROUTE')) }}#ou">
+                <div>
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    <span class="ml-1 text-weight-bold">Où</span>
+                </div>
+                <span class="text-small">
+                                        En intérieur ou extérieur retrouvé où venir pratiquer
+                                    </span>
+            </a>
+            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ClubController::ROUTE')) }}#comment"
+               class="mt-2"
+            >
+                <div>
+                    <i class="fa-solid fa-question"></i>
+                    <span class="ml-1 text-weight-bold">Comment</span>
+                </div>
+                <span class="text-small">
+                                        On réponds à toutes vos interrogations sur la pratique dans le club
+                                    </span>
+            </a>
+            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ClubController::ROUTE')) }}#quand"
+               class="mt-2"
+            >
+                <div>
+                    <i class="fa-solid fa-clock"></i>
+                    <span class="ml-1 text-weight-bold">Quand</span>
+                </div>
+                <span class="text-small">
+                                        Avec 6 créneaux d’entraînement en salle les Archers de Caen offrent une structure
+                                        idéale pour pratiquer le tir à l’arc.
+                                    </span>
+            </a>
+            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ClubController::ROUTE')) }}#combien"
+               class="mt-2"
+            >
+                <div>
+                    <i class="fa-solid fa-money-check-alt"></i>
+                    <span class="ml-1 text-weight-bold">Combien</span>
+                </div>
+                <span class="text-small">
+                                        Retrouvé les différents tarifs de la licence sportive
+                                    </span>
+            </a>
+            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ClubController::ROUTE')) }}#qui"
+               class="mt-2"
+            >
+                <div>
+                    <i class="fa-solid fa-users"></i>
+                    <span class="ml-1 text-weight-bold">Qui</span>
+                </div>
+                <span class="text-small">
+                                        Le club est fier, de compter parmi ses membres une équipe de bénévoles œuvrant
+                                        activement aux différentes animations du club
+                                    </span>
+            </a>
+        </div>
+        <div class="ml-3">
+            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\PageController::ROUTE'), { slug: 'historique', type: 'p' }) }}">
+                <div>
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span class="ml-1 text-weight-bold">Historique</span>
+                </div>
+                <span class="text-small">
+                                        Depuis le 4 juin 1959, le club a beaucoup évolué, venez découvrir toute son histoire
+                                    </span>
+            </a>
+            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\PageController::ROUTE'), { slug: 'labels', type: 'p' }) }}"
+               class="mt-2"
+            >
+                <div>
+                    <i class="fa-solid fa-tag"></i>
+                    <span class="ml-1 text-weight-bold">Labels</span>
+                </div>
+                <span class="text-small">
+                                        La FFTA attribue différents labels reconnaissants les efforts de structuration des clubs
+                                    </span>
+            </a>
+            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\PageController::ROUTE'), { slug: 'statuts', type: 'p' }) }}"
+               class="mt-2"
+            >
+                <div>
+                    <i class="fa-solid fa-book"></i>
+                    <span class="ml-1 text-weight-bold">Statuts</span>
+                </div>
+                <span class="text-small">
+                                        Les statuts sont l'acte de naissance de l'association.
+                                        Ils comportent les informations décrivant l'association et ses règles de fonctionnement
+                                    </span>
+            </a>
+            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\PageController::ROUTE'), { slug: 'presse-et-medias', type: 'p' }) }}"
+               class="mt-2"
+            >
+                <div>
+                    <i class="fa-solid fa-newspaper"></i>
+                    <span class="ml-1 text-weight-bold">Presse et médias</span>
+                </div>
+                <span class="text-small">
+                                        Ici vous trouverez des articles de presse et autres médias parlant du club des Archers de Caen
+                                    </span>
+            </a>
+            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\PageController::ROUTE'), { slug: 'reglement-intérieur', type: 'p' }) }}"
+               class="mt-2"
+            >
+                <div>
+                    <i class="fa-solid fa-scale-balanced"></i>
+                    <span class="ml-1 text-weight-bold">Règlement intérieur</span>
+                </div>
+                <span class="text-small">
+                                        Ce règlement intérieur est le complément aux statuts des Archers de Caen.
+                                    </span>
+            </a>
+        </div>
+    </div>
+    <div>
+        <p>D'autres pages qui pourraient vous intéresser</p>
+        <ul class="mt-1 text-medium">
+            <li>
+                <a href="">Les résultats notables</a>
+            </li>
+            <li>
+                <a href="">La gazette</a>
+            </li>
+            <li>
+                <a href="">Contact</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="header-element" id="results">
+    <div>
+        <div class="flex item-center">
+            <div class="back">
+                <i class="fa fa-arrow-left mr-3"></i>
+            </div>
+            <p class="title">Les résultats</p>
+        </div>
+        <p class="description">
+            Découvrez nos derniers résultats de compétition ! Suivez les performances de nos archers,
+            en individuel et en équipe.
+        </p>
+    </div>
+    <div>
+        <div class="thumbnails">
+            {{ thumbnail(path('landing_results_arrow'), asset('build/images/photo/fleche_de_progression.webp'), 'Fleches de progression') }}
+            {{ thumbnail(path('landing_results_competitions_seasons'), asset('build/images/photo/trapa_et_coupe.webp'), 'Concours') }}
+            {{ thumbnail(path('landing_results_record'), asset('build/images/photo/cible_tout_dans_le_dix.webp'), 'Record') }}
+            {{ thumbnail(path('landing_results_federal_honors'), asset('build/images/photo/badge_70.webp'), 'Distinctions fédérales') }}
+        </div>
+    </div>
+    <div>
+        <p>Les derniers résultats</p>
+
+        <ul>
+            {% for competition in headerData.competitions %}
+                <li>
+                    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Results\\CompetitionController::ROUTE'), { slug: competition.slug }) }}">
+                        {{ competition.location }} - {{ competition.dateStart|date('d/m/Y') }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<div class="header-element" id="sport">
+    <div>
+        <div class="flex item-center">
+            <div class="back">
+                <i class="fa fa-arrow-left mr-3"></i>
+            </div>
+            <p class="title">Le sport</p>
+        </div>
+        <p class="description">
+            Nous avons essayer de regrouper ici toutes les informations utiles pour la pratique du tir à l'arc.
+        </p>
+    </div>
+    <div class="flex --gap-2">
+        {% for category, sports in headerData.sport %}
+            {% if 'no-category' != category %}
+                <div>
+                    <p class="text-weight-bold">{{ category }}</p>
+                    {% for sport in sports %}
+                        <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\PageController::ROUTE'), { slug: sport.slug, type: 'p' }) }}">
+                            {{ sport.title|capitalize }}{% if not loop.last %}, {% endif %}
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div>
+        {% for category, sports in headerData.sport %}
+            {% if 'no-category' == category %}
+                <div>
+                    <p class="text-weight-bold">Autre</p>
+                    {% for sport in sports %}
+                        <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\PageController::ROUTE'), { slug: sport.slug, type: 'p' }) }}">
+                            {{ sport.title|capitalize }}{% if not loop.last %}, {% endif %}
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+<div class="header-element" id="galleries">
+    <div>
+        <div class="flex item-center">
+            <div class="back">
+                <i class="fa fa-arrow-left mr-3"></i>
+            </div>
+            <p class="title">Les photos</p>
+        </div>
+        <p class="description">
+            Découvrez notre galerie de photos ! Plongez dans l'univers de notre club de tir à l'arc à
+            travers les photos des différents événements.
+        </p>
+    </div>
+    <div>
+        <div class="thumbnails">
+            {% for gallery in headerData.galleries %}
+                {{ thumbnail(
+                    path('landing_gallery', { slug: gallery.slug }),
+                    gallery.mainPhoto is defined and gallery.mainPhoto ? gallery.mainPhoto|imagine_filter('thumbnail') : asset('build/images/photo/cible.webp'),
+                    gallery.title
+                ) }}
+            {% endfor %}
+        </div>
+
+        <a href="{{ path('landing_actualities') }}" class="highlighted mt-3">
+            <span>Voir tous les albums</span>
+            <i class="fa-solid fa-arrow-right ml-1"></i>
+        </a>
+    </div>
+</div>
+<div class="header-element" id="shop">
+    <div>
+        <div class="flex item-center">
+            <div class="back">
+                <i class="fa fa-arrow-left mr-3"></i>
+            </div>
+            <p class="title">Boutique</p>
+        </div>
+        <p class="description">
+            Retrouvez ici tous les produits de la boutique du club des Archers de Caen.
+        </p>
+    </div>
+    <div>
+        <div class="thumbnails">
+            {{ thumbnail(path(constant('App\\Http\\Landing\\Controller\\ShopController::ROUTE')), asset('build/images/logo-archers-de-caen/shop.webp'), 'Boutique officiel') }}
+            {{ thumbnail(path(constant('App\\Http\\Landing\\Controller\\Page\\PageController::ROUTE'), { slug: 'vente-doccasion' }), asset('build/images/logo-archers-de-caen/vente-occasion.webp'), "Vente d'occasion") }}
+        </div>
+    </div>
+</div>

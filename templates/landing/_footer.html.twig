@@ -1,0 +1,42 @@
+{% from 'landing/_parts/social-networks.html.twig' import socialNetwork %}
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="menu">
+            <p>© Archers de Caen {{ 'now'|date('Y') }}. Tous droits réservés.</p>
+            <ul>
+                <li>{{ socialNetwork() }}</li>
+
+                {% if app.environment == 'dev' or is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_DEVELOPER')) %}
+                    <li><a href="{{ path('landing_style_guide') }}">Guide de style</a></li>
+                {% endif %}
+
+                {% if app.environment == 'dev' %}
+                    <li><a href="https://archers-caen.fr">Production</a></li>
+                {% endif %}
+
+                <li>
+                    <a href="{{ path('landing_page', { slug: 'politique-de-confidentialite', type: 'p' }) }}">
+                        Politique de confidentialité
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ContactController::ROUTE')) }}">
+                        Contact
+                    </a>
+                </li>
+            </ul>
+
+            <p class="text-small text-weight-lighter">
+                Réalisé par
+                <a href="https://damienhebert.fr">
+                    Damien Hebert
+                </a>
+            </p>
+        </div>
+
+        <div class="logo">
+            <img src="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.svg') }}" alt="Logo des archers de Caen">
+        </div>
+    </div>
+</footer>

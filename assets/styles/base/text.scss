@@ -1,59 +1,87 @@
 @import "../variable";
 
-.text-small {
-  font-size: small;
-}
+.text- {
+  &small {
+    font-size: small !important;
+  }
 
-.text-medium {
-  font-size: medium;
-}
+  &medium {
+    font-size: medium !important;
+  }
 
-.text-large {
-  font-size: large;
-}
+  &large {
+    font-size: large !important;
+  }
 
-.text-xx-large {
-  font-size: xx-large;
-}
+  &xx-large {
+    font-size: xx-large !important;
+  }
 
-.text-xxx-large {
-  font-size: xxx-large;
-}
+  &xxx-large {
+    font-size: xxx-large !important;
+  }
 
-.text-bold {
-  font-weight: bold;
-}
+  &weight- {
+    &bold {
+      font-weight: bold !important;
+    }
 
-.text {
-  &-primary {
+    &normal {
+      font-weight: normal !important;
+    }
+
+    &lighter {
+      font-weight: lighter !important;
+    }
+  }
+
+  &primary {
     color: $color-primary-blue !important;
   }
 
-  &-secondary {
+  &secondary {
     color: $color-primary-purple !important;
   }
 
-  &-yellow {
+  &yellow {
     color: $color-yellow !important;
   }
 
-  &-grey {
+  &grey {
     color: $color-grey !important;
   }
 
-  &-red {
+  &red {
     color: $color-red !important;
   }
 
-  &-blue {
+  &blue {
     color: $color-blue !important;
   }
 
-  &-black {
+  &black {
     color: $color-black !important;
   }
 
-  &-white {
+  &white {
     color: $color-white !important;
+  }
+
+  &line-height- {
+    &small {
+      line-height: 1.2;
+    }
+
+    &medium {
+      line-height: 1.5;
+    }
+
+    &normal {
+      line-height: 1.7;
+    }
+
+    &large {
+      line-height: 2;
+    }
   }
 }

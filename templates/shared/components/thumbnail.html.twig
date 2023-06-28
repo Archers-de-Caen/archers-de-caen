@@ -1,6 +1,10 @@
 {% macro thumbnail(link, img, title) %}
     <a class="thumbnail" href="{{ link }}" title="{{ title }}">
-        <img src="{{ img }}" alt="Photo de la galerie">
+        <img
+            src="{{ img }}"
+            alt="Photo de la galerie"
+            loading="lazy"
+        >
         <p>{{ title }}</p>
     </a>
 {% endmacro %}

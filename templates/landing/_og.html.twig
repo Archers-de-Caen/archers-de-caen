@@ -1,0 +1,11 @@
+{% set currentUrl = '' %}
+{% if app.request.attributes.get('_route') %}
+    {% set currentUrl = url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+{% endif %}
+
+<meta property="og:site_name" content="Les Archers de Caen" />
+<meta property="og:title" content="{% if block('title') is defined %}{{ block('title')|trim }}{% endif %}" />
+<meta property="og:description" content="{% if block('description') is defined %}{{ block('description')|trim }}{% endif %}" />
+<meta property="og:url" content="{{ currentUrl }}" />
+<meta property="og:locale" content="FR_fr" />
+{% block og %}{% endblock og %}

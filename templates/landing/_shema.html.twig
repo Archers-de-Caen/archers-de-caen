@@ -1,0 +1,19 @@
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Les archers de Caen",
+        "url": "{{ router.request_context.scheme }}://{{ router.request_context.host }}",
+        "sameAs": [
+            "{{ social_network.youtube }}",
+            "{{ social_network.facebook }}",
+            "{{ social_network.instagram }}"
+        ],
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Avenue Albert 1er",
+            "postalCode": "14000",
+            "addressCountry": "FR"
+        }
+    }
+</script>
