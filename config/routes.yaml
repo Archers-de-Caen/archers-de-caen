@@ -21,7 +21,7 @@ controllers_api:
 controllers_webhook:
     resource: ../src/Http/Webhook/Controller
     type: attribute
-    prefix: '/'
+    prefix: '/webhook'
 
 kernel:
     resource: ../src/Kernel.php
