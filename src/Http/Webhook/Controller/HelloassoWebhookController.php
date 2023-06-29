@@ -20,7 +20,7 @@ use Symfony\Component\Uid\Uuid;
 
 #[AsController]
 #[Route(
-    path: 'webhook/helloasso',
+    path: '/helloasso',
     name: self::ROUTE,
     methods: Request::METHOD_POST
 )]

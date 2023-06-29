@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 )]
 class NewspaperController extends AbstractController
 {
-    public const ROUTE = 'route_landing_newspapers';
+    public const ROUTE = 'landing_newspapers';
 
     public function __invoke(DocumentRepository $documentRepository): Response
     {
