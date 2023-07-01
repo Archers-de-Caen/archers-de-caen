@@ -1,0 +1,29 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_content %}
+
+    <table class="table table-bordered table-condensed table-striped">
+        <thead>
+            <tr>
+                <th>Path</th>
+                <th>Files</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for path, cachedFiles in paths|sort((a, b) => a|length <=> b|length) %}
+                <tr>
+                    <td>{{ path }}</td>
+                    <td onclick="console.log('{{ cachedFiles|join(',') }}'.split(','))">{{ cachedFiles|length }}</td>
+                    <td>
+                        <a class="btn btn-sm btn-default"
+                           href="{{ path(constant('App\\Http\\Admin\\Controller\\Developer\\Liip\\CreateCacheLiipAdminController::ROUTE'), { 'path': path }) }}"
+                        >
+                            <i class="fa fa-cache"></i> Générer cache
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

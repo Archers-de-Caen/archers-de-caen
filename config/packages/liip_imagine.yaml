@@ -3,12 +3,6 @@ liip_imagine:
     # valid drivers options include "gd" or "gmagick" or "imagick"
     driver: "gd"
 
-    # le cache
-    resolvers:
-        cache_provider:
-            web_path:
-                web_root: "%kernel.project_dir%/public"
-
     cache: cache_provider
 
     webp:
@@ -26,19 +20,23 @@ liip_imagine:
         thumbnail_medium:
             quality: 50
 
-    # L'endroit où sont stockées les vraies images.
-    loaders:
-
     twig:
         mode: lazy
 
 when@dev:
     liip_imagine:
+        # L'endroit où sont stockées les vraies images.
         loaders:
             default:
                 filesystem:
                     data_root:
-                        - 'images/photo'
+                        - '%kernel.project_dir%/public/images/photo'
+                    allow_unresolvable_data_roots: true
+        # le cache
+        resolvers:
+            cache_provider:
+                web_path:
+                    web_root: "%kernel.project_dir%/public"
 
 when@prod:
     liip_imagine:
@@ -47,7 +45,7 @@ when@prod:
                 filesystem:
                     data_root:
                         - '%kernel.project_dir%/../uploaded-files/images/photo'
-#        resolvers:
-#            cache_provider:
-#                web_path:
-#                    web_root: "%kernel.project_dir%/../uploaded-files"
+        resolvers:
+            cache_provider:
+                web_path:
+                    web_root: "%kernel.project_dir%/../uploaded-files"

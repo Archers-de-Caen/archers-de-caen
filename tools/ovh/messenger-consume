@@ -21,7 +21,7 @@ return static function (array $context) {
     $input = new ArrayInput([
         'command' => 'messenger:consume',
         'receivers' => ['async', 'failed'],
-        '--time-limit' => 3500 # CRON TASK INTERRUPTED BY OVH - reason: the duration of your script exceeded the maximum permitted (3600 seconds)
+        '--time-limit' => 3500, // CRON TASK INTERRUPTED BY OVH - reason: the duration of your script exceeded the maximum permitted (3600 seconds)
     ]);
     $output = new ConsoleOutput();
 
