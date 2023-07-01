@@ -325,14 +325,14 @@
         <div class="thumbnails">
             {% for gallery in headerData.galleries %}
                 {{ thumbnail(
-                    path('landing_gallery', { slug: gallery.slug }),
+                    path(constant('App\\Http\\Landing\\Controller\\Gallery\\GalleryController::ROUTE'), { slug: gallery.slug }),
                     gallery.mainPhoto is defined and gallery.mainPhoto ? gallery.mainPhoto|imagine_filter('thumbnail') : asset('build/images/photo/cible.webp'),
                     gallery.title
                 ) }}
             {% endfor %}
         </div>
 
-        <a href="{{ path('landing_actualities') }}" class="highlighted mt-3">
+        <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Gallery\\GalleriesController::ROUTE')) }}" class="highlighted mt-3">
             <span>Voir tous les albums</span>
             <i class="fa-solid fa-arrow-right ml-1"></i>
         </a>
