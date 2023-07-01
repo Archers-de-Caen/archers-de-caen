@@ -19,7 +19,7 @@ use App\Domain\Result\Model\ResultBadge;
 use App\Http\Admin\Controller\Badge\ResultBadgeFederalHonorCrudController;
 use App\Http\Admin\Controller\Badge\ResultBadgeProgressArrowCrudController;
 use App\Http\Admin\Controller\Cms\ActualityCrudControllerAbstract;
-use App\Http\Admin\Controller\Cms\PageCrudControllerAbstract;
+use App\Http\Admin\Controller\Cms\PageCrudController;
 use App\Http\Admin\Controller\Developer\Liip\ListPathsLiipAdminController;
 use App\Http\Admin\Controller\File\DocumentCrudController;
 use App\Http\Admin\Controller\File\NewspaperCrudController;
@@ -72,7 +72,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Actualité', 'fas fa-newspaper', Page::class)
             ->setController(ActualityCrudControllerAbstract::class);
         yield MenuItem::linkToCrud('Page', 'fas fa-pager', Page::class)
-            ->setController(PageCrudControllerAbstract::class);
+            ->setController(PageCrudController::class);
         yield MenuItem::linkToCrud('Element de page', 'fas fa-database', Data::class);
         yield MenuItem::linkToCrud('Tags', 'fas fa-tags', Tag::class)
             ->setPermission(Archer::ROLE_DEVELOPER);

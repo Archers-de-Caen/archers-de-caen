@@ -19,7 +19,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class PageCrudControllerAbstract extends AbstractPageCrudController
+class PageCrudController extends AbstractPageCrudController
 {
     public function configureCrud(Crud $crud): Crud
     {
@@ -76,5 +76,17 @@ class PageCrudControllerAbstract extends AbstractPageCrudController
         $entityInstance->setCategory(Category::PAGE);
 
         parent::persistEntity($entityManager, $entityInstance);
+
+        $this->dispatchCache($entityInstance);
+    }
+
+    /**
+     * @param Page $entityInstance
+     */
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        parent::updateEntity($entityManager, $entityInstance);
+
+        $this->dispatchCache($entityInstance);
     }
 }

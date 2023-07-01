@@ -12,6 +12,7 @@ use App\Domain\File\Admin\Field\PhotoField;
 use App\Domain\File\Form\PhotoFormType;
 use App\Domain\Newsletter\NewsletterType;
 use App\Http\Admin\Controller\DashboardController;
+use App\Infrastructure\LiipImagine\CacheResolveMessage;
 use App\Infrastructure\Mailing\ActualityNewsletterMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
@@ -41,6 +42,7 @@ class AbstractPageCrudController extends AbstractCrudController
 {
     public function __construct(
         protected readonly UrlGeneratorInterface $urlGenerator,
+        protected readonly MessageBusInterface $bus,
     ) {
     }
 
@@ -153,5 +155,12 @@ class AbstractPageCrudController extends AbstractCrudController
         }
 
         return $this->redirect($context->getReferrer() ?: $urlGenerator->generate(DashboardController::ROUTE));
+    }
+
+    protected function dispatchCache(Page $entityInstance): void
+    {
+        if ($entityInstance->getImage() && $entityInstance->getImage()->getImageName()) {
+            $this->bus->dispatch(new CacheResolveMessage($entityInstance->getImage()->getImageName()));
+        }
     }
 }

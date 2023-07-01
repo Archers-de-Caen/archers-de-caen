@@ -63,5 +63,17 @@ class ActualityCrudControllerAbstract extends AbstractPageCrudController
         $entityInstance->setCategory(Category::ACTUALITY);
 
         parent::persistEntity($entityManager, $entityInstance);
+
+        $this->dispatchCache($entityInstance);
+    }
+
+    /**
+     * @param Page $entityInstance
+     */
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        parent::updateEntity($entityManager, $entityInstance);
+
+        $this->dispatchCache($entityInstance);
     }
 }
