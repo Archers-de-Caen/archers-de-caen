@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Admin\Controller\Developer\Liip;
 
 use App\Http\Admin\Controller\DashboardController;
+use App\Infrastructure\LiipImagine\CacheResolveMessage;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,6 +14,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
@@ -29,7 +31,7 @@ class CreateCacheLiipAdminController extends AbstractController
      */
     public function __invoke(
         Request $request,
-        KernelInterface $kernel,
+        MessageBusInterface $bus,
         AdminUrlGenerator $adminUrlGenerator
     ): Response {
         $redirect = $this->redirect(
@@ -54,23 +56,9 @@ class CreateCacheLiipAdminController extends AbstractController
 
         $path = $pathExplode[\count($pathExplode) - 1];
 
-        $application = new Application($kernel);
-        $application->setAutoExit(false);
+        $bus->dispatch(new CacheResolveMessage($path));
 
-        $input = new ArrayInput([
-            'command' => 'liip:imagine:cache:resolve',
-            'paths' => [$path],
-            '--as-script' => true,
-        ]);
-
-        // You can use NullOutput() if you don't need the output
-        $output = new BufferedOutput();
-        $application->run($input, $output);
-
-        // return the output, don't use if you used NullOutput()
-        $content = $output->fetch();
-
-        $this->addFlash('info', $content);
+        $this->addFlash('info', 'Cache creation in progress');
 
         return $redirect;
     }

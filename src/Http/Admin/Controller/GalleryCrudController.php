@@ -10,6 +10,7 @@ use App\Domain\Cms\Model\Gallery;
 use App\Domain\File\Admin\Field\PhotoField;
 use App\Domain\Newsletter\NewsletterType;
 use App\Http\Landing\Controller\Gallery\GalleryController;
+use App\Infrastructure\LiipImagine\CacheResolveMessage;
 use App\Infrastructure\Mailing\GalleryNewsletterMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -31,6 +32,7 @@ class GalleryCrudController extends AbstractCrudController
 {
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly MessageBusInterface $bus,
     ) {
     }
 
@@ -45,7 +47,7 @@ class GalleryCrudController extends AbstractCrudController
             ->addFormTheme('form/gallery.html.twig')
 
             ->setDefaultSort(['createdAt' => 'DESC'])
-        ;
+            ;
     }
 
     public function configureActions(Actions $actions): Actions
@@ -67,11 +69,9 @@ class GalleryCrudController extends AbstractCrudController
             })
         ;
 
-
         return $actions
             ->add(Crud::PAGE_INDEX, $publish)
             ->add(Crud::PAGE_INDEX, $publicLink);
-        ;
     }
 
     public function configureFields(string $pageName): iterable
@@ -105,6 +105,35 @@ class GalleryCrudController extends AbstractCrudController
         }
 
         return [$title, $mainPhoto, $gallery];
+    }
+
+    /**
+     * @param Gallery $entityInstance
+     */
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        parent::persistEntity($entityManager, $entityInstance);
+
+        $this->dispatchCache($entityInstance);
+    }
+
+    /**
+     * @param Gallery $entityInstance
+     */
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        parent::updateEntity($entityManager, $entityInstance);
+
+        $this->dispatchCache($entityInstance);
+    }
+
+    private function dispatchCache(Gallery $entityInstance): void
+    {
+        if ($entityInstance->getMainPhoto() && $entityInstance->getMainPhoto()->getImageName()) {
+            $this->bus->dispatch(new CacheResolveMessage($entityInstance->getMainPhoto()->getImageName()));
+        }
+
+        $this->bus->dispatch(new CacheResolveMessage($entityInstance->getPhotos()->map(fn ($photo) => $photo->getImageName())->toArray()));
     }
 
     public function publish(

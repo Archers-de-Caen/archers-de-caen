@@ -14,6 +14,7 @@ DirectoryIndex index.php
     RewriteEngine On
 
     RewriteRule ^/?(images|document)/(.*)?$ https://files.archers-caen.fr/$1/$2 [L]
+    RewriteRule ^/?media/cache/resolve/(.*)?$ https://files.archers-caen.fr/media/cache/$1 [L]
 
     RewriteCond %{REQUEST_URI}::$0 ^(/.+)/(.*)::\2$
     RewriteRule .* - [E=BASE:%1]
