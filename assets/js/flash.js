@@ -16,7 +16,7 @@ window.addEventListener('load', function() {
             const flashDecoded = JSON.parse(flash.value)
 
             title = flashDecoded.title
-            text = flashDecoded.text
+            text = flashDecoded.content
             imageUrl = flashDecoded.image
             date = flashDecoded.date
             type = null
