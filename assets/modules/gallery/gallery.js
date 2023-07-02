@@ -6,15 +6,13 @@ import Viewer from 'viewerjs';
 // Note: All images within the container will be found by calling `element.querySelectorAll('img')`.
 
 document.addEventListener("DOMContentLoaded", () => {
-    if (document.getElementById('galleries')) {
-        new Viewer(document.getElementById('galleries'), {
-            url(image) {
-                return image.getAttribute('data-original-photo')
-            },
+    if (document.querySelector('.thumbnails-container #galleries')) {
+        new Viewer(document.querySelector('.thumbnails-container #galleries'), {
+            url: 'data-original-photo',
+            toolbar: false,
+            title: false,
+            movable: false,
+            zoomable: false,
         })
     }
 })
-
-
-
-// Then, show one image by click it, or call `gallery.show()`.
