@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\Developer\Liip;
 
+use App\Helper\PaginatorHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Finder\Finder;
@@ -20,7 +21,10 @@ class ListPathsLiipAdminController extends AbstractController
 {
     public const ROUTE = 'admin_developer_admin_liip_image_cache';
 
-    public function __invoke(ParameterBagInterface $parameterBag): Response
+    /**
+     * @throws \Exception
+     */
+    public function __invoke(Request $request, ParameterBagInterface $parameterBag): Response
     {
         /** @var array $resolvers */
         $resolvers = $parameterBag->get('liip_imagine.resolvers');
@@ -31,8 +35,15 @@ class ListPathsLiipAdminController extends AbstractController
         $loaders = $parameterBag->get('liip_imagine.loaders');
         $dataRoot = $loaders['default']['filesystem']['data_root'][0];
 
+        /** @var int $page */
+        $page = $request->query->get('page', '1');
+        $elements = 250;
+
         $finder = new Finder();
-        $files = $finder->files()->in($dataRoot);
+
+        $files = $finder->files()->in($dataRoot)->getIterator();
+        $files = iterator_to_array($files);
+
         $paths = [];
 
         foreach ($files as $file) {
@@ -45,8 +56,13 @@ class ListPathsLiipAdminController extends AbstractController
             }
         }
 
+        uasort($paths, static fn ($a, $b) => \count($a) <=> \count($b));
+        $paths = \array_slice($paths, ($page - 1) * $elements, $elements, true);
+
         return $this->render('admin/developer/image-cache.html.twig', [
             'paths' => $paths,
+            'paginator' => PaginatorHelper::pagination($page + 1, (int) ceil(\count($files) / $elements)),
+            'currentPage' => $page,
         ]);
     }
 }
