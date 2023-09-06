@@ -18,16 +18,16 @@
             vous aurez la possibilité de le payer plus tard au club ou via la boutique du site.</li>
     </ul>
 
-    {% set document = documents|first %}
+    {% set takeLicense = takeLicense|first %}
 
     <div class="files mt-2">
-        {{ file(document['license_form'], 'Fiche d\'adhésion') }}
-        {{ file(document['assurance'], 'Notice d\'assurance') }}
-        {{ file(document['health'], 'Questionnaire santé') }}
+        {{ file(takeLicense['license_form'], 'Fiche d\'adhésion') }}
+        {{ file(takeLicense['assurance'], 'Notice d\'assurance') }}
+        {{ file(takeLicense['health'], 'Questionnaire santé') }}
     </div>
 
     <iframe
-        src="https://www.helloasso.com/associations/archers-de-caen/adhesions/licence-1/widget"
+        src="{{ takeLicense['helloasso'] }}"
         class="mt-2"
         style="width: 100%; height: 750px; border: none;"
         title="Prise de Licence aux Archers de Caen"

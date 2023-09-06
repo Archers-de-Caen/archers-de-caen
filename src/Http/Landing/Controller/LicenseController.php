@@ -25,7 +25,7 @@ class LicenseController extends AbstractController
     public function __invoke(DataRepository $dataRepository): Response
     {
         return $this->render('/landing/license/new.html.twig', [
-            'documents' => $dataRepository->findOneBy(['code' => 'TAKE_LICENSE'])?->getContent(),
+            'takeLicense' => $dataRepository->findOneBy(['code' => 'TAKE_LICENSE'])?->getContent(),
         ]);
     }
 }

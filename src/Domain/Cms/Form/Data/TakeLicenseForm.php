@@ -25,6 +25,9 @@ class TakeLicenseForm extends AbstractType
             ->add('health', UrlType::class, [
                 'label' => 'Questionnaire santé',
             ])
+            ->add('helloasso', UrlType::class, [
+                'label' => 'Lien vers HelloAsso',
+            ])
         ;
     }
 }
