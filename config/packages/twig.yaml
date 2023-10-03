@@ -18,6 +18,7 @@ twig:
             facebook: "https://www.facebook.com/ArchersdeCaen"
             instagram: "https://www.instagram.com/archerscaen/"
             youtube: "https://www.youtube.com/channel/UCkbHDxHZnQmr05kvKf5mqkQ"
+            tiktok: "https://www.tiktok.com/@archersdecaen2"
 
         router:
             request_context:
