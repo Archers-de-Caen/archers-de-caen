@@ -102,8 +102,11 @@
             championnats à l’échelle départementale, régionale et même nationale.
         </p>
         <p class="description">
-            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\LicenseController::ROUTE')) }}">
-                Prendre sa licence
+            <a
+                href="{{ path(constant('App\\Http\\Landing\\Controller\\LicenseController::ROUTE')) }}"
+                class="btn -primary"
+            >
+                Prendre ma licence
             </a>
         </p>
     </div>
@@ -115,8 +118,8 @@
                     <span class="ml-1 text-weight-bold">Où</span>
                 </div>
                 <span class="text-small">
-                                        En intérieur ou extérieur retrouvé où venir pratiquer
-                                    </span>
+                    En intérieur ou extérieur retrouvé où venir pratiquer
+                </span>
             </a>
             <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ClubController::ROUTE')) }}#comment"
                class="mt-2"
