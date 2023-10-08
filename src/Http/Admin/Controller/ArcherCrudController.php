@@ -8,6 +8,7 @@ use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Model\Archer;
 use App\Http\Landing\Controller\IndexController;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -18,14 +19,17 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use function Symfony\Component\Translation\t;
 
 class ArcherCrudController extends AbstractCrudController
 {
-    public function __construct(readonly private UrlGeneratorInterface $urlGenerator)
-    {
+    public function __construct(
+        readonly private UrlGeneratorInterface $urlGenerator,
+        readonly private UserPasswordHasherInterface $userPasswordHasher,
+    ) {
     }
 
     public static function getEntityFqcn(): string
@@ -39,8 +43,7 @@ class ArcherCrudController extends AbstractCrudController
             ->setPageTitle('index', 'Liste des archers')
             ->setPageTitle('new', 'Ajouter un archer')
             ->setPageTitle('detail', fn (Archer $archer) => (string) $archer)
-            ->setPageTitle('edit', fn (Archer $archer) => sprintf('Edition de l\'archer <b>%s</b>', $archer))
-        ;
+            ->setPageTitle('edit', fn (Archer $archer) => sprintf('Edition de l\'archer <b>%s</b>', $archer));
     }
 
     public function configureFields(string $pageName): iterable
@@ -61,8 +64,7 @@ class ArcherCrudController extends AbstractCrudController
         $email = EmailField::new('email');
 
         $createdAt = DateTimeField::new('createdAt')
-            ->setLabel('Date de création')
-        ;
+            ->setLabel('Date de création');
 
         $gender = ChoiceField::new('gender')
             ->setLabel('Genre')
@@ -72,8 +74,7 @@ class ArcherCrudController extends AbstractCrudController
                 'choice_label' => fn (Gender $choice) => t($choice->value, domain: 'archer'),
                 'choices' => Gender::cases(),
             ])
-            ->formatValue(fn ($value, ?Archer $entity) => $entity?->getGender()?->value ? t($entity->getGender()->value, domain: 'archer') : null)
-        ;
+            ->formatValue(fn ($value, ?Archer $entity) => $entity?->getGender()?->value ? t($entity->getGender()->value, domain: 'archer') : null);
 
         $category = ChoiceField::new('category')
             ->setLabel('Catégorie')
@@ -83,10 +84,10 @@ class ArcherCrudController extends AbstractCrudController
                 'choice_label' => fn (Category $choice) => t($choice->value, domain: 'archer'),
                 'choices' => Category::cases(),
             ])
-            ->formatValue(fn ($value, ?Archer $entity) => $entity?->getCategory()?->value ? t($entity->getCategory()->value, domain: 'archer') : null)
-        ;
+            ->formatValue(fn ($value, ?Archer $entity) => $entity?->getCategory()?->value ? t($entity->getCategory()->value, domain: 'archer') : null);
 
-        $newsletters = TextField::new('newslettersToString');
+        $newsletters = TextField::new('newslettersToString')
+            ->hideOnForm();
 
         if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {
             if ($this->isGranted(Archer::ROLE_DEVELOPER)) {
@@ -119,7 +120,33 @@ class ArcherCrudController extends AbstractCrudController
         );
 
         return $actions
-            ->add(Crud::PAGE_INDEX, $impersonation)
-        ;
+            ->add(Crud::PAGE_INDEX, $impersonation);
+    }
+
+    /**
+     * @param Archer $entityInstance
+     */
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        $this->hashPassword($entityInstance);
+
+        parent::persistEntity($entityManager, $entityInstance);
+    }
+
+    /**
+     * @param Archer $entityInstance
+     */
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        $this->hashPassword($entityInstance);
+
+        parent::updateEntity($entityManager, $entityInstance);
+    }
+
+    private function hashPassword(Archer $archer): void
+    {
+        if ($plainPassword = $archer->getPlainPassword()) {
+            $archer->setPassword($this->userPasswordHasher->hashPassword($archer, $plainPassword));
+        }
     }
 }

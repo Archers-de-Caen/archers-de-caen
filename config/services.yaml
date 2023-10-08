@@ -35,17 +35,12 @@ services:
             $env: '%kernel.environment%'
             $baseHost: '%router.request_context.scheme%://%router.request_context.host%'
 
-    _instanceof:
-        Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface:
-            tags: ['doctrine.event_subscriber']
-
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'
         exclude:
             - '../src/Kernel.php'
-            - '../src/Tests/'
 
     App\Command\Cron\FftaArcherUpdateCommand:
         $fftaUsername: '%env(FFTA_USERNAME)%'
