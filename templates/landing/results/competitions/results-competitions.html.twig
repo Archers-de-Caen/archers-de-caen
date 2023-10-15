@@ -1,8 +1,28 @@
 {% extends '/landing/base.html.twig' %}
 
-{% block title %}Compétitions de la saison {{ season - 1 }} - {{ season }}{% endblock %}
+{% block title %}Compétitions{% endblock %}
 
 {% block main %}
+    <div class="border --rounded p-4">
+        {{ form_start(filterForm) }}
+
+        <div class="flex jc-space-between">
+            {{ form_row(filterForm.season) }}
+            {{ form_row(filterForm.type) }}
+        </div>
+
+        {{ form_row(filterForm.location) }}
+
+        <div class="flex jc-end --gap-1 mt-2">
+            {{ form_row(filterForm.reset) }}
+            {{ form_row(filterForm.submit) }}
+        </div>
+
+        {{ form_end(filterForm) }}
+    </div>
+
+    <hr class="my-5">
+
     <table class="list">
         <thead>
             <tr>
@@ -32,12 +52,13 @@
                         <a href="{{ url }}">{{ competition.type.value|trans([], 'competition') }}</a>
                     </td>
                 </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">Aucune compétition</td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('landing_results_competitions_seasons') }}" class="show-all-actualities">
-        <i data-feather="arrow-left"></i>
-        <span>Revenir a la liste des saisons</span>
-    </a>
+    {{ include('/shared/components/paginator.html.twig', { paginator: paginator }) }}
 {% endblock %}

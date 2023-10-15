@@ -255,10 +255,26 @@
     </div>
     <div>
         <div class="thumbnails">
-            {{ thumbnail(path('landing_results_arrow'), asset('build/images/photo/fleche_de_progression.webp'), 'Fleches de progression') }}
-            {{ thumbnail(path('landing_results_competitions_seasons'), asset('build/images/photo/trapa_et_coupe.webp'), 'Concours') }}
-            {{ thumbnail(path('landing_results_record'), asset('build/images/photo/cible_tout_dans_le_dix.webp'), 'Record') }}
-            {{ thumbnail(path('landing_results_federal_honors'), asset('build/images/photo/badge_70.webp'), 'Distinctions fédérales') }}
+            {{ thumbnail(
+                path(constant('App\\Http\\Landing\\Controller\\Results\\ArrowsController::ROUTE')),
+                asset('build/images/photo/fleche_de_progression.webp'),
+                'Fleches de progression'
+            ) }}
+            {{ thumbnail(
+                path(constant('App\\Http\\Landing\\Controller\\Results\\CompetitionListController::ROUTE')),
+                asset('build/images/photo/trapa_et_coupe.webp'),
+                'Concours'
+            ) }}
+            {{ thumbnail(
+                path(constant('App\\Http\\Landing\\Controller\\Results\\RecordController::ROUTE')),
+                asset('build/images/photo/cible_tout_dans_le_dix.webp'),
+                'Record'
+            ) }}
+            {{ thumbnail(
+                path(constant('App\\Http\\Landing\\Controller\\Results\\FederalHonorsController::ROUTE')),
+                asset('build/images/photo/badge_70.webp'),
+                'Distinctions fédérales'
+            ) }}
         </div>
     </div>
     <div>
@@ -284,7 +300,7 @@
             <p class="title">Le sport</p>
         </div>
         <p class="description">
-            Nous avons essayer de regrouper ici toutes les informations utiles pour la pratique du tir à l'arc.
+            Nous avons essayé de regrouper ici toutes les informations utiles pour la pratique du tir à l'arc.
         </p>
     </div>
     <div class="flex --gap-2">

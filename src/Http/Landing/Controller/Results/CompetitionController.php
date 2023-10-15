@@ -34,8 +34,8 @@ class CompetitionController extends AbstractController
             foreach (Category::cases() as $category) {
                 foreach ($competition->getResults() as $result) {
                     if (
-                        $category->value === $result->getCategory()?->value &&
-                        $weapon->value === $result->getWeapon()?->value
+                        $category->value === $result->getCategory()?->value
+                        && $weapon->value === $result->getWeapon()?->value
                     ) {
                         if (!isset($results[$weapon->value])) {
                             $results[$weapon->value] = [];

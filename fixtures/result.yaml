@@ -1,0 +1,9 @@
+App\Domain\Result\Model\Result:
+  result (template):
+    weapon: '<randomElement(<(App\Domain\Archer\Config\Weapon::cases())>)>'
+    archer: '@archer_*'
+    score: <randomDigitNotNull()>
+    rank: <randomDigitNotNull()>
+    category: '<randomElement(<(App\Domain\Archer\Config\Category::cases())>)>'
+    record: <boolean()>
+    completionDate: <dateTimeImmutableBetween('-1 year', 'now')>

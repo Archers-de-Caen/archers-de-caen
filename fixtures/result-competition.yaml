@@ -1,0 +1,6 @@
+include:
+  - ./result.yaml
+
+App\Domain\Result\Model\ResultCompetition:
+  result_competition_{1..50} (extends result):
+    competition: '@competition_*'

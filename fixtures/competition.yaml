@@ -1,0 +1,6 @@
+App\Domain\Competition\Model\Competition:
+  competition_{1..50}:
+    location: '<city()>'
+    dateStart: '<dateTimeImmutableBetween("-2 years", "+2 years")>'
+    dateEnd: '<dateTimeImmutableBetween("-2 years", "+2 years")>'
+    type: '<randomElement(<(App\Domain\Competition\Config\Type::cases())>)>'

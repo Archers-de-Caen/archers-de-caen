@@ -40,4 +40,19 @@ class CompetitionRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    /**
+     * @return array<string>
+     */
+    public function getAllLocations(): array
+    {
+        /* @phpstan-ignore-next-line */
+        return $this->createQueryBuilder('competition')
+            ->select('competition.location')
+            ->distinct()
+            ->orderBy('competition.location', 'ASC')
+            ->getQuery()
+            ->getSingleColumnResult()
+        ;
+    }
 }
