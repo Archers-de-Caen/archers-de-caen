@@ -3,97 +3,52 @@
 {% block title %}Records des archers du club{% endblock %}
 
 {% block main %}
-    <div class="page-content result-badges-page">
-        {{ include('landing/results/_parts/weapon-filter.html.twig') }}
-        {{ include('landing/results/_parts/competition-type-filter.html.twig') }}
+    <div class="border --rounded p-4">
+        {{ form_start(filterForm) }}
 
-        {% for competitionType in competitionTypes %}
-            {% for weapon in weapons %}
-                <table class="list results w-100"
-                       data-weapon="{{ weapon.value }}"
-                       data-competition-type="{{ competitionType.value }}"
-                >
-                    <caption>Résultat compétition {{ competitionType.value|trans([], 'competition') }} en {{ weapon.value|trans([], 'archer') }}</caption>
+        <div class="flex jc-space-between">
+            {{ form_row(filterForm.weapon) }}
+            {{ form_row(filterForm.type) }}
+        </div>
 
-                    <thead class="--header-sticky">
-                        <tr>
-                            <th>Archer</th>
-                            <th>Score</th>
-                            <th>Date et Lieu</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if resultRecords[competitionType.value][weapon.value] is defined %}
-                            {% for result in resultRecords[competitionType.value][weapon.value]|sort((a, b) => a.score > b.score ? -1 : 1) %}
-                                <tr>
-                                    <td>{{ result.archer.fullName }}</td>
-                                    <td>{{ result.score }}</td>
-                                    <td>Le {{ result.completionDate|date('d/m/Y') }} à {{ result.competition.location }}</td>
-                                </tr>
-                            {% endfor %}
-                        {% else %}
-                            <tr>
-                                <td colspan="3">Aucun record dans cette catégorie</td>
-                            </tr>
-                        {% endif %}
-                    </tbody>
-                </table>
-            {% endfor %}
-        {% endfor %}
+        <div class="flex jc-end --gap-1 mt-2">
+            {{ form_row(filterForm.reset) }}
+            {{ form_row(filterForm.submit) }}
+        </div>
+
+        {{ form_end(filterForm) }}
     </div>
-{% endblock %}
 
-{% block javascript_footer %}
-    <script>
-        function hideAllCompetitionType() {
-            hide(document.querySelector('.competition-types'))
+    <hr class="my-5">
 
-            document.querySelectorAll('.competition-type').forEach((competitionType) => {
-                hide(competitionType)
-            })
-        }
+    <div class="page-content result-badges-page">
+        <table class="list results w-100">
+            <caption>Recors des Archers de Caen</caption>
 
-        function hideAllResults() {
-            hide(document.querySelector('.results'))
-
-            document.querySelectorAll('.results').forEach((results) => {
-                hide(results)
-            })
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-
-            let weaponValue = null
-
-            hideAllCompetitionType()
-            hideAllResults()
-
-            document.querySelectorAll('input[name="weapon"]').forEach((weapon) => {
-                weapon.addEventListener('change', (e) => {
-                    hideAllCompetitionType()
-                    hideAllResults()
-
-                    const target = e.currentTarget
-                    weaponValue = target.value
-
-                    show(document.querySelector('.competition-types'), 'flex')
-                    document.querySelectorAll(`.competition-type`).forEach((competitionType) => {
-                        show(competitionType)
-                    })
-                })
-            })
-
-            document.querySelectorAll('input[name="competition-type"]').forEach((competitionType) => {
-                competitionType.addEventListener('change', (e) => {
-                    hideAllResults()
-
-                    const target = e.currentTarget
-
-                    document.querySelectorAll(`.results[data-competition-type="${target.value}"][data-weapon="${weaponValue}"]`).forEach((result) => {
-                        show(result, 'table')
-                    })
-                })
-            })
-        })
-    </script>
+            <thead class="--header-sticky">
+                <tr>
+                    <th>Archer</th>
+                    <th>Arme</th>
+                    <th>Type</th>
+                    <th>Date et Lieu</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in resultRecords %}
+                    <tr>
+                        <td>{{ result.archer.fullName }}</td>
+                        <td>{{ result.weapon.name|trans([], 'archer') }}</td>
+                        <td>{{ result.competition.type.name|trans([], 'competition') }}</td>
+                        <td>Le {{ result.completionDate|date('d/m/Y') }} à {{ result.competition.location }}</td>
+                        <td>{{ result.score }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">Aucun record dans cette catégorie</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

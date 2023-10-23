@@ -34,8 +34,11 @@ great_veteran_man: 'Super Vétéran Homme'
 great_veteran_woman: 'Super Vétéran Femme'
 
 # Weapons
+RECURVE_BOW: 'Arc classique'
 recurve_bow: 'Arc classique'
+COMPOUND_BOW: 'Arc à poulies'
 compound_bow: 'Arc à poulies'
+BARE_BOW: 'Arc nu'
 bare_bow: 'Arc nu'
 
 # Gender

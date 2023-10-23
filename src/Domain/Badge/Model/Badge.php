@@ -50,13 +50,13 @@ class Badge
 
     /**
      * @var array{
-     *    type: string,
-     *    score: int,
+     *    type?: string,
+     *    score?: int,
      *    weapon?: string
      * }|null
      */
     #[ORM\Column(type: Types::JSON)]
-    private ?array $conditions = null;
+    private ?array $conditions = [];
 
     #[ORM\OneToOne(targetEntity: Photo::class, cascade: ['persist'])]
     private ?Photo $image;

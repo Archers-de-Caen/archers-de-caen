@@ -4,48 +4,95 @@ declare(strict_types=1);
 
 namespace App\Http\Landing\Controller\Results;
 
-use App\Domain\Archer\Config\Weapon;
 use App\Domain\Badge\Model\Badge;
-use App\Domain\Badge\Repository\BadgeRepository;
-use App\Domain\Competition\Config\Type;
+use App\Domain\Result\Repository\ResultBadgeRepository;
+use App\Http\Landing\Filter\BadgeFilter;
+use App\Http\Landing\Request\BadgeFilterDto;
+use App\Http\Landing\Request\RecordFilterDto;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[AsController]
 #[Route(
     path: '/resultats/distinctions-federales',
     name: self::ROUTE,
-    methods: Request::METHOD_GET
+    methods: [
+        Request::METHOD_GET,
+        Request::METHOD_POST,
+    ]
 )]
 class FederalHonorsController extends AbstractController
 {
     public const ROUTE = 'landing_results_federal_honors';
 
-    public function __invoke(BadgeRepository $badgeRepository): Response
-    {
-        $badges = $badgeRepository->findBy(['type' => Badge::COMPETITION]);
+    public function __construct(
+        private readonly ResultBadgeRepository $resultBadgeRepository,
+    ) {
+    }
+
+    public function __invoke(
+        Request $request,
+
+        #[MapQueryString]
+        ?BadgeFilterDto $filterDto
+    ): Response {
+        $filterForm = $this->createForm(BadgeFilter::class, $filterDto);
+        $filterForm->handleRequest($request);
+
+        if ($filterForm->isSubmitted() && $filterForm->isValid()) {
+            $filterDto = $filterForm->getData();
+
+            /** @var SubmitButton $resetBtn */
+            $resetBtn = $filterForm->get('reset');
+
+            if ($resetBtn->isClicked()) {
+                $filterDto = new BadgeFilterDto();
+            }
+
+            return $this->redirectToRoute(self::ROUTE, (array) $filterDto);
+        }
+
+        $queryBuilder = $this->resultBadgeRepository
+            ->createQueryBuilder('rb')
+            ->leftJoin('rb.badge', 'b')
+
+            ->andWhere('b.type = :type')
+            ->setParameter('type', Badge::COMPETITION)
+        ;
+
+        $this->handleFilter($queryBuilder, $filterDto);
+
+        $resultBadges = $queryBuilder
+            ->getQuery()
+            ->getResult()
+        ;
 
         return $this->render('/landing/results/result-badges.html.twig', [
-            'badges' => $badges,
-            'weapons' => Weapon::getInOrder(),
-            'competitionTypes' => array_filter(
-                Type::getInOrder(),
-                static function (Type $competitionType) use ($badges) {
-                    foreach ($badges as $badge) {
-                        if (
-                            isset($badge->getConditions()['weapon']) &&
-                            $badge->getCompetitionType() === $competitionType
-                        ) {
-                            return true;
-                        }
-                    }
-
-                    return false;
-                }
-            ),
+            'resultBadges' => $resultBadges,
+            'filterForm' => $filterForm->createView(),
         ]);
+    }
+
+    public function handleFilter(QueryBuilder $queryBuilder, ?BadgeFilterDto $filterDto): void
+    {
+        if ($filterDto?->weapon) {
+            $queryBuilder
+                ->andWhere('rb.weapon = :weapon')
+                ->setParameter('weapon', $filterDto->weapon)
+            ;
+        }
+
+        if ($filterDto?->badge) {
+            $queryBuilder
+                ->andWhere('rb.badge = :badge')
+                ->setParameter('badge', $filterDto->badge, 'uuid')
+            ;
+        }
     }
 }

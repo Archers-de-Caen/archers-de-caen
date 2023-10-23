@@ -3,133 +3,53 @@
 {% block title %}Distinctions Federales{% endblock %}
 
 {% block main %}
-    <div class="page-content">
-        <section class="page-content result-badges-page">
-            {{ include('landing/results/_parts/weapon-filter.html.twig') }}
-            {{ include('landing/results/_parts/competition-type-filter.html.twig') }}
+    <div class="border --rounded p-4">
+        {{ form_start(filterForm) }}
 
-            <div class="thumbnails-container badges">
-                <hr class="mt-2 mb-2">
+        <div class="flex jc-space-between">
+            {{ form_row(filterForm.weapon) }}
+            {{ form_row(filterForm.badge) }}
+        </div>
 
-                <h2>Distinctions</h2>
+        <div class="flex jc-end --gap-1 mt-2">
+            {{ form_row(filterForm.reset) }}
+            {{ form_row(filterForm.submit) }}
+        </div>
 
-                <div class="thumbnails form-groups">
-                    {# @var badge App\Domain\Badge\Model\Badge #}
-                    {% for badge in badges|filter(badge => badge.conditions.weapon is defined) %}
-                        <div class="badge form-group --check --btn --white" data-weapon="{{ badge.conditions.weapon }}" data-competition-type="{{ badge.competitionType.value }}">
-                            <input type="radio" id="{{ badge.id }}" name="badge" value="{{ badge.id }}">
-
-                            <label for="{{ badge.id }}">
-                                {% if badge.image %}
-                                    <img src="{{ vich_uploader_asset(badge.image) }}" alt="{{ badge.name }}">
-                                {% else %}
-                                    {{ badge.name }}
-                                {% endif %}
-                            </label>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-
-            <div class="thumbnails-container results">
-                <hr class="mt-2 mb-2">
-
-                <h2>Résultat</h2>
-
-                <div class="">
-                    {% for badge in badges|filter(badge => badge.conditions.weapon is defined) %}
-                        {# @var result App\Domain\Result\Model\ResultBadge #}
-                        {% for result in badge.resultBadges|sort((resultA, resultB) => resultA.score < resultB.score ? -1 : 1) %}
-                            <div class="result" data-badge="{{ badge.id }}">
-                                <b>{{ result.archer.fullName }}</b> ({{ result.category.toShortString }} {{ result.score }}){% if not loop.last %} -{% endif %}
-                            </div>
-                        {% endfor %}
-                    {% endfor %}
-                </div>
-            </div>
-
-        </section>
+        {{ form_end(filterForm) }}
     </div>
-{% endblock %}
 
-{% block javascript_footer %}
-    <script>
-        function hideAllCompetitionType() {
-            hide(document.querySelector('.competition-types'))
+    <hr class="my-5">
 
-            document.querySelectorAll('.competition-type').forEach((competitionType) => {
-                hide(competitionType)
-            })
-        }
+    <div class="page-content result-badges-page">
+        <table class="list results w-100">
+            <caption>DISTINCTIONS FEDERALES</caption>
 
-        function hideAllBadges() {
-            hide(document.querySelector('.badges'))
-
-            document.querySelectorAll('.badge').forEach((badge) => {
-                hide(badge)
-            })
-        }
-
-        function hideAllResults() {
-            hide(document.querySelector('.results'))
-
-            document.querySelectorAll('.result').forEach((badge) => {
-                hide(badge)
-            })
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-
-            let weaponValue = null
-
-            hideAllCompetitionType()
-            hideAllBadges()
-            hideAllResults()
-
-            document.querySelectorAll('input[name="weapon"]').forEach((weapon) => {
-                weapon.addEventListener('change', (e) => {
-                    hideAllCompetitionType()
-                    hideAllBadges()
-                    hideAllResults()
-
-                    const target = e.currentTarget
-                    weaponValue = target.value
-
-                    document.querySelector('.competition-types').style.display = 'flex'
-                    document.querySelectorAll(`.competition-type`).forEach((badge) => {
-                        show(badge)
-                    })
-                })
-            })
-
-            document.querySelectorAll('input[name="competition-type"]').forEach((competitionType) => {
-                competitionType.addEventListener('change', (e) => {
-                    hideAllBadges()
-                    hideAllResults()
-
-                    const target = e.currentTarget
-
-                    document.querySelector('.badges').style.display = 'flex'
-                    document.querySelectorAll(`.badge[data-competition-type="${target.value}"][data-weapon="${weaponValue}"]`).forEach((result) => {
-                        show(result, 'inline-block')
-                    })
-                })
-            })
-
-            document.querySelectorAll('input[name="badge"]').forEach((badge) => {
-                badge.addEventListener('change', (e) => {
-                    hideAllResults()
-
-                    const target = e.currentTarget
-                    const badgeValue = target.value
-
-                    document.querySelector('.results').style.display = 'flex'
-                    document.querySelectorAll(`.result[data-badge="${badgeValue}"]`).forEach((result) => {
-                        show(result, 'inline-block')
-                    })
-                })
-            })
-        })
-    </script>
+            <thead class="--header-sticky">
+            <tr>
+                <th>Badge</th>
+                <th>Archer</th>
+                <th>Arme</th>
+                <th>Date</th>
+                <th>Score</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for result in resultBadges %}
+                <tr>
+                    <td>{{ result.badge }}</td>
+                    <td>{{ result.archer.fullName }}</td>
+                    <td>{{ result.weapon.name|trans([], 'archer') }}</td>
+                    <td>{{ result.completionDate|date('d/m/Y') }}</td>
+                    <td>{{ result.score }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">Aucune obtention de badge dans cette catégorie</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
 

@@ -1,0 +1,14 @@
+App\Domain\Badge\Model\Badge:
+  badge (template):
+    name: <name()>
+    code (unique): <word()>
+    official: <boolean()>
+    type: <randomElement(['competition', 'progress_arrow'])>
+    competitionType: '<randomElement(<(App\Domain\Competition\Config\Type::cases())>)>'
+    level: <numberBetween(1, 10)>
+
+  badge_competition_{1..50} (extends badge):
+    type: 'competition'
+
+  badge_progress_arrow_{1..50} (extends badge):
+    type: 'progress_arrow'
