@@ -14,7 +14,7 @@ trait LicenseNumberTrait
     #[Assert\NotBlank]
     #[Assert\NotNull]
     #[Assert\Length(max: 7)]
-    #[Assert\Regex('/[0-9]{6}[A-Za-z]/')]
+    #[Assert\Regex('/[0-9]{7}[A-Za-z]/')]
     private ?string $licenseNumber = null;
 
     public function getLicenseNumber(): ?string
