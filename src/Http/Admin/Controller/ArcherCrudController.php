@@ -8,7 +8,6 @@ use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Model\Archer;
 use App\Http\Landing\Controller\IndexController;
-use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -19,7 +18,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use function Symfony\Component\Translation\t;
@@ -28,7 +26,6 @@ class ArcherCrudController extends AbstractCrudController
 {
     public function __construct(
         readonly private UrlGeneratorInterface $urlGenerator,
-        readonly private UserPasswordHasherInterface $userPasswordHasher,
     ) {
     }
 
@@ -87,6 +84,7 @@ class ArcherCrudController extends AbstractCrudController
             ->formatValue(fn ($value, ?Archer $entity) => $entity?->getCategory()?->value ? t($entity->getCategory()->value, domain: 'archer') : null);
 
         $newsletters = TextField::new('newslettersToString')
+            ->setLabel('Inscrit aux newsletters')
             ->hideOnForm();
 
         if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {
@@ -121,32 +119,5 @@ class ArcherCrudController extends AbstractCrudController
 
         return $actions
             ->add(Crud::PAGE_INDEX, $impersonation);
-    }
-
-    /**
-     * @param Archer $entityInstance
-     */
-    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
-    {
-        $this->hashPassword($entityInstance);
-
-        parent::persistEntity($entityManager, $entityInstance);
-    }
-
-    /**
-     * @param Archer $entityInstance
-     */
-    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
-    {
-        $this->hashPassword($entityInstance);
-
-        parent::updateEntity($entityManager, $entityInstance);
-    }
-
-    private function hashPassword(Archer $archer): void
-    {
-        if ($plainPassword = $archer->getPlainPassword()) {
-            $archer->setPassword($this->userPasswordHasher->hashPassword($archer, $plainPassword));
-        }
     }
 }
