@@ -82,11 +82,14 @@ class ResultCompetitionManager
             ->getResult();
 
         $badges = array_filter($badges, static function (Badge $badge) use ($resultCompetition) {
-            if (empty($badge->getConditions()['weapon'])) {
+            $weapon = $badge->getConditions()['weapon'] ?? null;
+            $type = $badge->getConditions()['type'] ?? null;
+
+            if (!$weapon || !$type) {
                 return false;
             }
 
-            return $badge->getConditions()['weapon'] === $resultCompetition->getWeapon()?->value && 'minScore' === $badge->getConditions()['type'];
+            return $weapon === $resultCompetition->getWeapon()?->value && 'minScore' === $type;
         });
 
         uasort($badges, static function (Badge $first, Badge $second): int {
