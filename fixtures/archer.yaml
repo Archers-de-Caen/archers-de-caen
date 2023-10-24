@@ -4,7 +4,7 @@ App\Domain\Archer\Model\Archer:
     lastName: <lastName()>
     email: <email()>
     phone: <e164PhoneNumber()>
-    licenseNumber: <numberBetween(100000, 999999)><randomLetter()>
+    licenseNumber: <numberBetween(1000000, 9999999)><randomLetter()>
     plainPassword: <password()>
     roles:
       - ROLE_ARCHER

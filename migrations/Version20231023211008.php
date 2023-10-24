@@ -16,6 +16,7 @@ final class Version20231023211008 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        $this->addSql('ALTER TABLE archer CHANGE license_number license_number VARCHAR(8) NOT NULL');
         $this->addSql('UPDATE archer SET license_number = CONCAT(\'0\', license_number)');
     }
 
