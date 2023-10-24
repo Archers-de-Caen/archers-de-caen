@@ -72,7 +72,7 @@ final class BadgeFilter extends AbstractType
                 'required' => false,
                 'class' => Badge::class,
                 'choice_translation_domain' => 'competition',
-                'group_by' => fn (Badge $badge) => $badge->getCompetitionType()->name,
+                'group_by' => fn (Badge $badge) => $badge->getCompetitionType()?->name,
                 'query_builder' => fn (BadgeRepository $repository) => $repository->createQueryBuilder('b')
                     ->andWhere('b.type = :type')
                     ->setParameter('type', Badge::COMPETITION)
