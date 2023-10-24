@@ -35,6 +35,6 @@ class PaymentController extends AbstractController
         CompetitionRegisterPayment $competitionRegisterPayment,
         LoggerInterface $logger
     ): Response {
-        return $this->redirect('https://www.helloasso.com/associations/archers-de-caen/evenements/inscriptions-tae-des-archers-de-caen');
+        return $this->redirect('https://www.helloasso.com/associations/archers-de-caen/evenements/concours-salle-2023-caen');
     }
 }
