@@ -36,7 +36,7 @@ final class RecordFilter extends AbstractType
 
         $builder
             ->add('type', EnumType::class, [
-                'label' => 'Type',
+                'label' => 'Type de concours',
                 'choice_translation_domain' => 'competition',
                 'required' => false,
                 'class' => Type::class,

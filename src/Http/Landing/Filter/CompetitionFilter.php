@@ -39,6 +39,7 @@ final class CompetitionFilter extends AbstractType
             ])
 
             ->add('location', ChoiceType::class, [
+                'label' => 'Lieu',
                 'choices' => $this->competitionRepository->getAllLocations(),
                 'choice_label' => static fn (?string $choice): ?string => $choice,
                 'required' => false,
@@ -61,7 +62,7 @@ final class CompetitionFilter extends AbstractType
 
         $builder
             ->add('type', EnumType::class, [
-                'label' => 'Type',
+                'label' => 'Type de concours',
                 'choice_translation_domain' => 'competition',
                 'required' => false,
                 'class' => Type::class,
