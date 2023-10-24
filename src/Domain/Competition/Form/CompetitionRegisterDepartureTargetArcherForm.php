@@ -95,11 +95,11 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
             ->add('licenseNumber', TextType::class, [
                 'label' => 'Numéro de licence',
                 'attr' => [
-                    'pattern' => '[0-9]{6}[A-Za-z]',
-                    'placeholder' => '123456A',
+                    'pattern' => '[0-9]{7}[A-Za-z]',
+                    'placeholder' => '0123456A',
                 ],
                 'constraints' => [
-                    new Regex('/[0-9]{6}[A-Za-z]/'),
+                    new Regex('/[0-9]{7}[A-Za-z]/'),
                 ],
             ])
             ->add('category', EnumType::class, [
