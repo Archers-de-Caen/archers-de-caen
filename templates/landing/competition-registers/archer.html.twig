@@ -26,9 +26,22 @@
                         <p class="text-large text-weight-bold" id="archer-name"></p>
                         <i class="fa-solid fa-edit cursor-pointer" id="edit-archer"></i>
                     </div>
-                    <p class="mt-2" id="archer-contact"></p>
-                    <p class="mt-2" id="archer-category"></p>
-                    <p id="archer-club"></p>
+                    <p class="mt-2">
+                        Email :
+                        <strong id="archer-contact-email"></strong>
+                    </p>
+                    <p class="mt-2">
+                        Téléphone :
+                        <strong id="archer-contact-phone"></strong>
+                    </p>
+                    <p class="mt-2">
+                        Catégorie :
+                        <strong id="archer-category"></strong>
+                    </p>
+                    <p>
+                        Club:
+                        <strong id="archer-club"></strong>
+                    </p>
                 </div>
             </div>
 
@@ -116,7 +129,7 @@
             }
 
             function handleLicenseInput(target) {
-                if (target.value && target.value.match(/\d{6}[a-zA-Z]/g)) {
+                if (target.value && target.value.match(/\d{7}[a-zA-Z]/g)) {
                     fetch('/api/competition-registers/archers/' + target.value)
                         .then((response) => {
                             if (200 === response.status) {
@@ -156,7 +169,8 @@
                                     })
 
                                     archerAlreadyExistContainer.querySelector('#archer-name').innerText = translateGender(body.gender) + body.firstName + '' + body.lastName
-                                    archerAlreadyExistContainer.querySelector('#archer-contact').innerText = body.email + ' | ' + body.phone
+                                    archerAlreadyExistContainer.querySelector('#archer-contact-email').innerText = body.email
+                                    archerAlreadyExistContainer.querySelector('#archer-contact-phone').innerText = body.phone
                                     archerAlreadyExistContainer.querySelector('#archer-category').innerText = translateCategory(body.category)
                                     archerAlreadyExistContainer.querySelector('#archer-club').innerText = body.club
                                 } else {
@@ -218,6 +232,8 @@
                 genderInput.addEventListener('input', (e) => {
                     const target = e.currentTarget
 
+                    document.querySelector('#competition_register_departure_target_archer_form_category').value = ''
+
                     handleGenderInput(target)
                 })
             })
@@ -248,7 +264,7 @@
                             return "Vous devez fournir votre numéro de licence"
                         }
 
-                        if (!inputValue.match('[0-9]{6}[a-zA-Z]')) {
+                        if (!inputValue.match('[0-9]{7}[a-zA-Z]')) {
                             return "Votre numéro de licence doit être au format 123456A"
                         }
                     },

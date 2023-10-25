@@ -34,11 +34,11 @@ class NewsletterForm extends AbstractType
                 'required' => true,
                 'label' => 'Numéro de licence',
                 'attr' => [
-                    'pattern' => '[0-9]{6}[A-Za-z]',
+                    'pattern' => '[0-9]{7}[A-Za-z]',
                     'placeholder' => '123456A',
                 ],
                 'constraints' => [
-                    new Regex('/[0-9]{6}[A-Za-z]/'),
+                    new Regex('/[0-9]{7}[A-Za-z]/'),
                 ],
             ])
             ->add('submit', SubmitType::class, [

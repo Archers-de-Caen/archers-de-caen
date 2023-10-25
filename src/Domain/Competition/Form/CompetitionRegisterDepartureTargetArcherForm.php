@@ -94,6 +94,7 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
             ])
             ->add('licenseNumber', TextType::class, [
                 'label' => 'Numéro de licence',
+                'help' => 'Depuis la saison 2023-2024, le numéro de licence est composé de 7 chiffres et d\'une lettre',
                 'attr' => [
                     'pattern' => '[0-9]{7}[A-Za-z]',
                     'placeholder' => '0123456A',
