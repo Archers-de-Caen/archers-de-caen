@@ -16,6 +16,9 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class NewsletterControllerTest extends WebTestCase
 {
+    private const LICENSE_NUMBER = '0123456A';
+    private const EMAIL = '0123456A';
+
     private KernelBrowser $client;
     private EntityManagerInterface $em;
 
@@ -59,10 +62,10 @@ class NewsletterControllerTest extends WebTestCase
     {
         $this->client->request(Request::METHOD_GET, '/newsletter');
 
-        $crawler = $this->client->submitForm("Enregistrer", [
+        $crawler = $this->client->submitForm('Enregistrer', [
             'newsletter_form[types][0]' => NewsletterType::ACTUALITY_NEW->value,
-            'newsletter_form[email]' => 'cleo.payne@example.com',
-            'newsletter_form[licenseNumber]' => '123456A',
+            'newsletter_form[email]' => self::EMAIL,
+            'newsletter_form[licenseNumber]' => self::LICENSE_NUMBER,
         ]);
 
         $flashElement = $crawler
@@ -75,8 +78,8 @@ class NewsletterControllerTest extends WebTestCase
 
         /** @var Archer $archer */
         $archer = $this->em->getRepository(Archer::class)->findOneBy([
-            'email' => 'cleo.payne@example.com',
-            'licenseNumber' => '123456A',
+            'email' => self::EMAIL,
+            'licenseNumber' => self::LICENSE_NUMBER,
         ]);
 
         self::assertCount(1, $archer->getNewsletters());
@@ -87,9 +90,9 @@ class NewsletterControllerTest extends WebTestCase
     {
         $this->client->request(Request::METHOD_GET, '/newsletter');
 
-        $crawler = $this->client->submitForm("Enregistrer", [
-            'newsletter_form[email]' => 'cleo.payne@example.com',
-            'newsletter_form[licenseNumber]' => '123456A',
+        $crawler = $this->client->submitForm('Enregistrer', [
+            'newsletter_form[email]' => self::EMAIL,
+            'newsletter_form[licenseNumber]' => self::LICENSE_NUMBER,
         ]);
 
         $flashElement = $crawler
@@ -102,8 +105,8 @@ class NewsletterControllerTest extends WebTestCase
 
         /** @var Archer $archer */
         $archer = $this->em->getRepository(Archer::class)->findOneBy([
-            'email' => 'cleo.payne@example.com',
-            'licenseNumber' => '123456A',
+            'email' => self::EMAIL,
+            'licenseNumber' => self::LICENSE_NUMBER,
         ]);
 
         self::assertCount(0, $archer->getNewsletters());
@@ -116,7 +119,7 @@ class NewsletterControllerTest extends WebTestCase
         /** @var Archer $archer */
         $archer = $this->em->getRepository(Archer::class)->findOneBy([]);
 
-        $this->client->submitForm("Enregistrer", [
+        $this->client->submitForm('Enregistrer', [
             'newsletter_form[email]' => 'hugh.berry@example.com',
             'newsletter_form[licenseNumber]' => $archer->getLicenseNumber(),
         ]);

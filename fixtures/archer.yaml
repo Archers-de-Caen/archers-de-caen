@@ -15,7 +15,7 @@ App\Domain\Archer\Model\Archer:
     firstName: Archer
     lastName: Archer
     email: archer\@archers-caen.fr
-    licenseNumber: 999999A
+    licenseNumber: 9999999A
     plainPassword: Pwd123
     roles:
       - ROLE_ARCHER
@@ -24,7 +24,7 @@ App\Domain\Archer\Model\Archer:
     firstName: Editor
     lastName: Editor
     email: editor\@archers-caen.fr
-    licenseNumber: 999999B
+    licenseNumber: 9999999B
     plainPassword: Pwd123
     roles:
       - ROLE_EDITOR
@@ -33,7 +33,7 @@ App\Domain\Archer\Model\Archer:
     firstName: Admin
     lastName: Admin
     email: admin\@archers-caen.fr
-    licenseNumber: 999999C
+    licenseNumber: 9999999C
     plainPassword: Pwd123
     roles:
       - ROLE_ADMIN
@@ -42,7 +42,7 @@ App\Domain\Archer\Model\Archer:
     firstName: Dev
     lastName: Dev
     email: dev\@archers-caen.fr
-    licenseNumber: 999999D
+    licenseNumber: 9999999D
     plainPassword: Pwd123
     roles:
       - ROLE_DEVELOPER
