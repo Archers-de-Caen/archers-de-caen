@@ -31,7 +31,9 @@ window.addEventListener('load', function() {
             confirmButtonColor: '#FDD20E',
         }).then(() => {
             if (flash.dataset.type === 'popup') {
-                document.cookie = `popup=${date}; expires=1; path=/;`
+                const dateInAMonth = (new Date()).setMonth(new Date().getMonth() + 1)
+
+                document.cookie = `popup=${date}; expires=${dateInAMonth.toString()}; path=/;`
             }
         }).catch((error) => {
             console.log(error)
