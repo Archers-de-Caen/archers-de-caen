@@ -100,7 +100,7 @@ class FftaArcherUpdateCommand extends Command
                     $gender = match ($newLicense['gender']) {
                         Gender::MAN => 'Homme',
                         Gender::WOMAN => 'Femme',
-                        Gender::OTHER, Gender::UNDEFINED => throw new \RuntimeException('To be implemented'),
+                        Gender::OTHER, Gender::UNDEFINED, null => throw new \RuntimeException('To be implemented'),
                     };
 
                     $category = Category::createFromString($newLicense['category'].' '.$gender);
@@ -203,7 +203,7 @@ class FftaArcherUpdateCommand extends Command
      *       license: string,
      *       firstName: string,
      *       lastName: string,
-     *       gender: Gender,
+     *       gender: ?Gender,
      *       phone: string,
      *       email: string,
      *       location: string,
@@ -262,7 +262,7 @@ class FftaArcherUpdateCommand extends Command
      *      license: string,
      *      firstName: string,
      *      lastName: string,
-     *      gender: Gender,
+     *      gender: ?Gender,
      *      phone: string,
      *      email: string,
      *      location: string,
@@ -357,7 +357,7 @@ class FftaArcherUpdateCommand extends Command
      *       license: string,
      *       firstName: string,
      *       lastName: string,
-     *       gender: Gender,
+     *       gender: ?Gender,
      *       phone: string,
      *       email: string,
      *       location: string,
