@@ -246,6 +246,12 @@ class FftaArcherUpdateCommand extends Command
             ]
         );
 
+        $contentType = $response->getHeaders()['content-type'][0] ?? null;
+
+        if (!$contentType || !str_starts_with($contentType, 'text/csv')) {
+            throw new \RuntimeException('Content type not found');
+        }
+
         $content = $response->getContent();
 
         return $this->reformatLicencesArray($content);
@@ -304,7 +310,7 @@ class FftaArcherUpdateCommand extends Command
                 'license' => $license[0],
                 'firstName' => $license[2],
                 'lastName' => $license[3],
-                'gender' => Gender::createFromString($license[1]),
+                'gender' => $license[1] ? Gender::createFromString($license[1]) : null,
                 'phone' => $license[8],
                 'email' => $license[9],
                 'location' => "$license[14], $license[15] $license[16]",
