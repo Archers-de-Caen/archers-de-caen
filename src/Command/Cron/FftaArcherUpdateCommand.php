@@ -20,6 +20,7 @@ use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
+use function Sentry\captureMessage;
 
 #[AsCommand(
     name: 'app:ffta:archer-update',
@@ -67,11 +68,18 @@ class FftaArcherUpdateCommand extends Command
         $archers = $this->reformatArchersArray($this->em->getRepository(Archer::class)->findAll());
         $licenses = $this->em->getRepository(License::class)->findAll();
 
+        $io->info('Licences enregistrées: '.\count($licenses));
+        foreach ($licenses as $license) {
+            $io->info($license->getTitle() ?? 'null');
+        }
+
         foreach ($newLicenses as $newLicense) {
             try {
                 $archer = $this->getArcher($archers, $newLicense);
             } catch (\RuntimeException $e) {
                 $io->error($e->getMessage());
+
+                captureMessage($e->getMessage());
 
                 break;
             }
@@ -85,7 +93,11 @@ class FftaArcherUpdateCommand extends Command
                 );
 
                 if (!\count($license)) {
-                    $io->error("License not found for {$licenseType}");
+                    $msg = "License not found for {$licenseType}";
+
+                    $io->error($msg);
+
+                    captureMessage($msg);
 
                     return Command::FAILURE;
                 }
@@ -106,6 +118,8 @@ class FftaArcherUpdateCommand extends Command
                     $category = Category::createFromString($newLicense['category'].' '.$gender);
                 } catch (\ValueError $e) {
                     $io->error($e->getMessage());
+
+                    captureMessage($e->getMessage());
 
                     $category = null;
                 }
