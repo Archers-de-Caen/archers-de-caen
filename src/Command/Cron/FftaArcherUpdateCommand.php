@@ -68,11 +68,6 @@ class FftaArcherUpdateCommand extends Command
         $archers = $this->reformatArchersArray($this->em->getRepository(Archer::class)->findAll());
         $licenses = $this->em->getRepository(License::class)->findAll();
 
-        $io->info('Licences enregistrées: '.\count($licenses));
-        foreach ($licenses as $license) {
-            $io->info($license->getTitle() ?? 'null');
-        }
-
         foreach ($newLicenses as $newLicense) {
             try {
                 $archer = $this->getArcher($archers, $newLicense);
@@ -89,7 +84,7 @@ class FftaArcherUpdateCommand extends Command
             if (!$archer->getArcherLicenseActive()) {
                 $license = array_filter(
                     $licenses,
-                    static fn (License $license) => $licenseType === $license->getTitle()
+                    static fn (License $license) => strtolower($licenseType) === strtolower($license->getTitle() ?? '')
                 );
 
                 if (!\count($license)) {
