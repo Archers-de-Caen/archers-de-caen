@@ -1,7 +1,27 @@
-{% extends 'base.html.twig' %}
+{% extends 'app/base.html.twig' %}
 
-{% block title %}Connexion{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block body %}
-    {{ form(form) }}
+    <div class="page-container">
+        {{ form_start(form) }}
+            <div class="flex jc-space-between">
+                {{ form_row(form.licenseNumber) }}
+                {{ form_row(form.email) }}
+            </div>
+
+            <div class="flex jc-space-between">
+                {{ form_row(form.plainPassword) }}
+            </div>
+
+            <div class="flex jc-space-between">
+                {{ form_row(form.lastname) }}
+                {{ form_row(form.firstname) }}
+            </div>
+
+            <div class="w-100 flex jc-end">
+                {{ form_row(form.submit) }}
+            </div>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

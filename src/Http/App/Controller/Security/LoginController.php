@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\App\Controller\Security;
 
+use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,8 +25,10 @@ class LoginController extends AbstractController
 {
     public const ROUTE = 'app_login';
 
-    public function __invoke(AuthenticationUtils $authenticationUtils): Response
-    {
+    public function __invoke(
+        AuthenticationUtils $authenticationUtils,
+        ClientRegistry $clientRegistry
+    ): Response {
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 

@@ -4,10 +4,10 @@
     <head>
         <title>{% if block('title') is defined %}{{ block('title')|trim }} | {% endif %}Les Archers de Caen</title>
 
-        {{ include('landing/_meta.html.twig') }}
+        {{ include('shared/_meta.html.twig') }}
         {{ include('landing/_og.html.twig') }}
         {{ include('landing/_shema.html.twig') }}
-        {{ include('landing/_link.html.twig') }}
+        {{ include('shared/_link.html.twig') }}
 
         <!-- Permet d'afficher des preview de média, ajouté via ckeditor -->
         <script async charset="utf-8" src="//cdn.embedly.com/widgets/platform.js"></script>
