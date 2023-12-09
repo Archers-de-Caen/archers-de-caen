@@ -25,13 +25,12 @@ class GalleryType extends AbstractType
             'by_reference' => false,
             'entry_options' => [
                 'class' => Photo::class,
-                'choice_value' => fn (?Photo $photo) => $photo ? $photo->getToken() : '',
-                'query_builder' => fn (PhotoRepository $repository) => $repository
-                    ->createQueryBuilder('p')
+                'choice_label' => 'token',
+                'query_builder' => fn (PhotoRepository $photoRepository) => $photoRepository->createQueryBuilder('p')
                     ->select('p', 'galleryMainPhoto')
                     ->leftJoin('p.galleryMainPhoto', 'galleryMainPhoto')
-                    ->orderBy('p.createdAt', 'DESC'),
-           ],
+                    ->where('galleryMainPhoto.id IS NOT NULL'),
+            ],
         ]);
     }
 

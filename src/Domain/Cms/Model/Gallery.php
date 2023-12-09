@@ -49,6 +49,11 @@ class Gallery
         $this->photos = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+        return $this->getTitle();
+    }
+
     public function getTitle(): ?string
     {
         return $this->title;
