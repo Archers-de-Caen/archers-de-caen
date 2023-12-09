@@ -40,7 +40,7 @@ class Gallery
     /**
      * @var Collection<int, Photo>
      */
-    #[ORM\OneToMany(mappedBy: 'gallery', targetEntity: Photo::class, cascade: ['persist'])]
+    #[ORM\OneToMany(mappedBy: 'gallery', targetEntity: Photo::class, cascade: ['persist'], fetch: 'EAGER')]
     #[Groups([self::SERIALIZER_GROUP_SHOW])]
     private Collection $photos;
 
