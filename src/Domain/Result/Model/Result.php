@@ -97,7 +97,7 @@ abstract class Result
 
     public function onThePodium(): bool
     {
-        return 0 !== $this->getRank() && $this->getRank() <= 3;
+        return null !== $this->getRank() && 0 !== $this->getRank() && $this->getRank() <= 3;
     }
 
     public function getCategory(): ?Category
