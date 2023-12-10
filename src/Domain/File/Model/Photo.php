@@ -77,9 +77,6 @@ class Photo implements UploadableInterface
     #[ORM\ManyToOne(targetEntity: Gallery::class, inversedBy: 'photos')]
     private ?Gallery $gallery = null;
 
-    #[ORM\OneToOne(mappedBy: 'mainPhoto', targetEntity: Gallery::class)]
-    private ?Gallery $galleryMainPhoto = null;
-
     public function __toString(): string
     {
         return $this->imageName ?? '';
@@ -178,18 +175,6 @@ class Photo implements UploadableInterface
     public function setGallery(?Gallery $gallery): self
     {
         $this->gallery = $gallery;
-
-        return $this;
-    }
-
-    public function getGalleryMainPhoto(): ?Gallery
-    {
-        return $this->galleryMainPhoto;
-    }
-
-    public function setGalleryMainPhoto(?Gallery $galleryMainPhoto): self
-    {
-        $this->galleryMainPhoto = $galleryMainPhoto;
 
         return $this;
     }

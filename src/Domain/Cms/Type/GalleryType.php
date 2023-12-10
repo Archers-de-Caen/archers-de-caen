@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Domain\Cms\Type;
 
 use App\Domain\File\Model\Photo;
-use App\Domain\File\Repository\PhotoRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -23,13 +22,12 @@ class GalleryType extends AbstractType
         $resolver->setDefaults([
             'entry_type' => EntityType::class,
             'by_reference' => false,
+            'allow_add' => true,
+            'allow_delete' => true,
             'entry_options' => [
                 'class' => Photo::class,
                 'choice_label' => 'token',
-                'query_builder' => fn (PhotoRepository $photoRepository) => $photoRepository->createQueryBuilder('p')
-                    ->select('p', 'galleryMainPhoto')
-                    ->leftJoin('p.galleryMainPhoto', 'galleryMainPhoto')
-                    ->where('galleryMainPhoto.id IS NOT NULL'),
+                'choice_value' => 'token',
             ],
         ]);
     }

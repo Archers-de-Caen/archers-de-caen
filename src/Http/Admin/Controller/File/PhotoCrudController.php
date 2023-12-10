@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\File;
 
+use App\Domain\Cms\Model\Gallery;
 use App\Domain\File\Model\Photo;
+use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
@@ -42,9 +44,10 @@ class PhotoCrudController extends AbstractCrudController
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
         return $this->entityRepository->createQueryBuilder($searchDto, $entityDto, $fields, $filters)
-            ->leftJoin('entity.galleryMainPhoto', 'galleryMainPhoto')
+            ->leftJoin(Gallery::class, 'g', Expr\Join::WITH, 'g.mainPhoto = entity')
             ->andWhere('entity.gallery IS NULL')
-            ->andWhere('galleryMainPhoto.id IS NULL');
+            ->andWhere('g IS NULL')
+        ;
     }
 
     public function configureFields(string $pageName): iterable
