@@ -5,18 +5,20 @@
 {% block body %}
     <div class="page-container">
         {{ form_start(form) }}
-            <div class="flex jc-space-between">
+            <div class="flex jc-space-between --wrap">
+                {{ form_row(form.firstname) }}
+                {{ form_row(form.lastname) }}
+            </div>
+
+            <div class="flex jc-space-between --wrap">
                 {{ form_row(form.licenseNumber) }}
                 {{ form_row(form.email) }}
             </div>
 
-            <div class="flex jc-space-between">
-                {{ form_row(form.plainPassword) }}
-            </div>
+            <hr class="my-3">
 
-            <div class="flex jc-space-between">
-                {{ form_row(form.lastname) }}
-                {{ form_row(form.firstname) }}
+            <div class="flex jc-space-between --wrap">
+                {{ form_row(form.plainPassword) }}
             </div>
 
             <div class="w-100 flex jc-end">
