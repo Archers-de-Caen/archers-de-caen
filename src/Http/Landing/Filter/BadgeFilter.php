@@ -11,6 +11,7 @@ use App\Http\Landing\Request\BadgeFilterDto;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,6 +19,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class BadgeFilter extends AbstractType
 {
+    use OnlyArcherLicencedTrait;
+
     public function __construct(private readonly BadgeRepository $badgeRepository)
     {
     }
@@ -88,6 +91,8 @@ final class BadgeFilter extends AbstractType
                 }
             ))
         ;
+
+        $this->addOnlyArcherLicenced($builder);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

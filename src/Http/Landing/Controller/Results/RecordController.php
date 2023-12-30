@@ -70,7 +70,9 @@ class RecordController extends AbstractController
             ->orderBy('rc.score', 'DESC')
         ;
 
-        $this->handleFilter($queryBuilder, $filterDto);
+        if ($filterDto) {
+            $this->handleFilter($queryBuilder, $filterDto);
+        }
 
         /** @var ResultCompetition[] $resultRecords */
         $resultRecords = $queryBuilder
@@ -83,19 +85,26 @@ class RecordController extends AbstractController
         ]);
     }
 
-    public function handleFilter(QueryBuilder $queryBuilder, ?RecordFilterDto $filterDto): void
+    private function handleFilter(QueryBuilder $queryBuilder, RecordFilterDto $filterDto): void
     {
-        if ($filterDto?->type) {
+        if ($filterDto->type) {
             $queryBuilder
                 ->andWhere('c.type = :type')
                 ->setParameter('type', $filterDto->type)
             ;
         }
 
-        if ($filterDto?->weapon) {
+        if ($filterDto->weapon) {
             $queryBuilder
                 ->andWhere('rc.weapon = :weapon')
                 ->setParameter('weapon', $filterDto->weapon)
+            ;
+        }
+
+        if ($filterDto->onlyArcherLicenced) {
+            $queryBuilder
+                ->leftJoin('a.archerLicenses', 'al', 'WITH', 'al.active = TRUE')
+                ->andWhere('al.id IS NOT NULL')
             ;
         }
     }

@@ -239,6 +239,19 @@
             </tbody>
         </table>
 
+        <div class="border --rounded p-4">
+            {{ form_start(filterForm) }}
+
+            {{ form_row(filterForm.onlyArcherLicenced, { row_attr: { class: '--check' } }) }}
+
+            <div class="flex jc-end --gap-1 mt-2">
+                {{ form_row(filterForm.reset) }}
+                {{ form_row(filterForm.submit) }}
+            </div>
+
+            {{ form_end(filterForm) }}
+        </div>
+
         <h3>Flèches obtenues par archer</h3>
 
         <div class="list-container">
@@ -270,6 +283,12 @@
                                 {% endif %}
                             </td>
                         {% endfor %}
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="{{ progressArrows|length + 1 }}">
+                            Aucun résultat
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>

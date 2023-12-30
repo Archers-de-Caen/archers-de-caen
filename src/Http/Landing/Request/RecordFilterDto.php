@@ -9,6 +9,7 @@ final class RecordFilterDto
     public function __construct(
         public ?string $type = null,
         public ?string $weapon = null,
+        public ?bool $onlyArcherLicenced = null,
     ) {
     }
 
@@ -17,6 +18,7 @@ final class RecordFilterDto
         return [
             'type' => $this->type,
             'weapon' => $this->weapon,
+            'onlyArcherLicenced' => $this->onlyArcherLicenced,
         ];
     }
 }

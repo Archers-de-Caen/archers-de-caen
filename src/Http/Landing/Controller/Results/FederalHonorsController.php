@@ -66,7 +66,9 @@ class FederalHonorsController extends AbstractController
             ->setParameter('type', Badge::COMPETITION)
         ;
 
-        $this->handleFilter($queryBuilder, $filterDto);
+        if ($filterDto) {
+            $this->handleFilter($queryBuilder, $filterDto);
+        }
 
         $resultBadges = $queryBuilder
             ->getQuery()
@@ -79,19 +81,27 @@ class FederalHonorsController extends AbstractController
         ]);
     }
 
-    public function handleFilter(QueryBuilder $queryBuilder, ?BadgeFilterDto $filterDto): void
+    private function handleFilter(QueryBuilder $queryBuilder, BadgeFilterDto $filterDto): void
     {
-        if ($filterDto?->weapon) {
+        if ($filterDto->weapon) {
             $queryBuilder
                 ->andWhere('rb.weapon = :weapon')
                 ->setParameter('weapon', $filterDto->weapon)
             ;
         }
 
-        if ($filterDto?->badge) {
+        if ($filterDto->badge) {
             $queryBuilder
                 ->andWhere('rb.badge = :badge')
                 ->setParameter('badge', $filterDto->badge, 'uuid')
+            ;
+        }
+
+        if ($filterDto->onlyArcherLicenced) {
+            $queryBuilder
+                ->leftJoin('rb.archer', 'a')
+                ->leftJoin('a.archerLicenses', 'al', 'WITH', 'al.active = TRUE')
+                ->andWhere('al.id IS NOT NULL')
             ;
         }
     }
