@@ -2,9 +2,10 @@
 set -e
 
 if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
-	if [ ! -d 'vendor/' ]; then
-		composer install --prefer-dist --no-progress --no-interaction
-	fi
+  # vérifier si le dossier vendor n'existe pas ou est vide
+  if [ ! -d 'vendor/' ] || [ ! "$(ls -A vendor/)" ]; then
+    composer install --prefer-dist --no-progress --no-interaction
+  fi
 
 	if grep -q ^DATABASE_URL= .env; then
 		echo "Waiting for database to be ready..."
@@ -36,8 +37,5 @@ if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 	setfacl -R -m u:www-data:rwX -m u:"$(whoami)":rwX var
 	setfacl -dR -m u:www-data:rwX -m u:"$(whoami)":rwX var
 fi
-
-npm install
-npm run dev-server &
 
 exec docker-php-entrypoint "$@"

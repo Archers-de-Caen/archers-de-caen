@@ -141,7 +141,8 @@
       "php bin/console doctrine:database:create --no-interaction",
       "php bin/console doctrine:schema:create --no-interaction",
       "php bin/console hautelook:fixtures:load --no-interaction"
-    ]
+    ],
+    "fixtures": "php bin/console hautelook:fixtures:load --no-interaction"
   },
   "conflict": {
     "symfony/symfony": "*"
@@ -149,7 +150,8 @@
   "extra": {
     "symfony": {
       "allow-contrib": false,
-      "require": "6.3.*"
+      "require": "6.3.*",
+      "docker": true
     }
   }
 }

@@ -1,5 +1,3 @@
-version: "3.4"
-
 # Development environment override
 services:
   php:
@@ -11,11 +9,11 @@ services:
       - ./tools/frankenphp/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./tools/frankenphp/conf.d/app.dev.ini:/usr/local/etc/php/conf.d/app.dev.ini:ro
       - ./tools/frankenphp/certs:/etc/caddy/certs:ro
+
       # If you develop on Mac or Windows you can remove the vendor/ directory
       #  from the bind-mount for better performance by enabling the next line:
       #- /app/vendor
     environment:
-      MERCURE_EXTRA_DIRECTIVES: demo
       # See https://xdebug.org/docs/all_settings#mode
       XDEBUG_MODE: "${XDEBUG_MODE:-off}"
 
@@ -26,8 +24,17 @@ services:
 
   database:
     ports:
-      - "33066:3306"
+      - "3306"
 
   mailer:
     image: schickling/mailcatcher
-    ports: ["1025", "1080"]
+    ports:
+      - "1025"
+      - "1080"
+
+  encore:
+    build:
+      context: .
+      target: encore
+    volumes:
+      - /app/node_modules
