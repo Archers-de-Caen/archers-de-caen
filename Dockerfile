@@ -113,8 +113,8 @@ WORKDIR /app
 
 COPY package.json ./
 COPY package-lock.json ./
-COPY assets/ assets/
 
-RUN npm install
+COPY --link --chmod=755 tools/encore/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+ENTRYPOINT ["docker-entrypoint"]
 
 CMD [ "npm", "run", "dev-server" ]

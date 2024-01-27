@@ -142,7 +142,7 @@
       "php bin/console doctrine:schema:create --no-interaction",
       "php bin/console hautelook:fixtures:load --no-interaction"
     ],
-    "fixtures": "php bin/console hautelook:fixtures:load --no-interaction"
+    "fixtures": "php bin/console hautelook:fixtures:load --no-interaction -vvv"
   },
   "conflict": {
     "symfony/symfony": "*"
