@@ -33,7 +33,7 @@ class Gallery
     #[Groups([self::SERIALIZER_GROUP_SHOW])]
     private ?string $slug = null;
 
-    #[ORM\OneToOne(inversedBy: 'galleryMainPhoto', targetEntity: Photo::class, cascade: ['persist'])]
+    #[ORM\OneToOne(targetEntity: Photo::class, cascade: ['persist'])]
     #[Groups([self::SERIALIZER_GROUP_SHOW])]
     private ?Photo $mainPhoto = null;
 
@@ -47,6 +47,11 @@ class Gallery
     public function __construct()
     {
         $this->photos = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->getTitle() ?? '';
     }
 
     public function getTitle(): ?string

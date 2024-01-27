@@ -8,6 +8,8 @@ App\Domain\Cms\Model\Page:
     category: page
     status: <randomElement([draft, publish, delete])>
     createdBy: '@archer_editor'
+    tags:
+      - '@tag_*'
 
   page_{1..10} (extends page):
 

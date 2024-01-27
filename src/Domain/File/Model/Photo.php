@@ -77,9 +77,6 @@ class Photo implements UploadableInterface
     #[ORM\ManyToOne(targetEntity: Gallery::class, inversedBy: 'photos')]
     private ?Gallery $gallery = null;
 
-    #[ORM\OneToOne(mappedBy: 'mainPhoto', targetEntity: Gallery::class)]
-    private ?Gallery $galleryMainPhoto = null;
-
     public function __toString(): string
     {
         return $this->imageName ?? '';
@@ -92,7 +89,7 @@ class Photo implements UploadableInterface
      * must be able to accept an instance of 'File' as the bundle will inject one here
      * during Doctrine hydration.
      */
-    public function setImageFile(File|UploadedFile|null $imageFile = null): self
+    public function setImageFile(File|UploadedFile $imageFile = null): self
     {
         $this->imageFile = $imageFile;
 
@@ -178,18 +175,6 @@ class Photo implements UploadableInterface
     public function setGallery(?Gallery $gallery): self
     {
         $this->gallery = $gallery;
-
-        return $this;
-    }
-
-    public function getGalleryMainPhoto(): ?Gallery
-    {
-        return $this->galleryMainPhoto;
-    }
-
-    public function setGalleryMainPhoto(?Gallery $galleryMainPhoto): self
-    {
-        $this->galleryMainPhoto = $galleryMainPhoto;
 
         return $this;
     }

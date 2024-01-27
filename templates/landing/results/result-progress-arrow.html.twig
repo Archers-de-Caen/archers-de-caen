@@ -239,6 +239,19 @@
             </tbody>
         </table>
 
+        <div class="border --rounded p-4">
+            {{ form_start(filterForm) }}
+
+            {{ form_row(filterForm.onlyArcherLicenced, { row_attr: { class: '--check' } }) }}
+
+            <div class="flex jc-end --gap-1 mt-2">
+                {{ form_row(filterForm.reset) }}
+                {{ form_row(filterForm.submit) }}
+            </div>
+
+            {{ form_end(filterForm) }}
+        </div>
+
         <h3>Flèches obtenues par archer</h3>
 
         <div class="list-container">
@@ -255,24 +268,27 @@
                 {# @var archers \App\Domain\Archer\Model\Archer[] #}
                 {% for archer in archers %}
                     <tr>
-                        <td>{{ archer.fullName }}</td>
+                        <td>
+                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Archer\\ArcherRecapController::ROUTE'), { licenseNumber: archer.licenseNumber }) }}">
+                                {{ archer.fullName }}
+                            </a>
+                        </td>
 
                         {% for progressArrow in progressArrows %}
-                            {% set find = false %}
+                            {% set result = archer.resultsProgressArrow|filter(result => progressArrow == result.badge) %}
 
-                            {% for result in archer.resultsProgressArrow %}
-                                {% if progressArrow == result.badge %}
-                                    <td>{{ result.score }}</td>
-
-                                    {% set find = true %}
+                            <td>
+                                {% if result|length %}
+                                    {{ result|first.score }}
                                 {% endif %}
-                            {% endfor %}
-
-                            {% if not find %}
-                                <td></td>
-                            {% endif %}
-
+                            </td>
                         {% endfor %}
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="{{ progressArrows|length + 1 }}">
+                            Aucun résultat
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>

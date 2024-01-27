@@ -35,13 +35,18 @@
                                 </td>
                             </tr>
 
-                            <input type="hidden" name="{{ form.vars.full_name }}[]" value="{{ data.token }}">
                         {% endfor %}
                     </tbody>
                 </table>
             </output>
         </div>
 
-        <input type="hidden" value="{{ form.vars.full_name }}" class="gallery-input-name">
+        <div class="photos-token-list">
+            {% for data in form.vars.data %}
+                <input type="hidden" name="{{ form.vars.full_name }}[]" value="{{ data.token }}">
+            {% endfor %}
+        </div>
+
+        <input type="hidden" value="{{ form.vars.full_name }}[]" class="gallery-input-name">
     </div>
 {% endblock %}

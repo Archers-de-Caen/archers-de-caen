@@ -1,0 +1,29 @@
+App\Domain\Cms\Model\Tag:
+  tag (template):
+    name: <word(1)>
+
+  tag_{1..10} (extends tag):
+
+  tag_club (extends tag):
+    name: Club
+
+  tag_sport (extends tag):
+    name: Sport
+
+  tag_other (extends tag):
+    name: Other
+
+  tag_settings (extends tag):
+    name: Les réglages
+
+  tag_club_other_page (extends tag):
+    name: Club autres pages
+
+  tag_categories (extends tag):
+    name: Les catégories
+
+  tag_disciplines (extends tag):
+    name: Les disciplines
+
+  tag_the_archer_s_basic_equipment (extends tag):
+    name: L'équipement de base de l'archer

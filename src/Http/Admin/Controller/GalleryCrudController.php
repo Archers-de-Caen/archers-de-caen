@@ -47,7 +47,7 @@ class GalleryCrudController extends AbstractCrudController
             ->addFormTheme('form/gallery.html.twig')
 
             ->setDefaultSort(['createdAt' => 'DESC'])
-            ;
+        ;
     }
 
     public function configureActions(Actions $actions): Actions

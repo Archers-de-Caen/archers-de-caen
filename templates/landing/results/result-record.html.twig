@@ -11,6 +11,8 @@
             {{ form_row(filterForm.type) }}
         </div>
 
+        {{ form_row(filterForm.onlyArcherLicenced, { row_attr: { class: '--check' } }) }}
+
         <div class="flex jc-end --gap-1 mt-2">
             {{ form_row(filterForm.reset) }}
             {{ form_row(filterForm.submit) }}

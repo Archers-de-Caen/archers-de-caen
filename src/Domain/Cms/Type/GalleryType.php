@@ -21,12 +21,14 @@ class GalleryType extends AbstractType
     {
         $resolver->setDefaults([
             'entry_type' => EntityType::class,
-            'allow_add' => true,
             'by_reference' => false,
+            'allow_add' => true,
+            'allow_delete' => true,
             'entry_options' => [
                 'class' => Photo::class,
-                'choice_value' => fn (?Photo $photo) => $photo ? $photo->getToken() : '',
-           ],
+                'choice_label' => 'token',
+                'choice_value' => 'token',
+            ],
         ]);
     }
 

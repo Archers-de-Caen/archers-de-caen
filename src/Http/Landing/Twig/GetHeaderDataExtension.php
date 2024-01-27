@@ -8,19 +8,16 @@ use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Model\Gallery;
 use App\Domain\Cms\Model\Page;
-use App\Domain\Cms\Repository\GalleryRepository;
 use App\Domain\Cms\Repository\PageRepository;
 use App\Domain\Competition\Model\Competition;
-use App\Domain\Competition\Repository\CompetitionRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class GetHeaderDataExtension extends AbstractExtension
 {
     public function __construct(
-        private readonly PageRepository $pageRepository,
-        private readonly GalleryRepository $galleryRepository,
-        private readonly CompetitionRepository $competitionRepository,
+        private readonly EntityManagerInterface $em,
     ) {
     }
 
@@ -32,7 +29,13 @@ class GetHeaderDataExtension extends AbstractExtension
     }
 
     /**
-     * @return array{actualities: array<Page>, galleries: array<Gallery>, sport: array<string, array<Page>>, competitions: array<Competition>}
+     * @return array{
+     *     actualities: array<Page>,
+     *     galleries: array<Gallery>,
+     *     sport: array<string, array<Page>>,
+     *     competitions: array<Competition>,
+     *     clubOtherPages: array<Page>,
+     * }
      */
     public function getHeaderData(): array
     {
@@ -41,6 +44,7 @@ class GetHeaderDataExtension extends AbstractExtension
             'galleries' => $this->getGalleries(),
             'sport' => $this->getSportPage(),
             'competitions' => $this->getCompetitions(),
+            'clubOtherPages' => $this->getClubOtherPages(),
         ];
     }
 
@@ -49,7 +53,10 @@ class GetHeaderDataExtension extends AbstractExtension
      */
     private function getSportPage(): array
     {
-        $pages = $this->pageRepository->findByTagName('sport');
+        /** @var PageRepository $pageRepository */
+        $pageRepository = $this->em->getRepository(Page::class);
+
+        $pages = $pageRepository->findByTagName('sport');
 
         $pagesSortByTags = [];
         foreach ($pages as $page) {
@@ -80,7 +87,8 @@ class GetHeaderDataExtension extends AbstractExtension
     private function getActualities(): array
     {
         /** @var array<Page> $actualities */
-        $actualities = $this->pageRepository->createQueryBuilder('p')
+        $actualities = $this->em->getRepository(Page::class)
+            ->createQueryBuilder('p')
             ->select('p', 't')
             ->leftJoin('p.tags', 't')
 
@@ -107,7 +115,8 @@ class GetHeaderDataExtension extends AbstractExtension
     private function getGalleries(): array
     {
         /** @var array<Gallery> $galleries */
-        $galleries = $this->galleryRepository->createQueryBuilder('g')
+        $galleries = $this->em->getRepository(Gallery::class)
+            ->createQueryBuilder('g')
             ->select('g', 'mainPhoto')
             ->leftJoin('g.mainPhoto', 'mainPhoto')
 
@@ -130,10 +139,19 @@ class GetHeaderDataExtension extends AbstractExtension
      */
     private function getCompetitions(): array
     {
-        return $this->competitionRepository->findBy(
-            criteria: [],
-            orderBy: ['createdAt' => 'DESC'],
-            limit: 10
-        );
+        return $this->em->getRepository(Competition::class)
+            ->findBy(
+                criteria: [],
+                orderBy: ['createdAt' => 'DESC'],
+                limit: 10
+            );
+    }
+
+    private function getClubOtherPages(): array
+    {
+        /** @var PageRepository $pageRepository */
+        $pageRepository = $this->em->getRepository(Page::class);
+
+        return $pageRepository->findByTagName('Club autres pages');
     }
 }

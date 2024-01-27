@@ -9,7 +9,9 @@ use App\Helper\PaginatorHelper;
 use App\Http\Landing\Filter\CompetitionFilter;
 use App\Http\Landing\Request\CompetitionFilterDto;
 use App\Http\Landing\Request\PaginationDto;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,7 +34,8 @@ class CompetitionListController extends AbstractController
     public const ROUTE = 'landing_results_competitions_list';
 
     public function __construct(
-        private readonly CompetitionRepository $competitionRepository
+        private readonly CompetitionRepository $competitionRepository,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
@@ -66,14 +69,23 @@ class CompetitionListController extends AbstractController
             ->orderBy('competition.dateStart', 'ASC')
         ;
 
-        $this->handleQueryBuilder($filterDto, $queryBuilder);
+        if ($filterDto) {
+            $this->handleQueryBuilder($queryBuilder, $filterDto);
+        }
 
-        /** @phpstan-ignore-next-line */
-        $maxResult = $queryBuilder
-            ->select('count(competition.id)')
-            ->getQuery()
-            ->getOneOrNullResult()[1]
-        ;
+        try {
+            /** @var array<int> $queryResult */
+            $queryResult = $queryBuilder
+                ->select('count(competition.id)')
+                ->getQuery()
+                ->getOneOrNullResult();
+
+            $maxResult = $queryResult[1];
+        } catch (NonUniqueResultException $e) {
+            $maxResult = 0;
+
+            $this->logger->error($e->getMessage());
+        }
 
         $pageMax = (int) ceil($maxResult / ($pagination?->limit ?: 1));
 
@@ -96,23 +108,23 @@ class CompetitionListController extends AbstractController
         ]);
     }
 
-    public function handleQueryBuilder(?CompetitionFilterDto $filterDto, QueryBuilder $queryBuilder): void
+    private function handleQueryBuilder(QueryBuilder $queryBuilder, CompetitionFilterDto $filterDto): void
     {
-        if ($filterDto?->season) {
+        if ($filterDto->season) {
             $queryBuilder
                 ->andWhere('IF(MONTH(competition.dateStart) >= 9, YEAR(competition.dateStart) + 1, YEAR(competition.dateStart)) = :season')
                 ->setParameter('season', $filterDto->season)
             ;
         }
 
-        if ($filterDto?->type) {
+        if ($filterDto->type) {
             $queryBuilder
                 ->andWhere('competition.type = :type')
                 ->setParameter('type', $filterDto->type)
             ;
         }
 
-        if ($filterDto?->location) {
+        if ($filterDto->location) {
             $queryBuilder
                 ->andWhere('competition.location = :location')
                 ->setParameter('location', $filterDto->location)
