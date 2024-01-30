@@ -8,7 +8,6 @@ use App\Domain\Badge\Model\Badge;
 use App\Domain\Result\Repository\ResultBadgeRepository;
 use App\Http\Landing\Filter\BadgeFilter;
 use App\Http\Landing\Request\BadgeFilterDto;
-use App\Http\Landing\Request\RecordFilterDto;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\SubmitButton;
@@ -38,7 +37,6 @@ class FederalHonorsController extends AbstractController
 
     public function __invoke(
         Request $request,
-
         #[MapQueryString]
         ?BadgeFilterDto $filterDto
     ): Response {

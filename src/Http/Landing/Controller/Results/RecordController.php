@@ -37,7 +37,6 @@ class RecordController extends AbstractController
 
     public function __invoke(
         Request $request,
-
         #[MapQueryString]
         ?RecordFilterDto $filterDto,
     ): Response {

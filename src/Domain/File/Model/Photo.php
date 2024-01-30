@@ -58,15 +58,15 @@ class Photo implements UploadableInterface
     #[Groups(['Photo', Gallery::SERIALIZER_GROUP_SHOW])]
     private ?string $imageName = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
     #[Groups(['Photo', Gallery::SERIALIZER_GROUP_SHOW])]
     private ?int $imageSize = null;
 
-    #[ORM\Column(type: Types::STRING, length: 191)]
+    #[ORM\Column(type: Types::STRING, length: 191, nullable: true)]
     #[Groups(['Photo', Gallery::SERIALIZER_GROUP_SHOW])]
     private ?string $imageMimeType = null;
 
-    #[ORM\Column(type: Types::STRING, length: 191)]
+    #[ORM\Column(type: Types::STRING, length: 191, nullable: true)]
     #[Groups(['Photo', Gallery::SERIALIZER_GROUP_SHOW])]
     private ?string $imageOriginalName = null;
 

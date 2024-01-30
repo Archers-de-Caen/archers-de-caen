@@ -211,10 +211,10 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
             $registerArcher = $event->getData();
 
             if (
-                $registerArcher['licenseNumber'] &&
-                empty($registerArcher['email']) &&
-                empty($registerArcher['phone']) &&
-                $archer = $this->archerManager->findArcherFromLicense($registerArcher['licenseNumber'])
+                $registerArcher['licenseNumber']
+                && empty($registerArcher['email'])
+                && empty($registerArcher['phone'])
+                && $archer = $this->archerManager->findArcherFromLicense($registerArcher['licenseNumber'])
             ) {
                 $registerArcher['email'] = $archer->getEmail();
                 $registerArcher['phone'] = $archer->getPhone();

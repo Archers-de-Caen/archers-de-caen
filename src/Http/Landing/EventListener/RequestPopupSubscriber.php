@@ -6,10 +6,8 @@ namespace App\Http\Landing\EventListener;
 
 use App\Domain\Cms\Repository\DataRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\Routing\RouterInterface;
 
 class RequestPopupSubscriber implements EventSubscriberInterface

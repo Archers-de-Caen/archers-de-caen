@@ -41,10 +41,8 @@ class CompetitionListController extends AbstractController
 
     public function __invoke(
         Request $request,
-
         #[MapQueryString]
         ?CompetitionFilterDto $filterDto,
-
         #[MapQueryString]
         PaginationDto $pagination = null,
     ): Response {

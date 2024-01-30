@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Controller\Landing\Page;
+namespace App\Tests\Http\Landing\Controller\Page;
 
-use App\Domain\Cms\Model\Page;
 use App\Tests\Ressources\Services\Fixtures\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @internal
  */
-class PageControllerTest extends WebTestCase
+class TeamManagementControllerTest extends WebTestCase
 {
     use FixturesTrait;
 
@@ -20,10 +19,9 @@ class PageControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        /** @var Page $page */
-        ['page_with_real_content' => $page] = $this->loadFixtures(['page']);
+        $this->loadFixtures(['data']);
 
-        $crawler = $client->request(Request::METHOD_GET, '/p/'.$page->getSlug());
+        $crawler = $client->request(Request::METHOD_GET, '/equipe-de-direction');
 
         self::assertResponseIsSuccessful();
 
@@ -32,6 +30,6 @@ class PageControllerTest extends WebTestCase
             ->eq(0)
             ->text();
 
-        self::assertSame($page->getTitle(), $title);
+        self::assertSame("L'équipe de direction", $title);
     }
 }

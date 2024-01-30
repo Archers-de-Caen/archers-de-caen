@@ -7,6 +7,9 @@ namespace App\Http\Landing\Filter;
 use App\Domain\Competition\Config\Type;
 use App\Domain\Competition\Repository\CompetitionRepository;
 use App\Http\Landing\Request\CompetitionFilterDto;
+
+use function Symfony\Component\Clock\now;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -14,7 +17,6 @@ use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use function Symfony\Component\Clock\now;
 
 final class CompetitionFilter extends AbstractType
 {

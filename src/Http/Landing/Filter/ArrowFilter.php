@@ -4,16 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Landing\Filter;
 
-use App\Domain\Archer\Config\Weapon;
-use App\Domain\Badge\Model\Badge;
-use App\Domain\Badge\Repository\BadgeRepository;
 use App\Http\Landing\Request\ArrowFilterDto;
-use App\Http\Landing\Request\BadgeFilterDto;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

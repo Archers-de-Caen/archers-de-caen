@@ -49,11 +49,16 @@ services:
     gedmo.listener.sluggable:
         class: Gedmo\Sluggable\SluggableListener
         tags:
-            - { name: doctrine.event_subscriber, connection: default }
-        calls:
-            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+            - { name: doctrine.event_listener, event: 'prePersist' }
+            - { name: doctrine.event_listener, event: 'onFlush' }
+            - { name: doctrine.event_listener, event: 'loadClassMetadata' }
 
     App\Infrastructure\DataFixtures\Processor\GalleryProcessor: ~
     App\Infrastructure\DataFixtures\Processor\PageProcessor: ~
 
-    App\Tests\Ressources\Services\Fixtures\DateTimeImmutableProvider: ~
+    App\Tests\Ressources\Services\Faker\DateTimeImmutableProvider: ~
+    App\Tests\Ressources\Services\Faker\EnumProvider: ~
+
+    App\Http\Api\Serializer\PhotoNormalizer:
+        calls:
+            - setBaseNormalizer: [ '@serializer.normalizer.object' ]

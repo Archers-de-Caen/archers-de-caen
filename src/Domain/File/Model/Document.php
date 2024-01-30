@@ -97,7 +97,7 @@ class Document implements UploadableInterface
      * must be able to accept an instance of 'File' as the bundle will inject one here
      * during Doctrine hydration.
      */
-    public function setDocumentFile(File|UploadedFile|null $file = null): self
+    public function setDocumentFile(File|UploadedFile $file = null): self
     {
         $this->documentFile = $file;
 

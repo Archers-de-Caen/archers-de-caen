@@ -18,28 +18,28 @@ final class PageProcessor implements ProcessorInterface
     private Faker\Generator $faker;
 
     public function __construct(
-        private readonly HttpClientInterface $httpClient,
-        private readonly Filesystem $filesystem,
-        private readonly LoggerInterface $logger,
+        HttpClientInterface $httpClient,
+        Filesystem $filesystem,
+        LoggerInterface $logger,
+        private readonly string $env,
     ) {
         $this->faker = Faker\Factory::create('fr_FR');
+
+        $this->setFilesystem($filesystem);
+        $this->setHttpClient($httpClient);
+        $this->setLogger($logger);
+        $this->setFaker($this->faker);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function preProcess(string $id, object $object): void
     {
         if (!$object instanceof Page) {
             return;
         }
 
-        $object->setImage($this->generateRandomPhoto());
+        $object->setImage($this->generateRandomPhoto($this->env));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function postProcess(string $id, object $object): void
     {
         // do nothing

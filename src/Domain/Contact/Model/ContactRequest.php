@@ -59,7 +59,7 @@ class ContactRequest
     public function setRawIp(?string $ip): self
     {
         if ($ip) {
-            $this->ip = IPUtils::anonymize($ip);
+            $this->ip = IpUtils::anonymize($ip);
         }
 
         return $this;

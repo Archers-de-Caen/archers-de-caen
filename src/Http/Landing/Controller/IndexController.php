@@ -8,7 +8,6 @@ use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Model\Page;
 use App\Domain\Cms\Repository\DataRepository;
-use App\Domain\Cms\Repository\GalleryRepository;
 use App\Domain\Cms\Repository\PageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -27,7 +27,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted(Archer::ROLE_ADMIN, message: 'only admin', statusCode: Response::HTTP_FORBIDDEN)]
 class UploadController extends AbstractController
 {
-    public const ROUTE = 'photos_upload';
+    public const string ROUTE = 'photos_upload';
 
     public function __invoke(Request $request, EntityManagerInterface $em): JsonResponse
     {

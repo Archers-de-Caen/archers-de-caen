@@ -25,7 +25,7 @@ class SecurityHelper
      *
      * @throws \Exception
      */
-    public static function generateRandomToken(int $length = 8, ?string $prefix = null): string
+    public static function generateRandomToken(int $length = 8, string $prefix = null): string
     {
         $token = bin2hex(random_bytes($length));
 

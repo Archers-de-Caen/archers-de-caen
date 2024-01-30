@@ -10,6 +10,9 @@ use App\Domain\Archer\Model\Archer;
 use App\Domain\Archer\Model\ArcherLicense;
 use App\Domain\Archer\Model\License;
 use Doctrine\ORM\EntityManagerInterface;
+
+use function Sentry\captureMessage;
+
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,7 +23,6 @@ use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
-use function Sentry\captureMessage;
 
 #[AsCommand(
     name: 'app:ffta:archer-update',

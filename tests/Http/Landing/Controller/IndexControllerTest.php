@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Controller\Landing\Page;
+namespace App\Tests\Http\Landing\Controller;
 
-use App\Http\Landing\Controller\Page\ContactController;
+use App\Http\Landing\Controller\IndexController;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Router;
@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Router;
 /**
  * @internal
  */
-class ContactControllerTest extends WebTestCase
+class IndexControllerTest extends WebTestCase
 {
     public function testPageIsSuccessfulWithoutAuthentication(): void
     {
@@ -21,7 +21,7 @@ class ContactControllerTest extends WebTestCase
         /** @var Router $router */
         $router = $client->getContainer()->get('router');
 
-        $client->request(Request::METHOD_GET, $router->generate(ContactController::ROUTE));
+        $client->request(Request::METHOD_GET, $router->generate(IndexController::ROUTE));
 
         self::assertResponseIsSuccessful();
     }

@@ -39,7 +39,7 @@ class LicenseCrudController extends AbstractCrudController
             ->setLabel('Prix');
         $type = TextField::new('type')
             ->setLabel('Type');
-        $description = TextAreaField::new('description')
+        $description = TextareaField::new('description')
             ->setLabel('Description');
 
         if (Crud::PAGE_INDEX === $pageName) {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Controller\Landing\Actuality;
+namespace App\Tests\Http\Landing\Controller\Page;
 
 use App\Domain\Cms\Model\Page;
 use App\Tests\Ressources\Services\Fixtures\FixturesTrait;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @internal
  */
-class ActualityControllerTest extends WebTestCase
+class PageControllerTest extends WebTestCase
 {
     use FixturesTrait;
 
@@ -21,9 +21,9 @@ class ActualityControllerTest extends WebTestCase
         $client = static::createClient();
 
         /** @var Page $page */
-        ['actuality_with_real_content' => $page] = $this->loadFixtures(['page']);
+        ['page_with_real_content' => $page] = $this->loadFixtures(['page']);
 
-        $crawler = $client->request(Request::METHOD_GET, '/actualite/'.$page->getSlug());
+        $crawler = $client->request(Request::METHOD_GET, '/p/'.$page->getSlug());
 
         self::assertResponseIsSuccessful();
 
