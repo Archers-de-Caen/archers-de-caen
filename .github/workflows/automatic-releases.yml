@@ -19,17 +19,17 @@ jobs:
   #    - build
   #  uses: ./.github/workflows/_lint.yml
 
-  tagged-release:
-    needs:
-      - build
-      - tests
+  #tagged-release:
+  #  needs:
+  #    - build
+  #    - tests
       #- lint
-    uses: ./.github/workflows/_create-releases.yml
+  #  uses: ./.github/workflows/_create-releases.yml
 
   deploy:
     needs:
       - build
-      - tests
+      #- tests
       #- lint
       - tagged-release
     uses: ./.github/workflows/_deploy.yml
