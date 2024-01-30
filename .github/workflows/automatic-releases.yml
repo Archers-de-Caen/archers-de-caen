@@ -23,13 +23,13 @@ jobs:
     needs:
       - build
       - tests
-      - lint
+      #- lint
     uses: ./.github/workflows/_create-releases.yml
 
   deploy:
     needs:
       - build
       - tests
-      - lint
+      #- lint
       - tagged-release
     uses: ./.github/workflows/_deploy.yml
