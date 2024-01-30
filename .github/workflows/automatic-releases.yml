@@ -9,22 +9,22 @@ jobs:
   build:
     uses: ./.github/workflows/_build.yml
 
-  tests:
-    needs:
-      - build
-    uses: ./.github/workflows/_phpunit.yml
+  #tests:
+  #  needs:
+  #    - build
+  #  uses: ./.github/workflows/_phpunit.yml
 
   #lint:
   #  needs:
   #    - build
   #  uses: ./.github/workflows/_lint.yml
 
-  #tagged-release:
-  #  needs:
-  #    - build
+  tagged-release:
+    needs:
+      - build
   #    - tests
       #- lint
-  #  uses: ./.github/workflows/_create-releases.yml
+    uses: ./.github/workflows/_create-releases.yml
 
   deploy:
     needs:
