@@ -35,13 +35,18 @@ class CompetitionRegisterFilter implements FilterInterface
 
     public function apply(QueryBuilder $queryBuilder, FilterDataDto $filterDataDto, ?FieldDto $fieldDto, EntityDto $entityDto): void
     {
-        if (/** @var ?CompetitionRegister $competitionRegister */ $competitionRegister = $filterDataDto->getValue()) {
-            $queryBuilder
-                ->join(sprintf('%s.%s', $filterDataDto->getEntityAlias(), 'target'), 'target')
-                ->join('target.departure', 'departure')
-                ->join('departure.competitionRegister', 'competitionRegister')
-                ->andWhere('competitionRegister.id = :id')
-                ->setParameter('id', $competitionRegister->getId(), 'uuid');
+        /** @var ?CompetitionRegister $competitionRegister */
+        $competitionRegister = $filterDataDto->getValue();
+
+        if (!$competitionRegister) {
+            return;
         }
+
+        $queryBuilder
+            ->join(sprintf('%s.%s', $filterDataDto->getEntityAlias(), 'target'), 'target')
+            ->join('target.departure', 'departure')
+            ->join('departure.competitionRegister', 'competitionRegister')
+            ->andWhere('competitionRegister.id = :id')
+            ->setParameter('id', $competitionRegister->getId(), 'uuid');
     }
 }

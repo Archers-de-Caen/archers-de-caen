@@ -16,9 +16,9 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 trait GenerateRandomPhotoTrait
 {
-    private readonly HttpClientInterface $httpClient;
-    private readonly Filesystem $filesystem;
-    private readonly LoggerInterface $logger;
+    private HttpClientInterface $httpClient;
+    private Filesystem $filesystem;
+    private LoggerInterface $logger;
     private Faker\Generator $faker;
 
     private function setFilesystem(Filesystem $filesystem): void

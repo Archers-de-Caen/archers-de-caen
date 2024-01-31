@@ -69,7 +69,9 @@ class ArrowsController extends AbstractController
             ->getQuery()
             ->getResult();
 
-        $archers = array_filter($archers, static fn (Archer $archer) => $archer->getResultsProgressArrow()->count());
+        $archers = array_filter($archers, static function (Archer $archer): bool {
+            return (bool) $archer->getResultsProgressArrow()->count();
+        });
 
         usort(
             $archers,

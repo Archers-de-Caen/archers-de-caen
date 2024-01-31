@@ -19,14 +19,14 @@ use Helloasso\Models\Carts\InitCheckoutBody;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class CompetitionRegisterPayment
+readonly class CompetitionRegisterPayment
 {
     public function __construct(
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly ParameterBagInterface $parameterBag,
-        private readonly RegistrationRepository $competitionRegisterDepartureTargetArcherRepository,
-        private readonly ArcherRepository $archerRepository,
-        private readonly CompetitionRegisterManager $competitionRegisterManager,
+        private UrlGeneratorInterface $urlGenerator,
+        private ParameterBagInterface $parameterBag,
+        private RegistrationRepository $competitionRegisterDepartureTargetArcherRepository,
+        private ArcherRepository $archerRepository,
+        private CompetitionRegisterManager $competitionRegisterManager,
     ) {
     }
 
