@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\DataFixtures\Processor;
 
-use Faker\Generator;
-use Faker\Factory;
 use App\Domain\Cms\Model\Gallery;
+use Faker\Factory;
+use Faker\Generator;
 use Fidry\AliceDataFixtures\ProcessorInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;

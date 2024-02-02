@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Result\Form;
 
-use Symfony\Component\Translation\TranslatableMessage;
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Weapon;
 use App\Domain\Result\Model\Result;
@@ -16,6 +15,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use function Symfony\Component\Translation\t;
+
+use Symfony\Component\Translation\TranslatableMessage;
 
 abstract class ResultForm extends AbstractType
 {

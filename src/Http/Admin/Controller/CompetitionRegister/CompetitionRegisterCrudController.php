@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\CompetitionRegister;
 
-use Symfony\Component\Translation\TranslatableMessage;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Competition\Config\Type;
 use App\Domain\Competition\Form\CompetitionRegisterDepartureForm;
@@ -31,6 +30,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use function Symfony\Component\Translation\t;
 
+use Symfony\Component\Translation\TranslatableMessage;
+
 final class CompetitionRegisterCrudController extends AbstractCrudController
 {
     public function __construct(
@@ -53,8 +54,8 @@ final class CompetitionRegisterCrudController extends AbstractCrudController
         return $crud
             ->setPageTitle('index', "Formulaire d'inscription au concours de Caen")
             ->setPageTitle('new', "Ajouter un formulaire d'inscription")
-            ->setPageTitle('detail', static fn(CompetitionRegister $competitionRegister): string => (string) $competitionRegister)
-            ->setPageTitle('edit', static fn(CompetitionRegister $competitionRegister): string => sprintf("Edition du formulaire l'inscription <b>%s</b>", $competitionRegister))
+            ->setPageTitle('detail', static fn (CompetitionRegister $competitionRegister): string => (string) $competitionRegister)
+            ->setPageTitle('edit', static fn (CompetitionRegister $competitionRegister): string => sprintf("Edition du formulaire l'inscription <b>%s</b>", $competitionRegister))
         ;
     }
 
@@ -95,7 +96,7 @@ final class CompetitionRegisterCrudController extends AbstractCrudController
         ;
 
         return $actions
-            ->update(Crud::PAGE_INDEX, 'new', static fn(Action $action): Action => $action->setLabel("Créer un formulaire d'inscription"))
+            ->update(Crud::PAGE_INDEX, 'new', static fn (Action $action): Action => $action->setLabel("Créer un formulaire d'inscription"))
             ->add(Crud::PAGE_INDEX, $publicLink)
             ->add(Crud::PAGE_INDEX, $registerList)
             ->add(Crud::PAGE_INDEX, $generateActuality)
@@ -113,10 +114,10 @@ final class CompetitionRegisterCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Type::class,
-                'choice_label' => static fn(Type $choice): TranslatableMessage => t($choice->value, domain: 'competition'),
+                'choice_label' => static fn (Type $choice): TranslatableMessage => t($choice->value, domain: 'competition'),
                 'choices' => Type::cases(),
             ])
-            ->formatValue(static function ($value, ?CompetitionRegister $entity) : string {
+            ->formatValue(static function ($value, ?CompetitionRegister $entity): string {
                 if (!$value || !$entity instanceof CompetitionRegister || !$entity->getTypes()) {
                     return '';
                 }

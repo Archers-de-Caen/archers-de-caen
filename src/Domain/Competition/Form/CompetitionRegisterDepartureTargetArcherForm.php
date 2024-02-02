@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Competition\Form;
 
-use Symfony\Component\Translation\TranslatableMessage;
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Config\Weapon;
@@ -31,6 +30,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use function Symfony\Component\Translation\t;
 
+use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
@@ -63,7 +63,7 @@ final class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
             ->add('gender', EnumType::class, [
                 'label' => 'Genre',
                 'class' => Gender::class,
-                'choice_attr' => static fn(Gender $gender): array => ['data-gender' => $gender->value],
+                'choice_attr' => static fn (Gender $gender): array => ['data-gender' => $gender->value],
                 'choice_label' => static fn (Gender $gender): TranslatableMessage => t($gender->value, domain: 'archer'),
                 'expanded' => true,
                 'constraints' => [
@@ -108,7 +108,7 @@ final class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
             ->add('category', EnumType::class, [
                 'label' => 'Catégorie',
                 'class' => Category::class,
-                'choice_attr' => static fn(Category $category): array => ['data-gender' => $category->getGender(), 'data-category' => $category->value],
+                'choice_attr' => static fn (Category $category): array => ['data-gender' => $category->getGender(), 'data-category' => $category->value],
                 'choice_label' => static fn (Category $category): TranslatableMessage => t($category->value, domain: 'archer'),
                 'choices' => array_filter(Category::cases(), static fn (Category $category): bool => !$category->isOld()),
                 'constraints' => [
@@ -158,7 +158,7 @@ final class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
                         'label' => 'Départs',
                         'expanded' => true,
                         'mapped' => false,
-                        'choice_attr' => static function () use ($departure) : array {
+                        'choice_attr' => static function () use ($departure): array {
                             return [
                                 'disabled' => $departure->getRegistration() >= $departure->getMaxRegistration(),
                             ];

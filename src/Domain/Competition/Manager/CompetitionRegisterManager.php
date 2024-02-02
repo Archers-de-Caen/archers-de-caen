@@ -74,7 +74,7 @@ final class CompetitionRegisterManager
 
         $departures = $competitionRegister
             ->getDepartures()
-            ->filter(static fn(CompetitionRegisterDeparture $crd): bool => $crd->getRegistration() <= $crd->getMaxRegistration());
+            ->filter(static fn (CompetitionRegisterDeparture $crd): bool => $crd->getRegistration() <= $crd->getMaxRegistration());
 
         $firstRegistration = null;
 
@@ -170,7 +170,7 @@ final class CompetitionRegisterManager
     {
         $registrations = array_values($registrations);
 
-        if ($registrations === []) {
+        if ([] === $registrations) {
             return false;
         }
 

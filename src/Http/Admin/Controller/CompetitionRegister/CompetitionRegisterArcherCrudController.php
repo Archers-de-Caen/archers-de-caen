@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\CompetitionRegister;
 
-use EasyCorp\Bundle\EasyAdminBundle\Dto\FilterConfigDto;
-use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
-use Symfony\Component\Translation\TranslatableMessage;
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Config\Weapon;
@@ -28,6 +25,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\FilterConfigDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Factory\FilterFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
@@ -44,6 +43,8 @@ use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Response;
 
 use function Symfony\Component\Translation\t;
+
+use Symfony\Component\Translation\TranslatableMessage;
 
 final class CompetitionRegisterArcherCrudController extends AbstractCrudController
 {
@@ -63,8 +64,8 @@ final class CompetitionRegisterArcherCrudController extends AbstractCrudControll
     {
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, 'Liste des inscrits au concours de Caen')
-            ->setPageTitle(Crud::PAGE_DETAIL, static fn(CompetitionRegisterDepartureTargetArcher $crdta): string => (string) $crdta)
-            ->setPageTitle(Crud::PAGE_EDIT, static fn(CompetitionRegisterDepartureTargetArcher $crdta): string => sprintf("Modification de l'inscription <b>%s</b>", $crdta))
+            ->setPageTitle(Crud::PAGE_DETAIL, static fn (CompetitionRegisterDepartureTargetArcher $crdta): string => (string) $crdta)
+            ->setPageTitle(Crud::PAGE_EDIT, static fn (CompetitionRegisterDepartureTargetArcher $crdta): string => sprintf("Modification de l'inscription <b>%s</b>", $crdta))
         ;
     }
 
@@ -139,10 +140,10 @@ final class CompetitionRegisterArcherCrudController extends AbstractCrudControll
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Gender::class,
-                'choice_label' => static fn(Gender $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
+                'choice_label' => static fn (Gender $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Gender::cases(),
             ])
-            ->formatValue(static fn($value, ?CompetitionRegisterDepartureTargetArcher $entity): TranslatableMessage|string => !$value || !$entity instanceof CompetitionRegisterDepartureTargetArcher || !$entity->getGender() instanceof Gender ? '' : t($entity->getGender()->value, domain: 'archer'))
+            ->formatValue(static fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity): TranslatableMessage|string => !$value || !$entity instanceof CompetitionRegisterDepartureTargetArcher || !$entity->getGender() instanceof Gender ? '' : t($entity->getGender()->value, domain: 'archer'))
         ;
 
         $category = ChoiceField::new('category')
@@ -150,10 +151,10 @@ final class CompetitionRegisterArcherCrudController extends AbstractCrudControll
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Category::class,
-                'choice_label' => static fn(Category $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
+                'choice_label' => static fn (Category $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Category::cases(),
             ])
-            ->formatValue(static fn($value, ?CompetitionRegisterDepartureTargetArcher $entity): ?TranslatableMessage => $entity?->getCategory()?->value ? t($entity->getCategory()->value, domain: 'archer') : null)
+            ->formatValue(static fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity): ?TranslatableMessage => $entity?->getCategory()?->value ? t($entity->getCategory()->value, domain: 'archer') : null)
         ;
 
         $weapon = ChoiceField::new('weapon')
@@ -161,10 +162,10 @@ final class CompetitionRegisterArcherCrudController extends AbstractCrudControll
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Weapon::class,
-                'choice_label' => static fn(Weapon $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
+                'choice_label' => static fn (Weapon $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Weapon::cases(),
             ])
-            ->formatValue(static fn($value, ?CompetitionRegisterDepartureTargetArcher $entity): TranslatableMessage|string => !$value || !$entity instanceof CompetitionRegisterDepartureTargetArcher || !$entity->getWeapon() instanceof Weapon ? '' : t($entity->getWeapon()->value, domain: 'archer'))
+            ->formatValue(static fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity): TranslatableMessage|string => !$value || !$entity instanceof CompetitionRegisterDepartureTargetArcher || !$entity->getWeapon() instanceof Weapon ? '' : t($entity->getWeapon()->value, domain: 'archer'))
         ;
 
         $club = TextField::new('club')

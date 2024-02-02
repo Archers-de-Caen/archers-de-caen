@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\DataFixtures\Processor;
 
-use Faker\Generator;
 use App\Domain\File\Model\Photo;
+use Faker\Generator;
 use GuzzleHttp\Psr7\MimeType;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;

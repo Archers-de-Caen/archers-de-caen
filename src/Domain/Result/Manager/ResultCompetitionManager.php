@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Domain\Result\Manager;
 
 use App\Domain\Archer\Model\Archer;
-use App\Domain\Competition\Model\Competition;
-use App\Domain\Competition\Config\Type;
 use App\Domain\Badge\Model\Badge;
+use App\Domain\Competition\Config\Type;
+use App\Domain\Competition\Model\Competition;
 use App\Domain\Result\Model\Result;
 use App\Domain\Result\Model\ResultBadge;
 use App\Domain\Result\Model\ResultCompetition;

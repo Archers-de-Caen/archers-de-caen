@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
-use Symfony\Component\Translation\TranslatableMessage;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Competition\Config\Type;
 use App\Domain\Competition\Manager\CompetitionManager;
@@ -32,6 +31,8 @@ use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use function Symfony\Component\Translation\t;
+
+use Symfony\Component\Translation\TranslatableMessage;
 
 final class CompetitionCrudController extends AbstractCrudController
 {
@@ -113,10 +114,10 @@ final class CompetitionCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Type::class,
-                'choice_label' => static fn(Type $choice): TranslatableMessage => t($choice->value, domain: 'competition'),
+                'choice_label' => static fn (Type $choice): TranslatableMessage => t($choice->value, domain: 'competition'),
                 'choices' => Type::cases(),
             ])
-            ->formatValue(static fn($value, ?Competition $entity): TranslatableMessage|string => !$value || !$entity instanceof Competition || !$entity->getType() instanceof Type ? '' : t($entity->getType()->value, domain: 'competition'))
+            ->formatValue(static fn ($value, ?Competition $entity): TranslatableMessage|string => !$value || !$entity instanceof Competition || !$entity->getType() instanceof Type ? '' : t($entity->getType()->value, domain: 'competition'))
         ;
 
         $createdAt = DateTimeField::new('createdAt')

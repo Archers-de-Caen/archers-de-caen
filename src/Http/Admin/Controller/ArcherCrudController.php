@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
-use Symfony\Component\Translation\TranslatableMessage;
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Model\Archer;
@@ -22,6 +21,8 @@ use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use function Symfony\Component\Translation\t;
+
+use Symfony\Component\Translation\TranslatableMessage;
 
 final class ArcherCrudController extends AbstractCrudController
 {
@@ -42,8 +43,8 @@ final class ArcherCrudController extends AbstractCrudController
         return $crud
             ->setPageTitle('index', 'Liste des archers')
             ->setPageTitle('new', 'Ajouter un archer')
-            ->setPageTitle('detail', static fn(Archer $archer): string => (string) $archer)
-            ->setPageTitle('edit', static fn(Archer $archer): string => sprintf("Edition de l'archer <b>%s</b>", $archer));
+            ->setPageTitle('detail', static fn (Archer $archer): string => (string) $archer)
+            ->setPageTitle('edit', static fn (Archer $archer): string => sprintf("Edition de l'archer <b>%s</b>", $archer));
     }
 
     #[\Override]
@@ -72,20 +73,20 @@ final class ArcherCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Gender::class,
-                'choice_label' => static fn(Gender $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
+                'choice_label' => static fn (Gender $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Gender::cases(),
             ])
-            ->formatValue(static fn($value, ?Archer $entity): ?TranslatableMessage => $entity?->getGender()?->value ? t($entity->getGender()->value, domain: 'archer') : null);
+            ->formatValue(static fn ($value, ?Archer $entity): ?TranslatableMessage => $entity?->getGender()?->value ? t($entity->getGender()->value, domain: 'archer') : null);
 
         $category = ChoiceField::new('category')
             ->setLabel('Catégorie')
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Category::class,
-                'choice_label' => static fn(Category $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
+                'choice_label' => static fn (Category $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Category::cases(),
             ])
-            ->formatValue(static fn($value, ?Archer $entity): ?TranslatableMessage => $entity?->getCategory()?->value ? t($entity->getCategory()->value, domain: 'archer') : null);
+            ->formatValue(static fn ($value, ?Archer $entity): ?TranslatableMessage => $entity?->getCategory()?->value ? t($entity->getCategory()->value, domain: 'archer') : null);
 
         $newsletters = TextField::new('newslettersToString')
             ->setLabel('Inscrit aux newsletters')

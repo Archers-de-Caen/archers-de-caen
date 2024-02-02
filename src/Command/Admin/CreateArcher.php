@@ -28,7 +28,8 @@ final class CreateArcher extends Command
         parent::__construct($name);
     }
 
-    #[\Override]protected function execute(InputInterface $input, OutputInterface $output): int
+    #[\Override]
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
@@ -77,7 +78,7 @@ final class CreateArcher extends Command
                 /* @var string $value */
                 if ($details['hidden'] ?? false) {
                     $value = $io->askHidden($details['sentence']);
-                } elseif (isset($details['choices']) && $details['choices'] !== []) {
+                } elseif (isset($details['choices']) && [] !== $details['choices']) {
                     $value = $io->choice($details['sentence'], $details['choices']);
                 } else {
                     $value = $io->ask($details['sentence']);

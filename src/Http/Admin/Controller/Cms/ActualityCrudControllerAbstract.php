@@ -28,7 +28,7 @@ final class ActualityCrudControllerAbstract extends AbstractPageCrudController
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, 'Liste des actualités du site')
             ->setPageTitle(Crud::PAGE_NEW, 'Ajouter une actualité au site')
-            ->setPageTitle(Crud::PAGE_EDIT, static fn(Page $page): string => sprintf('Edition de l\'actualité <b>%s</b>', $page))
+            ->setPageTitle(Crud::PAGE_EDIT, static fn (Page $page): string => sprintf('Edition de l\'actualité <b>%s</b>', $page))
         ;
     }
 

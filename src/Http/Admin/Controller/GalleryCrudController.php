@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
-use Symfony\Component\Translation\TranslatableMessage;
-use App\Domain\File\Model\Photo;
 use App\Domain\Cms\Admin\Field\GalleryField;
 use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Model\Gallery;
 use App\Domain\File\Admin\Field\PhotoField;
+use App\Domain\File\Model\Photo;
 use App\Domain\Newsletter\NewsletterType;
 use App\Http\Landing\Controller\Gallery\GalleryController;
 use App\Infrastructure\LiipImagine\CacheResolveMessage;
@@ -29,6 +28,8 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use function Symfony\Component\Translation\t;
+
+use Symfony\Component\Translation\TranslatableMessage;
 
 final class GalleryCrudController extends AbstractCrudController
 {
@@ -96,10 +97,10 @@ final class GalleryCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Status::class,
-                'choice_label' => static fn(Status $choice): TranslatableMessage => t($choice->value, domain: 'page'),
+                'choice_label' => static fn (Status $choice): TranslatableMessage => t($choice->value, domain: 'page'),
                 'choices' => Status::cases(),
             ])
-            ->formatValue(static fn($value, ?Gallery $entity): TranslatableMessage|string => !$value || !$entity instanceof Gallery || !$entity->getStatus() instanceof Status ? '' : t($entity->getStatus()->value, domain: 'page'))
+            ->formatValue(static fn ($value, ?Gallery $entity): TranslatableMessage|string => !$value || !$entity instanceof Gallery || !$entity->getStatus() instanceof Status ? '' : t($entity->getStatus()->value, domain: 'page'))
         ;
 
         if (Crud::PAGE_INDEX === $pageName) {
@@ -141,7 +142,7 @@ final class GalleryCrudController extends AbstractCrudController
             $this->bus->dispatch(new CacheResolveMessage($entityInstance->getMainPhoto()->getImageName()));
         }
 
-        $this->bus->dispatch(new CacheResolveMessage($entityInstance->getPhotos()->map(static fn($photo): ?string => $photo->getImageName())->toArray()));
+        $this->bus->dispatch(new CacheResolveMessage($entityInstance->getPhotos()->map(static fn ($photo): ?string => $photo->getImageName())->toArray()));
     }
 
     public function publish(

@@ -41,7 +41,7 @@ final class SportController extends AbstractController
                 $tagsName[] = $tag->getName();
             }
 
-            if ($tagsName === []) {
+            if ([] === $tagsName) {
                 $tagsName[] = 'no-category';
             }
 

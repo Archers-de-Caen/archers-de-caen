@@ -50,7 +50,8 @@ final class FftaArcherUpdateCommand extends Command
         ]);
     }
 
-    #[\Override]protected function execute(InputInterface $input, OutputInterface $output): int
+    #[\Override]
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
@@ -89,8 +90,8 @@ final class FftaArcherUpdateCommand extends Command
                     static fn (License $license): bool => strtolower($licenseType) === strtolower($license->getTitle() ?? '')
                 );
 
-                if ($license === []) {
-                    $msg = 'License not found for ' . $licenseType;
+                if ([] === $license) {
+                    $msg = 'License not found for '.$licenseType;
 
                     $io->error($msg);
 

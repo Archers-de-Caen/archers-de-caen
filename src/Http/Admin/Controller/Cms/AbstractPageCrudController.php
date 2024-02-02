@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\Cms;
 
-use Symfony\Component\Translation\TranslatableMessage;
 use App\Domain\Cms\Admin\Field\CKEditorField;
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Config\Status;
@@ -37,6 +36,8 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use function Symfony\Component\Translation\t;
+
+use Symfony\Component\Translation\TranslatableMessage;
 
 class AbstractPageCrudController extends AbstractCrudController
 {
@@ -72,7 +73,7 @@ class AbstractPageCrudController extends AbstractCrudController
             ->setHelp(Crud::PAGE_NEW, 'Le rendu final peut-être différent de l\'éditeur')
             ->setHelp(Crud::PAGE_EDIT, 'Le rendu final peut-être différent de l\'éditeur')
 
-            ->setPageTitle(Crud::PAGE_DETAIL, static fn(Page $page): string => (string) $page)
+            ->setPageTitle(Crud::PAGE_DETAIL, static fn (Page $page): string => (string) $page)
 
             ->setDefaultSort(['createdAt' => 'DESC'])
         ;
@@ -96,10 +97,10 @@ class AbstractPageCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Status::class,
-                'choice_label' => static fn(Status $choice): TranslatableMessage => t($choice->value, domain: 'page'),
+                'choice_label' => static fn (Status $choice): TranslatableMessage => t($choice->value, domain: 'page'),
                 'choices' => Status::cases(),
             ])
-            ->formatValue(static fn($value, ?Page $entity): TranslatableMessage|string => !$value || !$entity instanceof Page || !$entity->getStatus() instanceof Status ? '' : t($entity->getStatus()->value, domain: 'page'))
+            ->formatValue(static fn ($value, ?Page $entity): TranslatableMessage|string => !$value || !$entity instanceof Page || !$entity->getStatus() instanceof Status ? '' : t($entity->getStatus()->value, domain: 'page'))
         ;
 
         $image = PhotoField::new('image')

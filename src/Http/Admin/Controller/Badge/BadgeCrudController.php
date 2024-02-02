@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\Badge;
 
-use Symfony\Component\Translation\TranslatableMessage;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Badge\Model\Badge;
 use App\Domain\Competition\Config\Type;
@@ -24,6 +23,8 @@ use Symfony\Component\Form\Extension\Core\Type\EnumType;
 
 use function Symfony\Component\Translation\t;
 
+use Symfony\Component\Translation\TranslatableMessage;
+
 final class BadgeCrudController extends AbstractCrudController
 {
     public function __construct(protected readonly EntityRepository $entityRepository)
@@ -41,8 +42,8 @@ final class BadgeCrudController extends AbstractCrudController
     {
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, 'Listes des badges')
-            ->setPageTitle(Crud::PAGE_DETAIL, static fn(Badge $badge): string => (string) $badge)
-            ->setPageTitle(Crud::PAGE_EDIT, static fn(Badge $badge): string => sprintf('Edition le badge <b>%s</b>', $badge))
+            ->setPageTitle(Crud::PAGE_DETAIL, static fn (Badge $badge): string => (string) $badge)
+            ->setPageTitle(Crud::PAGE_EDIT, static fn (Badge $badge): string => sprintf('Edition le badge <b>%s</b>', $badge))
         ;
     }
 
@@ -67,10 +68,10 @@ final class BadgeCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Type::class,
-                'choice_label' => static fn(Type $choice): TranslatableMessage => t($choice->value, domain: 'competition'),
+                'choice_label' => static fn (Type $choice): TranslatableMessage => t($choice->value, domain: 'competition'),
                 'choices' => Type::cases(),
             ])
-            ->formatValue(static fn($value, ?Badge $entity): TranslatableMessage|string => !$value || !$entity instanceof Badge || !$entity->getCompetitionType() instanceof Type ? '' : t($entity->getCompetitionType()->value, domain: 'competition'))
+            ->formatValue(static fn ($value, ?Badge $entity): TranslatableMessage|string => !$value || !$entity instanceof Badge || !$entity->getCompetitionType() instanceof Type ? '' : t($entity->getCompetitionType()->value, domain: 'competition'))
         ;
 
         if ((Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) && $this->isGranted(Archer::ROLE_DEVELOPER)) {

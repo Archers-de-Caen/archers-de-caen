@@ -74,7 +74,7 @@ final class GetHeaderDataExtension extends AbstractExtension
                 $tagsName[] = $tag->getName();
             }
 
-            if ($tagsName === []) {
+            if ([] === $tagsName) {
                 $tagsName[] = 'no-category';
             }
 

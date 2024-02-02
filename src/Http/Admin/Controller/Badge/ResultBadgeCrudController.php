@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\Badge;
 
-use Symfony\Component\Translation\TranslatableMessage;
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Weapon;
 use App\Domain\Archer\Model\Archer;
@@ -33,6 +32,8 @@ use Symfony\Component\Form\Extension\Core\Type\EnumType;
 
 use function Symfony\Component\Translation\t;
 
+use Symfony\Component\Translation\TranslatableMessage;
+
 abstract class ResultBadgeCrudController extends AbstractCrudController
 {
     protected string $badgeType = '';
@@ -51,8 +52,8 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setPageTitle(Crud::PAGE_DETAIL, static fn(ResultBadge $resultBadge): string => (string) $resultBadge)
-            ->setPageTitle(Crud::PAGE_EDIT, static fn(ResultBadge $resultBadge): string => sprintf('Edition du résultat <b>%s</b>', $resultBadge))
+            ->setPageTitle(Crud::PAGE_DETAIL, static fn (ResultBadge $resultBadge): string => (string) $resultBadge)
+            ->setPageTitle(Crud::PAGE_EDIT, static fn (ResultBadge $resultBadge): string => sprintf('Edition du résultat <b>%s</b>', $resultBadge))
             ->setDefaultSort(['completionDate' => 'DESC'])
         ;
     }
@@ -64,7 +65,7 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
             ->update(
                 Crud::PAGE_INDEX,
                 Action::NEW,
-                static fn(Action $action): Action => $action->setIcon('fa fa-bullseye')
+                static fn (Action $action): Action => $action->setIcon('fa fa-bullseye')
                 ->setLabel('Ajouter un nouveau résultat')
             );
     }
@@ -107,10 +108,10 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Weapon::class,
-                'choice_label' => static fn(Weapon $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
+                'choice_label' => static fn (Weapon $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Weapon::cases(),
             ])
-            ->formatValue(static fn($value, ?ResultBadge $entity): TranslatableMessage|string => !$value || !$entity instanceof ResultBadge || !$entity->getWeapon() instanceof Weapon ? '' : t($entity->getWeapon()->value, domain: 'archer'))
+            ->formatValue(static fn ($value, ?ResultBadge $entity): TranslatableMessage|string => !$value || !$entity instanceof ResultBadge || !$entity->getWeapon() instanceof Weapon ? '' : t($entity->getWeapon()->value, domain: 'archer'))
         ;
 
         $category = ChoiceField::new('category')
@@ -118,10 +119,10 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Category::class,
-                'choice_label' => static fn(Category $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
+                'choice_label' => static fn (Category $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Category::cases(),
             ])
-            ->formatValue(static fn($value, ?ResultBadge $entity): TranslatableMessage|string => !$value || !$entity instanceof ResultBadge || !$entity->getCategory() instanceof Category ? '' : t($entity->getCategory()->value, domain: 'archer'))
+            ->formatValue(static fn ($value, ?ResultBadge $entity): TranslatableMessage|string => !$value || !$entity instanceof ResultBadge || !$entity->getCategory() instanceof Category ? '' : t($entity->getCategory()->value, domain: 'archer'))
         ;
 
         if ((Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) && $this->isGranted(Archer::ROLE_DEVELOPER)) {
