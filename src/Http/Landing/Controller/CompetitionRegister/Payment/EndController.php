@@ -26,7 +26,7 @@ class EndController extends AbstractController
         if ('succeeded' === $request->query->get('code')) {
             $this->addFlash('success', 'Nous avons bien reçu votre paiement');
         } else {
-            $this->addFlash('danger', 'Une erreur est survenue, votre paiement n\'a pas abouti');
+            $this->addFlash('danger', "Une erreur est survenue, votre paiement n'a pas abouti");
         }
 
         return $this->redirectToRoute(RecapController::ROUTE, [

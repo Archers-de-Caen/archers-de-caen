@@ -60,7 +60,7 @@ class ArrowsController extends AbstractController
 
         $queryBuilder = $this->archerRepository->createQueryBuilder('a');
 
-        if ($filterDto) {
+        if ($filterDto instanceof ArrowFilterDto) {
             $this->handleFilter($queryBuilder, $filterDto);
         }
 

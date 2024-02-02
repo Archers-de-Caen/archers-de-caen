@@ -47,12 +47,17 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     use TimestampTrait;
 
     private const bool LICENSE_NUMBER_UNIQUE = true;
+
     private const bool EMAIL_UNIQUE = true;
 
     public const ROLE_ARCHER = 'ROLE_ARCHER';
+
     public const ROLE_EDITOR = 'ROLE_EDITOR';
+
     public const ROLE_ADMIN = 'ROLE_ADMIN';
+
     public const ROLE_DEVELOPER = 'ROLE_DEVELOPER';
+
     public const ROLES = [
         self::ROLE_ARCHER,
         self::ROLE_EDITOR,
@@ -367,12 +372,15 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         if ($compoundBow > $bareBow && $compoundBow > $recurveBow) {
             return Weapon::COMPOUND_BOW;
         }
+
         if ($recurveBow <= $compoundBow) {
             return null;
         }
+
         if ($recurveBow <= $bareBow) {
             return null;
         }
+
         return Weapon::RECURVE_BOW;
     }
 

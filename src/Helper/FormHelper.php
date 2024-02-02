@@ -24,13 +24,16 @@ class FormHelper
                 'value' => array_values($cause->getParameters())[0],
             ];
         }
+
         foreach ($form->all() as $childForm) {
             if (!$childForm instanceof FormInterface) {
                 continue;
             }
+
             if (!($childErrors = self::getErrorsArray($childForm))) {
                 continue;
             }
+
             $errors[$childForm->getName()] = $childErrors;
         }
 

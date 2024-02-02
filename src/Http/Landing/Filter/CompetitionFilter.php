@@ -72,18 +72,17 @@ final class CompetitionFilter extends AbstractType
             ])
             ->get('type')
             ->addModelTransformer(new CallbackTransformer(
-                function (?string $string): ?Type {
+                static function (?string $string) : ?Type {
                     if (!$string) {
                         return null;
                     }
-
                     try {
                         return Type::from($string);
                     } catch (\ValueError) {
                         return null;
                     }
                 },
-                function (?Type $enum): ?string {
+                static function (?Type $enum) : ?string {
                     return $enum?->value;
                 }
             ))

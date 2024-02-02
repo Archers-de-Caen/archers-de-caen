@@ -18,7 +18,7 @@ return static function (RectorConfig $rectorConfig): void {
     // tip: use "SetList" class to autocomplete sets with your IDE
     $rectorConfig->sets([
         //SetList::CODE_QUALITY,
-        //SetList::CODING_STYLE,
+        SetList::CODING_STYLE,
         SetList::PHP_83,
         //SetList::PRIVATIZATION,
         SetList::INSTANCEOF,

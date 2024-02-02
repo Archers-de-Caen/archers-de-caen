@@ -23,7 +23,7 @@ class PageSubscriber
         /** @var Archer $archer */
         $archer = $this->security->getUser();
 
-        if (!$page->getCreatedBy()) {
+        if (!$page->getCreatedBy() instanceof Archer) {
             $page->setCreatedBy($archer);
         }
     }

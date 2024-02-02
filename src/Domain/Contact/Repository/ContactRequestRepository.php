@@ -50,7 +50,7 @@ class ContactRequestRepository extends ServiceEntityRepository
                 ->getOneOrNullResult();
 
             return $contact;
-        } catch (NonUniqueResultException $e) {
+        } catch (NonUniqueResultException $nonUniqueResultException) {
         }
 
         return null;

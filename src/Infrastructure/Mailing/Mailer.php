@@ -52,11 +52,11 @@ class Mailer
     {
         try {
             $addresses = array_map(static fn (Address $address): string => $address->toString(), $email->getTo());
-            $this->logger->info('Envoi d\'un email aux adresses : '.implode(',', $addresses));
+            $this->logger->info("Envoi d'un email aux adresses : ".implode(',', $addresses));
 
             $this->mailer->send($email);
-        } catch (TransportExceptionInterface $e) {
-            $this->logger->error($e);
+        } catch (TransportExceptionInterface $transportException) {
+            $this->logger->error($transportException);
         }
     }
 }

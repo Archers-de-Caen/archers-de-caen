@@ -51,7 +51,7 @@ class ContactController extends AbstractController
             } catch (TooManyContactException) {
                 $this->addFlash('error', 'Vous avez déjà envoyé un message, merci de patienter.');
             } catch (TransportExceptionInterface) {
-                $this->addFlash('error', 'Une erreur est survenue lors de l\'envoi du message.');
+                $this->addFlash('error', "Une erreur est survenue lors de l'envoi du message.");
             }
         }
 

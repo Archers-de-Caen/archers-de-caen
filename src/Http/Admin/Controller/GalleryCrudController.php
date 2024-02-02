@@ -96,10 +96,10 @@ class GalleryCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Status::class,
-                'choice_label' => fn (Status $choice): TranslatableMessage => t($choice->value, domain: 'page'),
+                'choice_label' => static fn(Status $choice): TranslatableMessage => t($choice->value, domain: 'page'),
                 'choices' => Status::cases(),
             ])
-            ->formatValue(fn ($value, ?Gallery $entity): TranslatableMessage|string => !$value || !$entity instanceof Gallery || !$entity->getStatus() instanceof Status ? '' : t($entity->getStatus()->value, domain: 'page'))
+            ->formatValue(static fn($value, ?Gallery $entity): TranslatableMessage|string => !$value || !$entity instanceof Gallery || !$entity->getStatus() instanceof Status ? '' : t($entity->getStatus()->value, domain: 'page'))
         ;
 
         if (Crud::PAGE_INDEX === $pageName) {
@@ -141,7 +141,7 @@ class GalleryCrudController extends AbstractCrudController
             $this->bus->dispatch(new CacheResolveMessage($entityInstance->getMainPhoto()->getImageName()));
         }
 
-        $this->bus->dispatch(new CacheResolveMessage($entityInstance->getPhotos()->map(fn ($photo): ?string => $photo->getImageName())->toArray()));
+        $this->bus->dispatch(new CacheResolveMessage($entityInstance->getPhotos()->map(static fn($photo): ?string => $photo->getImageName())->toArray()));
     }
 
     public function publish(

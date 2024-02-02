@@ -24,7 +24,7 @@ class ErrorController extends AbstractController
     {
         $this->addFlash(
             'danger',
-            'Une erreur est survenue, votre paiement n\'a pas abouti: '.$request->query->get('error')
+            "Une erreur est survenue, votre paiement n'a pas abouti: ".$request->query->get('error')
         );
 
         return $this->redirectToRoute(self::ROUTE, [

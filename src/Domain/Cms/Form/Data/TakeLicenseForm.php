@@ -21,7 +21,7 @@ class TakeLicenseForm extends AbstractType
                 'label' => 'Formulaire de demande de création de licence',
             ])
             ->add('assurance', UrlType::class, [
-                'label' => 'Notice d\'assurance',
+                'label' => "Notice d'assurance",
             ])
             ->add('health', UrlType::class, [
                 'label' => 'Questionnaire santé',

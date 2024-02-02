@@ -28,8 +28,7 @@ class CreateArcher extends Command
         parent::__construct($name);
     }
 
-    #[\Override]
-    public function execute(InputInterface $input, OutputInterface $output): int
+    #[\Override]protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
@@ -42,11 +41,11 @@ class CreateArcher extends Command
             ],
             'lastName' => [
                 'value' => null,
-                'sentence' => 'Nom de l\'archer',
+                'sentence' => "Nom de l'archer",
             ],
             'email' => [
                 'value' => null,
-                'sentence' => 'Email de l\'archer',
+                'sentence' => "Email de l'archer",
             ],
             'phone' => [
                 'value' => null,
@@ -54,7 +53,7 @@ class CreateArcher extends Command
             ],
             'plainPassword' => [
                 'value' => null,
-                'sentence' => 'Mot de passe de l\'archer (cacher)',
+                'sentence' => "Mot de passe de l'archer (cacher)",
                 'hidden' => true,
             ],
             'licenseNumber' => [
@@ -63,7 +62,7 @@ class CreateArcher extends Command
             ],
             'role' => [
                 'value' => null,
-                'sentence' => 'Liste des roles de l\'archer',
+                'sentence' => "Liste des roles de l'archer",
                 'choices' => [
                     Archer::ROLE_ARCHER => 'Archer',
                     Archer::ROLE_EDITOR => 'Éditeur',

@@ -28,9 +28,11 @@ class TimestampSubscriber
         if (!property_exists($entity, 'updatedAt')) {
             return;
         }
+
         if (!method_exists($entity, 'setUpdatedAt')) {
             return;
         }
+
         $entity->setUpdatedAt(new \DateTime());
     }
 }

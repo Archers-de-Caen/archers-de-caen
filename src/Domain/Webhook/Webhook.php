@@ -41,8 +41,8 @@ class Webhook
     {
         try {
             return json_encode($this->getContent(), \JSON_THROW_ON_ERROR);
-        } catch (\JsonException $e) {
-            return $e->getMessage();
+        } catch (\JsonException $jsonException) {
+            return $jsonException->getMessage();
         }
     }
 

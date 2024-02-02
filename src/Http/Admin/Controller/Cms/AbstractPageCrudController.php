@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\Cms;
 
+use App\Domain\File\Model\Photo;
 use Symfony\Component\Translation\TranslatableMessage;
 use App\Domain\Cms\Admin\Field\CKEditorField;
 use App\Domain\Cms\Config\Category;
@@ -73,7 +74,7 @@ class AbstractPageCrudController extends AbstractCrudController
             ->setHelp(Crud::PAGE_NEW, 'Le rendu final peut-être différent de l\'éditeur')
             ->setHelp(Crud::PAGE_EDIT, 'Le rendu final peut-être différent de l\'éditeur')
 
-            ->setPageTitle(Crud::PAGE_DETAIL, fn (Page $page): string => (string) $page)
+            ->setPageTitle(Crud::PAGE_DETAIL, static fn(Page $page): string => (string) $page)
 
             ->setDefaultSort(['createdAt' => 'DESC'])
         ;
@@ -97,10 +98,10 @@ class AbstractPageCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Status::class,
-                'choice_label' => fn (Status $choice): TranslatableMessage => t($choice->value, domain: 'page'),
+                'choice_label' => static fn(Status $choice): TranslatableMessage => t($choice->value, domain: 'page'),
                 'choices' => Status::cases(),
             ])
-            ->formatValue(fn ($value, ?Page $entity): TranslatableMessage|string => !$value || !$entity instanceof Page || !$entity->getStatus() instanceof Status ? '' : t($entity->getStatus()->value, domain: 'page'))
+            ->formatValue(static fn($value, ?Page $entity): TranslatableMessage|string => !$value || !$entity instanceof Page || !$entity->getStatus() instanceof Status ? '' : t($entity->getStatus()->value, domain: 'page'))
         ;
 
         $image = PhotoField::new('image')
@@ -166,12 +167,14 @@ class AbstractPageCrudController extends AbstractCrudController
 
     protected function dispatchCache(Page $entityInstance): void
     {
-        if (!$entityInstance->getImage()) {
+        if (!$entityInstance->getImage() instanceof Photo) {
             return;
         }
+
         if (!$entityInstance->getImage()->getImageName()) {
             return;
         }
+
         $this->bus->dispatch(new CacheResolveMessage($entityInstance->getImage()->getImageName()));
     }
 }

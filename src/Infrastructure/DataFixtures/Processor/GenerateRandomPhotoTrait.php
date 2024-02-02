@@ -17,8 +17,11 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 trait GenerateRandomPhotoTrait
 {
     private HttpClientInterface $httpClient;
+
     private Filesystem $filesystem;
+
     private LoggerInterface $logger;
+
     private Generator $faker;
 
     private function setFilesystem(Filesystem $filesystem): void
@@ -81,8 +84,8 @@ trait GenerateRandomPhotoTrait
     {
         try {
             return $this->httpClient->request(Request::METHOD_GET, $imageUrl)->getContent();
-        } catch (ExceptionInterface $e) {
-            $this->logger->error($e->getMessage());
+        } catch (ExceptionInterface $exception) {
+            $this->logger->error($exception->getMessage());
 
             return '';
         }

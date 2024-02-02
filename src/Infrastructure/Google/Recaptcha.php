@@ -14,6 +14,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 class Recaptcha
 {
     private string $clientSecret;
+
     private string $url;
 
     public function __construct(
@@ -41,8 +42,8 @@ class Recaptcha
 
         try {
             $request = HttpClient::create()->request(Request::METHOD_POST, $this->url, $params);
-        } catch (TransportExceptionInterface $e) {
-            $this->logger->error($e);
+        } catch (TransportExceptionInterface $transportException) {
+            $this->logger->error($transportException);
 
             return false;
         }

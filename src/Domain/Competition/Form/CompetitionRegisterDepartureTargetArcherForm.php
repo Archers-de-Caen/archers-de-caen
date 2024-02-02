@@ -63,7 +63,7 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
             ->add('gender', EnumType::class, [
                 'label' => 'Genre',
                 'class' => Gender::class,
-                'choice_attr' => fn (Gender $gender): array => ['data-gender' => $gender->value],
+                'choice_attr' => static fn(Gender $gender): array => ['data-gender' => $gender->value],
                 'choice_label' => static fn (Gender $gender): TranslatableMessage => t($gender->value, domain: 'archer'),
                 'expanded' => true,
                 'constraints' => [
@@ -108,7 +108,7 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
             ->add('category', EnumType::class, [
                 'label' => 'Catégorie',
                 'class' => Category::class,
-                'choice_attr' => fn (Category $category): array => ['data-gender' => $category->getGender(), 'data-category' => $category->value],
+                'choice_attr' => static fn(Category $category): array => ['data-gender' => $category->getGender(), 'data-category' => $category->value],
                 'choice_label' => static fn (Category $category): TranslatableMessage => t($category->value, domain: 'archer'),
                 'choices' => array_filter(Category::cases(), static fn (Category $category): bool => !$category->isOld()),
                 'constraints' => [
@@ -158,12 +158,12 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
                         'label' => 'Départs',
                         'expanded' => true,
                         'mapped' => false,
-                        'choice_attr' => function () use ($departure): array {
+                        'choice_attr' => static function () use ($departure) : array {
                             return [
                                 'disabled' => $departure->getRegistration() >= $departure->getMaxRegistration(),
                             ];
                         },
-                        'query_builder' => function (EntityRepository $er) use ($departure) {
+                        'query_builder' => static function (EntityRepository $er) use ($departure) {
                             return $er->createQueryBuilder('crdt')
                                 ->join('crdt.departure', 'departure')
                                 ->where('departure.id = :uuid')

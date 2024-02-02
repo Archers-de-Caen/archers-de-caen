@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Result\Manager;
 
+use App\Domain\Archer\Model\Archer;
+use App\Domain\Competition\Model\Competition;
+use App\Domain\Competition\Config\Type;
 use App\Domain\Badge\Model\Badge;
 use App\Domain\Result\Model\Result;
 use App\Domain\Result\Model\ResultBadge;
@@ -18,15 +21,19 @@ class ResultCompetitionManager
 
     public function awardingBadges(ResultCompetition $resultCompetition): void
     {
-        if (!$archer = $resultCompetition->getArcher()) {
+        $archer = $resultCompetition->getArcher();
+
+        if (!$archer instanceof Archer) {
             throw new \UnexpectedValueException('Archer not defined');
         }
 
-        if (!$competition = $resultCompetition->getCompetition()) {
+        $competition = $resultCompetition->getCompetition();
+
+        if (!$competition instanceof Competition) {
             throw new \UnexpectedValueException('Competition not defined');
         }
 
-        if (!$competition->getType()) {
+        if (!$competition->getType() instanceof Type) {
             throw new \UnexpectedValueException('Type not defined');
         }
 
@@ -40,11 +47,11 @@ class ResultCompetitionManager
                     return false;
                 }
 
-                if (!$competition = $resultCompetition->getCompetition()) {
+                if (!($competition = $resultCompetition->getCompetition()) instanceof Competition) {
                     return false;
                 }
 
-                if (!$resultBadge->getBadge()) {
+                if (!$resultBadge->getBadge() instanceof Badge) {
                     return false;
                 }
 
@@ -121,15 +128,15 @@ class ResultCompetitionManager
 
     public function awardingRecord(ResultCompetition $resultCompetition): ResultCompetition
     {
-        if (!$archer = $resultCompetition->getArcher()) {
+        if (!($archer = $resultCompetition->getArcher()) instanceof Archer) {
             throw new \UnexpectedValueException('Archer not defined');
         }
 
-        if (!$competition = $resultCompetition->getCompetition()) {
+        if (!($competition = $resultCompetition->getCompetition()) instanceof Competition) {
             throw new \UnexpectedValueException('Competition not defined');
         }
 
-        if (!$competition->getType()) {
+        if (!$competition->getType() instanceof Type) {
             throw new \UnexpectedValueException('Type not defined');
         }
 
@@ -140,11 +147,11 @@ class ResultCompetitionManager
                     return false;
                 }
 
-                if (!$competition = $resultCompetition->getCompetition()) {
+                if (!($competition = $resultCompetition->getCompetition()) instanceof Competition) {
                     return false;
                 }
 
-                if (!$oldResultCompetition->getCompetition()) {
+                if (!$oldResultCompetition->getCompetition() instanceof Competition) {
                     return false;
                 }
 

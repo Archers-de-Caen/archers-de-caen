@@ -53,8 +53,8 @@ class CompetitionRegisterCrudController extends AbstractCrudController
         return $crud
             ->setPageTitle('index', "Formulaire d'inscription au concours de Caen")
             ->setPageTitle('new', "Ajouter un formulaire d'inscription")
-            ->setPageTitle('detail', fn (CompetitionRegister $competitionRegister): string => (string) $competitionRegister)
-            ->setPageTitle('edit', fn (CompetitionRegister $competitionRegister): string => sprintf("Edition du formulaire l'inscription <b>%s</b>", $competitionRegister))
+            ->setPageTitle('detail', static fn(CompetitionRegister $competitionRegister): string => (string) $competitionRegister)
+            ->setPageTitle('edit', static fn(CompetitionRegister $competitionRegister): string => sprintf("Edition du formulaire l'inscription <b>%s</b>", $competitionRegister))
         ;
     }
 
@@ -95,7 +95,7 @@ class CompetitionRegisterCrudController extends AbstractCrudController
         ;
 
         return $actions
-            ->update(Crud::PAGE_INDEX, 'new', fn (Action $action): Action => $action->setLabel("Créer un formulaire d'inscription"))
+            ->update(Crud::PAGE_INDEX, 'new', static fn(Action $action): Action => $action->setLabel("Créer un formulaire d'inscription"))
             ->add(Crud::PAGE_INDEX, $publicLink)
             ->add(Crud::PAGE_INDEX, $registerList)
             ->add(Crud::PAGE_INDEX, $generateActuality)
@@ -113,14 +113,13 @@ class CompetitionRegisterCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Type::class,
-                'choice_label' => fn (Type $choice): TranslatableMessage => t($choice->value, domain: 'competition'),
+                'choice_label' => static fn(Type $choice): TranslatableMessage => t($choice->value, domain: 'competition'),
                 'choices' => Type::cases(),
             ])
-            ->formatValue(function ($value, ?CompetitionRegister $entity): string {
+            ->formatValue(static function ($value, ?CompetitionRegister $entity) : string {
                 if (!$value || !$entity instanceof CompetitionRegister || !$entity->getTypes()) {
                     return '';
                 }
-
                 return implode(', ', array_map(static fn (Type $type): TranslatableMessage => t($type->value, domain: 'competition'), $entity->getTypes()));
             })
         ;

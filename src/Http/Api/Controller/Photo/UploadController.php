@@ -51,9 +51,9 @@ class UploadController extends AbstractController
         try {
             $em->persist($photo);
             $em->flush();
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             return $this->json([
-                'message' => $e->getMessage(),
+                'message' => $exception->getMessage(),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 

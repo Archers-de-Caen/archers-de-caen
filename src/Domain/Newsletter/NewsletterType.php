@@ -15,8 +15,8 @@ enum NewsletterType: string
     public function emailTemplatePath(string $format = 'html'): string
     {
         return match ($this) {
-            self::ACTUALITY_NEW => "/mails/newsletter/actuality-new.$format.twig",
-            self::GALLERY_NEW => "/mails/newsletter/gallery-new.$format.twig",
+            self::ACTUALITY_NEW => sprintf('/mails/newsletter/actuality-new.%s.twig', $format),
+            self::GALLERY_NEW => sprintf('/mails/newsletter/gallery-new.%s.twig', $format),
         };
     }
 

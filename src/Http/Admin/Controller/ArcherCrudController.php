@@ -42,8 +42,8 @@ class ArcherCrudController extends AbstractCrudController
         return $crud
             ->setPageTitle('index', 'Liste des archers')
             ->setPageTitle('new', 'Ajouter un archer')
-            ->setPageTitle('detail', fn (Archer $archer): string => (string) $archer)
-            ->setPageTitle('edit', fn (Archer $archer): string => sprintf('Edition de l\'archer <b>%s</b>', $archer));
+            ->setPageTitle('detail', static fn(Archer $archer): string => (string) $archer)
+            ->setPageTitle('edit', static fn(Archer $archer): string => sprintf("Edition de l'archer <b>%s</b>", $archer));
     }
 
     #[\Override]
@@ -72,20 +72,20 @@ class ArcherCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Gender::class,
-                'choice_label' => fn (Gender $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
+                'choice_label' => static fn(Gender $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Gender::cases(),
             ])
-            ->formatValue(fn ($value, ?Archer $entity): ?TranslatableMessage => $entity?->getGender()?->value ? t($entity->getGender()->value, domain: 'archer') : null);
+            ->formatValue(static fn($value, ?Archer $entity): ?TranslatableMessage => $entity?->getGender()?->value ? t($entity->getGender()->value, domain: 'archer') : null);
 
         $category = ChoiceField::new('category')
             ->setLabel('Catégorie')
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Category::class,
-                'choice_label' => fn (Category $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
+                'choice_label' => static fn(Category $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Category::cases(),
             ])
-            ->formatValue(fn ($value, ?Archer $entity): ?TranslatableMessage => $entity?->getCategory()?->value ? t($entity->getCategory()->value, domain: 'archer') : null);
+            ->formatValue(static fn($value, ?Archer $entity): ?TranslatableMessage => $entity?->getCategory()?->value ? t($entity->getCategory()->value, domain: 'archer') : null);
 
         $newsletters = TextField::new('newslettersToString')
             ->setLabel('Inscrit aux newsletters')

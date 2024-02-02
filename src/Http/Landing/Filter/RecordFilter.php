@@ -46,18 +46,17 @@ final class RecordFilter extends AbstractType
             ])
             ->get('type')
             ->addModelTransformer(new CallbackTransformer(
-                function (?string $string): ?Type {
+                static function (?string $string) : ?Type {
                     if (!$string) {
                         return null;
                     }
-
                     try {
                         return Type::from($string);
                     } catch (\ValueError) {
                         return null;
                     }
                 },
-                function (?Type $enum): ?string {
+                static function (?Type $enum) : ?string {
                     return $enum?->value;
                 }
             ))
@@ -72,18 +71,17 @@ final class RecordFilter extends AbstractType
             ])
             ->get('weapon')
             ->addModelTransformer(new CallbackTransformer(
-                function (?string $string): ?Weapon {
+                static function (?string $string) : ?Weapon {
                     if (!$string) {
                         return null;
                     }
-
                     try {
                         return Weapon::from($string);
                     } catch (\ValueError) {
                         return null;
                     }
                 },
-                function (?Weapon $enum): ?string {
+                static function (?Weapon $enum) : ?string {
                     return $enum?->value;
                 }
             ))

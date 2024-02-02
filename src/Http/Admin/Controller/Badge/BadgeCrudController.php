@@ -41,8 +41,8 @@ class BadgeCrudController extends AbstractCrudController
     {
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, 'Listes des badges')
-            ->setPageTitle(Crud::PAGE_DETAIL, fn (Badge $badge): string => (string) $badge)
-            ->setPageTitle(Crud::PAGE_EDIT, fn (Badge $badge): string => sprintf('Edition le badge <b>%s</b>', $badge))
+            ->setPageTitle(Crud::PAGE_DETAIL, static fn(Badge $badge): string => (string) $badge)
+            ->setPageTitle(Crud::PAGE_EDIT, static fn(Badge $badge): string => sprintf('Edition le badge <b>%s</b>', $badge))
         ;
     }
 
@@ -67,10 +67,10 @@ class BadgeCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Type::class,
-                'choice_label' => fn (Type $choice): TranslatableMessage => t($choice->value, domain: 'competition'),
+                'choice_label' => static fn(Type $choice): TranslatableMessage => t($choice->value, domain: 'competition'),
                 'choices' => Type::cases(),
             ])
-            ->formatValue(fn ($value, ?Badge $entity): TranslatableMessage|string => !$value || !$entity instanceof Badge || !$entity->getCompetitionType() instanceof Type ? '' : t($entity->getCompetitionType()->value, domain: 'competition'))
+            ->formatValue(static fn($value, ?Badge $entity): TranslatableMessage|string => !$value || !$entity instanceof Badge || !$entity->getCompetitionType() instanceof Type ? '' : t($entity->getCompetitionType()->value, domain: 'competition'))
         ;
 
         if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {

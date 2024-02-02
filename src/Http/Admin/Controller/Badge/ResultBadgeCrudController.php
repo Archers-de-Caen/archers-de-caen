@@ -51,8 +51,8 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setPageTitle(Crud::PAGE_DETAIL, fn (ResultBadge $resultBadge): string => (string) $resultBadge)
-            ->setPageTitle(Crud::PAGE_EDIT, fn (ResultBadge $resultBadge): string => sprintf('Edition du résultat <b>%s</b>', $resultBadge))
+            ->setPageTitle(Crud::PAGE_DETAIL, static fn(ResultBadge $resultBadge): string => (string) $resultBadge)
+            ->setPageTitle(Crud::PAGE_EDIT, static fn(ResultBadge $resultBadge): string => sprintf('Edition du résultat <b>%s</b>', $resultBadge))
             ->setDefaultSort(['completionDate' => 'DESC'])
         ;
     }
@@ -64,7 +64,7 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
             ->update(
                 Crud::PAGE_INDEX,
                 Action::NEW,
-                fn (Action $action): Action => $action->setIcon('fa fa-bullseye')
+                static fn(Action $action): Action => $action->setIcon('fa fa-bullseye')
                 ->setLabel('Ajouter un nouveau résultat')
             );
     }
@@ -99,7 +99,7 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
         $archer = AssociationField::new('archer');
         $score = IntegerField::new('score');
         $completionDate = DateField::new('completionDate')
-            ->setLabel('Date d\'obtention')
+            ->setLabel("Date d'obtention")
         ;
 
         $weapon = ChoiceField::new('weapon')
@@ -107,10 +107,10 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Weapon::class,
-                'choice_label' => fn (Weapon $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
+                'choice_label' => static fn(Weapon $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Weapon::cases(),
             ])
-            ->formatValue(fn ($value, ?ResultBadge $entity): TranslatableMessage|string => !$value || !$entity instanceof ResultBadge || !$entity->getWeapon() instanceof Weapon ? '' : t($entity->getWeapon()->value, domain: 'archer'))
+            ->formatValue(static fn($value, ?ResultBadge $entity): TranslatableMessage|string => !$value || !$entity instanceof ResultBadge || !$entity->getWeapon() instanceof Weapon ? '' : t($entity->getWeapon()->value, domain: 'archer'))
         ;
 
         $category = ChoiceField::new('category')
@@ -118,10 +118,10 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Category::class,
-                'choice_label' => fn (Category $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
+                'choice_label' => static fn(Category $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Category::cases(),
             ])
-            ->formatValue(fn ($value, ?ResultBadge $entity): TranslatableMessage|string => !$value || !$entity instanceof ResultBadge || !$entity->getCategory() instanceof Category ? '' : t($entity->getCategory()->value, domain: 'archer'))
+            ->formatValue(static fn($value, ?ResultBadge $entity): TranslatableMessage|string => !$value || !$entity instanceof ResultBadge || !$entity->getCategory() instanceof Category ? '' : t($entity->getCategory()->value, domain: 'archer'))
         ;
 
         if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {

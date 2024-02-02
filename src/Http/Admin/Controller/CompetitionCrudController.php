@@ -113,10 +113,10 @@ class CompetitionCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Type::class,
-                'choice_label' => fn (Type $choice): TranslatableMessage => t($choice->value, domain: 'competition'),
+                'choice_label' => static fn(Type $choice): TranslatableMessage => t($choice->value, domain: 'competition'),
                 'choices' => Type::cases(),
             ])
-            ->formatValue(fn ($value, ?Competition $entity): TranslatableMessage|string => !$value || !$entity instanceof Competition || !$entity->getType() instanceof Type ? '' : t($entity->getType()->value, domain: 'competition'))
+            ->formatValue(static fn($value, ?Competition $entity): TranslatableMessage|string => !$value || !$entity instanceof Competition || !$entity->getType() instanceof Type ? '' : t($entity->getType()->value, domain: 'competition'))
         ;
 
         $createdAt = DateTimeField::new('createdAt')

@@ -67,7 +67,7 @@ class CompetitionListController extends AbstractController
             ->orderBy('competition.dateStart', 'ASC')
         ;
 
-        if ($filterDto) {
+        if ($filterDto instanceof CompetitionFilterDto) {
             $this->handleQueryBuilder($queryBuilder, $filterDto);
         }
 
@@ -79,10 +79,10 @@ class CompetitionListController extends AbstractController
                 ->getOneOrNullResult();
 
             $maxResult = $queryResult[1];
-        } catch (NonUniqueResultException $e) {
+        } catch (NonUniqueResultException $nonUniqueResultException) {
             $maxResult = 0;
 
-            $this->logger->error($e->getMessage());
+            $this->logger->error($nonUniqueResultException->getMessage());
         }
 
         $pageMax = (int) ceil($maxResult / ($pagination?->limit ?: 1));

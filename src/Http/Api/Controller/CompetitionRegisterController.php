@@ -25,7 +25,7 @@ class CompetitionRegisterController extends AbstractController
     {
         $archer = $archerManager->findArcherFromLicense($licenseNumber);
 
-        if (!$archer) {
+        if ($archer === null) {
             return $this->json([], Response::HTTP_NOT_FOUND);
         }
 

@@ -64,7 +64,7 @@ class FederalHonorsController extends AbstractController
             ->setParameter('type', Badge::COMPETITION)
         ;
 
-        if ($filterDto) {
+        if ($filterDto instanceof BadgeFilterDto) {
             $this->handleFilter($queryBuilder, $filterDto);
         }
 

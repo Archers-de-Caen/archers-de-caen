@@ -74,7 +74,7 @@ class CompetitionRegisterManager
 
         $departures = $competitionRegister
             ->getDepartures()
-            ->filter(fn (CompetitionRegisterDeparture $crd): bool => $crd->getRegistration() <= $crd->getMaxRegistration());
+            ->filter(static fn(CompetitionRegisterDeparture $crd): bool => $crd->getRegistration() <= $crd->getMaxRegistration());
 
         $firstRegistration = null;
 
@@ -85,7 +85,7 @@ class CompetitionRegisterManager
                 $register->setTarget($target);
                 $clonedRegister = clone $register;
 
-                if (!$firstRegistration) {
+                if (!$firstRegistration instanceof Registration) {
                     $firstRegistration = $clonedRegister;
                 }
 
@@ -152,7 +152,7 @@ class CompetitionRegisterManager
                     'recap' => $recap,
                     'register' => $register,
                 ]);
-        } catch (EmailRenderingException $e) {
+        } catch (EmailRenderingException $emailRenderingException) {
             return;
         }
 
@@ -170,7 +170,7 @@ class CompetitionRegisterManager
     {
         $registrations = array_values($registrations);
 
-        if (!\count($registrations)) {
+        if ($registrations === []) {
             return false;
         }
 

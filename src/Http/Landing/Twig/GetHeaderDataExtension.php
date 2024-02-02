@@ -66,13 +66,15 @@ class GetHeaderDataExtension extends AbstractExtension
                 if (!$tag->getName()) {
                     continue;
                 }
+
                 if ('sport' === strtolower($tag->getName())) {
                     continue;
                 }
+
                 $tagsName[] = $tag->getName();
             }
 
-            if (!\count($tagsName)) {
+            if ($tagsName === []) {
                 $tagsName[] = 'no-category';
             }
 

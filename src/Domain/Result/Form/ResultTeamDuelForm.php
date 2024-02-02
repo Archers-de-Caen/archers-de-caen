@@ -22,10 +22,10 @@ class ResultTeamDuelForm extends AbstractType
                 'label' => 'Score',
             ])
             ->add('opponentName', TextType::class, [
-                'label' => 'Nom de l\'adversaire',
+                'label' => "Nom de l'adversaire",
             ])
             ->add('opponentScore', IntegerType::class, [
-                'label' => 'Score de l\'adversaire',
+                'label' => "Score de l'adversaire",
             ])
         ;
     }

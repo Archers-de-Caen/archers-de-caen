@@ -69,7 +69,7 @@ class RecordController extends AbstractController
             ->orderBy('rc.score', 'DESC')
         ;
 
-        if ($filterDto) {
+        if ($filterDto instanceof RecordFilterDto) {
             $this->handleFilter($queryBuilder, $filterDto);
         }
 

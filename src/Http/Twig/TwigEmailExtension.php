@@ -29,6 +29,7 @@ class TwigEmailExtension extends AbstractExtension
         if (($context['format'] ?? 'text') === 'text') {
             return $content;
         }
+
         $content = preg_replace('/^(^ {2,})(\S+[ \S]*)$/m', '${2}', $content);
 
         return (new \Parsedown())->setSafeMode(false)->text($content);

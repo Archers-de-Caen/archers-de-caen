@@ -35,6 +35,7 @@ class CompetitionRegisterDepartureTargetArcher
     use WeaponTrait;
 
     private const bool LICENSE_NUMBER_UNIQUE = false;
+
     private const bool EMAIL_UNIQUE = false;
 
     #[\Override]
