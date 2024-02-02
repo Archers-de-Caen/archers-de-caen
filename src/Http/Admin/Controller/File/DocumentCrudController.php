@@ -33,11 +33,13 @@ class DocumentCrudController extends AbstractCrudController
     ) {
     }
 
+    #[\Override]
     public static function getEntityFqcn(): string
     {
         return Document::class;
     }
 
+    #[\Override]
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
         return $this->entityRepository->createQueryBuilder($searchDto, $entityDto, $fields, $filters)
@@ -46,6 +48,7 @@ class DocumentCrudController extends AbstractCrudController
         ;
     }
 
+    #[\Override]
     public function configureFields(string $pageName): iterable
     {
         $id = IdField::new('id');
@@ -76,6 +79,7 @@ class DocumentCrudController extends AbstractCrudController
         return [$title, $upload];
     }
 
+    #[\Override]
     public function configureActions(Actions $actions): Actions
     {
         $display = Action::new('display')

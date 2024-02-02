@@ -20,6 +20,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ActualityCrudControllerAbstract extends AbstractPageCrudController
 {
+    #[\Override]
     public function configureCrud(Crud $crud): Crud
     {
         parent::configureCrud($crud);
@@ -31,6 +32,7 @@ class ActualityCrudControllerAbstract extends AbstractPageCrudController
         ;
     }
 
+    #[\Override]
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
         return parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters)
@@ -38,6 +40,7 @@ class ActualityCrudControllerAbstract extends AbstractPageCrudController
         ;
     }
 
+    #[\Override]
     public function configureActions(Actions $actions): Actions
     {
         parent::configureActions($actions);
@@ -58,6 +61,7 @@ class ActualityCrudControllerAbstract extends AbstractPageCrudController
     /**
      * @param Page $entityInstance
      */
+    #[\Override]
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         $entityInstance->setCategory(Category::ACTUALITY);
@@ -70,6 +74,7 @@ class ActualityCrudControllerAbstract extends AbstractPageCrudController
     /**
      * @param Page $entityInstance
      */
+    #[\Override]
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         parent::updateEntity($entityManager, $entityInstance);

@@ -20,11 +20,13 @@ class GalleryNewsletterMessage implements NewsletterMessage
         return $this->galleryUid;
     }
 
+    #[\Override]
     public function getType(): NewsletterType
     {
         return $this->type;
     }
 
+    #[\Override]
     public function getContext(): array
     {
         return [

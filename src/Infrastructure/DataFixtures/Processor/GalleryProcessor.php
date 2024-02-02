@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\DataFixtures\Processor;
 
+use Faker\Generator;
+use Faker\Factory;
 use App\Domain\Cms\Model\Gallery;
-use Faker;
 use Fidry\AliceDataFixtures\ProcessorInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -15,7 +16,7 @@ final class GalleryProcessor implements ProcessorInterface
 {
     use GenerateRandomPhotoTrait;
 
-    private Faker\Generator $faker;
+    private Generator $faker;
 
     public function __construct(
         HttpClientInterface $httpClient,
@@ -23,7 +24,7 @@ final class GalleryProcessor implements ProcessorInterface
         LoggerInterface $logger,
         private readonly string $env,
     ) {
-        $this->faker = Faker\Factory::create('fr_FR');
+        $this->faker = Factory::create('fr_FR');
 
         $this->setFilesystem($filesystem);
         $this->setHttpClient($httpClient);
@@ -31,6 +32,7 @@ final class GalleryProcessor implements ProcessorInterface
         $this->setFaker($this->faker);
     }
 
+    #[\Override]
     public function preProcess(string $id, object $object): void
     {
         if (!$object instanceof Gallery) {
@@ -50,6 +52,7 @@ final class GalleryProcessor implements ProcessorInterface
         }
     }
 
+    #[\Override]
     public function postProcess(string $id, object $object): void
     {
         // do nothing

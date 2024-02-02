@@ -54,6 +54,7 @@ abstract class Result
     #[Assert\NotBlank]
     private ?\DateTimeInterface $completionDate = null;
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->getArcher()?->__toString().' | '.$this->getScore().' points | '.$this->getRank();

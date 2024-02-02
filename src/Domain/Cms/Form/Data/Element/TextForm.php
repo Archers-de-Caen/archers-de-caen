@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class TextForm extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

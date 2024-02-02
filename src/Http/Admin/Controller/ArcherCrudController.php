@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
+use Symfony\Component\Translation\TranslatableMessage;
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Model\Archer;
@@ -29,11 +30,13 @@ class ArcherCrudController extends AbstractCrudController
     ) {
     }
 
+    #[\Override]
     public static function getEntityFqcn(): string
     {
         return Archer::class;
     }
 
+    #[\Override]
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
@@ -43,6 +46,7 @@ class ArcherCrudController extends AbstractCrudController
             ->setPageTitle('edit', fn (Archer $archer): string => sprintf('Edition de l\'archer <b>%s</b>', $archer));
     }
 
+    #[\Override]
     public function configureFields(string $pageName): iterable
     {
         $id = IdField::new('id');
@@ -68,20 +72,20 @@ class ArcherCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Gender::class,
-                'choice_label' => fn (Gender $choice): \Symfony\Component\Translation\TranslatableMessage => t($choice->value, domain: 'archer'),
+                'choice_label' => fn (Gender $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Gender::cases(),
             ])
-            ->formatValue(fn ($value, ?Archer $entity): ?\Symfony\Component\Translation\TranslatableMessage => $entity?->getGender()?->value ? t($entity->getGender()->value, domain: 'archer') : null);
+            ->formatValue(fn ($value, ?Archer $entity): ?TranslatableMessage => $entity?->getGender()?->value ? t($entity->getGender()->value, domain: 'archer') : null);
 
         $category = ChoiceField::new('category')
             ->setLabel('Catégorie')
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Category::class,
-                'choice_label' => fn (Category $choice): \Symfony\Component\Translation\TranslatableMessage => t($choice->value, domain: 'archer'),
+                'choice_label' => fn (Category $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Category::cases(),
             ])
-            ->formatValue(fn ($value, ?Archer $entity): ?\Symfony\Component\Translation\TranslatableMessage => $entity?->getCategory()?->value ? t($entity->getCategory()->value, domain: 'archer') : null);
+            ->formatValue(fn ($value, ?Archer $entity): ?TranslatableMessage => $entity?->getCategory()?->value ? t($entity->getCategory()->value, domain: 'archer') : null);
 
         $newsletters = TextField::new('newslettersToString')
             ->setLabel('Inscrit aux newsletters')
@@ -105,6 +109,7 @@ class ArcherCrudController extends AbstractCrudController
         yield $newsletters;
     }
 
+    #[\Override]
     public function configureActions(Actions $actions): Actions
     {
         $impersonation = Action::new('Se connecter')->linkToUrl(

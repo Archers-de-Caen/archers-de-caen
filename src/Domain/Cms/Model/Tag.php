@@ -33,6 +33,7 @@ class Tag
         $this->pages = new ArrayCollection();
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->getName() ?? 'Erreur: nom non défini';

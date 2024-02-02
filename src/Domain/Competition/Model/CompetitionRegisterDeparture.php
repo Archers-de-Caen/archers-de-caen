@@ -38,6 +38,7 @@ class CompetitionRegisterDeparture
         $this->targets = new ArrayCollection();
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->getDate()?->format('d/m/Y à H:i') ?? '';

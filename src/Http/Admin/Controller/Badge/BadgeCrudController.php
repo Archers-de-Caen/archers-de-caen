@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\Badge;
 
+use Symfony\Component\Translation\TranslatableMessage;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Badge\Model\Badge;
 use App\Domain\Competition\Config\Type;
@@ -29,11 +30,13 @@ class BadgeCrudController extends AbstractCrudController
     {
     }
 
+    #[\Override]
     public static function getEntityFqcn(): string
     {
         return Badge::class;
     }
 
+    #[\Override]
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
@@ -43,6 +46,7 @@ class BadgeCrudController extends AbstractCrudController
         ;
     }
 
+    #[\Override]
     public function configureFields(string $pageName): iterable
     {
         $id = IdField::new('id');
@@ -63,10 +67,10 @@ class BadgeCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Type::class,
-                'choice_label' => fn (Type $choice): \Symfony\Component\Translation\TranslatableMessage => t($choice->value, domain: 'competition'),
+                'choice_label' => fn (Type $choice): TranslatableMessage => t($choice->value, domain: 'competition'),
                 'choices' => Type::cases(),
             ])
-            ->formatValue(fn ($value, ?Badge $entity): \Symfony\Component\Translation\TranslatableMessage|string => !$value || !$entity instanceof \App\Domain\Badge\Model\Badge || !$entity->getCompetitionType() instanceof \App\Domain\Competition\Config\Type ? '' : t($entity->getCompetitionType()->value, domain: 'competition'))
+            ->formatValue(fn ($value, ?Badge $entity): TranslatableMessage|string => !$value || !$entity instanceof Badge || !$entity->getCompetitionType() instanceof Type ? '' : t($entity->getCompetitionType()->value, domain: 'competition'))
         ;
 
         if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {

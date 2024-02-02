@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class ButtonForm extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

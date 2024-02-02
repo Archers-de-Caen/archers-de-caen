@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\CompetitionRegister;
 
+use Symfony\Component\Translation\TranslatableMessage;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Competition\Config\Type;
 use App\Domain\Competition\Form\CompetitionRegisterDepartureForm;
@@ -40,11 +41,13 @@ class CompetitionRegisterCrudController extends AbstractCrudController
     ) {
     }
 
+    #[\Override]
     public static function getEntityFqcn(): string
     {
         return CompetitionRegister::class;
     }
 
+    #[\Override]
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
@@ -55,6 +58,7 @@ class CompetitionRegisterCrudController extends AbstractCrudController
         ;
     }
 
+    #[\Override]
     public function configureActions(Actions $actions): Actions
     {
         $publicLink = Action::new('public-link')
@@ -91,13 +95,14 @@ class CompetitionRegisterCrudController extends AbstractCrudController
         ;
 
         return $actions
-            ->update(Crud::PAGE_INDEX, 'new', fn (Action $action): \EasyCorp\Bundle\EasyAdminBundle\Config\Action => $action->setLabel("Créer un formulaire d'inscription"))
+            ->update(Crud::PAGE_INDEX, 'new', fn (Action $action): Action => $action->setLabel("Créer un formulaire d'inscription"))
             ->add(Crud::PAGE_INDEX, $publicLink)
             ->add(Crud::PAGE_INDEX, $registerList)
             ->add(Crud::PAGE_INDEX, $generateActuality)
         ;
     }
 
+    #[\Override]
     public function configureFields(string $pageName): iterable
     {
         $id = IdField::new('id')
@@ -108,15 +113,15 @@ class CompetitionRegisterCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Type::class,
-                'choice_label' => fn (Type $choice): \Symfony\Component\Translation\TranslatableMessage => t($choice->value, domain: 'competition'),
+                'choice_label' => fn (Type $choice): TranslatableMessage => t($choice->value, domain: 'competition'),
                 'choices' => Type::cases(),
             ])
             ->formatValue(function ($value, ?CompetitionRegister $entity): string {
-                if (!$value || !$entity instanceof \App\Domain\Competition\Model\CompetitionRegister || !$entity->getTypes()) {
+                if (!$value || !$entity instanceof CompetitionRegister || !$entity->getTypes()) {
                     return '';
                 }
 
-                return implode(', ', array_map(static fn (Type $type): \Symfony\Component\Translation\TranslatableMessage => t($type->value, domain: 'competition'), $entity->getTypes()));
+                return implode(', ', array_map(static fn (Type $type): TranslatableMessage => t($type->value, domain: 'competition'), $entity->getTypes()));
             })
         ;
 
@@ -147,6 +152,7 @@ class CompetitionRegisterCrudController extends AbstractCrudController
     /**
      * @param CompetitionRegister $entityInstance
      */
+    #[\Override]
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         $entityInstance->autoSetSlug();

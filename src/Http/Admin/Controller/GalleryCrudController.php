@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
+use Symfony\Component\Translation\TranslatableMessage;
+use App\Domain\File\Model\Photo;
 use App\Domain\Cms\Admin\Field\GalleryField;
 use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Model\Gallery;
@@ -36,11 +38,13 @@ class GalleryCrudController extends AbstractCrudController
     ) {
     }
 
+    #[\Override]
     public static function getEntityFqcn(): string
     {
         return Gallery::class;
     }
 
+    #[\Override]
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
@@ -50,6 +54,7 @@ class GalleryCrudController extends AbstractCrudController
         ;
     }
 
+    #[\Override]
     public function configureActions(Actions $actions): Actions
     {
         parent::configureActions($actions);
@@ -74,6 +79,7 @@ class GalleryCrudController extends AbstractCrudController
             ->add(Crud::PAGE_INDEX, $publicLink);
     }
 
+    #[\Override]
     public function configureFields(string $pageName): iterable
     {
         $id = IdField::new('id');
@@ -90,10 +96,10 @@ class GalleryCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Status::class,
-                'choice_label' => fn (Status $choice): \Symfony\Component\Translation\TranslatableMessage => t($choice->value, domain: 'page'),
+                'choice_label' => fn (Status $choice): TranslatableMessage => t($choice->value, domain: 'page'),
                 'choices' => Status::cases(),
             ])
-            ->formatValue(fn ($value, ?Gallery $entity): \Symfony\Component\Translation\TranslatableMessage|string => !$value || !$entity instanceof \App\Domain\Cms\Model\Gallery || !$entity->getStatus() instanceof \App\Domain\Cms\Config\Status ? '' : t($entity->getStatus()->value, domain: 'page'))
+            ->formatValue(fn ($value, ?Gallery $entity): TranslatableMessage|string => !$value || !$entity instanceof Gallery || !$entity->getStatus() instanceof Status ? '' : t($entity->getStatus()->value, domain: 'page'))
         ;
 
         if (Crud::PAGE_INDEX === $pageName) {
@@ -110,6 +116,7 @@ class GalleryCrudController extends AbstractCrudController
     /**
      * @param Gallery $entityInstance
      */
+    #[\Override]
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         parent::persistEntity($entityManager, $entityInstance);
@@ -120,6 +127,7 @@ class GalleryCrudController extends AbstractCrudController
     /**
      * @param Gallery $entityInstance
      */
+    #[\Override]
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         parent::updateEntity($entityManager, $entityInstance);
@@ -129,7 +137,7 @@ class GalleryCrudController extends AbstractCrudController
 
     private function dispatchCache(Gallery $entityInstance): void
     {
-        if ($entityInstance->getMainPhoto() instanceof \App\Domain\File\Model\Photo && $entityInstance->getMainPhoto()->getImageName()) {
+        if ($entityInstance->getMainPhoto() instanceof Photo && $entityInstance->getMainPhoto()->getImageName()) {
             $this->bus->dispatch(new CacheResolveMessage($entityInstance->getMainPhoto()->getImageName()));
         }
 

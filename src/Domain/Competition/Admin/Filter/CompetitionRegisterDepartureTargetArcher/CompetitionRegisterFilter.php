@@ -33,6 +33,7 @@ class CompetitionRegisterFilter implements FilterInterface
         ;
     }
 
+    #[\Override]
     public function apply(QueryBuilder $queryBuilder, FilterDataDto $filterDataDto, ?FieldDto $fieldDto, EntityDto $entityDto): void
     {
         /** @var ?CompetitionRegister $competitionRegister */

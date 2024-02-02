@@ -18,6 +18,7 @@ final class RecordFilter extends AbstractType
 {
     use OnlyArcherLicencedTrait;
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -91,6 +92,7 @@ final class RecordFilter extends AbstractType
         $this->addOnlyArcherLicenced($builder);
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

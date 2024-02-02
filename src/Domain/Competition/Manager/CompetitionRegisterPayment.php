@@ -97,7 +97,7 @@ readonly class CompetitionRegisterPayment
             )
             ->setMetadata([
                 'registrations' => array_map(
-                    static fn (CompetitionRegisterDepartureTargetArcher $registration): ?string => $registration->getId()?->__toString(),
+                    static fn (Registration $registration): ?string => $registration->getId()?->__toString(),
                     $registrations
                 ),
             ])

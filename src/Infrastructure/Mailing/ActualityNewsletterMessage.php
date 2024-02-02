@@ -20,11 +20,13 @@ class ActualityNewsletterMessage implements NewsletterMessage
         return $this->actualityUid;
     }
 
+    #[\Override]
     public function getType(): NewsletterType
     {
         return $this->type;
     }
 
+    #[\Override]
     public function getContext(): array
     {
         return [

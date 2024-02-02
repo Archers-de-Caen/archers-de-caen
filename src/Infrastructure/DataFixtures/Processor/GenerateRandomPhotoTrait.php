@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\DataFixtures\Processor;
 
+use Faker\Generator;
 use App\Domain\File\Model\Photo;
-use Faker;
 use GuzzleHttp\Psr7\MimeType;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -19,7 +19,7 @@ trait GenerateRandomPhotoTrait
     private HttpClientInterface $httpClient;
     private Filesystem $filesystem;
     private LoggerInterface $logger;
-    private Faker\Generator $faker;
+    private Generator $faker;
 
     private function setFilesystem(Filesystem $filesystem): void
     {
@@ -36,7 +36,7 @@ trait GenerateRandomPhotoTrait
         $this->logger = $logger;
     }
 
-    private function setFaker(Faker\Generator $faker): void
+    private function setFaker(Generator $faker): void
     {
         $this->faker = $faker;
     }

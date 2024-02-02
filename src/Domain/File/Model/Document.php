@@ -75,6 +75,7 @@ class Document implements UploadableInterface
     #[Groups(['Document'])]
     private DocumentType $type = DocumentType::OTHER;
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->documentName ?? '';
@@ -101,7 +102,7 @@ class Document implements UploadableInterface
     {
         $this->documentFile = $file;
 
-        if ($file instanceof \Symfony\Component\HttpFoundation\File\File) {
+        if ($file instanceof File) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
             $this->updatedAt = new \DateTimeImmutable();

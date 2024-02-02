@@ -43,6 +43,7 @@ class DashboardController extends AbstractDashboardController
     }
 
     #[Route('/', name: self::ROUTE)]
+    #[\Override]
     public function index(): Response
     {
         return $this->render('@EasyAdmin/page/index.html.twig', [
@@ -50,6 +51,7 @@ class DashboardController extends AbstractDashboardController
         ]);
     }
 
+    #[\Override]
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
@@ -57,6 +59,7 @@ class DashboardController extends AbstractDashboardController
         ;
     }
 
+    #[\Override]
     public function configureCrud(): Crud
     {
         return parent::configureCrud()
@@ -64,6 +67,7 @@ class DashboardController extends AbstractDashboardController
         ;
     }
 
+    #[\Override]
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Page d\'accueil', 'fa fa-home');
@@ -124,6 +128,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section($version);
     }
 
+    #[\Override]
     public function configureAssets(): Assets
     {
         return Assets::new()

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\CompetitionRegister;
 
+use Symfony\Component\Translation\TranslatableMessage;
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Config\Weapon;
@@ -49,11 +50,13 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
     ) {
     }
 
+    #[\Override]
     public static function getEntityFqcn(): string
     {
         return CompetitionRegisterDepartureTargetArcher::class;
     }
 
+    #[\Override]
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
@@ -63,6 +66,7 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
         ;
     }
 
+    #[\Override]
     public function configureActions(Actions $actions): Actions
     {
         $export = Action::new('export')
@@ -92,6 +96,7 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
         ;
     }
 
+    #[\Override]
     public function configureFilters(Filters $filters): Filters
     {
         return $filters
@@ -105,6 +110,7 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
         ;
     }
 
+    #[\Override]
     public function configureFields(string $pageName): iterable
     {
         $id = IdField::new('id')
@@ -131,10 +137,10 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Gender::class,
-                'choice_label' => fn (Gender $choice): \Symfony\Component\Translation\TranslatableMessage => t($choice->value, domain: 'archer'),
+                'choice_label' => fn (Gender $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Gender::cases(),
             ])
-            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity): \Symfony\Component\Translation\TranslatableMessage|string => !$value || !$entity instanceof \App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher || !$entity->getGender() instanceof \App\Domain\Archer\Config\Gender ? '' : t($entity->getGender()->value, domain: 'archer'))
+            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity): TranslatableMessage|string => !$value || !$entity instanceof CompetitionRegisterDepartureTargetArcher || !$entity->getGender() instanceof Gender ? '' : t($entity->getGender()->value, domain: 'archer'))
         ;
 
         $category = ChoiceField::new('category')
@@ -142,10 +148,10 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Category::class,
-                'choice_label' => fn (Category $choice): \Symfony\Component\Translation\TranslatableMessage => t($choice->value, domain: 'archer'),
+                'choice_label' => fn (Category $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Category::cases(),
             ])
-            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity): ?\Symfony\Component\Translation\TranslatableMessage => $entity?->getCategory()?->value ? t($entity->getCategory()->value, domain: 'archer') : null)
+            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity): ?TranslatableMessage => $entity?->getCategory()?->value ? t($entity->getCategory()->value, domain: 'archer') : null)
         ;
 
         $weapon = ChoiceField::new('weapon')
@@ -153,10 +159,10 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Weapon::class,
-                'choice_label' => fn (Weapon $choice): \Symfony\Component\Translation\TranslatableMessage => t($choice->value, domain: 'archer'),
+                'choice_label' => fn (Weapon $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Weapon::cases(),
             ])
-            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity): \Symfony\Component\Translation\TranslatableMessage|string => !$value || !$entity instanceof \App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher || !$entity->getWeapon() instanceof \App\Domain\Archer\Config\Weapon ? '' : t($entity->getWeapon()->value, domain: 'archer'))
+            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity): TranslatableMessage|string => !$value || !$entity instanceof CompetitionRegisterDepartureTargetArcher || !$entity->getWeapon() instanceof Weapon ? '' : t($entity->getWeapon()->value, domain: 'archer'))
         ;
 
         $club = TextField::new('club')

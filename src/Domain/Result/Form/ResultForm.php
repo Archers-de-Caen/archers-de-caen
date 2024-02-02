@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Result\Form;
 
+use Symfony\Component\Translation\TranslatableMessage;
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Weapon;
 use App\Domain\Result\Model\Result;
@@ -18,13 +19,14 @@ use function Symfony\Component\Translation\t;
 
 abstract class ResultForm extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('category', EnumType::class, [
                 'class' => Category::class,
                 'label' => 'Catégorie',
-                'choice_label' => static fn (Category $category): \Symfony\Component\Translation\TranslatableMessage => t($category->value, domain: 'archer'),
+                'choice_label' => static fn (Category $category): TranslatableMessage => t($category->value, domain: 'archer'),
             ])
             ->add('rank', IntegerType::class, [
                 'label' => 'Classement',
@@ -36,7 +38,7 @@ abstract class ResultForm extends AbstractType
             ->add('weapon', EnumType::class, [
                 'class' => Weapon::class,
                 'label' => 'Arme',
-                'choice_label' => static fn (Weapon $weapon): \Symfony\Component\Translation\TranslatableMessage => t($weapon->value, domain: 'archer'),
+                'choice_label' => static fn (Weapon $weapon): TranslatableMessage => t($weapon->value, domain: 'archer'),
                 'required' => true,
             ])
             ->add('completionDate', DateType::class, [
@@ -48,6 +50,7 @@ abstract class ResultForm extends AbstractType
         ;
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

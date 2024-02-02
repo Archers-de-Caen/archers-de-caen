@@ -34,6 +34,7 @@ class CompetitionRegisterDepartureTarget
     #[ORM\OneToMany(mappedBy: 'target', targetEntity: CompetitionRegisterDepartureTargetArcher::class, cascade: ['ALL'])]
     private Collection $archers;
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->getType()?->toString().' à '.$this->getDistance().' mètres';

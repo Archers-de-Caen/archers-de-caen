@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints\Regex;
 
 class NewsletterForm extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

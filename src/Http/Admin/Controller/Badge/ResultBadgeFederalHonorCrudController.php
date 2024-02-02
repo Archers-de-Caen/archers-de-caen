@@ -17,6 +17,7 @@ class ResultBadgeFederalHonorCrudController extends ResultBadgeCrudController
         parent::__construct($entityRepository);
     }
 
+    #[\Override]
     public function configureCrud(Crud $crud): Crud
     {
         return parent::configureCrud($crud)

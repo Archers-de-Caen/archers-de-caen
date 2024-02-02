@@ -15,6 +15,7 @@ class CKEditorField implements FieldInterface
     /**
      * @param string|false|null $label
      */
+    #[\Override]
     public static function new(string $propertyName, $label = null): self
     {
         return (new self())

@@ -28,6 +28,7 @@ class CreateArcher extends Command
         parent::__construct($name);
     }
 
+    #[\Override]
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

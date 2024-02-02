@@ -13,6 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class TakeLicenseForm extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

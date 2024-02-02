@@ -21,6 +21,7 @@ class GetHeaderDataExtension extends AbstractExtension
     ) {
     }
 
+    #[\Override]
     public function getFunctions(): array
     {
         return [

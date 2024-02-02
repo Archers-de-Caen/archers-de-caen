@@ -24,6 +24,7 @@ final class BadgeFilter extends AbstractType
     {
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -94,6 +95,7 @@ final class BadgeFilter extends AbstractType
         $this->addOnlyArcherLicenced($builder);
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

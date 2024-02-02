@@ -15,6 +15,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class PartnerForm extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

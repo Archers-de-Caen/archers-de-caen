@@ -36,6 +36,7 @@ class Webhook
     #[ORM\Column(type: Types::STRING, nullable: true)]
     private ?string $result = null;
 
+    #[\Override]
     public function __toString(): string
     {
         try {

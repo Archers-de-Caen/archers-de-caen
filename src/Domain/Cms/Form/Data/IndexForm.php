@@ -16,6 +16,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class IndexForm extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

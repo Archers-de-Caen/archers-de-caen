@@ -14,11 +14,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class LicenseCrudController extends AbstractCrudController
 {
+    #[\Override]
     public static function getEntityFqcn(): string
     {
         return License::class;
     }
 
+    #[\Override]
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
@@ -29,6 +31,7 @@ class LicenseCrudController extends AbstractCrudController
         ;
     }
 
+    #[\Override]
     public function configureFields(string $pageName): iterable
     {
         $id = IdField::new('id');

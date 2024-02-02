@@ -66,6 +66,7 @@ class Badge
         $this->resultBadges = new ArrayCollection();
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->getName() ?? '';

@@ -21,6 +21,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PageCrudController extends AbstractPageCrudController
 {
+    #[\Override]
     public function configureCrud(Crud $crud): Crud
     {
         parent::configureCrud($crud);
@@ -32,6 +33,7 @@ class PageCrudController extends AbstractPageCrudController
         ;
     }
 
+    #[\Override]
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
         return parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters)
@@ -39,6 +41,7 @@ class PageCrudController extends AbstractPageCrudController
         ;
     }
 
+    #[\Override]
     public function configureActions(Actions $actions): Actions
     {
         parent::configureActions($actions);
@@ -56,6 +59,7 @@ class PageCrudController extends AbstractPageCrudController
             ->add(Crud::PAGE_INDEX, $publicLink);
     }
 
+    #[\Override]
     public function configureFields(string $pageName): iterable
     {
         $tags = AssociationField::new('tags')
@@ -71,6 +75,7 @@ class PageCrudController extends AbstractPageCrudController
     /**
      * @param Page $entityInstance
      */
+    #[\Override]
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         $entityInstance->setCategory(Category::PAGE);
@@ -83,6 +88,7 @@ class PageCrudController extends AbstractPageCrudController
     /**
      * @param Page $entityInstance
      */
+    #[\Override]
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         parent::updateEntity($entityManager, $entityInstance);

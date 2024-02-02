@@ -50,6 +50,7 @@ class FftaArcherUpdateCommand extends Command
         ]);
     }
 
+    #[\Override]
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

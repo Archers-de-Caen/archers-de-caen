@@ -49,6 +49,7 @@ class CompetitionRegister
     #[Slug(fields: ['slug'], unique: true)]
     private ?string $slug = null;
 
+    #[\Override]
     public function __toString(): string
     {
         return sprintf(

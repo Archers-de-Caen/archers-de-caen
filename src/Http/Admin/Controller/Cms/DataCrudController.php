@@ -20,11 +20,13 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class DataCrudController extends AbstractCrudController
 {
+    #[\Override]
     public static function getEntityFqcn(): string
     {
         return Data::class;
     }
 
+    #[\Override]
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
@@ -37,11 +39,13 @@ class DataCrudController extends AbstractCrudController
         ;
     }
 
+    #[\Override]
     public function configureActions(Actions $actions): Actions
     {
         return $actions->setPermission(Action::NEW, Archer::ROLE_DEVELOPER);
     }
 
+    #[\Override]
     public function configureFields(string $pageName): iterable
     {
         $createdAt = DateTimeField::new('createdAt', 'Date de création');
@@ -63,6 +67,7 @@ class DataCrudController extends AbstractCrudController
         return [$description, $createdAt];
     }
 
+    #[\Override]
     public function createEditFormBuilder(EntityDto $entityDto, KeyValueStore $formOptions, AdminContext $context): FormBuilderInterface
     {
         /** @var Data $data */

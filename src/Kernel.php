@@ -13,6 +13,7 @@ class Kernel extends BaseKernel implements CompilerPassInterface
 {
     use MicroKernelTrait;
 
+    #[\Override]
     public function process(ContainerBuilder $container): void
     {
         $typesDefinition = [];

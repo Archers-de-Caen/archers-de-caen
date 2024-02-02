@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\File;
 
+use Doctrine\ORM\Query\Expr\Join;
 use App\Domain\Cms\Model\Gallery;
 use App\Domain\File\Model\Photo;
-use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
@@ -31,25 +31,29 @@ class PhotoCrudController extends AbstractCrudController
     ) {
     }
 
+    #[\Override]
     public static function getEntityFqcn(): string
     {
         return Photo::class;
     }
 
+    #[\Override]
     public function configureCrud(Crud $crud): Crud
     {
         return $crud->setDefaultSort(['createdAt' => 'DESC']);
     }
 
+    #[\Override]
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
         return $this->entityRepository->createQueryBuilder($searchDto, $entityDto, $fields, $filters)
-            ->leftJoin(Gallery::class, 'g', Expr\Join::WITH, 'g.mainPhoto = entity')
+            ->leftJoin(Gallery::class, 'g', Join::WITH, 'g.mainPhoto = entity')
             ->andWhere('entity.gallery IS NULL')
             ->andWhere('g IS NULL')
         ;
     }
 
+    #[\Override]
     public function configureFields(string $pageName): iterable
     {
         $id = IdField::new('id');

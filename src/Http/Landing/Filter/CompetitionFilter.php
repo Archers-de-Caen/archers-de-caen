@@ -25,6 +25,7 @@ final class CompetitionFilter extends AbstractType
     ) {
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $years = range(2000, ((int) now()->format('Y')) + 1);
@@ -89,6 +90,7 @@ final class CompetitionFilter extends AbstractType
         ;
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

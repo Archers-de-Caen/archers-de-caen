@@ -46,8 +46,8 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     use PhoneTrait;
     use TimestampTrait;
 
-    private const LICENSE_NUMBER_UNIQUE = true;
-    private const EMAIL_UNIQUE = true;
+    private const bool LICENSE_NUMBER_UNIQUE = true;
+    private const bool EMAIL_UNIQUE = true;
 
     public const ROLE_ARCHER = 'ROLE_ARCHER';
     public const ROLE_EDITOR = 'ROLE_EDITOR';
@@ -104,6 +104,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         $this->resultsTeams = new ArrayCollection();
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->getLicenseNumber().' | '.$this->getFirstName().' '.$this->getLastName();
@@ -111,6 +112,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
 
     // UserInterface
 
+    #[\Override]
     public function getRoles(): array
     {
         $this->addRole(self::ROLE_ARCHER);
@@ -138,6 +140,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         return $this;
     }
 
+    #[\Override]
     public function eraseCredentials(): void
     {
         $this->setPlainPassword(null);
@@ -148,6 +151,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
      *
      * @throws \Exception
      */
+    #[\Override]
     public function getUserIdentifier(): string
     {
         if (!$this->getLicenseNumber() && !$this->getEmail()) {
@@ -157,6 +161,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         return ($this->getLicenseNumber() ?: $this->getEmail()) ?: '';
     }
 
+    #[\Override]
     public function isEqualTo(UserInterface $user): bool
     {
         return method_exists($user, 'getEmail') && $this->getEmail() === $user->getEmail();
@@ -169,6 +174,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         return $this->getFirstName().' '.$this->getLastName();
     }
 
+    #[\Override]
     public function getPassword(): ?string
     {
         return $this->password;

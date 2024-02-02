@@ -10,7 +10,6 @@ use App\Domain\Cms\Model\Page;
 use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\Competition\Model\CompetitionRegisterDeparture;
 use App\Domain\Competition\Model\CompetitionRegisterDepartureTarget;
-use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher;
 use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher as Registration;
 use App\Domain\Competition\Repository\CompetitionRegisterDepartureTargetArcherRepository as RegistrationRepository;
 use App\Infrastructure\Exception\InvalidSubmitCompetitionRegisterException;
@@ -69,7 +68,7 @@ class CompetitionRegisterManager
     public function handleSubmitForm(
         FormInterface $form,
         CompetitionRegister $competitionRegister,
-        CompetitionRegisterDepartureTargetArcher $register
+        Registration $register
     ): void {
         $recap = [];
 
@@ -104,7 +103,7 @@ class CompetitionRegisterManager
             ->findByCompetitionRegisterAndLicenseNumber($competitionRegister, $licenseNumber);
         $alreadyPaid = \count(array_filter($registrations, static fn (Registration $crdta): bool => $crdta->isPaid()));
 
-        if ($firstRegistration instanceof \App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher && $isArcherDeCaen && !$alreadyPaid) {
+        if ($firstRegistration instanceof Registration && $isArcherDeCaen && !$alreadyPaid) {
             $firstRegistration->setPaid(true);
         }
 
@@ -118,7 +117,7 @@ class CompetitionRegisterManager
         $this->sendEmailToCompetitionOwner($register, $recap);
     }
 
-    private function sendEmailToParticipant(CompetitionRegisterDepartureTargetArcher $register, array $recap): void
+    private function sendEmailToParticipant(Registration $register, array $recap): void
     {
         if (!$register->getEmail()) {
             return;
@@ -141,7 +140,7 @@ class CompetitionRegisterManager
         $this->mailer->send($email);
     }
 
-    private function sendEmailToCompetitionOwner(CompetitionRegisterDepartureTargetArcher $register, array $recap): void
+    private function sendEmailToCompetitionOwner(Registration $register, array $recap): void
     {
         if (!$register->getEmail()) {
             return;

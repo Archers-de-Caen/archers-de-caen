@@ -16,6 +16,7 @@ use Symfony\Component\Validator\Constraints\Valid;
  */
 class ManagementTeamForm extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
