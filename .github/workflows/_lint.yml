@@ -58,5 +58,7 @@ jobs:
             exit 1
           else
             echo "Rector is done!"
+            echo "$RESULT"
+            exit 0
           fi
 
