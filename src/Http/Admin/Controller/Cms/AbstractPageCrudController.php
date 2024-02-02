@@ -159,8 +159,12 @@ class AbstractPageCrudController extends AbstractCrudController
 
     protected function dispatchCache(Page $entityInstance): void
     {
-        if ($entityInstance->getImage() && $entityInstance->getImage()->getImageName()) {
-            $this->bus->dispatch(new CacheResolveMessage($entityInstance->getImage()->getImageName()));
+        if (!$entityInstance->getImage()) {
+            return;
         }
+        if (!$entityInstance->getImage()->getImageName()) {
+            return;
+        }
+        $this->bus->dispatch(new CacheResolveMessage($entityInstance->getImage()->getImageName()));
     }
 }

@@ -30,9 +30,13 @@ class SportController extends AbstractController
         foreach ($pages as $page) {
             $tagsName = [];
             foreach ($page->getTags() as $tag) {
-                if ($tag->getName() && 'sport' !== strtolower($tag->getName())) {
-                    $tagsName[] = $tag->getName();
+                if (!$tag->getName()) {
+                    continue;
                 }
+                if ('sport' === strtolower($tag->getName())) {
+                    continue;
+                }
+                $tagsName[] = $tag->getName();
             }
 
             if (!\count($tagsName)) {

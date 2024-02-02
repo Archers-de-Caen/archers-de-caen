@@ -19,8 +19,7 @@ return static function (RectorConfig $rectorConfig): void {
         #SetList::PRIVATIZATION,
         #SetList::INSTANCEOF,
         #SetList::TYPE_DECLARATION,
-        #SetList::EARLY_RETURN,
-        #SetList::STRICT_BOOLEANS,
+        SetList::EARLY_RETURN,
         SetList::DEAD_CODE,
     ]);
 };

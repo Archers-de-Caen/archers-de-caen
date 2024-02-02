@@ -25,9 +25,12 @@ class TimestampSubscriber
     public function preUpdate(PreUpdateEventArgs $args): void
     {
         $entity = $args->getObject();
-
-        if (property_exists($entity, 'updatedAt') && method_exists($entity, 'setUpdatedAt')) {
-            $entity->setUpdatedAt(new \DateTime());
+        if (!property_exists($entity, 'updatedAt')) {
+            return;
         }
+        if (!method_exists($entity, 'setUpdatedAt')) {
+            return;
+        }
+        $entity->setUpdatedAt(new \DateTime());
     }
 }

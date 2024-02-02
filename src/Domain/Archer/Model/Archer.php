@@ -361,12 +361,13 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         if ($compoundBow > $bareBow && $compoundBow > $recurveBow) {
             return Weapon::COMPOUND_BOW;
         }
-
-        if ($recurveBow > $compoundBow && $recurveBow > $bareBow) {
-            return Weapon::RECURVE_BOW;
+        if ($recurveBow <= $compoundBow) {
+            return null;
         }
-
-        return null;
+        if ($recurveBow <= $bareBow) {
+            return null;
+        }
+        return Weapon::RECURVE_BOW;
     }
 
     public function getNewsletters(): array

@@ -22,9 +22,15 @@ class CreatedBySubscriber
     public function prePersist(PrePersistEventArgs $args): void
     {
         $entity = $args->getObject();
-
-        if (property_exists($entity, 'createdBy') && method_exists($entity, 'setCreatedBy') && $this->security->getUser()) {
-            $entity->setCreatedBy($this->security->getUser());
+        if (!property_exists($entity, 'createdBy')) {
+            return;
         }
+        if (!method_exists($entity, 'setCreatedBy')) {
+            return;
+        }
+        if (!$this->security->getUser()) {
+            return;
+        }
+        $entity->setCreatedBy($this->security->getUser());
     }
 }

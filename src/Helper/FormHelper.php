@@ -25,11 +25,13 @@ class FormHelper
             ];
         }
         foreach ($form->all() as $childForm) {
-            if ($childForm instanceof FormInterface) {
-                if ($childErrors = self::getErrorsArray($childForm)) {
-                    $errors[$childForm->getName()] = $childErrors;
-                }
+            if (!$childForm instanceof FormInterface) {
+                continue;
             }
+            if (!($childErrors = self::getErrorsArray($childForm))) {
+                continue;
+            }
+            $errors[$childForm->getName()] = $childErrors;
         }
 
         return $errors;
