@@ -50,6 +50,7 @@ final class RecordFilter extends AbstractType
                     if (!$string) {
                         return null;
                     }
+
                     try {
                         return Type::from($string);
                     } catch (\ValueError) {
@@ -75,6 +76,7 @@ final class RecordFilter extends AbstractType
                     if (!$string) {
                         return null;
                     }
+
                     try {
                         return Weapon::from($string);
                     } catch (\ValueError) {

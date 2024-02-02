@@ -76,6 +76,7 @@ final class CompetitionFilter extends AbstractType
                     if (!$string) {
                         return null;
                     }
+
                     try {
                         return Type::from($string);
                     } catch (\ValueError) {

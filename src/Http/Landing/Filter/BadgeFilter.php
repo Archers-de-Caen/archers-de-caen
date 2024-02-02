@@ -56,6 +56,7 @@ final class BadgeFilter extends AbstractType
                     if (!$string) {
                         return null;
                     }
+
                     try {
                         return Weapon::from($string);
                     } catch (\ValueError) {

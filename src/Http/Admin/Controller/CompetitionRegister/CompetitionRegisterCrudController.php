@@ -120,6 +120,7 @@ class CompetitionRegisterCrudController extends AbstractCrudController
                 if (!$value || !$entity instanceof CompetitionRegister || !$entity->getTypes()) {
                     return '';
                 }
+
                 return implode(', ', array_map(static fn (Type $type): TranslatableMessage => t($type->value, domain: 'competition'), $entity->getTypes()));
             })
         ;

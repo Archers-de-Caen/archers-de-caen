@@ -350,6 +350,7 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
                                     return $competitionRegister;
                                 }
                             }
+
                             return null;
                         },
                     ]),
