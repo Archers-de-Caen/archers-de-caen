@@ -10,13 +10,17 @@ return static function (RectorConfig $rectorConfig): void {
     // register single rule
     $rectorConfig->rule(TypedPropertyFromStrictConstructorRector::class);
 
+    $rectorConfig->removeUnusedImports();
+    $rectorConfig->importNames();
+    $rectorConfig->importShortClasses(false);
+
     // here we can define, what sets of rules will be applied
     // tip: use "SetList" class to autocomplete sets with your IDE
     $rectorConfig->sets([
-        #SetList::CODE_QUALITY,
-        #SetList::CODING_STYLE,
-        #SetList::PHP_83,
-        #SetList::PRIVATIZATION,
+        SetList::CODE_QUALITY,
+        SetList::CODING_STYLE,
+        SetList::PHP_83,
+        SetList::PRIVATIZATION,
         SetList::INSTANCEOF,
         SetList::TYPE_DECLARATION,
         SetList::EARLY_RETURN,
