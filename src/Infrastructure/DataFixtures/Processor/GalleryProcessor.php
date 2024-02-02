@@ -41,11 +41,7 @@ final class GalleryProcessor implements ProcessorInterface
 
         $object->setMainPhoto($this->generateRandomPhoto($this->env));
 
-        if ('gallery_100_photos' === $id) {
-            $photoNumber = 100;
-        } else {
-            $photoNumber = $this->faker->numberBetween(3, 25);
-        }
+        $photoNumber = 'gallery_100_photos' === $id ? 100 : $this->faker->numberBetween(3, 25);
 
         for ($i = 0; $i < $photoNumber; ++$i) {
             $object->addPhoto($this->generateRandomPhoto($this->env));

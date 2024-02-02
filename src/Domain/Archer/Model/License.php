@@ -129,11 +129,9 @@ class License
 
     public function removeArcherLicense(ArcherLicense $archerLicense): self
     {
-        if ($this->archerLicenses->removeElement($archerLicense)) {
-            // set the owning side to null (unless already changed)
-            if ($this === $archerLicense->getLicense()) {
-                $archerLicense->setLicense(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->archerLicenses->removeElement($archerLicense) && $this === $archerLicense->getLicense()) {
+            $archerLicense->setLicense(null);
         }
 
         return $this;

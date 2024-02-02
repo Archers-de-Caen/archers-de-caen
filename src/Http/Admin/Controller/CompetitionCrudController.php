@@ -135,10 +135,8 @@ final class CompetitionCrudController extends AbstractCrudController
             ->setFormTypeOption('mapped', false)
             ->setFormTypeOption('attr', ['checked' => true]);
 
-        if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {
-            if ($this->isGranted(Archer::ROLE_DEVELOPER)) {
-                yield $id;
-            }
+        if ((Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) && $this->isGranted(Archer::ROLE_DEVELOPER)) {
+            yield $id;
         }
 
         if (Crud::PAGE_DETAIL === $pageName) {

@@ -241,11 +241,9 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
 
     public function removeArcherLicense(ArcherLicense $archerLicense): self
     {
-        if ($this->archerLicenses->removeElement($archerLicense)) {
-            // set the owning side to null (unless already changed)
-            if ($archerLicense->getArcher() === $this) {
-                $archerLicense->setArcher(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->archerLicenses->removeElement($archerLicense) && $archerLicense->getArcher() === $this) {
+            $archerLicense->setArcher(null);
         }
 
         return $this;
@@ -317,11 +315,9 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
 
     public function removeResult(Result $result): self
     {
-        if ($this->results->removeElement($result)) {
-            // set the owning side to null (unless already changed)
-            if ($result->getArcher() === $this) {
-                $result->setArcher(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->results->removeElement($result) && $result->getArcher() === $this) {
+            $result->setArcher(null);
         }
 
         return $this;

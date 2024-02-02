@@ -39,7 +39,7 @@ final class NewsletterForm extends AbstractType
                     'placeholder' => '123456A',
                 ],
                 'constraints' => [
-                    new Regex('/[0-9]{7}[A-Za-z]/'),
+                    new Regex('/\d{7}[A-Za-z]/'),
                 ],
             ])
             ->add('submit', SubmitType::class, [

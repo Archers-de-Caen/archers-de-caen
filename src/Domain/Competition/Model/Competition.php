@@ -148,11 +148,9 @@ class Competition
 
     public function removeResult(ResultCompetition $resultCompetition): self
     {
-        if ($this->results->removeElement($resultCompetition)) {
-            // set the owning side to null (unless already changed)
-            if ($resultCompetition->getCompetition() === $this) {
-                $resultCompetition->setCompetition(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->results->removeElement($resultCompetition) && $resultCompetition->getCompetition() === $this) {
+            $resultCompetition->setCompetition(null);
         }
 
         return $this;

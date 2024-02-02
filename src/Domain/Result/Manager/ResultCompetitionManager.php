@@ -63,11 +63,7 @@ final class ResultCompetitionManager
                     return false;
                 }
 
-                if ($resultBadge->getBadge()->getCompetitionType() !== $competition->getType()) {
-                    return false;
-                }
-
-                return true;
+                return $resultBadge->getBadge()->getCompetitionType() === $competition->getType();
             })
             ->toArray();
 

@@ -44,11 +44,7 @@ final class CreateCacheLiipAdminController extends AbstractController
             return $redirect;
         }
 
-        if (str_contains($path, '/')) {
-            $pathExplode = explode('/', $path);
-        } else {
-            $pathExplode = explode('\\', $path);
-        }
+        $pathExplode = str_contains($path, '/') ? explode('/', $path) : explode('\\', $path);
 
         $path = $pathExplode[\count($pathExplode) - 1];
 

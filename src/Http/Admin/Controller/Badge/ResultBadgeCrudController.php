@@ -124,10 +124,8 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
             ->formatValue(static fn($value, ?ResultBadge $entity): TranslatableMessage|string => !$value || !$entity instanceof ResultBadge || !$entity->getCategory() instanceof Category ? '' : t($entity->getCategory()->value, domain: 'archer'))
         ;
 
-        if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {
-            if ($this->isGranted(Archer::ROLE_DEVELOPER)) {
-                yield $id;
-            }
+        if ((Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) && $this->isGranted(Archer::ROLE_DEVELOPER)) {
+            yield $id;
         }
 
         if (Crud::PAGE_DETAIL === $pageName) {

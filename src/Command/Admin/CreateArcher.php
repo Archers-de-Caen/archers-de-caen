@@ -77,7 +77,7 @@ final class CreateArcher extends Command
                 /* @var string $value */
                 if ($details['hidden'] ?? false) {
                     $value = $io->askHidden($details['sentence']);
-                } elseif (!empty($details['choices'])) {
+                } elseif (isset($details['choices']) && $details['choices'] !== []) {
                     $value = $io->choice($details['sentence'], $details['choices']);
                 } else {
                     $value = $io->ask($details['sentence']);

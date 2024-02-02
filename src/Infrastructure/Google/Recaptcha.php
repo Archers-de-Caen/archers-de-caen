@@ -61,10 +61,6 @@ final class Recaptcha
             return false;
         }
 
-        if ($response['score'] < .8) {
-            return false;
-        }
-
-        return true;
+        return $response['score'] >= .8;
     }
 }

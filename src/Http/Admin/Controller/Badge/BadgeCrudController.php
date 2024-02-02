@@ -73,10 +73,8 @@ final class BadgeCrudController extends AbstractCrudController
             ->formatValue(static fn($value, ?Badge $entity): TranslatableMessage|string => !$value || !$entity instanceof Badge || !$entity->getCompetitionType() instanceof Type ? '' : t($entity->getCompetitionType()->value, domain: 'competition'))
         ;
 
-        if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {
-            if ($this->isGranted(Archer::ROLE_DEVELOPER)) {
-                yield $id;
-            }
+        if ((Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) && $this->isGranted(Archer::ROLE_DEVELOPER)) {
+            yield $id;
         }
 
         if (Crud::PAGE_DETAIL === $pageName) {
