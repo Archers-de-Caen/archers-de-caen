@@ -18,7 +18,7 @@
     "doctrine/doctrine-migrations-bundle": "^3.2",
     "doctrine/orm": "^2.11",
     "doskyft/csv-helper": "^1.0",
-    "doskyft/helloasso-php": "^1.0",
+    "doskyft/helloasso-php": "^1.1",
     "easycorp/easyadmin-bundle": "^4.0",
     "erusev/parsedown": "^1.7",
     "gedmo/doctrine-extensions": "^3.6",
