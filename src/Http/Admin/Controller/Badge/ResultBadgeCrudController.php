@@ -32,6 +32,8 @@ use Symfony\Component\Form\Extension\Core\Type\EnumType;
 
 use function Symfony\Component\Translation\t;
 
+use Symfony\Component\Translation\TranslatableMessage;
+
 abstract class ResultBadgeCrudController extends AbstractCrudController
 {
     protected string $badgeType = '';
@@ -40,31 +42,35 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
     {
     }
 
+    #[\Override]
     public static function getEntityFqcn(): string
     {
         return ResultBadge::class;
     }
 
+    #[\Override]
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setPageTitle(Crud::PAGE_DETAIL, fn (ResultBadge $resultBadge) => (string) $resultBadge)
-            ->setPageTitle(Crud::PAGE_EDIT, fn (ResultBadge $resultBadge) => sprintf('Edition du résultat <b>%s</b>', $resultBadge))
+            ->setPageTitle(Crud::PAGE_DETAIL, static fn (ResultBadge $resultBadge): string => (string) $resultBadge)
+            ->setPageTitle(Crud::PAGE_EDIT, static fn (ResultBadge $resultBadge): string => sprintf('Edition du résultat <b>%s</b>', $resultBadge))
             ->setDefaultSort(['completionDate' => 'DESC'])
         ;
     }
 
+    #[\Override]
     public function configureActions(Actions $actions): Actions
     {
         return $actions
             ->update(
                 Crud::PAGE_INDEX,
                 Action::NEW,
-                fn (Action $action) => $action->setIcon('fa fa-bullseye')
+                static fn (Action $action): Action => $action->setIcon('fa fa-bullseye')
                 ->setLabel('Ajouter un nouveau résultat')
             );
     }
 
+    #[\Override]
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
         return $this->entityRepository->createQueryBuilder($searchDto, $entityDto, $fields, $filters)
@@ -73,6 +79,7 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
         ;
     }
 
+    #[\Override]
     public function configureFields(string $pageName): iterable
     {
         $id = IdField::new('id');
@@ -93,7 +100,7 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
         $archer = AssociationField::new('archer');
         $score = IntegerField::new('score');
         $completionDate = DateField::new('completionDate')
-            ->setLabel('Date d\'obtention')
+            ->setLabel("Date d'obtention")
         ;
 
         $weapon = ChoiceField::new('weapon')
@@ -101,10 +108,10 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Weapon::class,
-                'choice_label' => fn (Weapon $choice) => t($choice->value, domain: 'archer'),
+                'choice_label' => static fn (Weapon $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Weapon::cases(),
             ])
-            ->formatValue(fn ($value, ?ResultBadge $entity) => !$value || !$entity || !$entity->getWeapon() ? '' : t($entity->getWeapon()->value, domain: 'archer'))
+            ->formatValue(static fn ($value, ?ResultBadge $entity): TranslatableMessage|string => !$value || !$entity instanceof ResultBadge || !$entity->getWeapon() instanceof Weapon ? '' : t($entity->getWeapon()->value, domain: 'archer'))
         ;
 
         $category = ChoiceField::new('category')
@@ -112,16 +119,14 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Category::class,
-                'choice_label' => fn (Category $choice) => t($choice->value, domain: 'archer'),
+                'choice_label' => static fn (Category $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Category::cases(),
             ])
-            ->formatValue(fn ($value, ?ResultBadge $entity) => !$value || !$entity || !$entity->getCategory() ? '' : t($entity->getCategory()->value, domain: 'archer'))
+            ->formatValue(static fn ($value, ?ResultBadge $entity): TranslatableMessage|string => !$value || !$entity instanceof ResultBadge || !$entity->getCategory() instanceof Category ? '' : t($entity->getCategory()->value, domain: 'archer'))
         ;
 
-        if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {
-            if ($this->isGranted(Archer::ROLE_DEVELOPER)) {
-                yield $id;
-            }
+        if ((Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) && $this->isGranted(Archer::ROLE_DEVELOPER)) {
+            yield $id;
         }
 
         if (Crud::PAGE_DETAIL === $pageName) {
@@ -136,6 +141,7 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
         yield $category;
     }
 
+    #[\Override]
     public function configureFilters(Filters $filters): Filters
     {
         $weapon = ChoiceFilter::new('weapon')

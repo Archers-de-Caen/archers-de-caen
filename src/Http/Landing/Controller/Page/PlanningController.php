@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
 #[Route(
@@ -17,9 +17,9 @@ use Symfony\Component\Routing\Annotation\Route;
     options: ['sitemap' => true],
     methods: Request::METHOD_GET
 )]
-class PlanningController extends AbstractController
+final class PlanningController extends AbstractController
 {
-    public const ROUTE = 'landing_planning';
+    public const string ROUTE = 'landing_planning';
 
     public function __invoke(Request $request): Response
     {

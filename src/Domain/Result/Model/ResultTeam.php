@@ -18,6 +18,9 @@ class ResultTeam extends Result
     #[ORM\ManyToOne(targetEntity: Competition::class, inversedBy: 'resultsTeams')]
     private ?Competition $competition = null;
 
+    /**
+     * @var Collection<int, Archer>
+     */
     #[ORM\ManyToMany(targetEntity: Archer::class, inversedBy: 'resultsTeams')]
     private Collection $teammates;
 

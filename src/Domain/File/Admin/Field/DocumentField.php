@@ -8,13 +8,14 @@ use App\Domain\File\Form\DocumentFormType;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 
-class DocumentField implements FieldInterface
+final class DocumentField implements FieldInterface
 {
     use FieldTrait;
 
     /**
      * @param string|false|null $label
      */
+    #[\Override]
     public static function new(string $propertyName, $label = null): self
     {
         return (new self())

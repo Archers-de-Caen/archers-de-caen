@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
 #[Route(
@@ -17,15 +17,15 @@ use Symfony\Component\Routing\Annotation\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-class CompetitionRegisterController extends AbstractController
+final class CompetitionRegisterController extends AbstractController
 {
-    public const ROUTE = 'api_competition_register';
+    public const string ROUTE = 'api_competition_register';
 
     public function __invoke(string $licenseNumber, ArcherManager $archerManager): Response
     {
         $archer = $archerManager->findArcherFromLicense($licenseNumber);
 
-        if (!$archer) {
+        if (null === $archer) {
             return $this->json([], Response::HTTP_NOT_FOUND);
         }
 

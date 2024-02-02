@@ -14,6 +14,7 @@ class ResultBadge extends Result
     #[ORM\ManyToOne(targetEntity: Badge::class, inversedBy: 'resultBadges')]
     private ?Badge $badge = null;
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->getBadge()?->__toString().' '.$this->getArcher()?->__toString();

@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
 #[Route(
@@ -26,9 +26,9 @@ use Symfony\Component\Routing\Annotation\Route;
         Request::METHOD_POST,
     ]
 )]
-class FederalHonorsController extends AbstractController
+final class FederalHonorsController extends AbstractController
 {
-    public const ROUTE = 'landing_results_federal_honors';
+    public const string ROUTE = 'landing_results_federal_honors';
 
     public function __construct(
         private readonly ResultBadgeRepository $resultBadgeRepository,
@@ -64,7 +64,7 @@ class FederalHonorsController extends AbstractController
             ->setParameter('type', Badge::COMPETITION)
         ;
 
-        if ($filterDto) {
+        if ($filterDto instanceof BadgeFilterDto) {
             $this->handleFilter($queryBuilder, $filterDto);
         }
 

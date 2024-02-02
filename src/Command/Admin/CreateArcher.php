@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
     name: 'app:archers:create',
     description: 'Permet de créer un archer',
 )]
-class CreateArcher extends Command
+final class CreateArcher extends Command
 {
     public function __construct(
         private readonly ValidatorInterface $validator,
@@ -28,7 +28,8 @@ class CreateArcher extends Command
         parent::__construct($name);
     }
 
-    public function execute(InputInterface $input, OutputInterface $output): int
+    #[\Override]
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
@@ -41,11 +42,11 @@ class CreateArcher extends Command
             ],
             'lastName' => [
                 'value' => null,
-                'sentence' => 'Nom de l\'archer',
+                'sentence' => "Nom de l'archer",
             ],
             'email' => [
                 'value' => null,
-                'sentence' => 'Email de l\'archer',
+                'sentence' => "Email de l'archer",
             ],
             'phone' => [
                 'value' => null,
@@ -53,7 +54,7 @@ class CreateArcher extends Command
             ],
             'plainPassword' => [
                 'value' => null,
-                'sentence' => 'Mot de passe de l\'archer (cacher)',
+                'sentence' => "Mot de passe de l'archer (cacher)",
                 'hidden' => true,
             ],
             'licenseNumber' => [
@@ -62,7 +63,7 @@ class CreateArcher extends Command
             ],
             'role' => [
                 'value' => null,
-                'sentence' => 'Liste des roles de l\'archer',
+                'sentence' => "Liste des roles de l'archer",
                 'choices' => [
                     Archer::ROLE_ARCHER => 'Archer',
                     Archer::ROLE_EDITOR => 'Éditeur',
@@ -77,7 +78,7 @@ class CreateArcher extends Command
                 /* @var string $value */
                 if ($details['hidden'] ?? false) {
                     $value = $io->askHidden($details['sentence']);
-                } elseif (!empty($details['choices'])) {
+                } elseif (isset($details['choices']) && [] !== $details['choices']) {
                     $value = $io->choice($details['sentence'], $details['choices']);
                 } else {
                     $value = $io->ask($details['sentence']);

@@ -23,26 +23,31 @@ use Symfony\Component\Form\Extension\Core\Type\EnumType;
 
 use function Symfony\Component\Translation\t;
 
-class BadgeCrudController extends AbstractCrudController
+use Symfony\Component\Translation\TranslatableMessage;
+
+final class BadgeCrudController extends AbstractCrudController
 {
     public function __construct(protected readonly EntityRepository $entityRepository)
     {
     }
 
+    #[\Override]
     public static function getEntityFqcn(): string
     {
         return Badge::class;
     }
 
+    #[\Override]
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, 'Listes des badges')
-            ->setPageTitle(Crud::PAGE_DETAIL, fn (Badge $badge) => (string) $badge)
-            ->setPageTitle(Crud::PAGE_EDIT, fn (Badge $badge) => sprintf('Edition le badge <b>%s</b>', $badge))
+            ->setPageTitle(Crud::PAGE_DETAIL, static fn (Badge $badge): string => (string) $badge)
+            ->setPageTitle(Crud::PAGE_EDIT, static fn (Badge $badge): string => sprintf('Edition le badge <b>%s</b>', $badge))
         ;
     }
 
+    #[\Override]
     public function configureFields(string $pageName): iterable
     {
         $id = IdField::new('id');
@@ -63,16 +68,14 @@ class BadgeCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Type::class,
-                'choice_label' => fn (Type $choice) => t($choice->value, domain: 'competition'),
+                'choice_label' => static fn (Type $choice): TranslatableMessage => t($choice->value, domain: 'competition'),
                 'choices' => Type::cases(),
             ])
-            ->formatValue(fn ($value, ?Badge $entity) => !$value || !$entity || !$entity->getCompetitionType() ? '' : t($entity->getCompetitionType()->value, domain: 'competition'))
+            ->formatValue(static fn ($value, ?Badge $entity): TranslatableMessage|string => !$value || !$entity instanceof Badge || !$entity->getCompetitionType() instanceof Type ? '' : t($entity->getCompetitionType()->value, domain: 'competition'))
         ;
 
-        if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {
-            if ($this->isGranted(Archer::ROLE_DEVELOPER)) {
-                yield $id;
-            }
+        if ((Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) && $this->isGranted(Archer::ROLE_DEVELOPER)) {
+            yield $id;
         }
 
         if (Crud::PAGE_DETAIL === $pageName) {

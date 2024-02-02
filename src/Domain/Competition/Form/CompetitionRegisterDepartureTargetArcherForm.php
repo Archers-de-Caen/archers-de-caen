@@ -30,16 +30,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use function Symfony\Component\Translation\t;
 
+use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 
-class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
+final class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
 {
     public function __construct(readonly private ArcherManager $archerManager, readonly private EntityManagerInterface $em)
     {
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -61,8 +63,8 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
             ->add('gender', EnumType::class, [
                 'label' => 'Genre',
                 'class' => Gender::class,
-                'choice_attr' => fn (Gender $gender) => ['data-gender' => $gender->value],
-                'choice_label' => static fn (Gender $gender) => t($gender->value, domain: 'archer'),
+                'choice_attr' => static fn (Gender $gender): array => ['data-gender' => $gender->value],
+                'choice_label' => static fn (Gender $gender): TranslatableMessage => t($gender->value, domain: 'archer'),
                 'expanded' => true,
                 'constraints' => [
                     new NotBlank(),
@@ -100,15 +102,15 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
                     'placeholder' => '0123456A',
                 ],
                 'constraints' => [
-                    new Regex('/[0-9]{7}[A-Za-z]/'),
+                    new Regex('/\d{7}[A-Za-z]/'),
                 ],
             ])
             ->add('category', EnumType::class, [
                 'label' => 'Catégorie',
                 'class' => Category::class,
-                'choice_attr' => fn (Category $category) => ['data-gender' => $category->getGender(), 'data-category' => $category->value],
-                'choice_label' => static fn (Category $category) => t($category->value, domain: 'archer'),
-                'choices' => array_filter(Category::cases(), static fn (Category $category) => !$category->isOld()),
+                'choice_attr' => static fn (Category $category): array => ['data-gender' => $category->getGender(), 'data-category' => $category->value],
+                'choice_label' => static fn (Category $category): TranslatableMessage => t($category->value, domain: 'archer'),
+                'choices' => array_filter(Category::cases(), static fn (Category $category): bool => !$category->isOld()),
                 'constraints' => [
                     new NotBlank(),
                 ],
@@ -130,7 +132,7 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
             ->add('weapon', EnumType::class, [
                 'label' => 'Arme',
                 'class' => Weapon::class,
-                'choice_label' => static fn (Weapon $weapon) => t($weapon->value, domain: 'archer'),
+                'choice_label' => static fn (Weapon $weapon): TranslatableMessage => t($weapon->value, domain: 'archer'),
                 'expanded' => true,
                 'required' => true,
             ])
@@ -156,12 +158,12 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
                         'label' => 'Départs',
                         'expanded' => true,
                         'mapped' => false,
-                        'choice_attr' => function () use ($departure) {
+                        'choice_attr' => static function () use ($departure): array {
                             return [
                                 'disabled' => $departure->getRegistration() >= $departure->getMaxRegistration(),
                             ];
                         },
-                        'query_builder' => function (EntityRepository $er) use ($departure) {
+                        'query_builder' => static function (EntityRepository $er) use ($departure) {
                             return $er->createQueryBuilder('crdt')
                                 ->join('crdt.departure', 'departure')
                                 ->where('departure.id = :uuid')
@@ -231,6 +233,7 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
         ]);
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

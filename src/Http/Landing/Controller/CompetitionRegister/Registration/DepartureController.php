@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
 #[Route(
@@ -26,9 +26,9 @@ use Symfony\Component\Routing\Annotation\Route;
         Request::METHOD_POST,
     ]
 )]
-class DepartureController extends AbstractController
+final class DepartureController extends AbstractController
 {
-    public const ROUTE = 'landing_competition_register_departure';
+    public const string ROUTE = 'landing_competition_register_departure';
 
     public function __invoke(
         Request $request,

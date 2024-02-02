@@ -57,6 +57,9 @@ class Competition
     #[Assert\Valid]
     private Collection $results;
 
+    /**
+     * @var Collection<int, ResultTeam>
+     */
     #[ORM\OneToMany(mappedBy: 'competition', targetEntity: ResultTeam::class, cascade: ['ALL'], orphanRemoval: true)]
     #[Assert\Valid]
     private Collection $resultsTeams;
@@ -67,6 +70,7 @@ class Competition
         $this->resultsTeams = new ArrayCollection();
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return sprintf(
@@ -147,11 +151,9 @@ class Competition
 
     public function removeResult(ResultCompetition $resultCompetition): self
     {
-        if ($this->results->removeElement($resultCompetition)) {
-            // set the owning side to null (unless already changed)
-            if ($resultCompetition->getCompetition() === $this) {
-                $resultCompetition->setCompetition(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->results->removeElement($resultCompetition) && $resultCompetition->getCompetition() === $this) {
+            $resultCompetition->setCompetition(null);
         }
 
         return $this;

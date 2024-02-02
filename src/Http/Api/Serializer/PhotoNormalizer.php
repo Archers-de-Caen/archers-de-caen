@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
-class PhotoNormalizer implements NormalizerInterface, NormalizerAwareInterface
+final class PhotoNormalizer implements NormalizerInterface, NormalizerAwareInterface
 {
     use NormalizerAwareTrait;
 
@@ -30,6 +30,7 @@ class PhotoNormalizer implements NormalizerInterface, NormalizerAwareInterface
      *
      * @throws ExceptionInterface
      */
+    #[\Override]
     public function normalize(mixed $object, string $format = null, array $context = []): array
     {
         /** @var array $data */
@@ -46,11 +47,13 @@ class PhotoNormalizer implements NormalizerInterface, NormalizerAwareInterface
         return $data;
     }
 
+    #[\Override]
     public function supportsNormalization($data, string $format = null, array $context = []): bool
     {
         return $data instanceof Photo;
     }
 
+    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         return [

@@ -47,7 +47,7 @@ enum Type: string
             self::FITA_STAR => 'FITA Star',
             self::OUTDOOR_INTERNATIONAL => 'TAE International',
             self::OUTDOOR_NATIONAL => 'TAE National',
-            self::GOLDEN_APPLE_CHALLENGE => 'Challenge de la Pomme d\'Or',
+            self::GOLDEN_APPLE_CHALLENGE => "Challenge de la Pomme d'Or",
             self::PROMOTIONAL => 'Promotionnel',
             self::SPECIAL_YOUNG => 'Spécial jeune',
         };
@@ -75,7 +75,7 @@ enum Type: string
             strtolower('FITA Scratch') => self::FITA_SCRATCH,
             strtolower('TAE International') => self::OUTDOOR_INTERNATIONAL,
             strtolower('TAE National') => self::OUTDOOR_NATIONAL,
-            strtolower('Challenge de la Pomme d\'Or') => self::GOLDEN_APPLE_CHALLENGE,
+            strtolower("Challenge de la Pomme d'Or") => self::GOLDEN_APPLE_CHALLENGE,
             strtolower('Promotionnel') => self::PROMOTIONAL,
 
             default => throw new \ValueError($type.' not found'),

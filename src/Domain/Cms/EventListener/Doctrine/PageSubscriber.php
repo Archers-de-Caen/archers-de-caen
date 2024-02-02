@@ -12,7 +12,7 @@ use Doctrine\ORM\Events;
 use Symfony\Bundle\SecurityBundle\Security;
 
 #[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: Page::class)]
-class PageSubscriber
+final class PageSubscriber
 {
     public function __construct(private readonly Security $security)
     {
@@ -23,7 +23,7 @@ class PageSubscriber
         /** @var Archer $archer */
         $archer = $this->security->getUser();
 
-        if (!$page->getCreatedBy()) {
+        if (!$page->getCreatedBy() instanceof Archer) {
             $page->setCreatedBy($archer);
         }
     }

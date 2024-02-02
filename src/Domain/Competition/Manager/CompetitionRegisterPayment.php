@@ -19,14 +19,14 @@ use Helloasso\Models\Carts\InitCheckoutBody;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class CompetitionRegisterPayment
+final readonly class CompetitionRegisterPayment
 {
     public function __construct(
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly ParameterBagInterface $parameterBag,
-        private readonly RegistrationRepository $competitionRegisterDepartureTargetArcherRepository,
-        private readonly ArcherRepository $archerRepository,
-        private readonly CompetitionRegisterManager $competitionRegisterManager,
+        private UrlGeneratorInterface $urlGenerator,
+        private ParameterBagInterface $parameterBag,
+        private RegistrationRepository $competitionRegisterDepartureTargetArcherRepository,
+        private ArcherRepository $archerRepository,
+        private CompetitionRegisterManager $competitionRegisterManager,
     ) {
     }
 
@@ -97,7 +97,7 @@ class CompetitionRegisterPayment
             )
             ->setMetadata([
                 'registrations' => array_map(
-                    static fn (CompetitionRegisterDepartureTargetArcher $registration) => $registration->getId()?->__toString(),
+                    static fn (Registration $registration): ?string => $registration->getId()?->__toString(),
                     $registrations
                 ),
             ])
@@ -121,7 +121,7 @@ class CompetitionRegisterPayment
 
         $firstRegistration = $registrations[0];
 
-        $alreadyPaid = \count(array_filter($registrations, static fn (Registration $crdta) => $crdta->isPaid()));
+        $alreadyPaid = \count(array_filter($registrations, static fn (Registration $crdta): bool => $crdta->isPaid()));
 
         $departureToPaid = \count($registrations) - $alreadyPaid;
 

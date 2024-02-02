@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
 #[Route(
@@ -27,9 +27,9 @@ use Symfony\Component\Routing\Annotation\Route;
         Request::METHOD_POST,
     ]
 )]
-class ArrowsController extends AbstractController
+final class ArrowsController extends AbstractController
 {
-    public const ROUTE = 'landing_results_arrow';
+    public const string ROUTE = 'landing_results_arrow';
 
     public function __construct(
         private readonly ArcherRepository $archerRepository,
@@ -60,7 +60,7 @@ class ArrowsController extends AbstractController
 
         $queryBuilder = $this->archerRepository->createQueryBuilder('a');
 
-        if ($filterDto) {
+        if ($filterDto instanceof ArrowFilterDto) {
             $this->handleFilter($queryBuilder, $filterDto);
         }
 
@@ -69,7 +69,9 @@ class ArrowsController extends AbstractController
             ->getQuery()
             ->getResult();
 
-        $archers = array_filter($archers, static fn (Archer $archer) => $archer->getResultsProgressArrow()->count());
+        $archers = array_filter($archers, static function (Archer $archer): bool {
+            return (bool) $archer->getResultsProgressArrow()->count();
+        });
 
         usort(
             $archers,

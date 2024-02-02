@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
 #[Route(
@@ -26,9 +26,9 @@ use Symfony\Component\Routing\Annotation\Route;
         Request::METHOD_POST,
     ]
 )]
-class RecordController extends AbstractController
+final class RecordController extends AbstractController
 {
-    public const ROUTE = 'landing_results_record';
+    public const string ROUTE = 'landing_results_record';
 
     public function __construct(
         private readonly ResultCompetitionRepository $resultCompetitionRepository
@@ -69,7 +69,7 @@ class RecordController extends AbstractController
             ->orderBy('rc.score', 'DESC')
         ;
 
-        if ($filterDto) {
+        if ($filterDto instanceof RecordFilterDto) {
             $this->handleFilter($queryBuilder, $filterDto);
         }
 

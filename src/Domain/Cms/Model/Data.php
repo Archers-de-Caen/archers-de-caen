@@ -40,6 +40,7 @@ class Data
     #[ORM\JoinColumn(nullable: false)]
     private ?Archer $createdBy = null;
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->getCode() ?? 'Erreur: code nom défini';

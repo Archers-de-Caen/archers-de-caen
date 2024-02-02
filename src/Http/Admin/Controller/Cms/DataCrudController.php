@@ -18,30 +18,34 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class DataCrudController extends AbstractCrudController
+final class DataCrudController extends AbstractCrudController
 {
+    #[\Override]
     public static function getEntityFqcn(): string
     {
         return Data::class;
     }
 
+    #[\Override]
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
             ->setPageTitle('index', 'Liste des données structurées du site')
             ->setPageTitle('new', 'Ajouter une donnée structuré au site')
-            ->setPageTitle('detail', fn (Data $data) => (string) $data)
-            ->setPageTitle('edit', fn (Data $data) => sprintf('Edition d\'une donnée structuré <b>%s</b>', $data))
+            ->setPageTitle('detail', static fn (Data $data): string => (string) $data)
+            ->setPageTitle('edit', static fn (Data $data): string => sprintf('Edition d\'une donnée structuré <b>%s</b>', $data))
             ->setSearchFields(['description', 'code'])
             ->setDefaultSort(['createdAt' => 'DESC'])
         ;
     }
 
+    #[\Override]
     public function configureActions(Actions $actions): Actions
     {
         return $actions->setPermission(Action::NEW, Archer::ROLE_DEVELOPER);
     }
 
+    #[\Override]
     public function configureFields(string $pageName): iterable
     {
         $createdAt = DateTimeField::new('createdAt', 'Date de création');
@@ -63,6 +67,7 @@ class DataCrudController extends AbstractCrudController
         return [$description, $createdAt];
     }
 
+    #[\Override]
     public function createEditFormBuilder(EntityDto $entityDto, KeyValueStore $formOptions, AdminContext $context): FormBuilderInterface
     {
         /** @var Data $data */

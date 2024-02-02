@@ -49,6 +49,7 @@ class Gallery
         $this->photos = new ArrayCollection();
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->getTitle() ?? '';
@@ -98,11 +99,9 @@ class Gallery
 
     public function removePhoto(Photo $photo): self
     {
-        if ($this->photos->removeElement($photo)) {
-            // set the owning side to null (unless already changed)
-            if ($photo->getGallery() === $this) {
-                $photo->setGallery(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->photos->removeElement($photo) && $photo->getGallery() === $this) {
+            $photo->setGallery(null);
         }
 
         return $this;

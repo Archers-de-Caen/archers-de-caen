@@ -11,16 +11,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route(
     '/liip/create-image-cache',
     name: self::ROUTE,
     methods: Request::METHOD_GET,
 )]
-class CreateCacheLiipAdminController extends AbstractController
+final class CreateCacheLiipAdminController extends AbstractController
 {
-    public const ROUTE = 'admin_developer_admin_liip_image_cache_create';
+    public const string ROUTE = 'admin_developer_admin_liip_image_cache_create';
 
     /**
      * @throws \Exception
@@ -44,11 +44,7 @@ class CreateCacheLiipAdminController extends AbstractController
             return $redirect;
         }
 
-        if (str_contains($path, '/')) {
-            $pathExplode = explode('/', $path);
-        } else {
-            $pathExplode = explode('\\', $path);
-        }
+        $pathExplode = str_contains($path, '/') ? explode('/', $path) : explode('\\', $path);
 
         $path = $pathExplode[\count($pathExplode) - 1];
 

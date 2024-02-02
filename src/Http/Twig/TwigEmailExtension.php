@@ -7,8 +7,9 @@ namespace App\Http\Twig;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
-class TwigEmailExtension extends AbstractExtension
+final class TwigEmailExtension extends AbstractExtension
 {
+    #[\Override]
     public function getFilters(): array
     {
         return [
@@ -28,18 +29,17 @@ class TwigEmailExtension extends AbstractExtension
         if (($context['format'] ?? 'text') === 'text') {
             return $content;
         }
-        $content = preg_replace('/^(^ {2,})(\S+[ \S]*)$/m', '${2}', $content);
-        $content = (new \Parsedown())->setSafeMode(false)->text($content);
 
-        return $content;
+        $content = preg_replace('/^(^ {2,})(\S+[ \S]*)$/m', '${2}', $content);
+
+        return (new \Parsedown())->setSafeMode(false)->text($content);
     }
 
     public function formatText(string $content): string
     {
         $content = strip_tags($content);
         $content = preg_replace('/^(^ {2,})(\S+[ \S]*)$/m', '${2}', $content) ?: '';
-        $content = preg_replace("/([\r\n] *){3,}/", "\n\n", $content) ?: '';
 
-        return $content;
+        return preg_replace("/([\r\n] *){3,}/", "\n\n", $content) ?: '';
     }
 }

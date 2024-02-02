@@ -12,7 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<ContactRequest>
  */
-class ContactRequestRepository extends ServiceEntityRepository
+final class ContactRequestRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -50,7 +50,7 @@ class ContactRequestRepository extends ServiceEntityRepository
                 ->getOneOrNullResult();
 
             return $contact;
-        } catch (NonUniqueResultException $e) {
+        } catch (NonUniqueResultException $nonUniqueResultException) {
         }
 
         return null;

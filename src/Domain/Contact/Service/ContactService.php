@@ -16,7 +16,7 @@ use Symfony\Component\Mime\Email;
 
 use function Symfony\Component\Translation\t;
 
-class ContactService
+final class ContactService
 {
     public function __construct(
         private readonly ContactRequestRepository $repository,
@@ -38,7 +38,7 @@ class ContactService
 
         $lastRequest = $this->repository->findLastRequestForIp($contactRequest->getIp());
 
-        if ($lastRequest && $lastRequest->getCreatedAt() > new \DateTime('- 1 hour')) {
+        if ($lastRequest instanceof ContactRequest && $lastRequest->getCreatedAt() > new \DateTime('- 1 hour')) {
             throw new TooManyContactException();
         }
 
@@ -53,7 +53,7 @@ class ContactService
 
         $message = (new Email())
             ->text($contactRequest->getContent())
-            ->subject("Site::Contact : {$contactRequest->getName()} : ".t($contactRequest->getSubject()->value, domain: 'mail'))
+            ->subject(sprintf('Site::Contact : %s : ', $contactRequest->getName()).t($contactRequest->getSubject()->value, domain: 'mail'))
             ->from('noreply@archers-caen.fr')
             ->replyTo(new Address($contactRequest->getEmail(), $contactRequest->getName()))
             ->to($email);

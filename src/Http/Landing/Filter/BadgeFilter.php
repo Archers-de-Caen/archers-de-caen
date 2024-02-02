@@ -24,6 +24,7 @@ final class BadgeFilter extends AbstractType
     {
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -51,7 +52,7 @@ final class BadgeFilter extends AbstractType
             ])
             ->get('weapon')
             ->addModelTransformer(new CallbackTransformer(
-                function (?string $string): ?Weapon {
+                static function (?string $string): ?Weapon {
                     if (!$string) {
                         return null;
                     }
@@ -62,7 +63,7 @@ final class BadgeFilter extends AbstractType
                         return null;
                     }
                 },
-                function (?Weapon $enum): ?string {
+                static function (?Weapon $enum): ?string {
                     return $enum?->value;
                 }
             ))
@@ -74,8 +75,8 @@ final class BadgeFilter extends AbstractType
                 'required' => false,
                 'class' => Badge::class,
                 'choice_translation_domain' => 'competition',
-                'group_by' => fn (Badge $badge) => $badge->getCompetitionType()?->name,
-                'query_builder' => fn (BadgeRepository $repository) => $repository->createQueryBuilder('b')
+                'group_by' => static fn (Badge $badge) => $badge->getCompetitionType()?->name,
+                'query_builder' => static fn (BadgeRepository $repository) => $repository->createQueryBuilder('b')
                     ->andWhere('b.type = :type')
                     ->setParameter('type', Badge::COMPETITION)
                     ->orderBy('b.name', 'ASC'),
@@ -85,7 +86,7 @@ final class BadgeFilter extends AbstractType
                 function (?string $string): ?Badge {
                     return $string ? $this->badgeRepository->find($string) : null;
                 },
-                function (?Badge $badge): ?string {
+                static function (?Badge $badge): ?string {
                     return $badge ? (string) $badge->getId() : null;
                 }
             ))
@@ -94,6 +95,7 @@ final class BadgeFilter extends AbstractType
         $this->addOnlyArcherLicenced($builder);
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

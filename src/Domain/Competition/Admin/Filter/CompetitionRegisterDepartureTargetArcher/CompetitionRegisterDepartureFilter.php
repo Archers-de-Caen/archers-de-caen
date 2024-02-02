@@ -13,7 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\FilterDataDto;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\FilterTrait;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Filter\Type\EntityFilterType;
 
-class CompetitionRegisterDepartureFilter implements FilterInterface
+final class CompetitionRegisterDepartureFilter implements FilterInterface
 {
     use FilterTrait;
 
@@ -33,14 +33,20 @@ class CompetitionRegisterDepartureFilter implements FilterInterface
         ;
     }
 
+    #[\Override]
     public function apply(QueryBuilder $queryBuilder, FilterDataDto $filterDataDto, ?FieldDto $fieldDto, EntityDto $entityDto): void
     {
-        if (/** @var ?CompetitionRegisterDeparture $departure */ $departure = $filterDataDto->getValue()) {
-            $queryBuilder
-                ->join(sprintf('%s.%s', $filterDataDto->getEntityAlias(), 'target'), 'target')
-                ->join('target.departure', 'departure')
-                ->andWhere('departure.id = :id')
-                ->setParameter('id', $departure->getId(), 'uuid');
+        /** @var ?CompetitionRegisterDeparture $departure */
+        $departure = $filterDataDto->getValue();
+
+        if (!$departure) {
+            return;
         }
+
+        $queryBuilder
+            ->join(sprintf('%s.%s', $filterDataDto->getEntityAlias(), 'target'), 'target')
+            ->join('target.departure', 'departure')
+            ->andWhere('departure.id = :id')
+            ->setParameter('id', $departure->getId(), 'uuid');
     }
 }

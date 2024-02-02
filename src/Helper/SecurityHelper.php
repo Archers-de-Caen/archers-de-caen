@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Helper;
 
-class SecurityHelper
+final class SecurityHelper
 {
     public static function generateApiKey(string $prefix = null): string
     {

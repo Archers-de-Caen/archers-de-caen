@@ -28,7 +28,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
     name: 'app:ffta:archer-update',
     description: 'Met à jour les archers licencié depuis le site de la FFTA',
 )]
-class FftaArcherUpdateCommand extends Command
+final class FftaArcherUpdateCommand extends Command
 {
     private array $cookies = [];
 
@@ -50,7 +50,8 @@ class FftaArcherUpdateCommand extends Command
         ]);
     }
 
-    public function execute(InputInterface $input, OutputInterface $output): int
+    #[\Override]
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
@@ -83,14 +84,14 @@ class FftaArcherUpdateCommand extends Command
 
             $licenseType = str_replace('"', '', $newLicense['licenseType']);
 
-            if (!$archer->getArcherLicenseActive()) {
+            if (!$archer->getArcherLicenseActive() instanceof ArcherLicense) {
                 $license = array_filter(
                     $licenses,
-                    static fn (License $license) => strtolower($licenseType) === strtolower($license->getTitle() ?? '')
+                    static fn (License $license): bool => strtolower($licenseType) === strtolower($license->getTitle() ?? '')
                 );
 
-                if (!\count($license)) {
-                    $msg = "License not found for {$licenseType}";
+                if ([] === $license) {
+                    $msg = 'License not found for '.$licenseType;
 
                     $io->error($msg);
 
@@ -324,7 +325,7 @@ class FftaArcherUpdateCommand extends Command
                 'gender' => $license[1] ? Gender::createFromString($license[1]) : null,
                 'phone' => $license[8],
                 'email' => $license[9],
-                'location' => "$license[14], $license[15] $license[16]",
+                'location' => sprintf('%s, %s %s', $license[14], $license[15], $license[16]),
                 'status' => $license[18],
                 'licenseDateStart' => \DateTime::createFromFormat('Y-m-d', $license[31]) ?: null,
                 'licenseDateEnd' => \DateTime::createFromFormat('Y-m-d', $license[33]) ?: null,

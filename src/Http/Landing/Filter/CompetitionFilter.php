@@ -25,6 +25,7 @@ final class CompetitionFilter extends AbstractType
     ) {
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $years = range(2000, ((int) now()->format('Y')) + 1);
@@ -71,7 +72,7 @@ final class CompetitionFilter extends AbstractType
             ])
             ->get('type')
             ->addModelTransformer(new CallbackTransformer(
-                function (?string $string): ?Type {
+                static function (?string $string): ?Type {
                     if (!$string) {
                         return null;
                     }
@@ -82,13 +83,14 @@ final class CompetitionFilter extends AbstractType
                         return null;
                     }
                 },
-                function (?Type $enum): ?string {
+                static function (?Type $enum): ?string {
                     return $enum?->value;
                 }
             ))
         ;
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

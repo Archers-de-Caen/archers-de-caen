@@ -34,6 +34,7 @@ class CompetitionRegisterDepartureTarget
     #[ORM\OneToMany(mappedBy: 'target', targetEntity: CompetitionRegisterDepartureTargetArcher::class, cascade: ['ALL'])]
     private Collection $archers;
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->getType()?->toString().' à '.$this->getDistance().' mètres';
@@ -98,11 +99,9 @@ class CompetitionRegisterDepartureTarget
 
     public function removeArcher(CompetitionRegisterDepartureTargetArcher $archer): self
     {
-        if ($this->archers->removeElement($archer)) {
-            // set the owning side to null (unless already changed)
-            if ($archer->getTarget() === $this) {
-                $archer->setTarget(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->archers->removeElement($archer) && $archer->getTarget() === $this) {
+            $archer->setTarget(null);
         }
 
         return $this;

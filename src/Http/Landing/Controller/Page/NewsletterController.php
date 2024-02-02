@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
 #[Route(
@@ -24,9 +24,9 @@ use Symfony\Component\Routing\Annotation\Route;
         Request::METHOD_POST,
     ]
 )]
-class NewsletterController extends AbstractController
+final class NewsletterController extends AbstractController
 {
-    public const ROUTE = 'landing_archer_newsletter';
+    public const string ROUTE = 'landing_archer_newsletter';
 
     public function __invoke(
         Request $request,

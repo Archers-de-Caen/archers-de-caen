@@ -33,11 +33,13 @@ class DocumentCrudController extends AbstractCrudController
     ) {
     }
 
+    #[\Override]
     public static function getEntityFqcn(): string
     {
         return Document::class;
     }
 
+    #[\Override]
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
         return $this->entityRepository->createQueryBuilder($searchDto, $entityDto, $fields, $filters)
@@ -46,6 +48,7 @@ class DocumentCrudController extends AbstractCrudController
         ;
     }
 
+    #[\Override]
     public function configureFields(string $pageName): iterable
     {
         $id = IdField::new('id');
@@ -62,7 +65,7 @@ class DocumentCrudController extends AbstractCrudController
 
         $link = UrlField::new('documentName')
             ->setLabel('Fichier')
-            ->formatValue(fn (string $value, Document $document) => $this->baseHost.$this->uploaderHelper->asset($document, 'documentFile'))
+            ->formatValue(fn (string $value, Document $document): string => $this->baseHost.$this->uploaderHelper->asset($document, 'documentFile'))
         ;
 
         if (Crud::PAGE_INDEX === $pageName) {
@@ -76,11 +79,12 @@ class DocumentCrudController extends AbstractCrudController
         return [$title, $upload];
     }
 
+    #[\Override]
     public function configureActions(Actions $actions): Actions
     {
         $display = Action::new('display')
             ->setLabel('Afficher')
-            ->linkToUrl(fn (Document $document) => $this->uploaderHelper->asset($document, 'documentFile'));
+            ->linkToUrl(fn (Document $document): ?string => $this->uploaderHelper->asset($document, 'documentFile'));
 
         return $actions
             ->add(Crud::PAGE_INDEX, $display)

@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Infrastructure\DataFixtures\Processor;
 
 use App\Domain\Cms\Model\Gallery;
-use Faker;
+use Faker\Factory;
+use Faker\Generator;
 use Fidry\AliceDataFixtures\ProcessorInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -15,7 +16,7 @@ final class GalleryProcessor implements ProcessorInterface
 {
     use GenerateRandomPhotoTrait;
 
-    private Faker\Generator $faker;
+    private Generator $faker;
 
     public function __construct(
         HttpClientInterface $httpClient,
@@ -23,7 +24,7 @@ final class GalleryProcessor implements ProcessorInterface
         LoggerInterface $logger,
         private readonly string $env,
     ) {
-        $this->faker = Faker\Factory::create('fr_FR');
+        $this->faker = Factory::create('fr_FR');
 
         $this->setFilesystem($filesystem);
         $this->setHttpClient($httpClient);
@@ -31,6 +32,7 @@ final class GalleryProcessor implements ProcessorInterface
         $this->setFaker($this->faker);
     }
 
+    #[\Override]
     public function preProcess(string $id, object $object): void
     {
         if (!$object instanceof Gallery) {
@@ -39,17 +41,14 @@ final class GalleryProcessor implements ProcessorInterface
 
         $object->setMainPhoto($this->generateRandomPhoto($this->env));
 
-        if ('gallery_100_photos' === $id) {
-            $photoNumber = 100;
-        } else {
-            $photoNumber = $this->faker->numberBetween(3, 25);
-        }
+        $photoNumber = 'gallery_100_photos' === $id ? 100 : $this->faker->numberBetween(3, 25);
 
         for ($i = 0; $i < $photoNumber; ++$i) {
             $object->addPhoto($this->generateRandomPhoto($this->env));
         }
     }
 
+    #[\Override]
     public function postProcess(string $id, object $object): void
     {
         // do nothing

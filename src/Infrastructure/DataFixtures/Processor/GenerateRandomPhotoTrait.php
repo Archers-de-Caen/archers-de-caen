@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\DataFixtures\Processor;
 
 use App\Domain\File\Model\Photo;
-use Faker;
+use Faker\Generator;
 use GuzzleHttp\Psr7\MimeType;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -16,10 +16,13 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 trait GenerateRandomPhotoTrait
 {
-    private readonly HttpClientInterface $httpClient;
-    private readonly Filesystem $filesystem;
-    private readonly LoggerInterface $logger;
-    private Faker\Generator $faker;
+    private HttpClientInterface $httpClient;
+
+    private Filesystem $filesystem;
+
+    private LoggerInterface $logger;
+
+    private Generator $faker;
 
     private function setFilesystem(Filesystem $filesystem): void
     {
@@ -36,7 +39,7 @@ trait GenerateRandomPhotoTrait
         $this->logger = $logger;
     }
 
-    private function setFaker(Faker\Generator $faker): void
+    private function setFaker(Generator $faker): void
     {
         $this->faker = $faker;
     }
@@ -81,8 +84,8 @@ trait GenerateRandomPhotoTrait
     {
         try {
             return $this->httpClient->request(Request::METHOD_GET, $imageUrl)->getContent();
-        } catch (ExceptionInterface $e) {
-            $this->logger->error($e->getMessage());
+        } catch (ExceptionInterface $exception) {
+            $this->logger->error($exception->getMessage());
 
             return '';
         }

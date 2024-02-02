@@ -8,7 +8,7 @@ use App\Domain\Badge\Model\Badge;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 
-class ResultBadgeFederalHonorCrudController extends ResultBadgeCrudController
+final class ResultBadgeFederalHonorCrudController extends ResultBadgeCrudController
 {
     public function __construct(EntityRepository $entityRepository)
     {
@@ -17,6 +17,7 @@ class ResultBadgeFederalHonorCrudController extends ResultBadgeCrudController
         parent::__construct($entityRepository);
     }
 
+    #[\Override]
     public function configureCrud(Crud $crud): Crud
     {
         return parent::configureCrud($crud)

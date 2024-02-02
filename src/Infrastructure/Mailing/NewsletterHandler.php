@@ -12,7 +12,7 @@ use App\Domain\Newsletter\NewsletterRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-class NewsletterHandler
+final class NewsletterHandler
 {
     public function __construct(
         private readonly NewsletterRepository $newsletterRepository,
