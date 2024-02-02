@@ -105,6 +105,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
 
     public function __construct()
     {
+        $this->results = new ArrayCollection();
         $this->archerLicenses = new ArrayCollection();
         $this->resultsTeams = new ArrayCollection();
     }

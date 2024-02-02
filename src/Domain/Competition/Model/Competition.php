@@ -57,6 +57,9 @@ class Competition
     #[Assert\Valid]
     private Collection $results;
 
+    /**
+     * @var Collection<int, ResultTeam>
+     */
     #[ORM\OneToMany(mappedBy: 'competition', targetEntity: ResultTeam::class, cascade: ['ALL'], orphanRemoval: true)]
     #[Assert\Valid]
     private Collection $resultsTeams;

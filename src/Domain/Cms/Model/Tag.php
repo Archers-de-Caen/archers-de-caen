@@ -25,6 +25,9 @@ class Tag
     #[Assert\NotBlank]
     private ?string $name = null;
 
+    /**
+     * @var Collection<int, Page>
+     */
     #[ORM\ManyToMany(targetEntity: Page::class, mappedBy: 'tags')]
     private Collection $pages;
 
