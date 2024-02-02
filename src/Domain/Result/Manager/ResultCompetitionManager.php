@@ -124,11 +124,15 @@ final class ResultCompetitionManager
 
     public function awardingRecord(ResultCompetition $resultCompetition): ResultCompetition
     {
-        if (!($archer = $resultCompetition->getArcher()) instanceof Archer) {
+        $archer = $resultCompetition->getArcher();
+
+        if (!$archer instanceof Archer) {
             throw new \UnexpectedValueException('Archer not defined');
         }
 
-        if (!($competition = $resultCompetition->getCompetition()) instanceof Competition) {
+        $competition = $resultCompetition->getCompetition();
+
+        if (!$competition instanceof Competition) {
             throw new \UnexpectedValueException('Competition not defined');
         }
 
@@ -138,12 +142,8 @@ final class ResultCompetitionManager
 
         // Filtrage des records de l'archer, selon le type de competition et d'arme que l'archer vien d'accomplir.
         $resultsCompetitionFiltered = $archer->getResultsCompetition()
-            ->filter(static function (Result $oldResultCompetition) use ($resultCompetition): bool {
+            ->filter(static function (Result $oldResultCompetition) use ($resultCompetition, $competition): bool {
                 if (!$oldResultCompetition instanceof ResultCompetition) {
-                    return false;
-                }
-
-                if (!($competition = $resultCompetition->getCompetition()) instanceof Competition) {
                     return false;
                 }
 
@@ -159,11 +159,7 @@ final class ResultCompetitionManager
                     return false;
                 }
 
-                if ($oldResultCompetition->getScore() <= $resultCompetition->getScore()) {
-                    return false;
-                }
-
-                return true;
+                return $oldResultCompetition->getScore() > $resultCompetition->getScore();
             });
 
         if (!$resultsCompetitionFiltered->count()) {
