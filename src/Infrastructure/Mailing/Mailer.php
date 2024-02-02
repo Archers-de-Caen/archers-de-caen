@@ -51,7 +51,7 @@ class Mailer
     public function send(Email $email): void
     {
         try {
-            $addresses = array_map(static fn (Address $address) => $address->toString(), $email->getTo());
+            $addresses = array_map(static fn (Address $address): string => $address->toString(), $email->getTo());
             $this->logger->info('Envoi d\'un email aux adresses : '.implode(',', $addresses));
 
             $this->mailer->send($email);

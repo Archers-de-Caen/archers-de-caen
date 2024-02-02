@@ -97,7 +97,7 @@ readonly class CompetitionRegisterPayment
             )
             ->setMetadata([
                 'registrations' => array_map(
-                    static fn (CompetitionRegisterDepartureTargetArcher $registration) => $registration->getId()?->__toString(),
+                    static fn (CompetitionRegisterDepartureTargetArcher $registration): ?string => $registration->getId()?->__toString(),
                     $registrations
                 ),
             ])
@@ -121,7 +121,7 @@ readonly class CompetitionRegisterPayment
 
         $firstRegistration = $registrations[0];
 
-        $alreadyPaid = \count(array_filter($registrations, static fn (Registration $crdta) => $crdta->isPaid()));
+        $alreadyPaid = \count(array_filter($registrations, static fn (Registration $crdta): bool => $crdta->isPaid()));
 
         $departureToPaid = \count($registrations) - $alreadyPaid;
 

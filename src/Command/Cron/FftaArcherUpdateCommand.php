@@ -86,7 +86,7 @@ class FftaArcherUpdateCommand extends Command
             if (!$archer->getArcherLicenseActive()) {
                 $license = array_filter(
                     $licenses,
-                    static fn (License $license) => strtolower($licenseType) === strtolower($license->getTitle() ?? '')
+                    static fn (License $license): bool => strtolower($licenseType) === strtolower($license->getTitle() ?? '')
                 );
 
                 if (!\count($license)) {

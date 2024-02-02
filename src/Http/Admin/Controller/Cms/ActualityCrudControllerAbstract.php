@@ -27,7 +27,7 @@ class ActualityCrudControllerAbstract extends AbstractPageCrudController
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, 'Liste des actualités du site')
             ->setPageTitle(Crud::PAGE_NEW, 'Ajouter une actualité au site')
-            ->setPageTitle(Crud::PAGE_EDIT, fn (Page $page) => sprintf('Edition de l\'actualité <b>%s</b>', $page))
+            ->setPageTitle(Crud::PAGE_EDIT, fn (Page $page): string => sprintf('Edition de l\'actualité <b>%s</b>', $page))
         ;
     }
 
@@ -44,7 +44,7 @@ class ActualityCrudControllerAbstract extends AbstractPageCrudController
 
         $publicLink = Action::new('public-link')
             ->setLabel('Lien public')
-            ->linkToUrl(function (Page $page) {
+            ->linkToUrl(function (Page $page): string {
                 return $this->urlGenerator->generate(ActualityController::ROUTE, [
                     'slug' => $page->getSlug(),
                 ], UrlGeneratorInterface::ABSOLUTE_URL);

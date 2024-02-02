@@ -69,7 +69,7 @@ class AbstractPageCrudController extends AbstractCrudController
             ->setHelp(Crud::PAGE_NEW, 'Le rendu final peut-être différent de l\'éditeur')
             ->setHelp(Crud::PAGE_EDIT, 'Le rendu final peut-être différent de l\'éditeur')
 
-            ->setPageTitle(Crud::PAGE_DETAIL, fn (Page $page) => (string) $page)
+            ->setPageTitle(Crud::PAGE_DETAIL, fn (Page $page): string => (string) $page)
 
             ->setDefaultSort(['createdAt' => 'DESC'])
         ;
@@ -92,10 +92,10 @@ class AbstractPageCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Status::class,
-                'choice_label' => fn (Status $choice) => t($choice->value, domain: 'page'),
+                'choice_label' => fn (Status $choice): \Symfony\Component\Translation\TranslatableMessage => t($choice->value, domain: 'page'),
                 'choices' => Status::cases(),
             ])
-            ->formatValue(fn ($value, ?Page $entity) => !$value || !$entity || !$entity->getStatus() ? '' : t($entity->getStatus()->value, domain: 'page'))
+            ->formatValue(fn ($value, ?Page $entity): \Symfony\Component\Translation\TranslatableMessage|string => !$value || !$entity || !$entity->getStatus() ? '' : t($entity->getStatus()->value, domain: 'page'))
         ;
 
         $image = PhotoField::new('image')
@@ -130,7 +130,7 @@ class AbstractPageCrudController extends AbstractCrudController
         $publish = Action::new('publish')
             ->setLabel('Publier')
             ->linkToCrudAction('publish')
-            ->displayIf(static fn (Page $page) => Status::DRAFT === $page->getStatus())
+            ->displayIf(static fn (Page $page): bool => Status::DRAFT === $page->getStatus())
         ;
 
         return $actions

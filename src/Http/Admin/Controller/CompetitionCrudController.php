@@ -108,10 +108,10 @@ class CompetitionCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Type::class,
-                'choice_label' => fn (Type $choice) => t($choice->value, domain: 'competition'),
+                'choice_label' => fn (Type $choice): \Symfony\Component\Translation\TranslatableMessage => t($choice->value, domain: 'competition'),
                 'choices' => Type::cases(),
             ])
-            ->formatValue(fn ($value, ?Competition $entity) => !$value || !$entity || !$entity->getType() ? '' : t($entity->getType()->value, domain: 'competition'))
+            ->formatValue(fn ($value, ?Competition $entity): \Symfony\Component\Translation\TranslatableMessage|string => !$value || !$entity || !$entity->getType() ? '' : t($entity->getType()->value, domain: 'competition'))
         ;
 
         $createdAt = DateTimeField::new('createdAt')
@@ -199,7 +199,7 @@ class CompetitionCrudController extends AbstractCrudController
      */
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        $resultsNotPersisted = $entityInstance->getResults()->filter(static fn (ResultCompetition $resultCompetition) => !$resultCompetition->getId());
+        $resultsNotPersisted = $entityInstance->getResults()->filter(static fn (ResultCompetition $resultCompetition): bool => !$resultCompetition->getId());
 
         foreach ($resultsNotPersisted as $result) {
             $this->resultCompetitionManager->awardingBadges($result);

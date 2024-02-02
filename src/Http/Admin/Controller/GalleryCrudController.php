@@ -57,12 +57,12 @@ class GalleryCrudController extends AbstractCrudController
         $publish = Action::new('publish')
             ->setLabel('Publier')
             ->linkToCrudAction('publish')
-            ->displayIf(static fn (Gallery $gallery) => Status::DRAFT === $gallery->getStatus())
+            ->displayIf(static fn (Gallery $gallery): bool => Status::DRAFT === $gallery->getStatus())
         ;
 
         $publicLink = Action::new('public-link')
             ->setLabel('Lien public')
-            ->linkToUrl(function (Gallery $gallery) {
+            ->linkToUrl(function (Gallery $gallery): string {
                 return $this->urlGenerator->generate(GalleryController::ROUTE, [
                     'slug' => $gallery->getSlug(),
                 ], UrlGeneratorInterface::ABSOLUTE_URL);
@@ -90,10 +90,10 @@ class GalleryCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Status::class,
-                'choice_label' => fn (Status $choice) => t($choice->value, domain: 'page'),
+                'choice_label' => fn (Status $choice): \Symfony\Component\Translation\TranslatableMessage => t($choice->value, domain: 'page'),
                 'choices' => Status::cases(),
             ])
-            ->formatValue(fn ($value, ?Gallery $entity) => !$value || !$entity || !$entity->getStatus() ? '' : t($entity->getStatus()->value, domain: 'page'))
+            ->formatValue(fn ($value, ?Gallery $entity): \Symfony\Component\Translation\TranslatableMessage|string => !$value || !$entity || !$entity->getStatus() ? '' : t($entity->getStatus()->value, domain: 'page'))
         ;
 
         if (Crud::PAGE_INDEX === $pageName) {
@@ -133,7 +133,7 @@ class GalleryCrudController extends AbstractCrudController
             $this->bus->dispatch(new CacheResolveMessage($entityInstance->getMainPhoto()->getImageName()));
         }
 
-        $this->bus->dispatch(new CacheResolveMessage($entityInstance->getPhotos()->map(fn ($photo) => $photo->getImageName())->toArray()));
+        $this->bus->dispatch(new CacheResolveMessage($entityInstance->getPhotos()->map(fn ($photo): ?string => $photo->getImageName())->toArray()));
     }
 
     public function publish(

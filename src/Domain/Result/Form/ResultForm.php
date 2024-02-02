@@ -24,7 +24,7 @@ abstract class ResultForm extends AbstractType
             ->add('category', EnumType::class, [
                 'class' => Category::class,
                 'label' => 'Catégorie',
-                'choice_label' => static fn (Category $category) => t($category->value, domain: 'archer'),
+                'choice_label' => static fn (Category $category): \Symfony\Component\Translation\TranslatableMessage => t($category->value, domain: 'archer'),
             ])
             ->add('rank', IntegerType::class, [
                 'label' => 'Classement',
@@ -36,7 +36,7 @@ abstract class ResultForm extends AbstractType
             ->add('weapon', EnumType::class, [
                 'class' => Weapon::class,
                 'label' => 'Arme',
-                'choice_label' => static fn (Weapon $weapon) => t($weapon->value, domain: 'archer'),
+                'choice_label' => static fn (Weapon $weapon): \Symfony\Component\Translation\TranslatableMessage => t($weapon->value, domain: 'archer'),
                 'required' => true,
             ])
             ->add('completionDate', DateType::class, [

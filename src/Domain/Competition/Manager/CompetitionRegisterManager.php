@@ -75,7 +75,7 @@ class CompetitionRegisterManager
 
         $departures = $competitionRegister
             ->getDepartures()
-            ->filter(fn (CompetitionRegisterDeparture $crd) => $crd->getRegistration() <= $crd->getMaxRegistration());
+            ->filter(fn (CompetitionRegisterDeparture $crd): bool => $crd->getRegistration() <= $crd->getMaxRegistration());
 
         $firstRegistration = null;
 
@@ -102,7 +102,7 @@ class CompetitionRegisterManager
         $isArcherDeCaen = $archer && $archer->getArcherLicenseActive();
         $registrations = $this->competitionRegisterDepartureTargetArcherRepository
             ->findByCompetitionRegisterAndLicenseNumber($competitionRegister, $licenseNumber);
-        $alreadyPaid = \count(array_filter($registrations, static fn (Registration $crdta) => $crdta->isPaid()));
+        $alreadyPaid = \count(array_filter($registrations, static fn (Registration $crdta): bool => $crdta->isPaid()));
 
         if ($firstRegistration && $isArcherDeCaen && !$alreadyPaid) {
             $firstRegistration->setPaid(true);

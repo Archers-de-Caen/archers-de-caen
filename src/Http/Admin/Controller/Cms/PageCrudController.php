@@ -28,7 +28,7 @@ class PageCrudController extends AbstractPageCrudController
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, 'Liste des pages du site')
             ->setPageTitle(Crud::PAGE_NEW, 'Ajouter une page au site')
-            ->setPageTitle(Crud::PAGE_EDIT, fn (Page $page) => sprintf('Edition de la page <b>%s</b>', $page))
+            ->setPageTitle(Crud::PAGE_EDIT, fn (Page $page): string => sprintf('Edition de la page <b>%s</b>', $page))
         ;
     }
 
@@ -45,7 +45,7 @@ class PageCrudController extends AbstractPageCrudController
 
         $publicLink = Action::new('public-link')
             ->setLabel('Lien public')
-            ->linkToUrl(function (Page $page) {
+            ->linkToUrl(function (Page $page): string {
                 return $this->urlGenerator->generate(ActualityController::ROUTE, [
                     'slug' => $page->getSlug(),
                 ], UrlGeneratorInterface::ABSOLUTE_URL);
@@ -60,7 +60,7 @@ class PageCrudController extends AbstractPageCrudController
     {
         $tags = AssociationField::new('tags')
             ->setLabel('Tags')
-            ->formatValue(static fn ($value, Page $page) => implode(',', $page->getTags()->toArray()))
+            ->formatValue(static fn ($value, Page $page): string => implode(',', $page->getTags()->toArray()))
         ;
 
         $fields = (array) parent::configureFields($pageName);

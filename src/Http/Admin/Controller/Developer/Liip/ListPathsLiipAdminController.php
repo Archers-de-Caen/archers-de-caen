@@ -56,7 +56,7 @@ class ListPathsLiipAdminController extends AbstractController
             }
         }
 
-        uasort($paths, static fn ($a, $b) => \count($a) <=> \count($b));
+        uasort($paths, static fn ($a, $b): int => \count($a) <=> \count($b));
         $paths = \array_slice($paths, ($page - 1) * $elements, $elements, true);
 
         return $this->render('admin/developer/image-cache.html.twig', [

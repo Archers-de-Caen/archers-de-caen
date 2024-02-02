@@ -30,8 +30,8 @@ class DataCrudController extends AbstractCrudController
         return $crud
             ->setPageTitle('index', 'Liste des données structurées du site')
             ->setPageTitle('new', 'Ajouter une donnée structuré au site')
-            ->setPageTitle('detail', fn (Data $data) => (string) $data)
-            ->setPageTitle('edit', fn (Data $data) => sprintf('Edition d\'une donnée structuré <b>%s</b>', $data))
+            ->setPageTitle('detail', fn (Data $data): string => (string) $data)
+            ->setPageTitle('edit', fn (Data $data): string => sprintf('Edition d\'une donnée structuré <b>%s</b>', $data))
             ->setSearchFields(['description', 'code'])
             ->setDefaultSort(['createdAt' => 'DESC'])
         ;

@@ -88,7 +88,7 @@ class HelloassoWebhookController extends AbstractController
         }
 
         $registrations = $this->em->getRepository(CompetitionRegisterDepartureTargetArcher::class)->findBy([
-            'id' => array_map(static fn (string $id) => Uuid::fromString($id)->toBinary(), $registrationIds),
+            'id' => array_map(static fn (string $id): string => Uuid::fromString($id)->toBinary(), $registrationIds),
         ]);
 
         foreach ($registrations as $registration) {

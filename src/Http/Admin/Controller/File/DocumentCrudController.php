@@ -62,7 +62,7 @@ class DocumentCrudController extends AbstractCrudController
 
         $link = UrlField::new('documentName')
             ->setLabel('Fichier')
-            ->formatValue(fn (string $value, Document $document) => $this->baseHost.$this->uploaderHelper->asset($document, 'documentFile'))
+            ->formatValue(fn (string $value, Document $document): string => $this->baseHost.$this->uploaderHelper->asset($document, 'documentFile'))
         ;
 
         if (Crud::PAGE_INDEX === $pageName) {
@@ -80,7 +80,7 @@ class DocumentCrudController extends AbstractCrudController
     {
         $display = Action::new('display')
             ->setLabel('Afficher')
-            ->linkToUrl(fn (Document $document) => $this->uploaderHelper->asset($document, 'documentFile'));
+            ->linkToUrl(fn (Document $document): ?string => $this->uploaderHelper->asset($document, 'documentFile'));
 
         return $actions
             ->add(Crud::PAGE_INDEX, $display)

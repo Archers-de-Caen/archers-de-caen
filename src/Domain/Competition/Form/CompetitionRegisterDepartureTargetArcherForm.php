@@ -61,8 +61,8 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
             ->add('gender', EnumType::class, [
                 'label' => 'Genre',
                 'class' => Gender::class,
-                'choice_attr' => fn (Gender $gender) => ['data-gender' => $gender->value],
-                'choice_label' => static fn (Gender $gender) => t($gender->value, domain: 'archer'),
+                'choice_attr' => fn (Gender $gender): array => ['data-gender' => $gender->value],
+                'choice_label' => static fn (Gender $gender): \Symfony\Component\Translation\TranslatableMessage => t($gender->value, domain: 'archer'),
                 'expanded' => true,
                 'constraints' => [
                     new NotBlank(),
@@ -106,9 +106,9 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
             ->add('category', EnumType::class, [
                 'label' => 'Catégorie',
                 'class' => Category::class,
-                'choice_attr' => fn (Category $category) => ['data-gender' => $category->getGender(), 'data-category' => $category->value],
-                'choice_label' => static fn (Category $category) => t($category->value, domain: 'archer'),
-                'choices' => array_filter(Category::cases(), static fn (Category $category) => !$category->isOld()),
+                'choice_attr' => fn (Category $category): array => ['data-gender' => $category->getGender(), 'data-category' => $category->value],
+                'choice_label' => static fn (Category $category): \Symfony\Component\Translation\TranslatableMessage => t($category->value, domain: 'archer'),
+                'choices' => array_filter(Category::cases(), static fn (Category $category): bool => !$category->isOld()),
                 'constraints' => [
                     new NotBlank(),
                 ],
@@ -130,7 +130,7 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
             ->add('weapon', EnumType::class, [
                 'label' => 'Arme',
                 'class' => Weapon::class,
-                'choice_label' => static fn (Weapon $weapon) => t($weapon->value, domain: 'archer'),
+                'choice_label' => static fn (Weapon $weapon): \Symfony\Component\Translation\TranslatableMessage => t($weapon->value, domain: 'archer'),
                 'expanded' => true,
                 'required' => true,
             ])
@@ -156,7 +156,7 @@ class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
                         'label' => 'Départs',
                         'expanded' => true,
                         'mapped' => false,
-                        'choice_attr' => function () use ($departure) {
+                        'choice_attr' => function () use ($departure): array {
                             return [
                                 'disabled' => $departure->getRegistration() >= $departure->getMaxRegistration(),
                             ];

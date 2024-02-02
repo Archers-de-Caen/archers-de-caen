@@ -35,7 +35,7 @@ class ResultCompetitionManager
          * qui s'apprête à être enregistré (persist).
          */
         $resultsBadgeFiltered = $archer->getResultsBadge()
-            ->filter(static function (Result $resultBadge) use ($resultCompetition) {
+            ->filter(static function (Result $resultBadge) use ($resultCompetition): bool {
                 if (!$resultBadge instanceof ResultBadge) {
                     return false;
                 }
@@ -81,7 +81,7 @@ class ResultCompetitionManager
             ->getQuery()
             ->getResult();
 
-        $badges = array_filter($badges, static function (Badge $badge) use ($resultCompetition) {
+        $badges = array_filter($badges, static function (Badge $badge) use ($resultCompetition): bool {
             $weapon = $badge->getConditions()['weapon'] ?? null;
             $type = $badge->getConditions()['type'] ?? null;
 
@@ -135,7 +135,7 @@ class ResultCompetitionManager
 
         // Filtrage des records de l'archer, selon le type de competition et d'arme que l'archer vien d'accomplir.
         $resultsCompetitionFiltered = $archer->getResultsCompetition()
-            ->filter(static function (Result $oldResultCompetition) use ($resultCompetition) {
+            ->filter(static function (Result $oldResultCompetition) use ($resultCompetition): bool {
                 if (!$oldResultCompetition instanceof ResultCompetition) {
                     return false;
                 }

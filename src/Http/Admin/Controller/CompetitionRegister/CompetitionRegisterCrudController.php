@@ -50,8 +50,8 @@ class CompetitionRegisterCrudController extends AbstractCrudController
         return $crud
             ->setPageTitle('index', "Formulaire d'inscription au concours de Caen")
             ->setPageTitle('new', "Ajouter un formulaire d'inscription")
-            ->setPageTitle('detail', fn (CompetitionRegister $competitionRegister) => (string) $competitionRegister)
-            ->setPageTitle('edit', fn (CompetitionRegister $competitionRegister) => sprintf("Edition du formulaire l'inscription <b>%s</b>", $competitionRegister))
+            ->setPageTitle('detail', fn (CompetitionRegister $competitionRegister): string => (string) $competitionRegister)
+            ->setPageTitle('edit', fn (CompetitionRegister $competitionRegister): string => sprintf("Edition du formulaire l'inscription <b>%s</b>", $competitionRegister))
         ;
     }
 
@@ -59,7 +59,7 @@ class CompetitionRegisterCrudController extends AbstractCrudController
     {
         $publicLink = Action::new('public-link')
             ->setLabel('Lien public')
-            ->linkToUrl(function (CompetitionRegister $competitionRegister) {
+            ->linkToUrl(function (CompetitionRegister $competitionRegister): string {
                 return $this->urlGenerator->generate(
                     IndexController::ROUTE,
                     ['slug' => $competitionRegister->getSlug()],
@@ -70,7 +70,7 @@ class CompetitionRegisterCrudController extends AbstractCrudController
 
         $registerList = Action::new('register-list')
             ->setLabel('Voir les inscrits')
-            ->linkToUrl(function (CompetitionRegister $competitionRegister) {
+            ->linkToUrl(function (CompetitionRegister $competitionRegister): string {
                 return $this->adminUrlGenerator
                     ->setController(CompetitionRegisterArcherCrudController::class)
                     ->setAction(Action::INDEX)
@@ -91,7 +91,7 @@ class CompetitionRegisterCrudController extends AbstractCrudController
         ;
 
         return $actions
-            ->update(Crud::PAGE_INDEX, 'new', fn (Action $action) => $action->setLabel("Créer un formulaire d'inscription"))
+            ->update(Crud::PAGE_INDEX, 'new', fn (Action $action): \EasyCorp\Bundle\EasyAdminBundle\Config\Action => $action->setLabel("Créer un formulaire d'inscription"))
             ->add(Crud::PAGE_INDEX, $publicLink)
             ->add(Crud::PAGE_INDEX, $registerList)
             ->add(Crud::PAGE_INDEX, $generateActuality)
@@ -108,15 +108,15 @@ class CompetitionRegisterCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Type::class,
-                'choice_label' => fn (Type $choice) => t($choice->value, domain: 'competition'),
+                'choice_label' => fn (Type $choice): \Symfony\Component\Translation\TranslatableMessage => t($choice->value, domain: 'competition'),
                 'choices' => Type::cases(),
             ])
-            ->formatValue(function ($value, ?CompetitionRegister $entity) {
+            ->formatValue(function ($value, ?CompetitionRegister $entity): string {
                 if (!$value || !$entity || !$entity->getTypes()) {
                     return '';
                 }
 
-                return implode(', ', array_map(static fn (Type $type) => t($type->value, domain: 'competition'), $entity->getTypes()));
+                return implode(', ', array_map(static fn (Type $type): \Symfony\Component\Translation\TranslatableMessage => t($type->value, domain: 'competition'), $entity->getTypes()));
             })
         ;
 

@@ -58,8 +58,8 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
     {
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, 'Liste des inscrits au concours de Caen')
-            ->setPageTitle(Crud::PAGE_DETAIL, fn (CompetitionRegisterDepartureTargetArcher $crdta) => (string) $crdta)
-            ->setPageTitle(Crud::PAGE_EDIT, fn (CompetitionRegisterDepartureTargetArcher $crdta) => sprintf("Modification de l'inscription <b>%s</b>", $crdta))
+            ->setPageTitle(Crud::PAGE_DETAIL, fn (CompetitionRegisterDepartureTargetArcher $crdta): string => (string) $crdta)
+            ->setPageTitle(Crud::PAGE_EDIT, fn (CompetitionRegisterDepartureTargetArcher $crdta): string => sprintf("Modification de l'inscription <b>%s</b>", $crdta))
         ;
     }
 
@@ -131,10 +131,10 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Gender::class,
-                'choice_label' => fn (Gender $choice) => t($choice->value, domain: 'archer'),
+                'choice_label' => fn (Gender $choice): \Symfony\Component\Translation\TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Gender::cases(),
             ])
-            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity) => !$value || !$entity || !$entity->getGender() ? '' : t($entity->getGender()->value, domain: 'archer'))
+            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity): \Symfony\Component\Translation\TranslatableMessage|string => !$value || !$entity || !$entity->getGender() ? '' : t($entity->getGender()->value, domain: 'archer'))
         ;
 
         $category = ChoiceField::new('category')
@@ -142,10 +142,10 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Category::class,
-                'choice_label' => fn (Category $choice) => t($choice->value, domain: 'archer'),
+                'choice_label' => fn (Category $choice): \Symfony\Component\Translation\TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Category::cases(),
             ])
-            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity) => $entity?->getCategory()?->value ? t($entity->getCategory()->value, domain: 'archer') : null)
+            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity): ?\Symfony\Component\Translation\TranslatableMessage => $entity?->getCategory()?->value ? t($entity->getCategory()->value, domain: 'archer') : null)
         ;
 
         $weapon = ChoiceField::new('weapon')
@@ -153,10 +153,10 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Weapon::class,
-                'choice_label' => fn (Weapon $choice) => t($choice->value, domain: 'archer'),
+                'choice_label' => fn (Weapon $choice): \Symfony\Component\Translation\TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Weapon::cases(),
             ])
-            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity) => !$value || !$entity || !$entity->getWeapon() ? '' : t($entity->getWeapon()->value, domain: 'archer'))
+            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity): \Symfony\Component\Translation\TranslatableMessage|string => !$value || !$entity || !$entity->getWeapon() ? '' : t($entity->getWeapon()->value, domain: 'archer'))
         ;
 
         $club = TextField::new('club')
