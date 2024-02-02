@@ -39,4 +39,6 @@ jobs:
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         env:
           DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
+          APP_ENV: test
+          APP_SECRET: secret
         run: vendor/bin/phpunit --bootstrap tests/bootstrap.php --configuration phpunit.xml.dist --testdox

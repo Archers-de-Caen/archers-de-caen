@@ -56,5 +56,7 @@ jobs:
             echo "Rector found some issues"
             echo "$RESULT"
             exit 1
+          else
+            echo "Rector is done!"
           fi
 
