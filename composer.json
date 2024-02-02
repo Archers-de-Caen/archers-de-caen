@@ -142,7 +142,8 @@
       "php bin/console doctrine:database:create --no-interaction",
       "php bin/console doctrine:schema:create --no-interaction"
     ],
-    "fixtures": "php bin/console hautelook:fixtures:load --no-interaction"
+    "fixtures": "php bin/console hautelook:fixtures:load --no-interaction",
+    "rector": "vendor/bin/rector process src"
   },
   "conflict": {
     "symfony/symfony": "*"

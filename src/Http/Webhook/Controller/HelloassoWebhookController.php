@@ -55,9 +55,9 @@ class HelloassoWebhookController extends AbstractController
                 ;
 
                 $msg = match ($event->getEventType()) {
-                    Event::EVENT_TYPE_ORDER => $this->order($event),
+                    Event::EVENT_TYPE_ORDER => $this->order(),
                     Event::EVENT_TYPE_PAYMENT => $this->payment($event),
-                    Event::EVENT_TYPE_FORM => $this->form($event),
+                    Event::EVENT_TYPE_FORM => $this->form(),
                     default => $event->getEventType().' not implemented',
                 };
             } catch (InvalidValueException|\JsonException $e) {
@@ -76,7 +76,7 @@ class HelloassoWebhookController extends AbstractController
         return $this->json('OK');
     }
 
-    private function order(Event $event): string
+    private function order(): string
     {
         return 'Order type not implemented';
     }
@@ -98,7 +98,7 @@ class HelloassoWebhookController extends AbstractController
         return \count($registrations).' registration paid ('.implode(', ', $registrationIds).')';
     }
 
-    private function form(Event $event): string
+    private function form(): string
     {
         return 'Form type not implemented';
     }

@@ -29,17 +29,15 @@ class TwigEmailExtension extends AbstractExtension
             return $content;
         }
         $content = preg_replace('/^(^ {2,})(\S+[ \S]*)$/m', '${2}', $content);
-        $content = (new \Parsedown())->setSafeMode(false)->text($content);
 
-        return $content;
+        return (new \Parsedown())->setSafeMode(false)->text($content);
     }
 
     public function formatText(string $content): string
     {
         $content = strip_tags($content);
         $content = preg_replace('/^(^ {2,})(\S+[ \S]*)$/m', '${2}', $content) ?: '';
-        $content = preg_replace("/([\r\n] *){3,}/", "\n\n", $content) ?: '';
 
-        return $content;
+        return preg_replace("/([\r\n] *){3,}/", "\n\n", $content) ?: '';
     }
 }
