@@ -17,9 +17,9 @@ use Symfony\Component\Routing\Attribute\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-class CompetitionRegisterController extends AbstractController
+final class CompetitionRegisterController extends AbstractController
 {
-    public const ROUTE = 'api_competition_register';
+    public const string ROUTE = 'api_competition_register';
 
     public function __invoke(string $licenseNumber, ArcherManager $archerManager): Response
     {

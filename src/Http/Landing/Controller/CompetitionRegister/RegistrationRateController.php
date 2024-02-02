@@ -17,9 +17,9 @@ use Symfony\Component\Routing\Attribute\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-class RegistrationRateController extends AbstractController
+final class RegistrationRateController extends AbstractController
 {
-    public const ROUTE = 'landing_competition_register_registration_rate';
+    public const string ROUTE = 'landing_competition_register_registration_rate';
 
     public function __invoke(CompetitionRegister $competitionRegister): Response
     {

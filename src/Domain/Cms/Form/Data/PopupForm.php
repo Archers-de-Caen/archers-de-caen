@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * Appelé depuis App\Http\Admin\Controller\DataCrudController::createEditFormBuilder.
  */
-class PopupForm extends AbstractType
+final class PopupForm extends AbstractType
 {
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void

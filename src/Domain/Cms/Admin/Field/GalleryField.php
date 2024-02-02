@@ -8,7 +8,7 @@ use App\Domain\Cms\Type\GalleryType;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 
-class GalleryField implements FieldInterface
+final class GalleryField implements FieldInterface
 {
     use FieldTrait;
 

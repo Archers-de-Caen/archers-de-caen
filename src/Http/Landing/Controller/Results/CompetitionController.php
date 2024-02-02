@@ -19,9 +19,9 @@ use Symfony\Component\Routing\Attribute\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-class CompetitionController extends AbstractController
+final class CompetitionController extends AbstractController
 {
-    public const ROUTE = 'landing_results_competition';
+    public const string ROUTE = 'landing_results_competition';
 
     public function __invoke(Request $request, Competition $competition): Response
     {

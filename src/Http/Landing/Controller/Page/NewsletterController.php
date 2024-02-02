@@ -24,9 +24,9 @@ use Symfony\Component\Routing\Attribute\Route;
         Request::METHOD_POST,
     ]
 )]
-class NewsletterController extends AbstractController
+final class NewsletterController extends AbstractController
 {
-    public const ROUTE = 'landing_archer_newsletter';
+    public const string ROUTE = 'landing_archer_newsletter';
 
     public function __invoke(
         Request $request,

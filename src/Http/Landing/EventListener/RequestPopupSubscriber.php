@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Routing\RouterInterface;
 
-class RequestPopupSubscriber implements EventSubscriberInterface
+final class RequestPopupSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private readonly DataRepository $dataRepository,

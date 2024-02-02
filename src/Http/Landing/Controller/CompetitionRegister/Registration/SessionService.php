@@ -8,9 +8,9 @@ use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher as Reg
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class SessionService
+final class SessionService
 {
-    public const SESSION_KEY_COMPETITION_REGISTER = 'competition_register';
+    public const string SESSION_KEY_COMPETITION_REGISTER = 'competition_register';
 
     public function __construct(
         readonly private SerializerInterface $serializer

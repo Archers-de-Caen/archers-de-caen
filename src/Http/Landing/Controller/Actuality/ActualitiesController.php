@@ -22,9 +22,9 @@ use Symfony\Component\Routing\Attribute\Route;
     options: ['sitemap' => true],
     methods: Request::METHOD_GET
 )]
-class ActualitiesController extends AbstractController
+final class ActualitiesController extends AbstractController
 {
-    public const ROUTE = 'landing_actualities';
+    public const string ROUTE = 'landing_actualities';
 
     public function __invoke(Request $request, PageRepository $pageRepository): Response
     {

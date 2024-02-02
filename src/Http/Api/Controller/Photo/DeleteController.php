@@ -20,9 +20,9 @@ use Symfony\Component\Routing\Attribute\Route;
     name: self::ROUTE,
     methods: Request::METHOD_DELETE
 )]
-class DeleteController extends AbstractController
+final class DeleteController extends AbstractController
 {
-    public const ROUTE = 'api_photos_delete';
+    public const string ROUTE = 'api_photos_delete';
 
     public function __invoke(Photo $photo, EntityManagerInterface $em): JsonResponse
     {

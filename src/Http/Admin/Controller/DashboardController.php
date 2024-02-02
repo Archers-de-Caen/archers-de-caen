@@ -34,9 +34,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 
-class DashboardController extends AbstractDashboardController
+final class DashboardController extends AbstractDashboardController
 {
-    public const ROUTE = 'admin_index';
+    public const string ROUTE = 'admin_index';
 
     public function __construct(private readonly ParameterBagInterface $parameterBag)
     {

@@ -19,9 +19,9 @@ use Symfony\Component\Routing\Attribute\Route;
     options: ['sitemap' => true],
     methods: Request::METHOD_GET
 )]
-class NewspaperController extends AbstractController
+final class NewspaperController extends AbstractController
 {
-    public const ROUTE = 'landing_newspapers';
+    public const string ROUTE = 'landing_newspapers';
 
     public function __invoke(DocumentRepository $documentRepository): Response
     {

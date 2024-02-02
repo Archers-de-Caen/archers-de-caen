@@ -20,9 +20,9 @@ use Symfony\Component\Routing\Attribute\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-class GalleryController extends AbstractController
+final class GalleryController extends AbstractController
 {
-    public const ROUTE = 'landing_gallery';
+    public const string ROUTE = 'landing_gallery';
 
     public function __invoke(Request $request, Gallery $gallery, PhotoRepository $photoRepository): Response
     {

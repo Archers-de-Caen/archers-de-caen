@@ -10,7 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class GalleryType extends AbstractType
+final class GalleryType extends AbstractType
 {
     #[\Override]
     public function getParent(): ?string

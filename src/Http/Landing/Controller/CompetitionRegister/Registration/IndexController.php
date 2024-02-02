@@ -18,9 +18,9 @@ use Symfony\Component\Routing\Attribute\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-class IndexController extends AbstractController
+final class IndexController extends AbstractController
 {
-    public const ROUTE = 'landing_competition_register';
+    public const string ROUTE = 'landing_competition_register';
 
     public function __invoke(
         Session $session,

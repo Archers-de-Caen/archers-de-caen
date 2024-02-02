@@ -17,9 +17,9 @@ use Symfony\Component\Routing\Attribute\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET,
 )]
-class ListPathsLiipAdminController extends AbstractController
+final class ListPathsLiipAdminController extends AbstractController
 {
-    public const ROUTE = 'admin_developer_admin_liip_image_cache';
+    public const string ROUTE = 'admin_developer_admin_liip_image_cache';
 
     /**
      * @throws \Exception

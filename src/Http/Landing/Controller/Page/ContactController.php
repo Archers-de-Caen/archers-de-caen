@@ -27,9 +27,9 @@ use Symfony\Component\Routing\Attribute\Route;
         Request::METHOD_POST,
     ]
 )]
-class ContactController extends AbstractController
+final class ContactController extends AbstractController
 {
-    public const ROUTE = 'landing_contact';
+    public const string ROUTE = 'landing_contact';
 
     public function __invoke(Request $request, EntityManagerInterface $em, ContactService $contactService): Response
     {

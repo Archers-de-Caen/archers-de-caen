@@ -8,7 +8,7 @@ use App\Domain\Cms\Type\CKEditorType;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 
-class CKEditorField implements FieldInterface
+final class CKEditorField implements FieldInterface
 {
     use FieldTrait;
 

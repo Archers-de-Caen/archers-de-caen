@@ -20,9 +20,9 @@ use Symfony\Component\Routing\Attribute\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-class PaymentController extends AbstractController
+final class PaymentController extends AbstractController
 {
-    public const ROUTE = 'landing_competition_register_payment';
+    public const string ROUTE = 'landing_competition_register_payment';
 
     public function __invoke(
         CompetitionRegister $competitionRegister,

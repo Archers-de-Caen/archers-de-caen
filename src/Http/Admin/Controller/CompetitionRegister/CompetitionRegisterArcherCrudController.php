@@ -45,7 +45,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use function Symfony\Component\Translation\t;
 
-class CompetitionRegisterArcherCrudController extends AbstractCrudController
+final class CompetitionRegisterArcherCrudController extends AbstractCrudController
 {
     public function __construct(
         readonly private AdminUrlGenerator $adminUrlGenerator,

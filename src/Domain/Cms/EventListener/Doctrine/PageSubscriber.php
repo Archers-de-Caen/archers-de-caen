@@ -12,7 +12,7 @@ use Doctrine\ORM\Events;
 use Symfony\Bundle\SecurityBundle\Security;
 
 #[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: Page::class)]
-class PageSubscriber
+final class PageSubscriber
 {
     public function __construct(private readonly Security $security)
     {

@@ -26,9 +26,9 @@ use Symfony\Component\Routing\Attribute\Route;
         Request::METHOD_POST,
     ]
 )]
-class RecordController extends AbstractController
+final class RecordController extends AbstractController
 {
-    public const ROUTE = 'landing_results_record';
+    public const string ROUTE = 'landing_results_record';
 
     public function __construct(
         private readonly ResultCompetitionRepository $resultCompetitionRepository

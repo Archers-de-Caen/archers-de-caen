@@ -24,7 +24,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
-class DocumentCrudController extends AbstractCrudController
+final class DocumentCrudController extends AbstractCrudController
 {
     public function __construct(
         protected readonly EntityRepository $entityRepository,

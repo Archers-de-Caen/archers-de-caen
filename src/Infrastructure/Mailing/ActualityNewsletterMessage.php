@@ -7,7 +7,7 @@ namespace App\Infrastructure\Mailing;
 use App\Domain\Newsletter\NewsletterType;
 use Symfony\Component\Uid\Uuid;
 
-class ActualityNewsletterMessage implements NewsletterMessage
+final class ActualityNewsletterMessage implements NewsletterMessage
 {
     public function __construct(
         private readonly Uuid $actualityUid,
@@ -30,7 +30,7 @@ class ActualityNewsletterMessage implements NewsletterMessage
     public function getContext(): array
     {
         return [
-            'actuality' => $this->getActualityUid()->__toString(),
+            'actuality' => $this->actualityUid->__toString(),
         ];
     }
 }

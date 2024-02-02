@@ -17,9 +17,9 @@ use Symfony\Component\Routing\Attribute\Route;
     options: ['sitemap' => true],
     methods: [Request::METHOD_GET]
 )]
-class ShopController extends AbstractController
+final class ShopController extends AbstractController
 {
-    public const ROUTE = 'landing_shop';
+    public const string ROUTE = 'landing_shop';
 
     public function __invoke(): Response
     {

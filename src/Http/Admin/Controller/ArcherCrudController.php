@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use function Symfony\Component\Translation\t;
 
-class ArcherCrudController extends AbstractCrudController
+final class ArcherCrudController extends AbstractCrudController
 {
     public function __construct(
         readonly private UrlGeneratorInterface $urlGenerator,

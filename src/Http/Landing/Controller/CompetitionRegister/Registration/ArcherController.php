@@ -22,9 +22,9 @@ use Symfony\Component\Routing\Attribute\Route;
         Request::METHOD_POST,
     ]
 )]
-class ArcherController extends AbstractController
+final class ArcherController extends AbstractController
 {
-    public const ROUTE = 'landing_competition_register_archer';
+    public const string ROUTE = 'landing_competition_register_archer';
 
     public function __invoke(
         Request $request,

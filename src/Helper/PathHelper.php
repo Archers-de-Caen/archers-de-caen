@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Helper;
 
-class PathHelper
+final class PathHelper
 {
     public static function join(string ...$parts): string
     {

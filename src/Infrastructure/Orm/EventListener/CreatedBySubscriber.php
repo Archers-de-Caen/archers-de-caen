@@ -11,7 +11,7 @@ use Doctrine\ORM\Events;
 use Symfony\Bundle\SecurityBundle\Security;
 
 #[AsDoctrineListener(event: Events::prePersist)]
-class CreatedBySubscriber
+final class CreatedBySubscriber
 {
     public function __construct(readonly private Security $security)
     {

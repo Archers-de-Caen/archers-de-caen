@@ -27,7 +27,7 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-class CompetitionRegisterManager
+final class CompetitionRegisterManager
 {
     public function __construct(
         readonly private Environment $environment,

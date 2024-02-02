@@ -35,7 +35,7 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 
-class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
+final class CompetitionRegisterDepartureTargetArcherForm extends AbstractType
 {
     public function __construct(readonly private ArcherManager $archerManager, readonly private EntityManagerInterface $em)
     {

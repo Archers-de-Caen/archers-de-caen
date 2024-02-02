@@ -17,9 +17,9 @@ use Symfony\Component\Routing\Attribute\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-class EndController extends AbstractController
+final class EndController extends AbstractController
 {
-    public const ROUTE = 'landing_competition_register_payment_end';
+    public const string ROUTE = 'landing_competition_register_payment_end';
 
     public function __invoke(Request $request, string $slug, string $licenseNumber): Response
     {

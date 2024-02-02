@@ -17,9 +17,9 @@ use Symfony\Component\Routing\Attribute\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-class GetGalleryController extends AbstractController
+final class GetGalleryController extends AbstractController
 {
-    public const ROUTE = 'api_gallery_get';
+    public const string ROUTE = 'api_gallery_get';
 
     public function __invoke(Gallery $gallery): JsonResponse
     {

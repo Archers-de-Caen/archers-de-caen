@@ -24,9 +24,9 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
         Request::METHOD_POST,
     ]
 )]
-class LoginController extends AbstractController
+final class LoginController extends AbstractController
 {
-    public const ROUTE = 'admin_login';
+    public const string ROUTE = 'admin_login';
 
     public function __invoke(
         AuthenticationUtils $authenticationUtils,

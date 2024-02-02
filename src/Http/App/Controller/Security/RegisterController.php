@@ -26,9 +26,9 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge
         Request::METHOD_POST,
     ]
 )]
-class RegisterController extends AbstractController
+final class RegisterController extends AbstractController
 {
-    public const ROUTE = 'app_register';
+    public const string ROUTE = 'app_register';
 
     public function __invoke(
         Request $request,

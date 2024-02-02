@@ -14,7 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class GetHeaderDataExtension extends AbstractExtension
+final class GetHeaderDataExtension extends AbstractExtension
 {
     public function __construct(
         private readonly EntityManagerInterface $em,

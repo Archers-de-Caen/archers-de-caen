@@ -26,9 +26,9 @@ use Symfony\Component\Routing\Attribute\Route;
         Request::METHOD_POST,
     ]
 )]
-class FederalHonorsController extends AbstractController
+final class FederalHonorsController extends AbstractController
 {
-    public const ROUTE = 'landing_results_federal_honors';
+    public const string ROUTE = 'landing_results_federal_honors';
 
     public function __construct(
         private readonly ResultBadgeRepository $resultBadgeRepository,

@@ -11,7 +11,7 @@ use Doctrine\ORM\Events;
 
 #[AsDoctrineListener(event: Events::prePersist)]
 #[AsDoctrineListener(event: Events::preUpdate)]
-class TimestampSubscriber
+final class TimestampSubscriber
 {
     public function prePersist(PrePersistEventArgs $args): void
     {

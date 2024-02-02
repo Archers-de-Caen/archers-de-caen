@@ -22,7 +22,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
-class PhotoCrudController extends AbstractCrudController
+final class PhotoCrudController extends AbstractCrudController
 {
     public function __construct(
         private readonly EntityRepository $entityRepository,

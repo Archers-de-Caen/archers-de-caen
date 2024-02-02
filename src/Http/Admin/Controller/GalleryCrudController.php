@@ -30,7 +30,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use function Symfony\Component\Translation\t;
 
-class GalleryCrudController extends AbstractCrudController
+final class GalleryCrudController extends AbstractCrudController
 {
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,

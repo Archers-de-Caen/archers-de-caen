@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\Cms;
 
-use App\Domain\File\Model\Photo;
 use Symfony\Component\Translation\TranslatableMessage;
 use App\Domain\Cms\Admin\Field\CKEditorField;
 use App\Domain\Cms\Config\Category;
@@ -14,7 +13,6 @@ use App\Domain\File\Admin\Field\PhotoField;
 use App\Domain\File\Form\PhotoFormType;
 use App\Domain\Newsletter\NewsletterType;
 use App\Http\Admin\Controller\DashboardController;
-use App\Infrastructure\LiipImagine\CacheResolveMessage;
 use App\Infrastructure\Mailing\ActualityNewsletterMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;

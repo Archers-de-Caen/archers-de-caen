@@ -18,9 +18,9 @@ use Symfony\Component\Routing\Attribute\Route;
     options: ['sitemap' => true],
     methods: Request::METHOD_GET
 )]
-class SportController extends AbstractController
+final class SportController extends AbstractController
 {
-    public const ROUTE = 'landing_page_sport';
+    public const string ROUTE = 'landing_page_sport';
 
     public function __invoke(PageRepository $pageRepository): Response
     {

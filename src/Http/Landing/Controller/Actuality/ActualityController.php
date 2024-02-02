@@ -20,9 +20,9 @@ use Symfony\Component\Routing\Attribute\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-class ActualityController extends AbstractController
+final class ActualityController extends AbstractController
 {
-    public const ROUTE = 'landing_actuality';
+    public const string ROUTE = 'landing_actuality';
 
     public function __invoke(Page $actuality, PageRepository $pageRepository): Response
     {

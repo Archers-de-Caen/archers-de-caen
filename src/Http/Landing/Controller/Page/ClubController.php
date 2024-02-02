@@ -18,9 +18,9 @@ use Symfony\Component\Routing\Attribute\Route;
     options: ['sitemap' => true],
     methods: Request::METHOD_GET
 )]
-class ClubController extends AbstractController
+final class ClubController extends AbstractController
 {
-    public const ROUTE = 'landing_club';
+    public const string ROUTE = 'landing_club';
 
     public function __invoke(DataRepository $dataRepository): Response
     {

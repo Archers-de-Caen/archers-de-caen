@@ -24,9 +24,9 @@ use Symfony\Component\Uid\Uuid;
     name: self::ROUTE,
     methods: Request::METHOD_POST
 )]
-class HelloassoWebhookController extends AbstractController
+final class HelloassoWebhookController extends AbstractController
 {
-    public const ROUTE = 'webhook_helloasso';
+    public const string ROUTE = 'webhook_helloasso';
 
     public function __construct(private readonly EntityManagerInterface $em)
     {

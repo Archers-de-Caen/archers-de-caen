@@ -22,9 +22,9 @@ use Symfony\Component\Routing\Attribute\Route;
     options: ['sitemap' => true],
     methods: Request::METHOD_GET
 )]
-class IndexController extends AbstractController
+final class IndexController extends AbstractController
 {
-    public const ROUTE = 'landing_index';
+    public const string ROUTE = 'landing_index';
 
     public function __invoke(PageRepository $pageRepository, DataRepository $dataRepository): Response
     {

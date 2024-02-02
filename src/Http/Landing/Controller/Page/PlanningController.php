@@ -17,9 +17,9 @@ use Symfony\Component\Routing\Attribute\Route;
     options: ['sitemap' => true],
     methods: Request::METHOD_GET
 )]
-class PlanningController extends AbstractController
+final class PlanningController extends AbstractController
 {
-    public const ROUTE = 'landing_planning';
+    public const string ROUTE = 'landing_planning';
 
     public function __invoke(Request $request): Response
     {

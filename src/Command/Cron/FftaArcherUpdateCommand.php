@@ -28,7 +28,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
     name: 'app:ffta:archer-update',
     description: 'Met à jour les archers licencié depuis le site de la FFTA',
 )]
-class FftaArcherUpdateCommand extends Command
+final class FftaArcherUpdateCommand extends Command
 {
     private array $cookies = [];
 

@@ -27,9 +27,9 @@ use Symfony\Component\Routing\Attribute\Route;
         Request::METHOD_POST,
     ]
 )]
-class ArrowsController extends AbstractController
+final class ArrowsController extends AbstractController
 {
-    public const ROUTE = 'landing_results_arrow';
+    public const string ROUTE = 'landing_results_arrow';
 
     public function __construct(
         private readonly ArcherRepository $archerRepository,

@@ -20,9 +20,9 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
         Request::METHOD_POST,
     ]
 )]
-class LoginController extends AbstractController
+final class LoginController extends AbstractController
 {
-    public const ROUTE = 'app_login';
+    public const string ROUTE = 'app_login';
 
     public function __invoke(AuthenticationUtils $authenticationUtils): Response
     {

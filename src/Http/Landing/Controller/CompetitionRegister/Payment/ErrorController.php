@@ -16,9 +16,9 @@ use Symfony\Component\Routing\Attribute\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-class ErrorController extends AbstractController
+final class ErrorController extends AbstractController
 {
-    public const ROUTE = 'landing_competition_register_payment_error';
+    public const string ROUTE = 'landing_competition_register_payment_error';
 
     public function __invoke(Request $request, string $slug, string $licenseNumber): Response
     {

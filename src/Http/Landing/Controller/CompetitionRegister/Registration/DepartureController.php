@@ -26,9 +26,9 @@ use Symfony\Component\Routing\Attribute\Route;
         Request::METHOD_POST,
     ]
 )]
-class DepartureController extends AbstractController
+final class DepartureController extends AbstractController
 {
-    public const ROUTE = 'landing_competition_register_departure';
+    public const string ROUTE = 'landing_competition_register_departure';
 
     public function __invoke(
         Request $request,

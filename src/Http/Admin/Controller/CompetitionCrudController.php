@@ -33,7 +33,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use function Symfony\Component\Translation\t;
 
-class CompetitionCrudController extends AbstractCrudController
+final class CompetitionCrudController extends AbstractCrudController
 {
     public function __construct(
         readonly private ResultCompetitionManager $resultCompetitionManager,

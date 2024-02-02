@@ -19,9 +19,9 @@ use Symfony\Component\Routing\Attribute\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-class RecapController extends AbstractController
+final class RecapController extends AbstractController
 {
-    public const ROUTE = 'landing_competition_register_validated';
+    public const string ROUTE = 'landing_competition_register_validated';
 
     public function __invoke(
         RegistrationRepository $competitionRegisterDepartureTargetArcherRepository,

@@ -21,9 +21,9 @@ use Symfony\Component\Routing\Attribute\Route;
     options: ['sitemap' => true],
     methods: Request::METHOD_GET
 )]
-class GalleriesController extends AbstractController
+final class GalleriesController extends AbstractController
 {
-    public const ROUTE = 'landing_galleries';
+    public const string ROUTE = 'landing_galleries';
 
     public function __invoke(Request $request, GalleryRepository $galleryRepository): Response
     {

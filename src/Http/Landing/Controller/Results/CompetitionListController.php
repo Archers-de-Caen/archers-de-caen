@@ -29,9 +29,9 @@ use Symfony\Component\Routing\Attribute\Route;
         Request::METHOD_POST,
     ]
 )]
-class CompetitionListController extends AbstractController
+final class CompetitionListController extends AbstractController
 {
-    public const ROUTE = 'landing_results_competitions_list';
+    public const string ROUTE = 'landing_results_competitions_list';
 
     public function __construct(
         private readonly CompetitionRepository $competitionRepository,

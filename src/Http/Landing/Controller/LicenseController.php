@@ -18,9 +18,9 @@ use Symfony\Component\Routing\Attribute\Route;
     options: ['sitemap' => true],
     methods: Request::METHOD_GET
 )]
-class LicenseController extends AbstractController
+final class LicenseController extends AbstractController
 {
-    public const ROUTE = 'landing_license_new';
+    public const string ROUTE = 'landing_license_new';
 
     public function __invoke(DataRepository $dataRepository): Response
     {

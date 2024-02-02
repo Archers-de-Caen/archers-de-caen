@@ -17,9 +17,9 @@ use Symfony\Component\Routing\Attribute\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-class PageController extends AbstractController
+final class PageController extends AbstractController
 {
-    public const ROUTE = 'landing_page';
+    public const string ROUTE = 'landing_page';
 
     public function __invoke(Page $page): Response
     {

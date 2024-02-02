@@ -15,14 +15,14 @@ use Symfony\Component\Routing\Attribute\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-class LogoutController extends AbstractController
+final class LogoutController extends AbstractController
 {
-    public const ROUTE = 'app_logout';
+    public const string ROUTE = 'app_logout';
 
     /**
      * @throws \Exception
      */
-    public function __invoke(): void
+    public function __invoke(): never
     {
         // controller can be blank: it will never be called!
         throw new \Exception("Don't forget to activate logout in security.yaml");
