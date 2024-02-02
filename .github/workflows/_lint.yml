@@ -50,11 +50,11 @@ jobs:
 
       - name: Rector
         run: |
-          $RESULT=$(vendor/bin/rector process src --dry-run)
+          RESULT=$(vendor/bin/rector process src --dry-run)
 
           if [[ $RESULT != *"[OK] Rector is done!"* ]]; then
             echo "Rector found some issues"
-            echo $RESULT
+            echo "$RESULT"
             exit 1
           fi
 
