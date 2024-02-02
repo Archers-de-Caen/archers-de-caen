@@ -134,7 +134,7 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
                 'choice_label' => fn (Gender $choice): \Symfony\Component\Translation\TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Gender::cases(),
             ])
-            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity): \Symfony\Component\Translation\TranslatableMessage|string => !$value || !$entity || !$entity->getGender() ? '' : t($entity->getGender()->value, domain: 'archer'))
+            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity): \Symfony\Component\Translation\TranslatableMessage|string => !$value || !$entity instanceof \App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher || !$entity->getGender() instanceof \App\Domain\Archer\Config\Gender ? '' : t($entity->getGender()->value, domain: 'archer'))
         ;
 
         $category = ChoiceField::new('category')
@@ -156,7 +156,7 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
                 'choice_label' => fn (Weapon $choice): \Symfony\Component\Translation\TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Weapon::cases(),
             ])
-            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity): \Symfony\Component\Translation\TranslatableMessage|string => !$value || !$entity || !$entity->getWeapon() ? '' : t($entity->getWeapon()->value, domain: 'archer'))
+            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity): \Symfony\Component\Translation\TranslatableMessage|string => !$value || !$entity instanceof \App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher || !$entity->getWeapon() instanceof \App\Domain\Archer\Config\Weapon ? '' : t($entity->getWeapon()->value, domain: 'archer'))
         ;
 
         $club = TextField::new('club')

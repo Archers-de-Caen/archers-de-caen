@@ -66,7 +66,7 @@ class BadgeCrudController extends AbstractCrudController
                 'choice_label' => fn (Type $choice): \Symfony\Component\Translation\TranslatableMessage => t($choice->value, domain: 'competition'),
                 'choices' => Type::cases(),
             ])
-            ->formatValue(fn ($value, ?Badge $entity): \Symfony\Component\Translation\TranslatableMessage|string => !$value || !$entity || !$entity->getCompetitionType() ? '' : t($entity->getCompetitionType()->value, domain: 'competition'))
+            ->formatValue(fn ($value, ?Badge $entity): \Symfony\Component\Translation\TranslatableMessage|string => !$value || !$entity instanceof \App\Domain\Badge\Model\Badge || !$entity->getCompetitionType() instanceof \App\Domain\Competition\Config\Type ? '' : t($entity->getCompetitionType()->value, domain: 'competition'))
         ;
 
         if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {

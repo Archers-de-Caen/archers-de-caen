@@ -104,7 +104,7 @@ class CompetitionRegisterManager
             ->findByCompetitionRegisterAndLicenseNumber($competitionRegister, $licenseNumber);
         $alreadyPaid = \count(array_filter($registrations, static fn (Registration $crdta): bool => $crdta->isPaid()));
 
-        if ($firstRegistration && $isArcherDeCaen && !$alreadyPaid) {
+        if ($firstRegistration instanceof \App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher && $isArcherDeCaen && !$alreadyPaid) {
             $firstRegistration->setPaid(true);
         }
 

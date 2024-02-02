@@ -111,7 +111,7 @@ class CompetitionCrudController extends AbstractCrudController
                 'choice_label' => fn (Type $choice): \Symfony\Component\Translation\TranslatableMessage => t($choice->value, domain: 'competition'),
                 'choices' => Type::cases(),
             ])
-            ->formatValue(fn ($value, ?Competition $entity): \Symfony\Component\Translation\TranslatableMessage|string => !$value || !$entity || !$entity->getType() ? '' : t($entity->getType()->value, domain: 'competition'))
+            ->formatValue(fn ($value, ?Competition $entity): \Symfony\Component\Translation\TranslatableMessage|string => !$value || !$entity instanceof \App\Domain\Competition\Model\Competition || !$entity->getType() instanceof \App\Domain\Competition\Config\Type ? '' : t($entity->getType()->value, domain: 'competition'))
         ;
 
         $createdAt = DateTimeField::new('createdAt')

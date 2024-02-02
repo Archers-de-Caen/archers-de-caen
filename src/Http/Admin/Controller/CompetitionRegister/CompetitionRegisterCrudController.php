@@ -112,7 +112,7 @@ class CompetitionRegisterCrudController extends AbstractCrudController
                 'choices' => Type::cases(),
             ])
             ->formatValue(function ($value, ?CompetitionRegister $entity): string {
-                if (!$value || !$entity || !$entity->getTypes()) {
+                if (!$value || !$entity instanceof \App\Domain\Competition\Model\CompetitionRegister || !$entity->getTypes()) {
                     return '';
                 }
 

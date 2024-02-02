@@ -17,7 +17,7 @@ return static function (RectorConfig $rectorConfig): void {
         #SetList::CODING_STYLE,
         #SetList::PHP_83,
         #SetList::PRIVATIZATION,
-        #SetList::INSTANCEOF,
+        SetList::INSTANCEOF,
         SetList::TYPE_DECLARATION,
         SetList::EARLY_RETURN,
         SetList::DEAD_CODE,

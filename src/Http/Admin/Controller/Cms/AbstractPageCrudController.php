@@ -95,7 +95,7 @@ class AbstractPageCrudController extends AbstractCrudController
                 'choice_label' => fn (Status $choice): \Symfony\Component\Translation\TranslatableMessage => t($choice->value, domain: 'page'),
                 'choices' => Status::cases(),
             ])
-            ->formatValue(fn ($value, ?Page $entity): \Symfony\Component\Translation\TranslatableMessage|string => !$value || !$entity || !$entity->getStatus() ? '' : t($entity->getStatus()->value, domain: 'page'))
+            ->formatValue(fn ($value, ?Page $entity): \Symfony\Component\Translation\TranslatableMessage|string => !$value || !$entity instanceof \App\Domain\Cms\Model\Page || !$entity->getStatus() instanceof \App\Domain\Cms\Config\Status ? '' : t($entity->getStatus()->value, domain: 'page'))
         ;
 
         $image = PhotoField::new('image')

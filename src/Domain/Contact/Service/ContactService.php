@@ -38,7 +38,7 @@ class ContactService
 
         $lastRequest = $this->repository->findLastRequestForIp($contactRequest->getIp());
 
-        if ($lastRequest && $lastRequest->getCreatedAt() > new \DateTime('- 1 hour')) {
+        if ($lastRequest instanceof \App\Domain\Contact\Model\ContactRequest && $lastRequest->getCreatedAt() > new \DateTime('- 1 hour')) {
             throw new TooManyContactException();
         }
 

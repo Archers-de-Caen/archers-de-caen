@@ -104,7 +104,7 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
                 'choice_label' => fn (Weapon $choice): \Symfony\Component\Translation\TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Weapon::cases(),
             ])
-            ->formatValue(fn ($value, ?ResultBadge $entity): \Symfony\Component\Translation\TranslatableMessage|string => !$value || !$entity || !$entity->getWeapon() ? '' : t($entity->getWeapon()->value, domain: 'archer'))
+            ->formatValue(fn ($value, ?ResultBadge $entity): \Symfony\Component\Translation\TranslatableMessage|string => !$value || !$entity instanceof \App\Domain\Result\Model\ResultBadge || !$entity->getWeapon() instanceof \App\Domain\Archer\Config\Weapon ? '' : t($entity->getWeapon()->value, domain: 'archer'))
         ;
 
         $category = ChoiceField::new('category')
@@ -115,7 +115,7 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
                 'choice_label' => fn (Category $choice): \Symfony\Component\Translation\TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Category::cases(),
             ])
-            ->formatValue(fn ($value, ?ResultBadge $entity): \Symfony\Component\Translation\TranslatableMessage|string => !$value || !$entity || !$entity->getCategory() ? '' : t($entity->getCategory()->value, domain: 'archer'))
+            ->formatValue(fn ($value, ?ResultBadge $entity): \Symfony\Component\Translation\TranslatableMessage|string => !$value || !$entity instanceof \App\Domain\Result\Model\ResultBadge || !$entity->getCategory() instanceof \App\Domain\Archer\Config\Category ? '' : t($entity->getCategory()->value, domain: 'archer'))
         ;
 
         if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {
