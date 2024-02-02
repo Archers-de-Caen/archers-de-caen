@@ -10,8 +10,10 @@ use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Model\Page;
 use App\Domain\File\Admin\Field\PhotoField;
 use App\Domain\File\Form\PhotoFormType;
+use App\Domain\File\Model\Photo;
 use App\Domain\Newsletter\NewsletterType;
 use App\Http\Admin\Controller\DashboardController;
+use App\Infrastructure\LiipImagine\CacheResolveMessage;
 use App\Infrastructure\Mailing\ActualityNewsletterMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
@@ -39,7 +41,7 @@ use function Symfony\Component\Translation\t;
 
 use Symfony\Component\Translation\TranslatableMessage;
 
-class AbstractPageCrudController extends AbstractCrudController
+abstract class AbstractPageCrudController extends AbstractCrudController
 {
     public function __construct(
         protected readonly UrlGeneratorInterface $urlGenerator,
