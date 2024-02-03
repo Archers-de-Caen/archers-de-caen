@@ -6,38 +6,25 @@ namespace App\Domain\Cms\EventListener\Doctrine;
 
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Cms\Model\Page;
-use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Events;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Bundle\SecurityBundle\Security;
 
-class PageSubscriber implements EventSubscriberInterface
+#[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: Page::class)]
+final class PageSubscriber
 {
     public function __construct(private readonly Security $security)
     {
     }
 
-    public function getSubscribedEvents(): array
+    public function prePersist(Page $page, PrePersistEventArgs $event): void
     {
-        return [
-            Events::prePersist,
-        ];
-    }
-
-    public function prePersist(LifecycleEventArgs $args): void
-    {
-        $entity = $args->getObject();
-
-        if (!$entity instanceof Page) {
-            return;
-        }
-
-        // Set createdBy
         /** @var Archer $archer */
         $archer = $this->security->getUser();
 
-        if (!$entity->getCreatedBy()) {
-            $entity->setCreatedBy($archer);
+        if (!$page->getCreatedBy() instanceof Archer) {
+            $page->setCreatedBy($archer);
         }
     }
 }

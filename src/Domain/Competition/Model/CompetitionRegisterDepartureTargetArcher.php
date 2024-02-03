@@ -34,9 +34,11 @@ class CompetitionRegisterDepartureTargetArcher
     use TimestampTrait;
     use WeaponTrait;
 
-    private const LICENSE_NUMBER_UNIQUE = false;
-    private const EMAIL_UNIQUE = false;
+    private const bool LICENSE_NUMBER_UNIQUE = false;
 
+    private const bool EMAIL_UNIQUE = false;
+
+    #[\Override]
     public function __toString(): string
     {
         return $this->getLicenseNumber() ?? '';

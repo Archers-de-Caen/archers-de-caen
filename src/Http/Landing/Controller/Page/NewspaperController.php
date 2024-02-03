@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
 #[Route(
@@ -19,9 +19,9 @@ use Symfony\Component\Routing\Annotation\Route;
     options: ['sitemap' => true],
     methods: Request::METHOD_GET
 )]
-class NewspaperController extends AbstractController
+final class NewspaperController extends AbstractController
 {
-    public const ROUTE = 'landing_newspapers';
+    public const string ROUTE = 'landing_newspapers';
 
     public function __invoke(DocumentRepository $documentRepository): Response
     {

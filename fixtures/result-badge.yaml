@@ -1,0 +1,9 @@
+include:
+  - ./result.yaml
+
+App\Domain\Result\Model\ResultBadge:
+  result_badge_competition_{1..50} (extends result):
+    badge: '@badge_competition_*'
+
+  result_badge_progress_arrow_{1..50} (extends result):
+    badge: '@badge_progress_arrow_*'

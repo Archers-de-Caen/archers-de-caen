@@ -8,8 +8,10 @@ use App\Domain\Cms\Admin\Field\GalleryField;
 use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Model\Gallery;
 use App\Domain\File\Admin\Field\PhotoField;
+use App\Domain\File\Model\Photo;
 use App\Domain\Newsletter\NewsletterType;
 use App\Http\Landing\Controller\Gallery\GalleryController;
+use App\Infrastructure\LiipImagine\CacheResolveMessage;
 use App\Infrastructure\Mailing\GalleryNewsletterMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -27,18 +29,23 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use function Symfony\Component\Translation\t;
 
-class GalleryCrudController extends AbstractCrudController
+use Symfony\Component\Translation\TranslatableMessage;
+
+final class GalleryCrudController extends AbstractCrudController
 {
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly MessageBusInterface $bus,
     ) {
     }
 
+    #[\Override]
     public static function getEntityFqcn(): string
     {
         return Gallery::class;
     }
 
+    #[\Override]
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
@@ -48,6 +55,7 @@ class GalleryCrudController extends AbstractCrudController
         ;
     }
 
+    #[\Override]
     public function configureActions(Actions $actions): Actions
     {
         parent::configureActions($actions);
@@ -55,25 +63,24 @@ class GalleryCrudController extends AbstractCrudController
         $publish = Action::new('publish')
             ->setLabel('Publier')
             ->linkToCrudAction('publish')
-            ->displayIf(static fn (Gallery $gallery) => Status::DRAFT === $gallery->getStatus())
+            ->displayIf(static fn (Gallery $gallery): bool => Status::DRAFT === $gallery->getStatus())
         ;
 
         $publicLink = Action::new('public-link')
             ->setLabel('Lien public')
-            ->linkToUrl(function (Gallery $gallery) {
+            ->linkToUrl(function (Gallery $gallery): string {
                 return $this->urlGenerator->generate(GalleryController::ROUTE, [
                     'slug' => $gallery->getSlug(),
                 ], UrlGeneratorInterface::ABSOLUTE_URL);
             })
         ;
 
-
         return $actions
             ->add(Crud::PAGE_INDEX, $publish)
             ->add(Crud::PAGE_INDEX, $publicLink);
-        ;
     }
 
+    #[\Override]
     public function configureFields(string $pageName): iterable
     {
         $id = IdField::new('id');
@@ -90,10 +97,10 @@ class GalleryCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Status::class,
-                'choice_label' => fn (Status $choice) => t($choice->value, domain: 'page'),
+                'choice_label' => static fn (Status $choice): TranslatableMessage => t($choice->value, domain: 'page'),
                 'choices' => Status::cases(),
             ])
-            ->formatValue(fn ($value, ?Gallery $entity) => !$value || !$entity || !$entity->getStatus() ? '' : t($entity->getStatus()->value, domain: 'page'))
+            ->formatValue(static fn ($value, ?Gallery $entity): TranslatableMessage|string => !$value || !$entity instanceof Gallery || !$entity->getStatus() instanceof Status ? '' : t($entity->getStatus()->value, domain: 'page'))
         ;
 
         if (Crud::PAGE_INDEX === $pageName) {
@@ -105,6 +112,37 @@ class GalleryCrudController extends AbstractCrudController
         }
 
         return [$title, $mainPhoto, $gallery];
+    }
+
+    /**
+     * @param Gallery $entityInstance
+     */
+    #[\Override]
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        parent::persistEntity($entityManager, $entityInstance);
+
+        $this->dispatchCache($entityInstance);
+    }
+
+    /**
+     * @param Gallery $entityInstance
+     */
+    #[\Override]
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        parent::updateEntity($entityManager, $entityInstance);
+
+        $this->dispatchCache($entityInstance);
+    }
+
+    private function dispatchCache(Gallery $entityInstance): void
+    {
+        if ($entityInstance->getMainPhoto() instanceof Photo && $entityInstance->getMainPhoto()->getImageName()) {
+            $this->bus->dispatch(new CacheResolveMessage($entityInstance->getMainPhoto()->getImageName()));
+        }
+
+        $this->bus->dispatch(new CacheResolveMessage($entityInstance->getPhotos()->map(static fn ($photo): ?string => $photo->getImageName())->toArray()));
     }
 
     public function publish(

@@ -2,9 +2,9 @@ name: Symfony Tests
 
 on:
   push:
-    branches: [ "master", "develop" ]
+    branches: [ "master", "develop", "production" ]
   pull_request:
-    branches: [ "master", "develop" ]
+    branches: [ "master", "develop", "production" ]
 
 permissions:
   contents: read

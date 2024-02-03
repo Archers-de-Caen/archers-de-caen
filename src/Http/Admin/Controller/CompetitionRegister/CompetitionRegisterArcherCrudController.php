@@ -25,6 +25,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\FilterConfigDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Factory\FilterFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
@@ -42,27 +44,32 @@ use Symfony\Component\HttpFoundation\Response;
 
 use function Symfony\Component\Translation\t;
 
-class CompetitionRegisterArcherCrudController extends AbstractCrudController
+use Symfony\Component\Translation\TranslatableMessage;
+
+final class CompetitionRegisterArcherCrudController extends AbstractCrudController
 {
     public function __construct(
         readonly private AdminUrlGenerator $adminUrlGenerator,
     ) {
     }
 
+    #[\Override]
     public static function getEntityFqcn(): string
     {
         return CompetitionRegisterDepartureTargetArcher::class;
     }
 
+    #[\Override]
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, 'Liste des inscrits au concours de Caen')
-            ->setPageTitle(Crud::PAGE_DETAIL, fn (CompetitionRegisterDepartureTargetArcher $crdta) => (string) $crdta)
-            ->setPageTitle(Crud::PAGE_EDIT, fn (CompetitionRegisterDepartureTargetArcher $crdta) => sprintf("Modification de l'inscription <b>%s</b>", $crdta))
+            ->setPageTitle(Crud::PAGE_DETAIL, static fn (CompetitionRegisterDepartureTargetArcher $crdta): string => (string) $crdta)
+            ->setPageTitle(Crud::PAGE_EDIT, static fn (CompetitionRegisterDepartureTargetArcher $crdta): string => sprintf("Modification de l'inscription <b>%s</b>", $crdta))
         ;
     }
 
+    #[\Override]
     public function configureActions(Actions $actions): Actions
     {
         $export = Action::new('export')
@@ -92,6 +99,7 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
         ;
     }
 
+    #[\Override]
     public function configureFilters(Filters $filters): Filters
     {
         return $filters
@@ -105,6 +113,7 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
         ;
     }
 
+    #[\Override]
     public function configureFields(string $pageName): iterable
     {
         $id = IdField::new('id')
@@ -131,10 +140,10 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Gender::class,
-                'choice_label' => fn (Gender $choice) => t($choice->value, domain: 'archer'),
+                'choice_label' => static fn (Gender $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Gender::cases(),
             ])
-            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity) => !$value || !$entity || !$entity->getGender() ? '' : t($entity->getGender()->value, domain: 'archer'))
+            ->formatValue(static fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity): TranslatableMessage|string => !$value || !$entity instanceof CompetitionRegisterDepartureTargetArcher || !$entity->getGender() instanceof Gender ? '' : t($entity->getGender()->value, domain: 'archer'))
         ;
 
         $category = ChoiceField::new('category')
@@ -142,10 +151,10 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Category::class,
-                'choice_label' => fn (Category $choice) => t($choice->value, domain: 'archer'),
+                'choice_label' => static fn (Category $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Category::cases(),
             ])
-            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity) => $entity?->getCategory()?->value ? t($entity->getCategory()->value, domain: 'archer') : null)
+            ->formatValue(static fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity): ?TranslatableMessage => $entity?->getCategory()?->value ? t($entity->getCategory()->value, domain: 'archer') : null)
         ;
 
         $weapon = ChoiceField::new('weapon')
@@ -153,10 +162,10 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Weapon::class,
-                'choice_label' => fn (Weapon $choice) => t($choice->value, domain: 'archer'),
+                'choice_label' => static fn (Weapon $choice): TranslatableMessage => t($choice->value, domain: 'archer'),
                 'choices' => Weapon::cases(),
             ])
-            ->formatValue(fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity) => !$value || !$entity || !$entity->getWeapon() ? '' : t($entity->getWeapon()->value, domain: 'archer'))
+            ->formatValue(static fn ($value, ?CompetitionRegisterDepartureTargetArcher $entity): TranslatableMessage|string => !$value || !$entity instanceof CompetitionRegisterDepartureTargetArcher || !$entity->getWeapon() instanceof Weapon ? '' : t($entity->getWeapon()->value, domain: 'archer'))
         ;
 
         $club = TextField::new('club')
@@ -217,16 +226,17 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
         /** @var FilterFactory $filterFactory */
         $filterFactory = $this->container->get(FilterFactory::class);
         $filterConfig = $context->getCrud()?->getFiltersConfig();
-        if (!$filterConfig) {
+        if (!$filterConfig instanceof FilterConfigDto) {
             return $this->redirectToRoute(IndexController::ROUTE);
         }
 
         $filters = $filterFactory->create($filterConfig, $fields, $context->getEntity());
 
         $search = $context->getSearch();
-        if (!$search) {
+        if (!$search instanceof SearchDto) {
             return $this->redirectToRoute(IndexController::ROUTE);
         }
+
         $queryBuilder = $this->createIndexQueryBuilder($search, $context->getEntity(), $fields, $filters);
 
         /* @phpstan-ignore-next-line */
@@ -335,7 +345,7 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
                 ColumnDefinition::new('depart'),
                 ColumnDefinition::new('concours', Types::ENTITY)
                     ->setConverterOptions([
-                        'find' => function (string $value) use ($competitionRegisters) {
+                        'find' => static function (string $value) use ($competitionRegisters) {
                             foreach ($competitionRegisters as $competitionRegister) {
                                 if ($competitionRegister->__toString() === $value) {
                                     return $competitionRegister;
@@ -350,8 +360,8 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
 
         try {
             $results = $csv->readFromString($file->getContent());
-        } catch (NotCorrectColumnsException $e) {
-            $this->addFlash('danger', 'Le CSV ne respecte pas le bon format: '.$e->getMessage());
+        } catch (NotCorrectColumnsException $notCorrectColumnsException) {
+            $this->addFlash('danger', 'Le CSV ne respecte pas le bon format: '.$notCorrectColumnsException->getMessage());
 
             return $this->redirect($returnUrl);
         }
@@ -394,7 +404,7 @@ class CompetitionRegisterArcherCrudController extends AbstractCrudController
                 }
             }
 
-            if (!$registration) {
+            if (!$registration instanceof CompetitionRegisterDepartureTargetArcher) {
                 $this->addFlash(
                     'danger',
                     'Impossible d\'importé la ligne avec la licence: "'.($result['licence'] ?? '').'"'

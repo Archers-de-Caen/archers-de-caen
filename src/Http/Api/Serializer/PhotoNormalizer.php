@@ -6,20 +6,22 @@ namespace App\Http\Api\Serializer;
 
 use App\Domain\File\Model\Photo;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
-class PhotoNormalizer implements NormalizerInterface
+final class PhotoNormalizer implements NormalizerInterface, NormalizerAwareInterface
 {
+    use NormalizerAwareTrait;
+
+    private NormalizerInterface $baseNormalizer;
+
     public function __construct(
         private readonly UploaderHelper $uploaderHelper,
         private readonly CacheManager $cacheManager,
         private readonly string $baseHost,
-        #[Autowire(service: ObjectNormalizer::class)]
-        private readonly NormalizerInterface $normalizer
     ) {
     }
 
@@ -28,10 +30,11 @@ class PhotoNormalizer implements NormalizerInterface
      *
      * @throws ExceptionInterface
      */
+    #[\Override]
     public function normalize(mixed $object, string $format = null, array $context = []): array
     {
         /** @var array $data */
-        $data = $this->normalizer->normalize($object, $format, $context);
+        $data = $this->baseNormalizer->normalize($object, $format, $context);
 
         $url = $this->baseHost.$this->uploaderHelper->asset($object, 'imageFile');
 
@@ -44,8 +47,22 @@ class PhotoNormalizer implements NormalizerInterface
         return $data;
     }
 
+    #[\Override]
     public function supportsNormalization($data, string $format = null, array $context = []): bool
     {
         return $data instanceof Photo;
+    }
+
+    #[\Override]
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            Photo::class => true,
+        ];
+    }
+
+    public function setBaseNormalizer(NormalizerInterface $baseNormalizer): void
+    {
+        $this->baseNormalizer = $baseNormalizer;
     }
 }

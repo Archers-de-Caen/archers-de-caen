@@ -49,6 +49,7 @@ class CompetitionRegister
     #[Slug(fields: ['slug'], unique: true)]
     private ?string $slug = null;
 
+    #[\Override]
     public function __toString(): string
     {
         return sprintf(
@@ -150,11 +151,9 @@ class CompetitionRegister
 
     public function removeDeparture(CompetitionRegisterDeparture $departure): self
     {
-        if ($this->departures->removeElement($departure)) {
-            // set the owning side to null (unless already changed)
-            if ($departure->getCompetitionRegister() === $this) {
-                $departure->setCompetitionRegister(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->departures->removeElement($departure) && $departure->getCompetitionRegister() === $this) {
+            $departure->setCompetitionRegister(null);
         }
 
         return $this;

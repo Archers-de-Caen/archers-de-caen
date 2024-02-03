@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Service;
 
-class Anonymize
+final class Anonymize
 {
     public static function email(string $email): string
     {

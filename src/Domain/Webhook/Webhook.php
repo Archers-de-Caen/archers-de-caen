@@ -36,12 +36,13 @@ class Webhook
     #[ORM\Column(type: Types::STRING, nullable: true)]
     private ?string $result = null;
 
+    #[\Override]
     public function __toString(): string
     {
         try {
             return json_encode($this->getContent(), \JSON_THROW_ON_ERROR);
-        } catch (\JsonException $e) {
-            return $e->getMessage();
+        } catch (\JsonException $jsonException) {
+            return $jsonException->getMessage();
         }
     }
 

@@ -22,6 +22,7 @@ class Badge
     use TimestampTrait;
 
     public const PROGRESS_ARROW = 'progress_arrow';
+
     public const COMPETITION = 'competition';
 
     #[ORM\Column(type: Types::STRING, length: 191)]
@@ -50,13 +51,13 @@ class Badge
 
     /**
      * @var array{
-     *    type: string,
-     *    score: int,
+     *    type?: string,
+     *    score?: int,
      *    weapon?: string
      * }|null
      */
     #[ORM\Column(type: Types::JSON)]
-    private ?array $conditions = null;
+    private ?array $conditions = [];
 
     #[ORM\OneToOne(targetEntity: Photo::class, cascade: ['persist'])]
     private ?Photo $image;
@@ -66,6 +67,7 @@ class Badge
         $this->resultBadges = new ArrayCollection();
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->getName() ?? '';
@@ -173,9 +175,9 @@ class Badge
 
     /**
      * @return array{
-     *    type: string,
-     *    score: int,
-     *    weapon?: string
+     *   type?: string,
+     *   score?: int,
+     *   weapon?: string
      * }|null
      */
     public function getConditions(): ?array
@@ -185,8 +187,8 @@ class Badge
 
     /**
      * @param array{
-     *    type: string,
-     *    score: int,
+     *    type?: string,
+     *    score?: int,
      *    weapon?: string
      * }|null $conditions
      *

@@ -5,23 +5,17 @@ declare(strict_types=1);
 namespace App\Infrastructure\Orm\EventListener;
 
 use App\Helper\SecurityHelper;
-use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
+use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Events;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
 
-class TokenSubscriber implements EventSubscriberInterface
+#[AsDoctrineListener(event: Events::prePersist)]
+final class TokenSubscriber
 {
-    public function getSubscribedEvents(): array
-    {
-        return [
-            Events::prePersist,
-        ];
-    }
-
     /**
      * @throws \Exception
      */
-    public function prePersist(LifecycleEventArgs $args): void
+    public function prePersist(PrePersistEventArgs $args): void
     {
         $entity = $args->getObject();
 

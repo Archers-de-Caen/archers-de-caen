@@ -6,17 +6,13 @@ namespace App\Http\Landing\Controller\CompetitionRegister\Payment;
 
 use App\Domain\Competition\Manager\CompetitionRegisterPayment;
 use App\Domain\Competition\Model\CompetitionRegister;
-use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher as Registration;
 use App\Domain\Competition\Repository\CompetitionRegisterDepartureTargetArcherRepository as RegistrationRepository;
-use App\Http\Landing\Controller\CompetitionRegister\RecapController;
-use App\Http\Landing\Controller\CompetitionRegister\Registration\DepartureController;
-use Helloasso\Exception\HelloassoException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
 #[Route(
@@ -24,9 +20,9 @@ use Symfony\Component\Routing\Annotation\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-class PaymentController extends AbstractController
+final class PaymentController extends AbstractController
 {
-    public const ROUTE = 'landing_competition_register_payment';
+    public const string ROUTE = 'landing_competition_register_payment';
 
     public function __invoke(
         CompetitionRegister $competitionRegister,
@@ -35,6 +31,6 @@ class PaymentController extends AbstractController
         CompetitionRegisterPayment $competitionRegisterPayment,
         LoggerInterface $logger
     ): Response {
-        return $this->redirect('https://www.helloasso.com/associations/archers-de-caen/evenements/inscriptions-tae-des-archers-de-caen');
+        return $this->redirect('https://www.helloasso.com/associations/archers-de-caen/evenements/concours-salle-2023-caen');
     }
 }

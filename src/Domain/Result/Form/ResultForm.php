@@ -16,15 +16,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use function Symfony\Component\Translation\t;
 
+use Symfony\Component\Translation\TranslatableMessage;
+
 abstract class ResultForm extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('category', EnumType::class, [
                 'class' => Category::class,
                 'label' => 'Catégorie',
-                'choice_label' => static fn (Category $category) => t($category->value, domain: 'archer'),
+                'choice_label' => static fn (Category $category): TranslatableMessage => t($category->value, domain: 'archer'),
             ])
             ->add('rank', IntegerType::class, [
                 'label' => 'Classement',
@@ -36,7 +39,7 @@ abstract class ResultForm extends AbstractType
             ->add('weapon', EnumType::class, [
                 'class' => Weapon::class,
                 'label' => 'Arme',
-                'choice_label' => static fn (Weapon $weapon) => t($weapon->value, domain: 'archer'),
+                'choice_label' => static fn (Weapon $weapon): TranslatableMessage => t($weapon->value, domain: 'archer'),
                 'required' => true,
             ])
             ->add('completionDate', DateType::class, [
@@ -48,6 +51,7 @@ abstract class ResultForm extends AbstractType
         ;
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

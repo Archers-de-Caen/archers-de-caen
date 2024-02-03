@@ -43,15 +43,21 @@ autorisé !
 
 ### Lancer le projet
 
-- Copier `.env` vers `.env.local` et éditer avec les bonnes valeurs
-
-
-- `composer install`
-- `npm install`
-
-
-- `php -S localhost:80 -t public`
-- `npm run dev-server`
+```bash
+cp .env .env.local
+```
+```bash
+composer install
+```
+```bash
+npm install
+```
+```bash
+php -S localhost:80 -t public
+```
+```bash
+npm run dev-server
+```
 
 ## Contributeur
 

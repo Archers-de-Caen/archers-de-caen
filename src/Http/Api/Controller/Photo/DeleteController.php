@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
 #[Route(
@@ -20,9 +20,9 @@ use Symfony\Component\Routing\Annotation\Route;
     name: self::ROUTE,
     methods: Request::METHOD_DELETE
 )]
-class DeleteController extends AbstractController
+final class DeleteController extends AbstractController
 {
-    public const ROUTE = 'api_photos_delete';
+    public const string ROUTE = 'api_photos_delete';
 
     public function __invoke(Photo $photo, EntityManagerInterface $em): JsonResponse
     {

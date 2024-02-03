@@ -10,26 +10,31 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class GalleryType extends AbstractType
+final class GalleryType extends AbstractType
 {
+    #[\Override]
     public function getParent(): ?string
     {
         return CollectionType::class;
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'entry_type' => EntityType::class,
-            'allow_add' => true,
             'by_reference' => false,
+            'allow_add' => true,
+            'allow_delete' => true,
             'entry_options' => [
                 'class' => Photo::class,
-                'choice_value' => fn (?Photo $photo) => $photo ? $photo->getToken() : '',
-           ],
+                'choice_label' => 'token',
+                'choice_value' => 'token',
+            ],
         ]);
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'gallery';

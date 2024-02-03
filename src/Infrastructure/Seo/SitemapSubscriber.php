@@ -16,13 +16,14 @@ use Presta\SitemapBundle\Sitemap\Url\UrlConcrete;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class SitemapSubscriber implements EventSubscriberInterface
+final class SitemapSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private readonly PageRepository $pageRepository
     ) {
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

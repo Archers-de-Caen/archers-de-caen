@@ -10,8 +10,10 @@ use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Model\Page;
 use App\Domain\File\Admin\Field\PhotoField;
 use App\Domain\File\Form\PhotoFormType;
+use App\Domain\File\Model\Photo;
 use App\Domain\Newsletter\NewsletterType;
 use App\Http\Admin\Controller\DashboardController;
+use App\Infrastructure\LiipImagine\CacheResolveMessage;
 use App\Infrastructure\Mailing\ActualityNewsletterMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
@@ -37,18 +39,23 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use function Symfony\Component\Translation\t;
 
-class AbstractPageCrudController extends AbstractCrudController
+use Symfony\Component\Translation\TranslatableMessage;
+
+abstract class AbstractPageCrudController extends AbstractCrudController
 {
     public function __construct(
         protected readonly UrlGeneratorInterface $urlGenerator,
+        protected readonly MessageBusInterface $bus,
     ) {
     }
 
+    #[\Override]
     public static function getEntityFqcn(): string
     {
         return Page::class;
     }
 
+    #[\Override]
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
         return parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters)
@@ -61,18 +68,20 @@ class AbstractPageCrudController extends AbstractCrudController
         ;
     }
 
+    #[\Override]
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
             ->setHelp(Crud::PAGE_NEW, 'Le rendu final peut-être différent de l\'éditeur')
             ->setHelp(Crud::PAGE_EDIT, 'Le rendu final peut-être différent de l\'éditeur')
 
-            ->setPageTitle(Crud::PAGE_DETAIL, fn (Page $page) => (string) $page)
+            ->setPageTitle(Crud::PAGE_DETAIL, static fn (Page $page): string => (string) $page)
 
             ->setDefaultSort(['createdAt' => 'DESC'])
         ;
     }
 
+    #[\Override]
     public function configureFields(string $pageName): iterable
     {
         $id = IdField::new('id');
@@ -90,10 +99,10 @@ class AbstractPageCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Status::class,
-                'choice_label' => fn (Status $choice) => t($choice->value, domain: 'page'),
+                'choice_label' => static fn (Status $choice): TranslatableMessage => t($choice->value, domain: 'page'),
                 'choices' => Status::cases(),
             ])
-            ->formatValue(fn ($value, ?Page $entity) => !$value || !$entity || !$entity->getStatus() ? '' : t($entity->getStatus()->value, domain: 'page'))
+            ->formatValue(static fn ($value, ?Page $entity): TranslatableMessage|string => !$value || !$entity instanceof Page || !$entity->getStatus() instanceof Status ? '' : t($entity->getStatus()->value, domain: 'page'))
         ;
 
         $image = PhotoField::new('image')
@@ -113,6 +122,7 @@ class AbstractPageCrudController extends AbstractCrudController
         return [$title, $image, $content];
     }
 
+    #[\Override]
     public function configureFilters(Filters $filters): Filters
     {
         return $filters
@@ -121,6 +131,7 @@ class AbstractPageCrudController extends AbstractCrudController
         ;
     }
 
+    #[\Override]
     public function configureActions(Actions $actions): Actions
     {
         parent::configureActions($actions);
@@ -128,7 +139,7 @@ class AbstractPageCrudController extends AbstractCrudController
         $publish = Action::new('publish')
             ->setLabel('Publier')
             ->linkToCrudAction('publish')
-            ->displayIf(static fn (Page $page) => Status::DRAFT === $page->getStatus())
+            ->displayIf(static fn (Page $page): bool => Status::DRAFT === $page->getStatus())
         ;
 
         return $actions
@@ -153,5 +164,18 @@ class AbstractPageCrudController extends AbstractCrudController
         }
 
         return $this->redirect($context->getReferrer() ?: $urlGenerator->generate(DashboardController::ROUTE));
+    }
+
+    protected function dispatchCache(Page $entityInstance): void
+    {
+        if (!$entityInstance->getImage() instanceof Photo) {
+            return;
+        }
+
+        if (!$entityInstance->getImage()->getImageName()) {
+            return;
+        }
+
+        $this->bus->dispatch(new CacheResolveMessage($entityInstance->getImage()->getImageName()));
     }
 }

@@ -11,8 +11,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * Appelé depuis App\Http\Admin\Controller\DataCrudController::createEditFormBuilder.
  */
-class TakeLicenseForm extends AbstractType
+final class TakeLicenseForm extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -20,10 +21,13 @@ class TakeLicenseForm extends AbstractType
                 'label' => 'Formulaire de demande de création de licence',
             ])
             ->add('assurance', UrlType::class, [
-                'label' => 'Notice d\'assurance',
+                'label' => "Notice d'assurance",
             ])
             ->add('health', UrlType::class, [
                 'label' => 'Questionnaire santé',
+            ])
+            ->add('helloasso', UrlType::class, [
+                'label' => 'Lien vers HelloAsso',
             ])
         ;
     }

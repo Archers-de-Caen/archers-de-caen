@@ -1,23 +1,62 @@
 # Competition
+INDOOR_2x18_M: 'Salle 2x18m'
 indoor_2_x_18_m: 'Salle 2x18m'
+
+INDOOR_4x18_M: 'Salle 4x18m'
 indoor_4_x_18_m: 'Salle 4x18m'
+
+INDOOR_2x25_M: 'Salle 2x25m'
 indoor_2_x_25_m: 'Salle 2x25m'
+
+INDOOR_2x18_M_2x25_M: 'Salle 2x18m+2x25m'
 indoor_2_x_18_m_2_x_25_m: 'Salle 2x18m+2x25m'
+
+FEDERAL_50_M_30_M: 'Fédéral 30m+50m'
 federal_50_m_30_m: 'Fédéral 30m+50m'
+
+FEDERAL_2x50_M: 'Fédéral 2x50m'
 federal_2_x_50_m: 'Fédéral 2x50m'
+
+CAMPAGNE: 'Campagne'
 campagne: 'Campagne'
+
+FITA: 'FITA'
 fita: 'FITA'
+
+FITA_SCRATCH: 'FITA 4x70m'
 fita_4_x_70_m: 'FITA 4x70m'
+
+FITA_4x70_M: 'FITA Scratch'
 fita_scratch: 'FITA Scratch'
+
+BEURSAULT: 'Beursault'
 beursault: 'Beursault'
+
+FLAG_SHOOTING: 'Tir au drapeau'
 flag_shooting: 'Tir au drapeau'
+
+NATURE: 'Nature'
 nature: 'Nature'
+
+THREE_D: '3D'
 three_d: '3D'
+
+FITA_STAR: 'FITA Star'
 fita_star: 'FITA Star'
+
+OUTDOOR_INTERNATIONAL: 'TAE International'
 outdoor_international: 'TAE International'
+
+OUTDOOR_NATIONAL: 'TAE National'
 outdoor_national: 'TAE National'
+
+GOLDEN_APPLE_CHALLENGE: Challenge de la Pomme d'Or
 golden_apple_challenge: Challenge de la Pomme d'Or
+
+PROMOTIONAL: 'Promotionnel'
 promotional: 'Promotionnel'
+
+SPECIAL_YOUNG: 'Spécial jeune'
 special_young: 'Spécial jeune'
 
 # Target

@@ -102,14 +102,14 @@ enum Category: string
             'JH', 'Junior Homme', 'U21 Homme' => self::JUNIOR_MAN,
             'JF', 'Junior Femme', 'U21 Femme' => self::JUNIOR_WOMAN,
 
-            'S1H', 'Senior 1 Homme' => self::SENIOR_ONE_MAN,
-            'S1F', 'Senior 1 Femme' => self::SENIOR_ONE_WOMAN,
+            'S1H', 'Senior 1 Homme', 'S1 Homme' => self::SENIOR_ONE_MAN,
+            'S1F', 'Senior 1 Femme', 'S1 Femme' => self::SENIOR_ONE_WOMAN,
 
-            'S2H', 'Senior 2 Homme' => self::SENIOR_TWO_MAN,
-            'S2F', 'Senior 2 Femme' => self::SENIOR_TWO_WOMAN,
+            'S2H', 'Senior 2 Homme', 'S2 Homme' => self::SENIOR_TWO_MAN,
+            'S2F', 'Senior 2 Femme', 'S2 Femme' => self::SENIOR_TWO_WOMAN,
 
-            'S3H', 'Senior 3 Homme' => self::SENIOR_THREE_MAN,
-            'S3F', 'Senior 3 Femme' => self::SENIOR_THREE_WOMAN,
+            'S3H', 'Senior 3 Homme', 'S3 Homme' => self::SENIOR_THREE_MAN,
+            'S3F', 'Senior 3 Femme', 'S3 Femme' => self::SENIOR_THREE_WOMAN,
 
             'SH', 'Senior Homme' => self::OLD_SENIOR_MAN,
             'SF', 'Senior Femme' => self::OLD_SENIOR_WOMAN,

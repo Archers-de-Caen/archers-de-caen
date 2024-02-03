@@ -1,0 +1,60 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_content %}
+
+    <table class="table table-bordered table-condensed table-striped">
+        <thead>
+            <tr>
+                <th>Path</th>
+                <th>Files</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for path, cachedFiles in paths %}
+                <tr>
+                    <td>{{ path }}</td>
+                    <td onclick="console.log('{{ cachedFiles|join(',') }}'.split(','))">{{ cachedFiles|length }}</td>
+                    <td>
+                        <a class="btn btn-sm btn-default"
+                           href="{{ path(constant('App\\Http\\Admin\\Controller\\Developer\\Liip\\CreateCacheLiipAdminController::ROUTE'), { 'path': path }) }}"
+                        >
+                            <i class="fa fa-cache"></i> Générer cache
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="content-panel-footer without-padding without-border">
+
+        <div class="list-pagination">
+            <div class="list-pagination-counter">
+                <strong>{{ paths|length }}</strong> résultats
+            </div>
+
+            <nav class="pager list-pagination-paginator first-page ">
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="{{ currentPage != 1 ? ea_url({ page: currentPage - 1 }) : '#' }}">
+                            <i class="fa fa-angle-left mx-1"></i> <span class="btn-label">Précédent</span>
+                        </a>
+                    </li>
+
+                    {% for page in paginator %}
+                        <li class="page-item {% if page == currentPage %}active{% endif %} ">
+                            <a class="page-link" href="{{ ea_url({ page: page }) }}">{{ page }}</a>
+                        </li>
+                    {% endfor %}
+
+                    <li class="page-item ">
+                        <a class="page-link" href="{{ ea_url({ page: currentPage + 1 }) }}">
+                            <span class="btn-label">Suivant</span> <i class="fa fa-angle-right mx-1"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+{% endblock %}

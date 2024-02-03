@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
 #[Route(
@@ -27,9 +27,9 @@ use Symfony\Component\Routing\Annotation\Route;
         Request::METHOD_POST,
     ]
 )]
-class ContactController extends AbstractController
+final class ContactController extends AbstractController
 {
-    public const ROUTE = 'landing_contact';
+    public const string ROUTE = 'landing_contact';
 
     public function __invoke(Request $request, EntityManagerInterface $em, ContactService $contactService): Response
     {
@@ -51,7 +51,7 @@ class ContactController extends AbstractController
             } catch (TooManyContactException) {
                 $this->addFlash('error', 'Vous avez déjà envoyé un message, merci de patienter.');
             } catch (TransportExceptionInterface) {
-                $this->addFlash('error', 'Une erreur est survenue lors de l\'envoi du message.');
+                $this->addFlash('error', "Une erreur est survenue lors de l'envoi du message.");
             }
         }
 

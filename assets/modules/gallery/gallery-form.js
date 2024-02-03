@@ -1,6 +1,6 @@
 window.onload = function() {
     const filesInput = document.querySelector('#gallery-photo')
-    const output = document.querySelector(".gallery-photo-previews")
+    const output = document.querySelector(".gallery-photo-previews table tbody")
 
     if (!filesInput || !output) {
         return
@@ -31,7 +31,7 @@ window.onload = function() {
             newTr.appendChild(newTdUrl)
             newTr.appendChild(newTdAction)
 
-            output.querySelector('table').insertBefore(newTr, null)
+            output.appendChild(newTr)
 
             fetch('/api/photos', {
                 method: 'POST',
@@ -39,13 +39,14 @@ window.onload = function() {
             }).then( response => {
                 response.json().then(json => {
                     if (response.status === 201) {
-                        newTdName.innerText = json.imageOriginalName
-                        newTr.setAttribute('data-photo-token', json.token)
-
                         const input = document.createElement('input')
-                        input.name = document.querySelector('.gallery-input-name').value + '[]'
+                        input.name = document.querySelector('.gallery-input-name').value
                         input.value = json.token
                         input.type = 'hidden'
+                        document.querySelector('.photos-token-list').appendChild(input)
+
+                        newTdName.innerText = json.imageOriginalName
+                        newTr.setAttribute('data-photo-token', json.token)
 
                         const photoPreview = document.createElement('div')
                         photoPreview.classList.add('photo-preview')
@@ -69,8 +70,6 @@ window.onload = function() {
                             removePhoto(e.currentTarget.closest('.gallery-photo-preview'))
                         })
                         newTdAction.appendChild(trash)
-
-                        output.appendChild(input)
                     } else {
                         removePhoto(newTr)
 

@@ -33,7 +33,7 @@ class Gallery
     #[Groups([self::SERIALIZER_GROUP_SHOW])]
     private ?string $slug = null;
 
-    #[ORM\OneToOne(inversedBy: 'galleryMainPhoto', targetEntity: Photo::class, cascade: ['persist'])]
+    #[ORM\OneToOne(targetEntity: Photo::class, cascade: ['persist'])]
     #[Groups([self::SERIALIZER_GROUP_SHOW])]
     private ?Photo $mainPhoto = null;
 
@@ -47,6 +47,12 @@ class Gallery
     public function __construct()
     {
         $this->photos = new ArrayCollection();
+    }
+
+    #[\Override]
+    public function __toString(): string
+    {
+        return $this->getTitle() ?? '';
     }
 
     public function getTitle(): ?string
@@ -93,11 +99,9 @@ class Gallery
 
     public function removePhoto(Photo $photo): self
     {
-        if ($this->photos->removeElement($photo)) {
-            // set the owning side to null (unless already changed)
-            if ($photo->getGallery() === $this) {
-                $photo->setGallery(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->photos->removeElement($photo) && $photo->getGallery() === $this) {
+            $photo->setGallery(null);
         }
 
         return $this;

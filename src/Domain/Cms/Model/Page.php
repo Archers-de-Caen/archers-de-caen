@@ -59,6 +59,7 @@ class Page
         $this->tags = new ArrayCollection();
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->getTitle() ?? 'Erreur: titre non défini';

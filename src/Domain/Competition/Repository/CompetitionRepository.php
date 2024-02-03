@@ -16,7 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @extends ServiceEntityRepository<Competition>
  */
-class CompetitionRepository extends ServiceEntityRepository
+final class CompetitionRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -39,5 +39,20 @@ class CompetitionRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getAllLocations(): array
+    {
+        /* @phpstan-ignore-next-line */
+        return $this->createQueryBuilder('competition')
+            ->select('competition.location')
+            ->distinct()
+            ->orderBy('competition.location', 'ASC')
+            ->getQuery()
+            ->getSingleColumnResult()
+        ;
     }
 }

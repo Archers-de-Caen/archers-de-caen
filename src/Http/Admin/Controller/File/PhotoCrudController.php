@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\File;
 
+use App\Domain\Cms\Model\Gallery;
 use App\Domain\File\Model\Photo;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
@@ -20,7 +22,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
-class PhotoCrudController extends AbstractCrudController
+final class PhotoCrudController extends AbstractCrudController
 {
     public function __construct(
         private readonly EntityRepository $entityRepository,
@@ -29,24 +31,29 @@ class PhotoCrudController extends AbstractCrudController
     ) {
     }
 
+    #[\Override]
     public static function getEntityFqcn(): string
     {
         return Photo::class;
     }
 
+    #[\Override]
     public function configureCrud(Crud $crud): Crud
     {
         return $crud->setDefaultSort(['createdAt' => 'DESC']);
     }
 
+    #[\Override]
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
         return $this->entityRepository->createQueryBuilder($searchDto, $entityDto, $fields, $filters)
-            ->leftJoin('entity.galleryMainPhoto', 'galleryMainPhoto')
+            ->leftJoin(Gallery::class, 'g', Join::WITH, 'g.mainPhoto = entity')
             ->andWhere('entity.gallery IS NULL')
-            ->andWhere('galleryMainPhoto.id IS NULL');
+            ->andWhere('g IS NULL')
+        ;
     }
 
+    #[\Override]
     public function configureFields(string $pageName): iterable
     {
         $id = IdField::new('id');

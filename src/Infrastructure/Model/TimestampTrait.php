@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Model;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 trait TimestampTrait
 {
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Groups(['Timestamp'])]
     private ?\DateTimeInterface $createdAt;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     #[Groups(['Timestamp'])]
     private ?\DateTimeInterface $updatedAt = null;
 

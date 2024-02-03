@@ -107,13 +107,13 @@
                     <span>{{ progressArrow.name }}</span>
                 {% endif %}
 
-                {% for resultProgressArrow in archer.resultsProgressArrow %}
-                    {% if progressArrow == resultProgressArrow.badge %}
-                        <p>{{ resultProgressArrow.score }} | {{ resultProgressArrow.completionDate|date('d M Y') }}</p>
-                    {% else %}
-                        <p>Non obtenu</p>
-                    {% endif %}
-                {% endfor %}
+                {% set resultProgressArrow = archer.resultsProgressArrow|filter(resultProgress => progressArrow == resultProgress.badge) %}
+
+                {% if resultProgressArrow|length %}
+                    <p>{{ resultProgressArrow|first.score }} | {{ resultProgressArrow|first.completionDate|date('d M Y') }}</p>
+                {% else %}
+                    <p>Non obtenu</p>
+                {% endif %}
             </div>
         {% endfor %}
     </div>

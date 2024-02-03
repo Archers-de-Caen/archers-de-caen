@@ -4,32 +4,59 @@ declare(strict_types=1);
 
 namespace App\Http\Landing\Controller\Results;
 
-use App\Domain\Archer\Config\Weapon;
-use App\Domain\Competition\Config\Type;
 use App\Domain\Result\Model\ResultCompetition;
 use App\Domain\Result\Repository\ResultCompetitionRepository;
+use App\Http\Landing\Filter\RecordFilter;
+use App\Http\Landing\Request\RecordFilterDto;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Routing\Annotation\Route;
-
-use function Symfony\Component\Translation\t;
+use Symfony\Component\HttpKernel\Attribute\MapQueryString;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
 #[Route(
     path: '/resultats/record',
     name: self::ROUTE,
-    methods: Request::METHOD_GET
+    methods: [
+        Request::METHOD_GET,
+        Request::METHOD_POST,
+    ]
 )]
-class RecordController extends AbstractController
+final class RecordController extends AbstractController
 {
-    public const ROUTE = 'landing_results_record';
+    public const string ROUTE = 'landing_results_record';
 
-    public function __invoke(ResultCompetitionRepository $resultCompetitionRepository): Response
-    {
-        /** @var ResultCompetition[] $resultRecords */
-        $resultRecords = $resultCompetitionRepository
+    public function __construct(
+        private readonly ResultCompetitionRepository $resultCompetitionRepository
+    ) {
+    }
+
+    public function __invoke(
+        Request $request,
+        #[MapQueryString]
+        ?RecordFilterDto $filterDto,
+    ): Response {
+        $filterForm = $this->createForm(RecordFilter::class, $filterDto);
+        $filterForm->handleRequest($request);
+
+        if ($filterForm->isSubmitted() && $filterForm->isValid()) {
+            $filterDto = $filterForm->getData();
+
+            /** @var SubmitButton $resetBtn */
+            $resetBtn = $filterForm->get('reset');
+
+            if ($resetBtn->isClicked()) {
+                $filterDto = new RecordFilterDto();
+            }
+
+            return $this->redirectToRoute(self::ROUTE, (array) $filterDto);
+        }
+
+        $queryBuilder = $this->resultCompetitionRepository
             ->createQueryBuilder('rc')
 
             ->select('rc')
@@ -39,57 +66,45 @@ class RecordController extends AbstractController
             ->leftJoin('rc.competition', 'c')
             ->leftJoin('rc.archer', 'a')
 
+            ->orderBy('rc.score', 'DESC')
+        ;
+
+        if ($filterDto instanceof RecordFilterDto) {
+            $this->handleFilter($queryBuilder, $filterDto);
+        }
+
+        /** @var ResultCompetition[] $resultRecords */
+        $resultRecords = $queryBuilder
             ->getQuery()
             ->getResult();
 
-        $resultRecordsOrdered = [];
+        return $this->render('/landing/results/result-record.html.twig', [
+            'resultRecords' => $resultRecords,
+            'filterForm' => $filterForm->createView(),
+        ]);
+    }
 
-        foreach ($resultRecords as $resultRecord) {
-            $competition = $resultRecord->getCompetition();
-
-            if (!$competition) {
-                continue;
-            }
-
-            $type = $competition->getType()?->value;
-            $weapon = $resultRecord->getWeapon()?->value;
-            $archer = $resultRecord->getArcher()?->getId()?->__toString();
-
-            if (!$type || !$weapon || !$archer) {
-                continue;
-            }
-
-            if (!isset($resultRecordsOrdered[$type])) {
-                $resultRecordsOrdered[$type] = [];
-            }
-
-            if (!isset($resultRecordsOrdered[$type][$weapon])) {
-                $resultRecordsOrdered[$type][$weapon] = [];
-            }
-
-            if (
-                !isset($resultRecordsOrdered[$type][$weapon][$archer]) ||
-                $resultRecordsOrdered[$type][$weapon][$archer]->getScore() < $resultRecord->getScore()
-            ) {
-                $resultRecordsOrdered[$type][$weapon][$archer] = $resultRecord;
-            }
+    private function handleFilter(QueryBuilder $queryBuilder, RecordFilterDto $filterDto): void
+    {
+        if ($filterDto->type) {
+            $queryBuilder
+                ->andWhere('c.type = :type')
+                ->setParameter('type', $filterDto->type)
+            ;
         }
 
-        return $this->render('/landing/results/result-record.html.twig', [
-            'resultRecords' => $resultRecordsOrdered,
-            'weapons' => Weapon::getInOrder(),
-            'competitionTypes' => array_filter(
-                Type::getInOrder(),
-                static function (Type $competitionType) use ($resultRecordsOrdered) {
-                    foreach ($resultRecordsOrdered as $key => $resultRecordOrdered) {
-                        if (!empty($resultRecordOrdered) && $key === t($competitionType->value, domain: 'competition')->getMessage()) {
-                            return true;
-                        }
-                    }
+        if ($filterDto->weapon) {
+            $queryBuilder
+                ->andWhere('rc.weapon = :weapon')
+                ->setParameter('weapon', $filterDto->weapon)
+            ;
+        }
 
-                    return false;
-                }
-            ),
-        ]);
+        if ($filterDto->onlyArcherLicenced) {
+            $queryBuilder
+                ->leftJoin('a.archerLicenses', 'al', 'WITH', 'al.active = TRUE')
+                ->andWhere('al.id IS NOT NULL')
+            ;
+        }
     }
 }

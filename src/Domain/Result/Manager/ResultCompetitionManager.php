@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\Domain\Result\Manager;
 
+use App\Domain\Archer\Model\Archer;
 use App\Domain\Badge\Model\Badge;
+use App\Domain\Competition\Config\Type;
+use App\Domain\Competition\Model\Competition;
 use App\Domain\Result\Model\Result;
 use App\Domain\Result\Model\ResultBadge;
 use App\Domain\Result\Model\ResultCompetition;
 use Doctrine\ORM\EntityManagerInterface;
 
-class ResultCompetitionManager
+final class ResultCompetitionManager
 {
     public function __construct(readonly private EntityManagerInterface $em)
     {
@@ -18,15 +21,19 @@ class ResultCompetitionManager
 
     public function awardingBadges(ResultCompetition $resultCompetition): void
     {
-        if (!$archer = $resultCompetition->getArcher()) {
+        $archer = $resultCompetition->getArcher();
+
+        if (!$archer instanceof Archer) {
             throw new \UnexpectedValueException('Archer not defined');
         }
 
-        if (!$competition = $resultCompetition->getCompetition()) {
+        $competition = $resultCompetition->getCompetition();
+
+        if (!$competition instanceof Competition) {
             throw new \UnexpectedValueException('Competition not defined');
         }
 
-        if (!$competition->getType()) {
+        if (!$competition->getType() instanceof Type) {
             throw new \UnexpectedValueException('Type not defined');
         }
 
@@ -35,16 +42,16 @@ class ResultCompetitionManager
          * qui s'apprête à être enregistré (persist).
          */
         $resultsBadgeFiltered = $archer->getResultsBadge()
-            ->filter(static function (Result $resultBadge) use ($resultCompetition) {
+            ->filter(static function (Result $resultBadge) use ($resultCompetition): bool {
                 if (!$resultBadge instanceof ResultBadge) {
                     return false;
                 }
 
-                if (!$competition = $resultCompetition->getCompetition()) {
+                if (!($competition = $resultCompetition->getCompetition()) instanceof Competition) {
                     return false;
                 }
 
-                if (!$resultBadge->getBadge()) {
+                if (!$resultBadge->getBadge() instanceof Badge) {
                     return false;
                 }
 
@@ -56,11 +63,7 @@ class ResultCompetitionManager
                     return false;
                 }
 
-                if ($resultBadge->getBadge()->getCompetitionType() !== $competition->getType()) {
-                    return false;
-                }
-
-                return true;
+                return $resultBadge->getBadge()->getCompetitionType() === $competition->getType();
             })
             ->toArray();
 
@@ -81,12 +84,15 @@ class ResultCompetitionManager
             ->getQuery()
             ->getResult();
 
-        $badges = array_filter($badges, static function (Badge $badge) use ($resultCompetition) {
-            if (empty($badge->getConditions()['weapon'])) {
+        $badges = array_filter($badges, static function (Badge $badge) use ($resultCompetition): bool {
+            $weapon = $badge->getConditions()['weapon'] ?? null;
+            $type = $badge->getConditions()['type'] ?? null;
+
+            if (!$weapon || !$type) {
                 return false;
             }
 
-            return $badge->getConditions()['weapon'] === $resultCompetition->getWeapon()?->value && 'minScore' === $badge->getConditions()['type'];
+            return $weapon === $resultCompetition->getWeapon()?->value && 'minScore' === $type;
         });
 
         uasort($badges, static function (Badge $first, Badge $second): int {
@@ -118,30 +124,30 @@ class ResultCompetitionManager
 
     public function awardingRecord(ResultCompetition $resultCompetition): ResultCompetition
     {
-        if (!$archer = $resultCompetition->getArcher()) {
+        $archer = $resultCompetition->getArcher();
+
+        if (!$archer instanceof Archer) {
             throw new \UnexpectedValueException('Archer not defined');
         }
 
-        if (!$competition = $resultCompetition->getCompetition()) {
+        $competition = $resultCompetition->getCompetition();
+
+        if (!$competition instanceof Competition) {
             throw new \UnexpectedValueException('Competition not defined');
         }
 
-        if (!$competition->getType()) {
+        if (!$competition->getType() instanceof Type) {
             throw new \UnexpectedValueException('Type not defined');
         }
 
         // Filtrage des records de l'archer, selon le type de competition et d'arme que l'archer vien d'accomplir.
         $resultsCompetitionFiltered = $archer->getResultsCompetition()
-            ->filter(static function (Result $oldResultCompetition) use ($resultCompetition) {
+            ->filter(static function (Result $oldResultCompetition) use ($resultCompetition, $competition): bool {
                 if (!$oldResultCompetition instanceof ResultCompetition) {
                     return false;
                 }
 
-                if (!$competition = $resultCompetition->getCompetition()) {
-                    return false;
-                }
-
-                if (!$oldResultCompetition->getCompetition()) {
+                if (!$oldResultCompetition->getCompetition() instanceof Competition) {
                     return false;
                 }
 
@@ -153,11 +159,7 @@ class ResultCompetitionManager
                     return false;
                 }
 
-                if ($oldResultCompetition->getScore() <= $resultCompetition->getScore()) {
-                    return false;
-                }
-
-                return true;
+                return $oldResultCompetition->getScore() > $resultCompetition->getScore();
             });
 
         if (!$resultsCompetitionFiltered->count()) {

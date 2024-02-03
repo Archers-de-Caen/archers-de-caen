@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 
-class FormHelper
+final class FormHelper
 {
     public static function getErrorsArray(FormInterface $form): array
     {
@@ -24,12 +24,17 @@ class FormHelper
                 'value' => array_values($cause->getParameters())[0],
             ];
         }
+
         foreach ($form->all() as $childForm) {
-            if ($childForm instanceof FormInterface) {
-                if ($childErrors = self::getErrorsArray($childForm)) {
-                    $errors[$childForm->getName()] = $childErrors;
-                }
+            if (!$childForm instanceof FormInterface) {
+                continue;
             }
+
+            if (!($childErrors = self::getErrorsArray($childForm))) {
+                continue;
+            }
+
+            $errors[$childForm->getName()] = $childErrors;
         }
 
         return $errors;

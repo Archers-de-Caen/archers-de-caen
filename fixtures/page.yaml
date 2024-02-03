@@ -1,13 +1,16 @@
 include:
   - ./archer.yaml
+  - ./tag.yaml
 
 App\Domain\Cms\Model\Page:
   page (template):
     title: <sentence()>
     content: <randomHtml(6, 10)>
-    category: page
-    status: <randomElement([draft, publish, delete])>
+    category: <enum("App\Domain\Cms\Config\Category", "PAGE")>
+    status: <randomElement(["draft", "publish", "delete"])>
     createdBy: '@archer_editor'
+    tags:
+      - '@tag_*'
 
   page_{1..10} (extends page):
 

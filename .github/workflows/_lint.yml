@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.1
+          php-version: 8.3
 
       - uses: actions/checkout@v3
 
@@ -28,3 +28,25 @@ jobs:
 
       - name: Phpstan
         run: vendor/bin/phpstan analyse -c tools/phpstan/phpstan.neon
+
+  rector:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+
+      - uses: actions/checkout@v3
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+
+      - name: "Décompression des dépendances"
+        uses: montudor/action-zip@v1
+        with:
+          args: unzip -qq build.zip
+
+      - name: Rector
+        run: .github/scripts/rector.sh

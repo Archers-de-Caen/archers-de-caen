@@ -101,6 +101,14 @@
             Chaque année, de nombreux archers caennais participent à diverses compétitions et
             championnats à l’échelle départementale, régionale et même nationale.
         </p>
+        <p class="description">
+            <a
+                href="{{ path(constant('App\\Http\\Landing\\Controller\\LicenseController::ROUTE')) }}"
+                class="btn -primary"
+            >
+                Prendre ma licence
+            </a>
+        </p>
     </div>
     <div class="flex text-line-height-small">
         <div>
@@ -110,8 +118,8 @@
                     <span class="ml-1 text-weight-bold">Où</span>
                 </div>
                 <span class="text-small">
-                                        En intérieur ou extérieur retrouvé où venir pratiquer
-                                    </span>
+                    En intérieur ou extérieur retrouvé où venir pratiquer
+                </span>
             </a>
             <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ClubController::ROUTE')) }}#comment"
                class="mt-2"
@@ -121,8 +129,8 @@
                     <span class="ml-1 text-weight-bold">Comment</span>
                 </div>
                 <span class="text-small">
-                                        On réponds à toutes vos interrogations sur la pratique dans le club
-                                    </span>
+                        On réponds à toutes vos interrogations sur la pratique dans le club
+                    </span>
             </a>
             <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ClubController::ROUTE')) }}#quand"
                class="mt-2"
@@ -132,9 +140,9 @@
                     <span class="ml-1 text-weight-bold">Quand</span>
                 </div>
                 <span class="text-small">
-                                        Avec 6 créneaux d’entraînement en salle les Archers de Caen offrent une structure
-                                        idéale pour pratiquer le tir à l’arc.
-                                    </span>
+                    Avec 6 créneaux d’entraînement en salle les Archers de Caen offrent une structure
+                    idéale pour pratiquer le tir à l’arc.
+                </span>
             </a>
             <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ClubController::ROUTE')) }}#combien"
                class="mt-2"
@@ -144,8 +152,8 @@
                     <span class="ml-1 text-weight-bold">Combien</span>
                 </div>
                 <span class="text-small">
-                                        Retrouvé les différents tarifs de la licence sportive
-                                    </span>
+                    Retrouvé les différents tarifs de la licence sportive
+                </span>
             </a>
             <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ClubController::ROUTE')) }}#qui"
                class="mt-2"
@@ -155,9 +163,9 @@
                     <span class="ml-1 text-weight-bold">Qui</span>
                 </div>
                 <span class="text-small">
-                                        Le club est fier, de compter parmi ses membres une équipe de bénévoles œuvrant
-                                        activement aux différentes animations du club
-                                    </span>
+                    Le club est fier, de compter parmi ses membres une équipe de bénévoles œuvrant
+                    activement aux différentes animations du club
+                </span>
             </a>
         </div>
         <div class="ml-3">
@@ -167,8 +175,8 @@
                     <span class="ml-1 text-weight-bold">Historique</span>
                 </div>
                 <span class="text-small">
-                                        Depuis le 4 juin 1959, le club a beaucoup évolué, venez découvrir toute son histoire
-                                    </span>
+                    Depuis le 4 juin 1959, le club a beaucoup évolué, venez découvrir toute son histoire
+                </span>
             </a>
             <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\PageController::ROUTE'), { slug: 'labels', type: 'p' }) }}"
                class="mt-2"
@@ -178,8 +186,8 @@
                     <span class="ml-1 text-weight-bold">Labels</span>
                 </div>
                 <span class="text-small">
-                                        La FFTA attribue différents labels reconnaissants les efforts de structuration des clubs
-                                    </span>
+                    La FFTA attribue différents labels reconnaissants les efforts de structuration des clubs
+                </span>
             </a>
             <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\PageController::ROUTE'), { slug: 'statuts', type: 'p' }) }}"
                class="mt-2"
@@ -189,9 +197,9 @@
                     <span class="ml-1 text-weight-bold">Statuts</span>
                 </div>
                 <span class="text-small">
-                                        Les statuts sont l'acte de naissance de l'association.
-                                        Ils comportent les informations décrivant l'association et ses règles de fonctionnement
-                                    </span>
+                    Les statuts sont l'acte de naissance de l'association.
+                    Ils comportent les informations décrivant l'association et ses règles de fonctionnement
+                </span>
             </a>
             <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\PageController::ROUTE'), { slug: 'presse-et-medias', type: 'p' }) }}"
                class="mt-2"
@@ -201,8 +209,8 @@
                     <span class="ml-1 text-weight-bold">Presse et médias</span>
                 </div>
                 <span class="text-small">
-                                        Ici vous trouverez des articles de presse et autres médias parlant du club des Archers de Caen
-                                    </span>
+                    Ici vous trouverez des articles de presse et autres médias parlant du club des Archers de Caen
+                </span>
             </a>
             <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\PageController::ROUTE'), { slug: 'reglement-intérieur', type: 'p' }) }}"
                class="mt-2"
@@ -212,23 +220,21 @@
                     <span class="ml-1 text-weight-bold">Règlement intérieur</span>
                 </div>
                 <span class="text-small">
-                                        Ce règlement intérieur est le complément aux statuts des Archers de Caen.
-                                    </span>
+                    Ce règlement intérieur est le complément aux statuts des Archers de Caen.
+                </span>
             </a>
         </div>
     </div>
     <div>
         <p>D'autres pages qui pourraient vous intéresser</p>
         <ul class="mt-1 text-medium">
-            <li>
-                <a href="">Les résultats notables</a>
-            </li>
-            <li>
-                <a href="">La gazette</a>
-            </li>
-            <li>
-                <a href="">Contact</a>
-            </li>
+            {% for clubOtherPage in headerData.clubOtherPages %}
+                <li>
+                    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\PageController::ROUTE'), { slug: clubOtherPage.slug }) }}">
+                        {{ clubOtherPage.title }}
+                    </a>
+                </li>
+            {% endfor %}
         </ul>
     </div>
 </div>
@@ -247,10 +253,26 @@
     </div>
     <div>
         <div class="thumbnails">
-            {{ thumbnail(path('landing_results_arrow'), asset('build/images/photo/fleche_de_progression.webp'), 'Fleches de progression') }}
-            {{ thumbnail(path('landing_results_competitions_seasons'), asset('build/images/photo/trapa_et_coupe.webp'), 'Concours') }}
-            {{ thumbnail(path('landing_results_record'), asset('build/images/photo/cible_tout_dans_le_dix.webp'), 'Record') }}
-            {{ thumbnail(path('landing_results_federal_honors'), asset('build/images/photo/badge_70.webp'), 'Distinctions fédérales') }}
+            {{ thumbnail(
+                path(constant('App\\Http\\Landing\\Controller\\Results\\ArrowsController::ROUTE')),
+                asset('build/images/photo/fleche_de_progression.webp'),
+                'Fleches de progression'
+            ) }}
+            {{ thumbnail(
+                path(constant('App\\Http\\Landing\\Controller\\Results\\CompetitionListController::ROUTE')),
+                asset('build/images/photo/trapa_et_coupe.webp'),
+                'Concours'
+            ) }}
+            {{ thumbnail(
+                path(constant('App\\Http\\Landing\\Controller\\Results\\RecordController::ROUTE')),
+                asset('build/images/photo/cible_tout_dans_le_dix.webp'),
+                'Record'
+            ) }}
+            {{ thumbnail(
+                path(constant('App\\Http\\Landing\\Controller\\Results\\FederalHonorsController::ROUTE')),
+                asset('build/images/photo/badge_70.webp'),
+                'Distinctions fédérales'
+            ) }}
         </div>
     </div>
     <div>
@@ -276,7 +298,7 @@
             <p class="title">Le sport</p>
         </div>
         <p class="description">
-            Nous avons essayer de regrouper ici toutes les informations utiles pour la pratique du tir à l'arc.
+            Nous avons essayé de regrouper ici toutes les informations utiles pour la pratique du tir à l'arc.
         </p>
     </div>
     <div class="flex --gap-2">
@@ -325,14 +347,14 @@
         <div class="thumbnails">
             {% for gallery in headerData.galleries %}
                 {{ thumbnail(
-                    path('landing_gallery', { slug: gallery.slug }),
+                    path(constant('App\\Http\\Landing\\Controller\\Gallery\\GalleryController::ROUTE'), { slug: gallery.slug }),
                     gallery.mainPhoto is defined and gallery.mainPhoto ? gallery.mainPhoto|imagine_filter('thumbnail') : asset('build/images/photo/cible.webp'),
                     gallery.title
                 ) }}
             {% endfor %}
         </div>
 
-        <a href="{{ path('landing_actualities') }}" class="highlighted mt-3">
+        <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Gallery\\GalleriesController::ROUTE')) }}" class="highlighted mt-3">
             <span>Voir tous les albums</span>
             <i class="fa-solid fa-arrow-right ml-1"></i>
         </a>

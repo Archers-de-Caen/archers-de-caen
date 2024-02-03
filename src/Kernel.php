@@ -9,10 +9,11 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 
-class Kernel extends BaseKernel implements CompilerPassInterface
+final class Kernel extends BaseKernel implements CompilerPassInterface
 {
     use MicroKernelTrait;
 
+    #[\Override]
     public function process(ContainerBuilder $container): void
     {
         $typesDefinition = [];

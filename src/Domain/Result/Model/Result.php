@@ -54,6 +54,7 @@ abstract class Result
     #[Assert\NotBlank]
     private ?\DateTimeInterface $completionDate = null;
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->getArcher()?->__toString().' | '.$this->getScore().' points | '.$this->getRank();
@@ -97,7 +98,7 @@ abstract class Result
 
     public function onThePodium(): bool
     {
-        return 0 !== $this->getRank() && $this->getRank() <= 3;
+        return null !== $this->getRank() && 0 !== $this->getRank() && $this->getRank() <= 3;
     }
 
     public function getCategory(): ?Category
