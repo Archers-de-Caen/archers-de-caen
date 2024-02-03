@@ -66,6 +66,8 @@ final class RecordController extends AbstractController
             ->leftJoin('rc.competition', 'c')
             ->leftJoin('rc.archer', 'a')
 
+            ->groupBy('a.id', 'c.type', 'rc.weapon')
+
             ->orderBy('rc.score', 'DESC')
         ;
 
