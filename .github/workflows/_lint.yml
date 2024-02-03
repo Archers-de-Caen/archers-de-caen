@@ -50,7 +50,7 @@ jobs:
 
       - name: Rector
         run: |
-          RESULT=$(vendor/bin/rector process src --dry-run)
+          RESULT=$(vendor/bin/rector process src --dry-run --no-progress-bar)
 
           if [[ $RESULT != *"[OK] Rector is done"* ]]; then
             echo "Rector found some issues"
