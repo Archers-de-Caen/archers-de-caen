@@ -62,13 +62,14 @@ final class RecordController extends AbstractController
             ->select('rc')
             ->addSelect('c')
             ->addSelect('a')
+            ->addSelect('MAX(rc.score) as max_score')
 
             ->leftJoin('rc.competition', 'c')
             ->leftJoin('rc.archer', 'a')
 
-            ->groupBy('a.id', 'c.type', 'rc.weapon')
+            ->groupBy('a.id', 'c.type', 'rc.weapon', 'rc.category')
 
-            ->orderBy('rc.score', 'DESC')
+            ->orderBy('max_score', 'DESC')
         ;
 
         if ($filterDto instanceof RecordFilterDto) {
