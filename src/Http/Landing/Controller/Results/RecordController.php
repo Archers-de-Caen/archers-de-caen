@@ -40,6 +40,8 @@ final class RecordController extends AbstractController
         #[MapQueryString]
         ?RecordFilterDto $filterDto,
     ): Response {
+        $filterDto ??= new RecordFilterDto();
+
         $filterForm = $this->createForm(RecordFilter::class, $filterDto);
         $filterForm->handleRequest($request);
 
@@ -56,35 +58,36 @@ final class RecordController extends AbstractController
             return $this->redirectToRoute(self::ROUTE, (array) $filterDto);
         }
 
-        $queryBuilder = $this->resultCompetitionRepository
-            ->createQueryBuilder('rc')
+        $queryBuilder = $this->createQueryBuilder();
 
-            ->select('rc')
-            ->addSelect('c')
-            ->addSelect('a')
-            ->addSelect('MAX(rc.score) as max_score')
-
-            ->leftJoin('rc.competition', 'c')
-            ->leftJoin('rc.archer', 'a')
-
-            ->groupBy('a.id', 'c.type', 'rc.weapon', 'rc.category')
-
-            ->orderBy('max_score', 'DESC')
-        ;
-
-        if ($filterDto instanceof RecordFilterDto) {
-            $this->handleFilter($queryBuilder, $filterDto);
-        }
+        $this->handleFilter($queryBuilder, $filterDto);
 
         /** @var ResultCompetition[] $resultRecords */
         $resultRecords = $queryBuilder
             ->getQuery()
             ->getResult();
 
+        $resultRecords = $this->getBestResultForEachArcher($resultRecords);
+
         return $this->render('/landing/results/result-record.html.twig', [
             'resultRecords' => $resultRecords,
             'filterForm' => $filterForm->createView(),
         ]);
+    }
+
+    private function createQueryBuilder(): QueryBuilder
+    {
+        return $this->resultCompetitionRepository
+            ->createQueryBuilder('rc')
+
+            ->select('rc')
+            ->addSelect('c')
+            ->addSelect('a')
+
+            ->leftJoin('rc.competition', 'c')
+            ->leftJoin('rc.archer', 'a')
+
+            ->orderBy('rc.score', 'DESC');
     }
 
     private function handleFilter(QueryBuilder $queryBuilder, RecordFilterDto $filterDto): void
@@ -109,5 +112,18 @@ final class RecordController extends AbstractController
                 ->andWhere('al.id IS NOT NULL')
             ;
         }
+    }
+
+    private function getBestResultForEachArcher(array $resultRecords): array
+    {
+        return array_reduce($resultRecords, function (array $carry, ResultCompetition $result) {
+            $archerId = (string) $result->getArcher()?->getId();
+
+            if (!isset($carry[$archerId]) || $result->getScore() > $carry[$archerId]->getScore()) {
+                $carry[$archerId] = $result;
+            }
+
+            return $carry;
+        }, []);
     }
 }
