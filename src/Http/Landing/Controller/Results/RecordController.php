@@ -116,9 +116,8 @@ final class RecordController extends AbstractController
 
     private function getBestResultForEachArcher(array $resultRecords): array
     {
-        return array_reduce($resultRecords, function (array $carry, ResultCompetition $result) {
+        return array_reduce($resultRecords, static function (array $carry, ResultCompetition $result) : array {
             $archerId = (string) $result->getArcher()?->getId();
-
             if (!isset($carry[$archerId]) || $result->getScore() > $carry[$archerId]->getScore()) {
                 $carry[$archerId] = $result;
             }
