@@ -41,8 +41,9 @@ final class RecordFilter extends AbstractType
             ->add('type', EnumType::class, [
                 'label' => 'Type de concours',
                 'choice_translation_domain' => 'competition',
-                'required' => false,
+                'required' => true,
                 'class' => Type::class,
+                'empty_data' => Type::INDOOR_2x18_M,
             ])
             ->get('type')
             ->addModelTransformer(new CallbackTransformer(
@@ -67,8 +68,9 @@ final class RecordFilter extends AbstractType
             ->add('weapon', EnumType::class, [
                 'label' => 'Arme',
                 'choice_translation_domain' => 'archer',
-                'required' => false,
+                'required' => true,
                 'class' => Weapon::class,
+                'empty_data' => Weapon::RECURVE_BOW,
             ])
             ->get('weapon')
             ->addModelTransformer(new CallbackTransformer(

@@ -41,3 +41,5 @@ public/document/
 
 tools/php-cs-fixer/.php-cs-fixer.cache
 public/sitemap.*
+
+.DS_Store
