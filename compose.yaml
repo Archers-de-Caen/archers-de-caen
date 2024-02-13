@@ -9,9 +9,12 @@ services:
       TRUSTED_HOSTS: ^${SERVER_NAME:-example\.com|localhost}|php$$
 
       DATABASE_URL: mysql://root:!ChangeMe!@database:3306/app?serverVersion=5.7&charset=utf8
+
+      CADDY_SERVER_EXTRA_DIRECTIVES: "tls /etc/caddy/certs/tls.pem /etc/caddy/certs/tls.key"
     volumes:
       - caddy_data:/data
       - caddy_config:/config
+      - ./tools/frankenphp/certs:/etc/caddy/certs:ro
     ports:
       # HTTP
       - target: 80
