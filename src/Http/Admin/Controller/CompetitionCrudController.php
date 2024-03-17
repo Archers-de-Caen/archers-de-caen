@@ -17,7 +17,6 @@ use App\Http\Landing\Controller\Results\CompetitionController;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
@@ -33,7 +32,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use function Symfony\Component\Translation\t;
 
-class CompetitionCrudController extends AbstractCrudController
+use Symfony\Component\Translation\TranslatableMessage;
+
+final class CompetitionCrudController extends AbstractCrudController
 {
     public function __construct(
         readonly private ResultCompetitionManager $resultCompetitionManager,
@@ -43,11 +44,13 @@ class CompetitionCrudController extends AbstractCrudController
     ) {
     }
 
+    #[\Override]
     public static function getEntityFqcn(): string
     {
         return Competition::class;
     }
 
+    #[\Override]
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
@@ -56,6 +59,7 @@ class CompetitionCrudController extends AbstractCrudController
         ;
     }
 
+    #[\Override]
     public function configureActions(Actions $actions): Actions
     {
         $publicLink = Action::new('publicLink', 'Page public')
@@ -92,6 +96,7 @@ class CompetitionCrudController extends AbstractCrudController
         ;
     }
 
+    #[\Override]
     public function configureFields(string $pageName): iterable
     {
         $id = IdField::new('id');
@@ -109,10 +114,10 @@ class CompetitionCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Type::class,
-                'choice_label' => fn (Type $choice) => t($choice->value, domain: 'competition'),
+                'choice_label' => static fn (Type $choice): TranslatableMessage => t($choice->value, domain: 'competition'),
                 'choices' => Type::cases(),
             ])
-            ->formatValue(fn ($value, ?Competition $entity) => !$value || !$entity || !$entity->getType() ? '' : t($entity->getType()->value, domain: 'competition'))
+            ->formatValue(static fn ($value, ?Competition $entity): TranslatableMessage|string => !$value || !$entity instanceof Competition || !$entity->getType() instanceof Type ? '' : t($entity->getType()->value, domain: 'competition'))
         ;
 
         $createdAt = DateTimeField::new('createdAt')
@@ -131,10 +136,8 @@ class CompetitionCrudController extends AbstractCrudController
             ->setFormTypeOption('mapped', false)
             ->setFormTypeOption('attr', ['checked' => true]);
 
-        if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {
-            if ($this->isGranted(Archer::ROLE_DEVELOPER)) {
-                yield $id;
-            }
+        if ((Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) && $this->isGranted(Archer::ROLE_DEVELOPER)) {
+            yield $id;
         }
 
         if (Crud::PAGE_DETAIL === $pageName) {
@@ -159,6 +162,7 @@ class CompetitionCrudController extends AbstractCrudController
     /**
      * @param Competition $entityInstance
      */
+    #[\Override]
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         foreach ($entityInstance->getResults() as $result) {
@@ -198,9 +202,10 @@ class CompetitionCrudController extends AbstractCrudController
     /**
      * @param Competition $entityInstance
      */
+    #[\Override]
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        $resultsNotPersisted = $entityInstance->getResults()->filter(static fn (ResultCompetition $resultCompetition) => !$resultCompetition->getId());
+        $resultsNotPersisted = $entityInstance->getResults()->filter(static fn (ResultCompetition $resultCompetition): bool => !$resultCompetition->getId());
 
         foreach ($resultsNotPersisted as $result) {
             $this->resultCompetitionManager->awardingBadges($result);

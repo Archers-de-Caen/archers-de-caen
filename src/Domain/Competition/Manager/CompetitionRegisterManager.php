@@ -10,7 +10,6 @@ use App\Domain\Cms\Model\Page;
 use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\Competition\Model\CompetitionRegisterDeparture;
 use App\Domain\Competition\Model\CompetitionRegisterDepartureTarget;
-use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher;
 use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher as Registration;
 use App\Domain\Competition\Repository\CompetitionRegisterDepartureTargetArcherRepository as RegistrationRepository;
 use App\Infrastructure\Exception\InvalidSubmitCompetitionRegisterException;
@@ -28,7 +27,7 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-class CompetitionRegisterManager
+final class CompetitionRegisterManager
 {
     public function __construct(
         readonly private Environment $environment,
@@ -69,13 +68,13 @@ class CompetitionRegisterManager
     public function handleSubmitForm(
         FormInterface $form,
         CompetitionRegister $competitionRegister,
-        CompetitionRegisterDepartureTargetArcher $register
+        Registration $register
     ): void {
         $recap = [];
 
         $departures = $competitionRegister
             ->getDepartures()
-            ->filter(fn (CompetitionRegisterDeparture $crd) => $crd->getRegistration() <= $crd->getMaxRegistration());
+            ->filter(static fn (CompetitionRegisterDeparture $crd): bool => $crd->getRegistration() <= $crd->getMaxRegistration());
 
         $firstRegistration = null;
 
@@ -86,7 +85,7 @@ class CompetitionRegisterManager
                 $register->setTarget($target);
                 $clonedRegister = clone $register;
 
-                if (!$firstRegistration) {
+                if (!$firstRegistration instanceof Registration) {
                     $firstRegistration = $clonedRegister;
                 }
 
@@ -102,9 +101,9 @@ class CompetitionRegisterManager
         $isArcherDeCaen = $archer && $archer->getArcherLicenseActive();
         $registrations = $this->competitionRegisterDepartureTargetArcherRepository
             ->findByCompetitionRegisterAndLicenseNumber($competitionRegister, $licenseNumber);
-        $alreadyPaid = \count(array_filter($registrations, static fn (Registration $crdta) => $crdta->isPaid()));
+        $alreadyPaid = \count(array_filter($registrations, static fn (Registration $crdta): bool => $crdta->isPaid()));
 
-        if ($firstRegistration && $isArcherDeCaen && !$alreadyPaid) {
+        if ($firstRegistration instanceof Registration && $isArcherDeCaen && !$alreadyPaid) {
             $firstRegistration->setPaid(true);
         }
 
@@ -118,7 +117,7 @@ class CompetitionRegisterManager
         $this->sendEmailToCompetitionOwner($register, $recap);
     }
 
-    private function sendEmailToParticipant(CompetitionRegisterDepartureTargetArcher $register, array $recap): void
+    private function sendEmailToParticipant(Registration $register, array $recap): void
     {
         if (!$register->getEmail()) {
             return;
@@ -141,7 +140,7 @@ class CompetitionRegisterManager
         $this->mailer->send($email);
     }
 
-    private function sendEmailToCompetitionOwner(CompetitionRegisterDepartureTargetArcher $register, array $recap): void
+    private function sendEmailToCompetitionOwner(Registration $register, array $recap): void
     {
         if (!$register->getEmail()) {
             return;
@@ -153,7 +152,7 @@ class CompetitionRegisterManager
                     'recap' => $recap,
                     'register' => $register,
                 ]);
-        } catch (EmailRenderingException $e) {
+        } catch (EmailRenderingException $emailRenderingException) {
             return;
         }
 
@@ -171,7 +170,7 @@ class CompetitionRegisterManager
     {
         $registrations = array_values($registrations);
 
-        if (!\count($registrations)) {
+        if ([] === $registrations) {
             return false;
         }
 

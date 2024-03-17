@@ -2,13 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Controller\Landing\Page;
+namespace App\Tests\Http\Landing\Controller\Page;
 
-use App\Http\Landing\Controller\Page\ClubController;
 use App\Tests\Ressources\Services\Fixtures\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Router;
 
 /**
  * @internal

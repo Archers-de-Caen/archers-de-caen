@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
 #[Route(
@@ -21,9 +21,9 @@ use Symfony\Component\Routing\Annotation\Route;
     options: ['sitemap' => true],
     methods: Request::METHOD_GET
 )]
-class GalleriesController extends AbstractController
+final class GalleriesController extends AbstractController
 {
-    public const ROUTE = 'landing_galleries';
+    public const string ROUTE = 'landing_galleries';
 
     public function __invoke(Request $request, GalleryRepository $galleryRepository): Response
     {

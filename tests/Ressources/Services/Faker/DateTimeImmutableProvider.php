@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Ressources\Services\Fixtures;
+namespace App\Tests\Ressources\Services\Faker;
 
 use Faker\Provider\DateTime;
 

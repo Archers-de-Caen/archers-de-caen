@@ -25,6 +25,9 @@ class Tag
     #[Assert\NotBlank]
     private ?string $name = null;
 
+    /**
+     * @var Collection<int, Page>
+     */
     #[ORM\ManyToMany(targetEntity: Page::class, mappedBy: 'tags')]
     private Collection $pages;
 
@@ -33,6 +36,7 @@ class Tag
         $this->pages = new ArrayCollection();
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->getName() ?? 'Erreur: nom non défini';

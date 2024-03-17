@@ -7,7 +7,7 @@ namespace App\Http\App\Controller\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
 #[Route(
@@ -15,16 +15,16 @@ use Symfony\Component\Routing\Annotation\Route;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-class LogoutController extends AbstractController
+final class LogoutController extends AbstractController
 {
-    public const ROUTE = 'app_logout';
+    public const string ROUTE = 'app_logout';
 
     /**
      * @throws \Exception
      */
-    public function __invoke(): void
+    public function __invoke(): never
     {
         // controller can be blank: it will never be called!
-        throw new \Exception('Don\'t forget to activate logout in security.yaml');
+        throw new \Exception("Don't forget to activate logout in security.yaml");
     }
 }

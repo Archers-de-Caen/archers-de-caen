@@ -1,0 +1,36 @@
+# Development environment override
+services:
+  php:
+    build:
+      context: .
+      target: frankenphp_dev
+    volumes:
+      - ./:/app
+      - ./tools/frankenphp/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./tools/frankenphp/conf.d/app.dev.ini:/usr/local/etc/php/conf.d/app.dev.ini:ro
+      - ./tools/frankenphp/certs:/etc/caddy/certs:ro
+    environment:
+      # See https://xdebug.org/docs/all_settings#mode
+      XDEBUG_MODE: "${XDEBUG_MODE:-off}"
+
+      CADDY_EXTRA_CONFIG: "tls /etc/caddy/certs/tls.pem /etc/caddy/certs/tls.key"
+    extra_hosts:
+      # Ensure that host.docker.internal is correctly defined on Linux
+      - host.docker.internal:host-gateway
+
+  database:
+    ports:
+      - "3306"
+
+  mailer:
+    image: schickling/mailcatcher
+    ports:
+      - "1025"
+      - "1080"
+
+  encore:
+    build:
+      context: .
+      target: encore
+    volumes:
+      - ./:/app

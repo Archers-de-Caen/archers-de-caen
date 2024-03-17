@@ -10,7 +10,7 @@ use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Events;
 
 #[AsDoctrineListener(event: Events::prePersist)]
-class TokenSubscriber
+final class TokenSubscriber
 {
     /**
      * @throws \Exception

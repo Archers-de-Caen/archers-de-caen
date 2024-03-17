@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Uid\Uuid;
 
 #[AsController]
@@ -24,9 +24,9 @@ use Symfony\Component\Uid\Uuid;
     name: self::ROUTE,
     methods: Request::METHOD_POST
 )]
-class HelloassoWebhookController extends AbstractController
+final class HelloassoWebhookController extends AbstractController
 {
-    public const ROUTE = 'webhook_helloasso';
+    public const string ROUTE = 'webhook_helloasso';
 
     public function __construct(private readonly EntityManagerInterface $em)
     {
@@ -55,9 +55,9 @@ class HelloassoWebhookController extends AbstractController
                 ;
 
                 $msg = match ($event->getEventType()) {
-                    Event::EVENT_TYPE_ORDER => $this->order($event),
+                    Event::EVENT_TYPE_ORDER => $this->order(),
                     Event::EVENT_TYPE_PAYMENT => $this->payment($event),
-                    Event::EVENT_TYPE_FORM => $this->form($event),
+                    Event::EVENT_TYPE_FORM => $this->form(),
                     default => $event->getEventType().' not implemented',
                 };
             } catch (InvalidValueException|\JsonException $e) {
@@ -76,7 +76,7 @@ class HelloassoWebhookController extends AbstractController
         return $this->json('OK');
     }
 
-    private function order(Event $event): string
+    private function order(): string
     {
         return 'Order type not implemented';
     }
@@ -88,7 +88,7 @@ class HelloassoWebhookController extends AbstractController
         }
 
         $registrations = $this->em->getRepository(CompetitionRegisterDepartureTargetArcher::class)->findBy([
-            'id' => array_map(static fn (string $id) => Uuid::fromString($id)->toBinary(), $registrationIds),
+            'id' => array_map(static fn (string $id): string => Uuid::fromString($id)->toBinary(), $registrationIds),
         ]);
 
         foreach ($registrations as $registration) {
@@ -98,7 +98,7 @@ class HelloassoWebhookController extends AbstractController
         return \count($registrations).' registration paid ('.implode(', ', $registrationIds).')';
     }
 
-    private function form(Event $event): string
+    private function form(): string
     {
         return 'Form type not implemented';
     }

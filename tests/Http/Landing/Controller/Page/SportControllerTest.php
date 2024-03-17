@@ -2,23 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Controller\Landing\Page;
+namespace App\Tests\Http\Landing\Controller\Page;
 
-use App\Domain\Cms\Model\Page;
-use App\Tests\Ressources\Services\Fixtures\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @internal
  */
-class PlanningControllerTest extends WebTestCase
+class SportControllerTest extends WebTestCase
 {
     public function testPageLoadSuccessfully(): void
     {
         $client = static::createClient();
 
-        $crawler = $client->request(Request::METHOD_GET, '/planning');
+        $crawler = $client->request(Request::METHOD_GET, '/le-sport');
 
         self::assertResponseIsSuccessful();
 
@@ -27,6 +25,6 @@ class PlanningControllerTest extends WebTestCase
             ->eq(0)
             ->text();
 
-        self::assertSame('Créneaux d’entraînement', $title);
+        self::assertSame('Le sport', $title);
     }
 }

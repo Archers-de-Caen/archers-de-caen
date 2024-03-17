@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Controller\Landing\Page;
+namespace App\Tests\Http\Landing\Controller\Page;
 
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Newsletter\NewsletterType;

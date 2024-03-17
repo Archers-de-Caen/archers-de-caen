@@ -46,13 +46,18 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     use PhoneTrait;
     use TimestampTrait;
 
-    private const LICENSE_NUMBER_UNIQUE = true;
-    private const EMAIL_UNIQUE = true;
+    private const bool LICENSE_NUMBER_UNIQUE = true;
+
+    private const bool EMAIL_UNIQUE = true;
 
     public const ROLE_ARCHER = 'ROLE_ARCHER';
+
     public const ROLE_EDITOR = 'ROLE_EDITOR';
+
     public const ROLE_ADMIN = 'ROLE_ADMIN';
+
     public const ROLE_DEVELOPER = 'ROLE_DEVELOPER';
+
     public const ROLES = [
         self::ROLE_ARCHER,
         self::ROLE_EDITOR,
@@ -109,10 +114,12 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
 
     public function __construct()
     {
+        $this->results = new ArrayCollection();
         $this->archerLicenses = new ArrayCollection();
         $this->resultsTeams = new ArrayCollection();
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->getLicenseNumber().' | '.$this->getFirstName().' '.$this->getLastName();
@@ -120,6 +127,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
 
     // UserInterface
 
+    #[\Override]
     public function getRoles(): array
     {
         $this->addRole(self::ROLE_ARCHER);
@@ -147,6 +155,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         return $this;
     }
 
+    #[\Override]
     public function eraseCredentials(): void
     {
         $this->setPlainPassword(null);
@@ -157,6 +166,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
      *
      * @throws \Exception
      */
+    #[\Override]
     public function getUserIdentifier(): string
     {
         if (!$this->getLicenseNumber() && !$this->getEmail()) {
@@ -166,6 +176,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         return ($this->getLicenseNumber() ?: $this->getEmail()) ?: '';
     }
 
+    #[\Override]
     public function isEqualTo(UserInterface $user): bool
     {
         return method_exists($user, 'getEmail') && $this->getEmail() === $user->getEmail();
@@ -178,6 +189,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         return $this->getFirstName().' '.$this->getLastName();
     }
 
+    #[\Override]
     public function getPassword(): ?string
     {
         return $this->password;
@@ -239,11 +251,9 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
 
     public function removeArcherLicense(ArcherLicense $archerLicense): self
     {
-        if ($this->archerLicenses->removeElement($archerLicense)) {
-            // set the owning side to null (unless already changed)
-            if ($archerLicense->getArcher() === $this) {
-                $archerLicense->setArcher(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->archerLicenses->removeElement($archerLicense) && $archerLicense->getArcher() === $this) {
+            $archerLicense->setArcher(null);
         }
 
         return $this;
@@ -263,7 +273,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     public function getResultsProgressArrow(): Collection
     {
         /** @var Collection $results */
-        $results = $this->results->filter(static fn (Result $result) => $result instanceof ResultBadge && Badge::PROGRESS_ARROW === $result->getBadge()?->getType());
+        $results = $this->results->filter(static fn (Result $result): bool => $result instanceof ResultBadge && Badge::PROGRESS_ARROW === $result->getBadge()?->getType());
 
         return $results;
     }
@@ -287,7 +297,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     public function getResultsCompetition(): Collection
     {
         /** @var Collection $results */
-        $results = $this->results->filter(static fn (Result $result) => $result instanceof ResultCompetition);
+        $results = $this->results->filter(static fn (Result $result): bool => $result instanceof ResultCompetition);
 
         return $results;
     }
@@ -298,7 +308,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     public function getResultsBadge(): Collection
     {
         /** @var Collection $results */
-        $results = $this->results->filter(static fn (Result $result) => $result instanceof ResultBadge);
+        $results = $this->results->filter(static fn (Result $result): bool => $result instanceof ResultBadge);
 
         return $results;
     }
@@ -315,11 +325,9 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
 
     public function removeResult(Result $result): self
     {
-        if ($this->results->removeElement($result)) {
-            // set the owning side to null (unless already changed)
-            if ($result->getArcher() === $this) {
-                $result->setArcher(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->results->removeElement($result) && $result->getArcher() === $this) {
+            $result->setArcher(null);
         }
 
         return $this;
@@ -371,11 +379,15 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
             return Weapon::COMPOUND_BOW;
         }
 
-        if ($recurveBow > $compoundBow && $recurveBow > $bareBow) {
-            return Weapon::RECURVE_BOW;
+        if ($recurveBow <= $compoundBow) {
+            return null;
         }
 
-        return null;
+        if ($recurveBow <= $bareBow) {
+            return null;
+        }
+
+        return Weapon::RECURVE_BOW;
     }
 
     public function getNewsletters(): array

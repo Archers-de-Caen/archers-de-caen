@@ -10,10 +10,15 @@ jobs:
   symfony-tests:
     runs-on: ubuntu-latest
 
+    env:
+      DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
+      APP_ENV: test
+      APP_SECRET: secret
+
     steps:
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.1
+          php-version: 8.3
 
       - uses: actions/checkout@v3
 
@@ -28,8 +33,6 @@ jobs:
           args: unzip -qq build.zip
 
       - name: Create Database
-        env:
-          DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
         run: |
           mkdir -p data
           touch data/database.sqlite
@@ -37,6 +40,4 @@ jobs:
           php bin/console doctrine:schema:create --no-interaction
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit
-        env:
-          DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
-        run: vendor/bin/phpunit --bootstrap tests/bootstrap.php --configuration phpunit.xml.dist --testdox
+        run: vendor/bin/phpunit --bootstrap tests/bootstrap.php --configuration phpunit.xml.dist

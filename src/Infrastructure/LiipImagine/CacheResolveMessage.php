@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\LiipImagine;
 
-class CacheResolveMessage
+final class CacheResolveMessage
 {
     public function __construct(
         private readonly string|array $path

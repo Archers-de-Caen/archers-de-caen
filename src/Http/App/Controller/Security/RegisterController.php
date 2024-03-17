@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
@@ -27,9 +27,9 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge
         Request::METHOD_POST,
     ]
 )]
-class RegisterController extends AbstractController
+final class RegisterController extends AbstractController
 {
-    public const ROUTE = 'app_register';
+    public const string ROUTE = 'app_register';
 
     public function __invoke(
         Request $request,

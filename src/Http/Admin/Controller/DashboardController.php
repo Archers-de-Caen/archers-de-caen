@@ -21,8 +21,8 @@ use App\Http\Admin\Controller\Badge\ResultBadgeProgressArrowCrudController;
 use App\Http\Admin\Controller\Cms\ActualityCrudControllerAbstract;
 use App\Http\Admin\Controller\Cms\PageCrudController;
 use App\Http\Admin\Controller\Developer\Liip\ListPathsLiipAdminController;
-use App\Http\Admin\Controller\File\DocumentCrudController;
-use App\Http\Admin\Controller\File\NewspaperCrudController;
+use App\Http\Admin\Controller\File\AbstractDocumentCrudController;
+use App\Http\Admin\Controller\File\NewspaperCrudControllerAbstract;
 use App\Http\Landing\Controller\IndexController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -31,18 +31,19 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 
-class DashboardController extends AbstractDashboardController
+final class DashboardController extends AbstractDashboardController
 {
-    public const ROUTE = 'admin_index';
+    public const string ROUTE = 'admin_index';
 
     public function __construct(private readonly ParameterBagInterface $parameterBag)
     {
     }
 
     #[Route('/', name: self::ROUTE)]
+    #[\Override]
     public function index(): Response
     {
         return $this->render('@EasyAdmin/page/index.html.twig', [
@@ -50,6 +51,7 @@ class DashboardController extends AbstractDashboardController
         ]);
     }
 
+    #[\Override]
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
@@ -57,6 +59,7 @@ class DashboardController extends AbstractDashboardController
         ;
     }
 
+    #[\Override]
     public function configureCrud(): Crud
     {
         return parent::configureCrud()
@@ -64,9 +67,10 @@ class DashboardController extends AbstractDashboardController
         ;
     }
 
+    #[\Override]
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Page d\'accueil', 'fa fa-home');
+        yield MenuItem::linkToDashboard("Page d'accueil", 'fa fa-home');
 
         yield MenuItem::section();
         yield MenuItem::linkToCrud('Actualité', 'fas fa-newspaper', Page::class)
@@ -100,9 +104,9 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Galerie', 'fas fa-images', Gallery::class);
         yield MenuItem::linkToCrud('Photo', 'fas fa-image', Photo::class);
         yield MenuItem::linkToCrud('Document', 'fas fa-file', Document::class)
-            ->setController(DocumentCrudController::class);
+            ->setController(AbstractDocumentCrudController::class);
         yield MenuItem::linkToCrud('Gazette', 'fas fa-newspaper', Document::class)
-            ->setController(NewspaperCrudController::class);
+            ->setController(NewspaperCrudControllerAbstract::class);
 
         yield MenuItem::section();
         yield MenuItem::linktoRoute('Liip image cache', 'fa fa-clock-rotate-left', ListPathsLiipAdminController::ROUTE)
@@ -124,6 +128,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section($version);
     }
 
+    #[\Override]
     public function configureAssets(): Assets
     {
         return Assets::new()

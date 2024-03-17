@@ -14,3 +14,5 @@ App\Domain\Cms\Model\Gallery:
 App\Domain\File\Model\Photo:
   photo (template):
     imageName: <image()>
+
+  photo_{1..10} (extends photo):

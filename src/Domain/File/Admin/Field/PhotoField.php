@@ -8,13 +8,14 @@ use App\Domain\File\Form\PhotoFormType;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 
-class PhotoField implements FieldInterface
+final class PhotoField implements FieldInterface
 {
     use FieldTrait;
 
     /**
      * @param string|false|null $label
      */
+    #[\Override]
     public static function new(string $propertyName, $label = null): self
     {
         return (new self())

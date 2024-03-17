@@ -30,7 +30,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use function Symfony\Component\Translation\t;
 
-class CompetitionRegisterCrudController extends AbstractCrudController
+use Symfony\Component\Translation\TranslatableMessage;
+
+final class CompetitionRegisterCrudController extends AbstractCrudController
 {
     public function __construct(
         readonly private UrlGeneratorInterface $urlGenerator,
@@ -40,26 +42,29 @@ class CompetitionRegisterCrudController extends AbstractCrudController
     ) {
     }
 
+    #[\Override]
     public static function getEntityFqcn(): string
     {
         return CompetitionRegister::class;
     }
 
+    #[\Override]
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
             ->setPageTitle('index', "Formulaire d'inscription au concours de Caen")
             ->setPageTitle('new', "Ajouter un formulaire d'inscription")
-            ->setPageTitle('detail', fn (CompetitionRegister $competitionRegister) => (string) $competitionRegister)
-            ->setPageTitle('edit', fn (CompetitionRegister $competitionRegister) => sprintf("Edition du formulaire l'inscription <b>%s</b>", $competitionRegister))
+            ->setPageTitle('detail', static fn (CompetitionRegister $competitionRegister): string => (string) $competitionRegister)
+            ->setPageTitle('edit', static fn (CompetitionRegister $competitionRegister): string => sprintf("Edition du formulaire l'inscription <b>%s</b>", $competitionRegister))
         ;
     }
 
+    #[\Override]
     public function configureActions(Actions $actions): Actions
     {
         $publicLink = Action::new('public-link')
             ->setLabel('Lien public')
-            ->linkToUrl(function (CompetitionRegister $competitionRegister) {
+            ->linkToUrl(function (CompetitionRegister $competitionRegister): string {
                 return $this->urlGenerator->generate(
                     IndexController::ROUTE,
                     ['slug' => $competitionRegister->getSlug()],
@@ -70,7 +75,7 @@ class CompetitionRegisterCrudController extends AbstractCrudController
 
         $registerList = Action::new('register-list')
             ->setLabel('Voir les inscrits')
-            ->linkToUrl(function (CompetitionRegister $competitionRegister) {
+            ->linkToUrl(function (CompetitionRegister $competitionRegister): string {
                 return $this->adminUrlGenerator
                     ->setController(CompetitionRegisterArcherCrudController::class)
                     ->setAction(Action::INDEX)
@@ -91,13 +96,14 @@ class CompetitionRegisterCrudController extends AbstractCrudController
         ;
 
         return $actions
-            ->update(Crud::PAGE_INDEX, 'new', fn (Action $action) => $action->setLabel("Créer un formulaire d'inscription"))
+            ->update(Crud::PAGE_INDEX, 'new', static fn (Action $action): Action => $action->setLabel("Créer un formulaire d'inscription"))
             ->add(Crud::PAGE_INDEX, $publicLink)
             ->add(Crud::PAGE_INDEX, $registerList)
             ->add(Crud::PAGE_INDEX, $generateActuality)
         ;
     }
 
+    #[\Override]
     public function configureFields(string $pageName): iterable
     {
         $id = IdField::new('id')
@@ -108,15 +114,15 @@ class CompetitionRegisterCrudController extends AbstractCrudController
             ->setFormType(EnumType::class)
             ->setFormTypeOptions([
                 'class' => Type::class,
-                'choice_label' => fn (Type $choice) => t($choice->value, domain: 'competition'),
+                'choice_label' => static fn (Type $choice): TranslatableMessage => t($choice->value, domain: 'competition'),
                 'choices' => Type::cases(),
             ])
-            ->formatValue(function ($value, ?CompetitionRegister $entity) {
-                if (!$value || !$entity || !$entity->getTypes()) {
+            ->formatValue(static function ($value, ?CompetitionRegister $entity): string {
+                if (!$value || !$entity instanceof CompetitionRegister || !$entity->getTypes()) {
                     return '';
                 }
 
-                return implode(', ', array_map(static fn (Type $type) => t($type->value, domain: 'competition'), $entity->getTypes()));
+                return implode(', ', array_map(static fn (Type $type): TranslatableMessage => t($type->value, domain: 'competition'), $entity->getTypes()));
             })
         ;
 
@@ -147,6 +153,7 @@ class CompetitionRegisterCrudController extends AbstractCrudController
     /**
      * @param CompetitionRegister $entityInstance
      */
+    #[\Override]
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         $entityInstance->autoSetSlug();

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Landing\Request;
 
-class PaginationDto
+final class PaginationDto
 {
     public function __construct(
         public ?int $page = 0,

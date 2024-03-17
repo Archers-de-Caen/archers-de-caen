@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-class CacheResolveHandler
+final class CacheResolveHandler
 {
     public function __construct(
         private readonly KernelInterface $kernel

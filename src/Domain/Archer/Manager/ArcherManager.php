@@ -10,7 +10,7 @@ use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher;
 use App\Domain\Competition\Repository\CompetitionRegisterDepartureTargetArcherRepository;
 use App\Infrastructure\Service\Anonymize;
 
-class ArcherManager
+final class ArcherManager
 {
     public function __construct(
         readonly private CompetitionRegisterDepartureTargetArcherRepository $targetArcherRepository,
@@ -20,11 +20,15 @@ class ArcherManager
 
     public function findArcherFromLicense(string $licenseNumber): CompetitionRegisterDepartureTargetArcher|Archer|null
     {
-        if ($archer = $this->targetArcherRepository->findOneArcherByLicenseNumber($licenseNumber)) {
+        $archer = $this->targetArcherRepository->findOneArcherByLicenseNumber($licenseNumber);
+
+        if ($archer instanceof CompetitionRegisterDepartureTargetArcher) {
             return $archer;
         }
 
-        if ($archer = $this->archerRepository->findOneBy(['licenseNumber' => $licenseNumber])) {
+        $archer = $this->archerRepository->findOneBy(['licenseNumber' => $licenseNumber]);
+
+        if ($archer) {
             return $archer;
         }
 

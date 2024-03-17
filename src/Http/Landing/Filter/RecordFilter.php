@@ -9,7 +9,6 @@ use App\Domain\Competition\Config\Type;
 use App\Http\Landing\Request\RecordFilterDto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,6 +18,7 @@ final class RecordFilter extends AbstractType
 {
     use OnlyArcherLicencedTrait;
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -41,12 +41,13 @@ final class RecordFilter extends AbstractType
             ->add('type', EnumType::class, [
                 'label' => 'Type de concours',
                 'choice_translation_domain' => 'competition',
-                'required' => false,
+                'required' => true,
                 'class' => Type::class,
+                'empty_data' => Type::INDOOR_2x18_M,
             ])
             ->get('type')
             ->addModelTransformer(new CallbackTransformer(
-                function (?string $string): ?Type {
+                static function (?string $string): ?Type {
                     if (!$string) {
                         return null;
                     }
@@ -57,7 +58,7 @@ final class RecordFilter extends AbstractType
                         return null;
                     }
                 },
-                function (?Type $enum): ?string {
+                static function (?Type $enum): ?string {
                     return $enum?->value;
                 }
             ))
@@ -67,12 +68,13 @@ final class RecordFilter extends AbstractType
             ->add('weapon', EnumType::class, [
                 'label' => 'Arme',
                 'choice_translation_domain' => 'archer',
-                'required' => false,
+                'required' => true,
                 'class' => Weapon::class,
+                'empty_data' => Weapon::RECURVE_BOW,
             ])
             ->get('weapon')
             ->addModelTransformer(new CallbackTransformer(
-                function (?string $string): ?Weapon {
+                static function (?string $string): ?Weapon {
                     if (!$string) {
                         return null;
                     }
@@ -83,7 +85,7 @@ final class RecordFilter extends AbstractType
                         return null;
                     }
                 },
-                function (?Weapon $enum): ?string {
+                static function (?Weapon $enum): ?string {
                     return $enum?->value;
                 }
             ))
@@ -92,6 +94,7 @@ final class RecordFilter extends AbstractType
         $this->addOnlyArcherLicenced($builder);
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

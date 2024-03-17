@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
 #[Route(
@@ -18,9 +18,9 @@ use Symfony\Component\Routing\Annotation\Route;
     options: ['sitemap' => true],
     methods: Request::METHOD_GET
 )]
-class ClubController extends AbstractController
+final class ClubController extends AbstractController
 {
-    public const ROUTE = 'landing_club';
+    public const string ROUTE = 'landing_club';
 
     public function __invoke(DataRepository $dataRepository): Response
     {

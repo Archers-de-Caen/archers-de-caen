@@ -8,9 +8,10 @@ use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Events;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[AsDoctrineListener(event: Events::prePersist)]
-class CreatedBySubscriber
+final class CreatedBySubscriber
 {
     public function __construct(readonly private Security $security)
     {
@@ -22,9 +23,18 @@ class CreatedBySubscriber
     public function prePersist(PrePersistEventArgs $args): void
     {
         $entity = $args->getObject();
-
-        if (property_exists($entity, 'createdBy') && method_exists($entity, 'setCreatedBy') && $this->security->getUser()) {
-            $entity->setCreatedBy($this->security->getUser());
+        if (!property_exists($entity, 'createdBy')) {
+            return;
         }
+
+        if (!method_exists($entity, 'setCreatedBy')) {
+            return;
+        }
+
+        if (!$this->security->getUser() instanceof UserInterface) {
+            return;
+        }
+
+        $entity->setCreatedBy($this->security->getUser());
     }
 }

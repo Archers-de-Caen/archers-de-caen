@@ -22,6 +22,7 @@ class Badge
     use TimestampTrait;
 
     public const PROGRESS_ARROW = 'progress_arrow';
+
     public const COMPETITION = 'competition';
 
     #[ORM\Column(type: Types::STRING, length: 191)]
@@ -66,6 +67,7 @@ class Badge
         $this->resultBadges = new ArrayCollection();
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->getName() ?? '';

@@ -131,9 +131,6 @@
             "./.php-cs-fixer.dist.php"
         ]
     },
-    "friendsofphp/proxy-manager-lts": {
-        "version": "v1.0.5"
-    },
     "gedmo/doctrine-extensions": {
         "version": "v3.6.0"
     },
@@ -554,12 +551,12 @@
         "version": "v6.0.3"
     },
     "symfony/phpunit-bridge": {
-        "version": "6.3",
+        "version": "6.4",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
             "version": "6.3",
-            "ref": "01dfaa98c58f7a7b5a9b30e6edb7074af7ed9819"
+            "ref": "a411a0480041243d97382cac7984f7dce7813c08"
         },
         "files": [
             ".env.test",
@@ -596,9 +593,6 @@
         "version": "v6.0.3"
     },
     "symfony/property-info": {
-        "version": "v6.0.3"
-    },
-    "symfony/proxy-manager-bridge": {
         "version": "v6.0.3"
     },
     "symfony/routing": {

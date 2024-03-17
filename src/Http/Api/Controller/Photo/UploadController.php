@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[AsController]
@@ -25,9 +25,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
     methods: Request::METHOD_POST
 )]
 #[IsGranted(Archer::ROLE_ADMIN, message: 'only admin', statusCode: Response::HTTP_FORBIDDEN)]
-class UploadController extends AbstractController
+final class UploadController extends AbstractController
 {
-    public const ROUTE = 'photos_upload';
+    public const string ROUTE = 'photos_upload';
 
     public function __invoke(Request $request, EntityManagerInterface $em): JsonResponse
     {
@@ -51,9 +51,9 @@ class UploadController extends AbstractController
         try {
             $em->persist($photo);
             $em->flush();
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             return $this->json([
-                'message' => $e->getMessage(),
+                'message' => $exception->getMessage(),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 

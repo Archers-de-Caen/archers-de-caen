@@ -1,6 +1,6 @@
 window.onload = function() {
     const filesInput = document.querySelector('#gallery-photo')
-    const output = document.querySelector(".gallery-photo-previews")
+    const output = document.querySelector(".gallery-photo-previews table tbody")
 
     if (!filesInput || !output) {
         return
@@ -30,6 +30,8 @@ window.onload = function() {
             newTr.appendChild(newTdName)
             newTr.appendChild(newTdUrl)
             newTr.appendChild(newTdAction)
+
+            output.appendChild(newTr)
 
             fetch('/api/photos', {
                 method: 'POST',

@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -19,9 +19,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
     name: self::ROUTE,
     methods: Request::METHOD_GET
 )]
-class DefaultController extends AbstractController
+final class DefaultController extends AbstractController
 {
-    public const ROUTE = 'app_index';
+    public const string ROUTE = 'app_index';
 
     public function __invoke(): Response
     {

@@ -12,8 +12,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Regex;
 
-class NewsletterForm extends AbstractType
+final class NewsletterForm extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -38,7 +39,7 @@ class NewsletterForm extends AbstractType
                     'placeholder' => '123456A',
                 ],
                 'constraints' => [
-                    new Regex('/[0-9]{7}[A-Za-z]/'),
+                    new Regex('/\d{7}[A-Za-z]/'),
                 ],
             ])
             ->add('submit', SubmitType::class, [

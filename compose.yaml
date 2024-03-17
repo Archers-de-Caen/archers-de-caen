@@ -1,0 +1,81 @@
+services:
+  php:
+    image: app-php
+    restart: unless-stopped
+    environment:
+      SERVER_NAME: localhost, php:443
+
+      TRUSTED_PROXIES: ${TRUSTED_PROXIES:-127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16}
+      TRUSTED_HOSTS: ^${SERVER_NAME:-example\.com|localhost}|php$$
+
+      DATABASE_URL: mysql://root:!ChangeMe!@database:3306/app?serverVersion=5.7&charset=utf8
+
+      CADDY_SERVER_EXTRA_DIRECTIVES: "tls /etc/caddy/certs/tls.pem /etc/caddy/certs/tls.key"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+      - ./tools/frankenphp/certs:/etc/caddy/certs:ro
+    ports:
+      # HTTP
+      - target: 80
+        published: ${HTTP_PORT:-80}
+        protocol: tcp
+      # HTTPS
+      - target: 443
+        published: ${HTTPS_PORT:-443}
+        protocol: tcp
+      # HTTP/3
+      - target: 443
+        published: ${HTTP3_PORT:-443}
+        protocol: udp
+
+  database:
+    platform: linux/x86_64
+    image: mysql:5.7-oracle # pour correspondre à la version de MySQL utilisée par le serveur de production (OVH)
+    environment:
+      MYSQL_DATABASE: app
+
+      MYSQL_PASSWORD: "!ChangeMe!"
+      MYSQL_ROOT_PASSWORD: "!ChangeMe!"
+      MYSQL_USER: app
+    volumes:
+      - database_data:/var/lib/mysql
+
+  messenger_consume:
+    build:
+      context: .
+      target: frankenphp_messenger
+    image: messenger
+    depends_on:
+      - php
+      - database
+    restart: unless-stopped
+    volumes:
+      - messenger_consume_socket:/var/run/php
+      - ./:/app
+      - ./tools/frankenphp/certs:/etc/caddy/certs:ro
+    environment:
+      DATABASE_URL: mysql://app:!ChangeMe!@database:3306/app?serverVersion=8.1&charset=utf8
+      TRUSTED_PROXIES: 127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+      TRUSTED_HOSTS: ^example\.com|localhost|caddy$$
+
+  encore:
+    build:
+      context: .
+      target: encore
+    image: encore
+    depends_on:
+      - php
+    restart: unless-stopped
+    volumes:
+      - ./:/app
+    ports:
+      - target: 8080
+        published: ${ENCORE_PORT:-8080}
+        protocol: tcp
+
+volumes:
+  caddy_data:
+  caddy_config:
+  database_data:
+  messenger_consume_socket:

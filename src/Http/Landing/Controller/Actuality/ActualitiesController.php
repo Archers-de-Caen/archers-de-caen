@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
 #[Route(
@@ -22,9 +22,9 @@ use Symfony\Component\Routing\Annotation\Route;
     options: ['sitemap' => true],
     methods: Request::METHOD_GET
 )]
-class ActualitiesController extends AbstractController
+final class ActualitiesController extends AbstractController
 {
-    public const ROUTE = 'landing_actualities';
+    public const string ROUTE = 'landing_actualities';
 
     public function __invoke(Request $request, PageRepository $pageRepository): Response
     {

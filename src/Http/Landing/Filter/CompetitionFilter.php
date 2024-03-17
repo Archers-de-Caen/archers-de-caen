@@ -7,6 +7,9 @@ namespace App\Http\Landing\Filter;
 use App\Domain\Competition\Config\Type;
 use App\Domain\Competition\Repository\CompetitionRepository;
 use App\Http\Landing\Request\CompetitionFilterDto;
+
+use function Symfony\Component\Clock\now;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -14,7 +17,6 @@ use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use function Symfony\Component\Clock\now;
 
 final class CompetitionFilter extends AbstractType
 {
@@ -23,6 +25,7 @@ final class CompetitionFilter extends AbstractType
     ) {
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $years = range(2000, ((int) now()->format('Y')) + 1);
@@ -69,7 +72,7 @@ final class CompetitionFilter extends AbstractType
             ])
             ->get('type')
             ->addModelTransformer(new CallbackTransformer(
-                function (?string $string): ?Type {
+                static function (?string $string): ?Type {
                     if (!$string) {
                         return null;
                     }
@@ -80,13 +83,14 @@ final class CompetitionFilter extends AbstractType
                         return null;
                     }
                 },
-                function (?Type $enum): ?string {
+                static function (?Type $enum): ?string {
                     return $enum?->value;
                 }
             ))
         ;
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

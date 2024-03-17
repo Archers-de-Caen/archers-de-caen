@@ -12,23 +12,26 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class LicenseCrudController extends AbstractCrudController
+final class LicenseCrudController extends AbstractCrudController
 {
+    #[\Override]
     public static function getEntityFqcn(): string
     {
         return License::class;
     }
 
+    #[\Override]
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
             ->setPageTitle('index', 'Liste des type de licence')
             ->setPageTitle('new', 'Ajouter une licence')
-            ->setPageTitle('detail', fn (License $license) => (string) $license)
-            ->setPageTitle('edit', fn (License $license) => sprintf('Edition de la licence <b>%s</b>', $license))
+            ->setPageTitle('detail', static fn (License $license): string => (string) $license)
+            ->setPageTitle('edit', static fn (License $license): string => sprintf('Edition de la licence <b>%s</b>', $license))
         ;
     }
 
+    #[\Override]
     public function configureFields(string $pageName): iterable
     {
         $id = IdField::new('id');
@@ -39,7 +42,7 @@ class LicenseCrudController extends AbstractCrudController
             ->setLabel('Prix');
         $type = TextField::new('type')
             ->setLabel('Type');
-        $description = TextAreaField::new('description')
+        $description = TextareaField::new('description')
             ->setLabel('Description');
 
         if (Crud::PAGE_INDEX === $pageName) {

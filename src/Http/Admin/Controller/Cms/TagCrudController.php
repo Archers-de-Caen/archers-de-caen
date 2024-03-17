@@ -12,19 +12,21 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class TagCrudController extends AbstractCrudController
+final class TagCrudController extends AbstractCrudController
 {
+    #[\Override]
     public static function getEntityFqcn(): string
     {
         return Tag::class;
     }
 
+    #[\Override]
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, 'Liste des tags des pages du site')
             ->setPageTitle(Crud::PAGE_NEW, 'Ajouter un tag de page au site')
-            ->setPageTitle(Crud::PAGE_EDIT, fn (Tag $tag) => sprintf('Edition du tag <b>%s</b>', $tag))
+            ->setPageTitle(Crud::PAGE_EDIT, static fn (Tag $tag): string => sprintf('Edition du tag <b>%s</b>', $tag))
 
             ->addFormTheme('form/ckeditor.html.twig')
             ->setDefaultSort(['createdAt' => 'DESC'])
@@ -33,6 +35,7 @@ class TagCrudController extends AbstractCrudController
         ;
     }
 
+    #[\Override]
     public function configureFields(string $pageName): iterable
     {
         $id = IdField::new('id');
