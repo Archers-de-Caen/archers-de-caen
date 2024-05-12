@@ -21,7 +21,7 @@ use App\Http\Admin\Controller\Badge\ResultBadgeProgressArrowCrudController;
 use App\Http\Admin\Controller\Cms\ActualityCrudControllerAbstract;
 use App\Http\Admin\Controller\Cms\PageCrudController;
 use App\Http\Admin\Controller\Developer\Liip\ListPathsLiipAdminController;
-use App\Http\Admin\Controller\File\AbstractDocumentCrudController;
+use App\Http\Admin\Controller\File\DocumentCrudController;
 use App\Http\Admin\Controller\File\NewspaperCrudControllerAbstract;
 use App\Http\Landing\Controller\IndexController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
@@ -104,7 +104,7 @@ final class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Galerie', 'fas fa-images', Gallery::class);
         yield MenuItem::linkToCrud('Photo', 'fas fa-image', Photo::class);
         yield MenuItem::linkToCrud('Document', 'fas fa-file', Document::class)
-            ->setController(AbstractDocumentCrudController::class);
+            ->setController(DocumentCrudController::class);
         yield MenuItem::linkToCrud('Gazette', 'fas fa-newspaper', Document::class)
             ->setController(NewspaperCrudControllerAbstract::class);
 
