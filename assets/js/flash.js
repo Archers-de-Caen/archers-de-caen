@@ -24,7 +24,7 @@ window.addEventListener('load', function() {
 
         Swal.fire({
             title,
-            text,
+            html: text,
             icon: type,
             imageUrl,
             confirmButtonText: 'OK',
