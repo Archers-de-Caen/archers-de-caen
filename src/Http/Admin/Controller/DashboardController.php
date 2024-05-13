@@ -12,7 +12,6 @@ use App\Domain\Cms\Model\Gallery;
 use App\Domain\Cms\Model\Page;
 use App\Domain\Cms\Model\Tag;
 use App\Domain\Competition\Model\Competition;
-use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\File\Model\Document;
 use App\Domain\File\Model\Photo;
 use App\Domain\Result\Model\ResultBadge;
@@ -96,9 +95,6 @@ final class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Distinction fédéral', 'fas fa-bullseye', ResultBadge::class)
             ->setController(ResultBadgeFederalHonorCrudController::class)
             ->setPermission(Archer::ROLE_DEVELOPER);
-
-        yield MenuItem::section();
-        yield MenuItem::linkToCrud('Inscription concours Caen', 'fas fa-star', CompetitionRegister::class);
 
         yield MenuItem::section();
         yield MenuItem::linkToCrud('Galerie', 'fas fa-images', Gallery::class);

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Webhook\Controller;
 
-use App\Domain\Competition\Model\CompetitionRegisterDepartureTargetArcher;
 use App\Domain\Webhook\Webhook;
 use Doctrine\ORM\EntityManagerInterface;
 use Helloasso\Exception\InvalidValueException;
@@ -16,7 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Uid\Uuid;
 
 #[AsController]
 #[Route(
@@ -48,6 +46,7 @@ final class HelloassoWebhookController extends AbstractController
 
         if ($content) {
             try {
+                /** @phpstan-ignore-next-line  */
                 $event = $helloasso->event->decode($content);
                 $webhook
                     ->setContent((array) json_decode($content, true, 512, \JSON_THROW_ON_ERROR))
@@ -56,7 +55,7 @@ final class HelloassoWebhookController extends AbstractController
 
                 $msg = match ($event->getEventType()) {
                     Event::EVENT_TYPE_ORDER => $this->order(),
-                    Event::EVENT_TYPE_PAYMENT => $this->payment($event),
+                    Event::EVENT_TYPE_PAYMENT => $this->payment(),
                     Event::EVENT_TYPE_FORM => $this->form(),
                     default => $event->getEventType().' not implemented',
                 };
@@ -81,21 +80,9 @@ final class HelloassoWebhookController extends AbstractController
         return 'Order type not implemented';
     }
 
-    private function payment(Event $event): string
+    private function payment(): string
     {
-        if (!$registrationIds = ($event->getMetadata()['registrations'] ?? null)) {
-            return 'Only registrations payments implemented';
-        }
-
-        $registrations = $this->em->getRepository(CompetitionRegisterDepartureTargetArcher::class)->findBy([
-            'id' => array_map(static fn (string $id): string => Uuid::fromString($id)->toBinary(), $registrationIds),
-        ]);
-
-        foreach ($registrations as $registration) {
-            $registration->setPaid(true);
-        }
-
-        return \count($registrations).' registration paid ('.implode(', ', $registrationIds).')';
+        return 'Payment not implemented';
     }
 
     private function form(): string
