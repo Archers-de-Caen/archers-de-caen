@@ -29,6 +29,9 @@ window.addEventListener('load', function() {
             imageUrl,
             confirmButtonText: 'OK',
             confirmButtonColor: '#FDD20E',
+            customClass: {
+                htmlContainer: 'text-left',
+            },
         }).then(() => {
             if (flash.dataset.type === 'popup') {
                 const dateInAMonth = (new Date()).setMonth(new Date().getMonth() + 1)
