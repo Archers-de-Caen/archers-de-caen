@@ -32,6 +32,7 @@
             <thead class="--header-sticky">
                 <tr>
                     <th>Archer</th>
+                    <th>Catégorie</th>
                     <th>Arme</th>
                     <th>Type</th>
                     <th>Date et Lieu</th>
@@ -48,8 +49,15 @@
                                 {{ result.archer.fullName }}
                             </a>
                         </td>
-                        <td>{{ result.weapon.name|trans([], 'archer') }}</td>
-                        <td>{{ result.competition.type.name|trans([], 'competition') }}</td>
+                        <td>
+                            {{ result.category.value|trans([], 'archer') }}
+                        </td>
+                        <td>
+                            {{ result.weapon.name|trans([], 'archer') }}
+                        </td>
+                        <td>
+                            {{ result.competition.type.name|trans([], 'competition') }}
+                        </td>
                         <td>
                             <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Results\\CompetitionController::ROUTE'), { slug: result.competition.slug }) }}"
                                target="_parent"
@@ -57,7 +65,9 @@
                                 Le {{ result.completionDate|date('d/m/Y') }} à {{ result.competition.location }}
                             </a>
                         </td>
-                        <td>{{ result.score }}</td>
+                        <td>
+                            {{ result.score }}
+                        </td>
                     </tr>
                 {% else %}
                     <tr>
