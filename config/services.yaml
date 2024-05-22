@@ -42,7 +42,7 @@ services:
         exclude:
             - '../src/Kernel.php'
 
-    App\Command\Cron\FftaArcherUpdateCommand:
+    App\Infrastructure\Service\FFTAService:
         $fftaUsername: '%env(FFTA_USERNAME)%'
         $fftaPassword: '%env(FFTA_PASSWORD)%'
 
