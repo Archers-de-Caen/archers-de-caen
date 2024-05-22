@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Service;
+namespace App\Infrastructure\Service\FFTA;
 
 use App\Domain\Archer\Config\Gender;
 use Symfony\Component\HttpFoundation\Request;
@@ -107,20 +107,7 @@ class FFTAService
     }
 
     /**
-     *  @return array<array{
-     *       license: string,
-     *       firstName: string,
-     *       lastName: string,
-     *       gender: ?Gender,
-     *       phone: string,
-     *       email: string,
-     *       location: string,
-     *       status: string,
-     *       licenseDateStart: ?\DateTime,
-     *       licenseDateEnd: ?\DateTime,
-     *       licenseType: string,
-     *       category: string
-     *  }>
+     * @return array<LicenseDTO>
      *
      * @throws HttpExceptionInterface
      * @throws TransportExceptionInterface
@@ -166,20 +153,7 @@ class FFTAService
     }
 
     /**
-     * @return array<array{
-     *      license: string,
-     *      firstName: string,
-     *      lastName: string,
-     *      gender: ?Gender,
-     *      phone: string,
-     *      email: string,
-     *      location: string,
-     *      status: string,
-     *      licenseDateStart: ?\DateTime,
-     *      licenseDateEnd: ?\DateTime,
-     *      licenseType: string,
-     *      category: string
-     * }>
+     * @return array<LicenseDTO>
      */
     private function reformatLicencesArray(string $licenses): array
     {
@@ -214,22 +188,26 @@ class FFTAService
                 continue;
             }
 
-            $formattedLicenses[] = [
-                'license' => $license[0],
-                'firstName' => $license[2],
-                'lastName' => $license[3],
-                'gender' => $license[1] ? Gender::createFromString($license[1]) : null,
-                'phone' => $license[8],
-                'email' => $license[9],
-                'location' => sprintf('%s, %s %s', $license[14], $license[15], $license[16]),
-                'status' => $license[18],
-                'licenseDateStart' => \DateTime::createFromFormat('Y-m-d', $license[31]) ?: null,
-                'licenseDateEnd' => \DateTime::createFromFormat('Y-m-d', $license[33]) ?: null,
-                'licenseType' => $license[18],
-                'category' => $license[26],
-            ];
+            $formattedLicenses[] = new LicenseDTO(
+                license: $license[0],
+                firstName: $license[2],
+                lastName: $license[3],
+                gender: $license[1] ? Gender::createFromString($license[1]) : null,
+                phone: $license[8],
+                email: $license[9],
+                location: sprintf('%s, %s %s', $license[14], $license[15], $license[16]),
+                status: $license[18],
+                licenseDateStart: \DateTime::createFromFormat('Y-m-d', $license[31]) ?: null,
+                licenseDateEnd: \DateTime::createFromFormat('Y-m-d', $license[33]) ?: null,
+                licenseType: $license[18],
+                category: $license[26],
+            );
         }
 
         return $formattedLicenses;
+    }
+
+    public function getCompetitionResult(): array
+    {
     }
 }
