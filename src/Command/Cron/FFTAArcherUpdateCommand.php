@@ -12,6 +12,9 @@ use App\Domain\Archer\Model\License;
 use App\Infrastructure\Service\FFTA\FFTAService;
 use App\Infrastructure\Service\FFTA\LicenseDTO;
 use Doctrine\ORM\EntityManagerInterface;
+
+use function Sentry\captureMessage;
+
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,7 +22,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
-use function Sentry\captureMessage;
 
 #[AsCommand(
     name: 'app:ffta:archer-update',
@@ -76,7 +78,7 @@ final class FFTAArcherUpdateCommand extends Command
                 break;
             }
 
-            $licenseType = str_replace('"', '', $newLicense->getLicenseType());
+            $licenseType = str_replace('"', '', $newLicense->getLicenseType() ?? '');
 
             if (!$archer->getArcherLicenseActive() instanceof ArcherLicense) {
                 $license = array_filter(
@@ -165,7 +167,7 @@ final class FFTAArcherUpdateCommand extends Command
 
         if ($archerData->getLicense()) {
             $archer = (new Archer())
-                ->setFirstName($archerData->getLicense())
+                ->setFirstName($archerData->getFirstName())
                 ->setLastName($archerData->getLastName())
                 ->setLicenseNumber($archerData->getLicense())
                 ->setPhone($archerData->getPhone())
