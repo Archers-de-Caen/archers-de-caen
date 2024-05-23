@@ -9,6 +9,8 @@ use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Archer\Model\ArcherLicense;
 use App\Domain\Archer\Model\License;
+use App\Domain\Archer\Repository\ArcherRepository;
+use App\Domain\Archer\Repository\LicenseRepository;
 use App\Infrastructure\Service\FFTA\FFTAService;
 use App\Infrastructure\Service\FFTA\LicenseDTO;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,6 +33,8 @@ final class FFTAArcherUpdateCommand extends Command
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
+        private readonly ArcherRepository $archerRepository,
+        private readonly LicenseRepository $licenseRepository,
         private readonly FFTAService $fftaService,
         ?string $name = null
     ) {
@@ -64,8 +68,8 @@ final class FFTAArcherUpdateCommand extends Command
             return Command::FAILURE;
         }
 
-        $archers = $this->reformatArchersArray($this->em->getRepository(Archer::class)->findAll());
-        $licenses = $this->em->getRepository(License::class)->findAll();
+        $archers = $this->reformatArchersArray($this->archerRepository->findAll());
+        $licenses = $this->licenseRepository->findAll();
 
         foreach ($newLicenses as $newLicense) {
             try {
