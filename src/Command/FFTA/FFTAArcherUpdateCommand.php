@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Command\Cron;
+namespace App\Command\FFTA;
 
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Gender;
@@ -11,7 +11,8 @@ use App\Domain\Archer\Model\ArcherLicense;
 use App\Domain\Archer\Model\License;
 use App\Domain\Archer\Repository\ArcherRepository;
 use App\Domain\Archer\Repository\LicenseRepository;
-use App\Infrastructure\Service\FFTA\FFTAService;
+use App\Infrastructure\Service\ArcheryService;
+use App\Infrastructure\Service\FFTA\FFTADirigeantService;
 use App\Infrastructure\Service\FFTA\LicenseDTO;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -35,7 +36,7 @@ final class FFTAArcherUpdateCommand extends Command
         private readonly EntityManagerInterface $em,
         private readonly ArcherRepository $archerRepository,
         private readonly LicenseRepository $licenseRepository,
-        private readonly FFTAService $fftaService,
+        private readonly FFTADirigeantService $fftaDirigeantService,
         ?string $name = null
     ) {
         parent::__construct($name);
@@ -48,16 +49,16 @@ final class FFTAArcherUpdateCommand extends Command
 
         $io->info('Run '.$this->getName());
 
-        $season = (int) date('m') < 9 ? date('Y') : (string) ((int) date('Y') + 1);
+        $season = ArcheryService::getCurrentSeason();
 
         // On se connecte à l'espace dirigeant
         $io->info('Connexion à l\'espace dirigeant');
         try {
-            $this->fftaService->connect();
+            $this->fftaDirigeantService->connect();
 
             $io->info('Récupération des licences');
 
-            $newLicenses = $this->fftaService->getLicenses($season);
+            $newLicenses = $this->fftaDirigeantService->getLicenses($season);
 
             $io->info(\count($newLicenses).' licences récupéré');
         } catch (HttpExceptionInterface|TransportExceptionInterface $httpException) {

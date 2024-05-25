@@ -24,7 +24,7 @@ enum Weapon: string
         return match ($weapon) {
             'CL', 'Arc classique' => self::RECURVE_BOW,
             'CO', 'Arc à poulies', 'Arc a poulies' => self::COMPOUND_BOW,
-            'BB', 'Arc nu' => self::BARE_BOW,
+            'BB', 'Arc nu', 'TL', 'Tir libre' => self::BARE_BOW,
 
             default => throw new \ValueError($weapon.' not found'),
         };
@@ -37,5 +37,20 @@ enum Weapon: string
             self::COMPOUND_BOW,
             self::BARE_BOW,
         ];
+    }
+
+    public function isRecurve(): bool
+    {
+        return $this === self::RECURVE_BOW;
+    }
+
+    public function isCompound(): bool
+    {
+        return $this === self::COMPOUND_BOW;
+    }
+
+    public function isBareBow(): bool
+    {
+        return $this === self::BARE_BOW;
     }
 }
