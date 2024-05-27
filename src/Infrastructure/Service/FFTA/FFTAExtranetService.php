@@ -69,7 +69,7 @@ class FFTAExtranetService
     }
 
     /**
-     * @return CompetitionResultDTO[]
+     * @return array<array<string, CompetitionResultDTO>>
      *
      * @throws HttpExceptionInterface
      * @throws TransportExceptionInterface
@@ -141,6 +141,24 @@ class FFTAExtranetService
             ],
         );
 
-        return CompetitionResultDTO::createListFromCsv($response->getContent());
+        $competitionResult = CompetitionResultDTO::createListFromCsv($response->getContent());
+
+        return $this->groupResultsByCompetition($competitionResult);
+    }
+
+    /**
+     * @param array<int, CompetitionResultDTO> $competitionResult
+     *
+     * @return array<array<string, CompetitionResultDTO>>
+     */
+    private function groupResultsByCompetition(array $competitionResult): array
+    {
+        $result = [];
+
+        foreach ($competitionResult as $competitionResultDTO) {
+            $result[$competitionResultDTO->getEventCode()][] = $competitionResultDTO;
+        }
+
+        return $result;
     }
 }
