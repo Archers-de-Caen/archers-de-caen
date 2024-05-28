@@ -6,6 +6,7 @@ namespace App\Command\FFTA;
 
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Archer\Repository\ArcherRepository;
+use App\Domain\Competition\Manager\CompetitionManager;
 use App\Domain\Competition\Model\Competition;
 use App\Domain\Competition\Repository\CompetitionRepository;
 use App\Domain\Result\Model\ResultCompetition;
@@ -32,6 +33,10 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 )]
 final class FFTACompetitionUpdateCommand extends Command
 {
+    public const string GET_RESULT_DATE_MIN = '2024-05-13';
+
+    public const string LICENSE_NUMBER_OF_CREATOR_ACTUALITY = '0785039D';
+
     private SymfonyStyle $io;
 
     /**
@@ -43,13 +48,12 @@ final class FFTACompetitionUpdateCommand extends Command
      */
     private array $report;
 
-    public const string GET_RESULT_DATE_MIN = '2024-05-13';
-
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly CompetitionRepository $competitionRepository,
         private readonly ResultCompetitionRepository $resultCompetitionRepository,
         private readonly ArcherRepository $archerRepository,
+        private readonly CompetitionManager $competitionManager,
         private readonly FFTAExtranetService $fftaExtranetService,
         ?string $name = null
     ) {
@@ -145,6 +149,19 @@ final class FFTACompetitionUpdateCommand extends Command
 
             $this->em->persist($competition);
             $this->em->flush();
+
+            $creator = $this->archerRepository->findOneBy([
+                'licenseNumber' => self::LICENSE_NUMBER_OF_CREATOR_ACTUALITY,
+            ]);
+
+            if ($creator) {
+                $actuality = $this->competitionManager->createActuality($competition);
+
+                $actuality->setCreatedBy($creator);
+
+                $this->em->persist($actuality);
+                $this->em->flush();
+            }
 
             $this->io->info('Création de la compétition '.$competitionCode);
 
