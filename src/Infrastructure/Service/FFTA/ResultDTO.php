@@ -8,7 +8,7 @@ use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Config\Weapon;
 
-class ResultDTO
+final class ResultDTO
 {
     public function __construct(
         private ?string $code,

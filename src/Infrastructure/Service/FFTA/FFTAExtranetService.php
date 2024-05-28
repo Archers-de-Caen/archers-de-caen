@@ -11,7 +11,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class FFTAExtranetService
+final class FFTAExtranetService
 {
     private const int STRUCTURE_ID = 657;
 
@@ -78,7 +78,7 @@ class FFTAExtranetService
      */
     public function getCompetitionResults(?CompetitionResultSearchDTO $search = null): array
     {
-        if (!$search) {
+        if (!$search instanceof CompetitionResultSearchDTO) {
             $search = new CompetitionResultSearchDTO(
                 season: ArcheryService::getCurrentSeason(),
             );

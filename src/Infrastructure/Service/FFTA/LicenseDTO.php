@@ -6,7 +6,7 @@ namespace App\Infrastructure\Service\FFTA;
 
 use App\Domain\Archer\Config\Gender;
 
-readonly class LicenseDTO
+final readonly class LicenseDTO
 {
     public function __construct(
         private ?string $license,

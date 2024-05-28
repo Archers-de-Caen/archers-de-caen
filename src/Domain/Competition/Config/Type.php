@@ -105,17 +105,16 @@ enum Type: string
             if ($weapon->isCompound()) {
                 if (80 === $target) {
                     return Type::OUTDOOR_INTERNATIONAL;
-                } else {
-                    return Type::OUTDOOR_NATIONAL;
                 }
-            } else {
-                // TODO: Check if the distance is in the range of the category
-                if ($distance > 50) {
-                    return Type::OUTDOOR_INTERNATIONAL;
-                } else {
-                    return Type::OUTDOOR_NATIONAL;
-                }
+
+                return Type::OUTDOOR_NATIONAL;
             }
+
+            if ($distance > 50) {
+                // TODO: Check if the distance is in the range of the category
+                return Type::OUTDOOR_INTERNATIONAL;
+            }
+            return Type::OUTDOOR_NATIONAL;
         }
 
         return match ($fftaCode) {

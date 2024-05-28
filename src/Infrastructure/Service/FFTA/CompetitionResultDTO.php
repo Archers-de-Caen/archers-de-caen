@@ -9,7 +9,7 @@ use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Config\Weapon;
 use App\Domain\Competition\Config\Type;
 
-readonly class CompetitionResultDTO
+final readonly class CompetitionResultDTO
 {
     public function __construct(
         private int $season,
@@ -186,32 +186,32 @@ readonly class CompetitionResultDTO
     {
         return sprintf(
             '%s_%s_%s_%s',
-            $this->getStructureCode(),
-            $this->getStartCompetitionDate()->format('Ymd'),
-            $this->getEndCompetitionDate()->format('Ymd'),
-            $this->getDiscipline()->value,
+            $this->structureCode,
+            $this->startCompetitionDate->format('Ymd'),
+            $this->endCompetitionDate->format('Ymd'),
+            $this->discipline->value,
         );
     }
 
     public function getCompletionDate(): \DateTimeImmutable
     {
-        if ($this->getStartCompetitionDate() === $this->getEndCompetitionDate()) {
-            return $this->getStartCompetitionDate();
+        if ($this->startCompetitionDate === $this->endCompetitionDate) {
+            return $this->startCompetitionDate;
         }
 
-        if (1 === $this->getStartNumber()) {
-            return $this->getStartCompetitionDate();
+        if (1 === $this->startNumber) {
+            return $this->startCompetitionDate;
         }
 
-        if ($this->getStartNumber() >= 3) {
-            return $this->getEndCompetitionDate();
+        if ($this->startNumber >= 3) {
+            return $this->endCompetitionDate;
         }
 
-        if (2 === $this->getStartNumber() && $this->getDiscipline()->isTAE()) {
-            return $this->getEndCompetitionDate();
+        if (2 === $this->startNumber && $this->discipline->isTAE()) {
+            return $this->endCompetitionDate;
         }
 
-        return $this->getStartCompetitionDate();
+        return $this->startCompetitionDate;
     }
 
     public function getSeason(): int

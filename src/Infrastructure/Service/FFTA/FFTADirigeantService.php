@@ -10,7 +10,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class FFTADirigeantService
+final class FFTADirigeantService
 {
     private array $cookies = [];
 

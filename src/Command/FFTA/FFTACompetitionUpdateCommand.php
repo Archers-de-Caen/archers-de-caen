@@ -207,7 +207,7 @@ final class FFTACompetitionUpdateCommand extends Command
             $this->em->persist($competitionResult);
             $this->em->flush();
 
-            $this->io->info('Création du résultat de la compétition '.$competition->getFftaCode().' pour l\'archer '.$result->getLicenseNumber());
+            $this->io->info('Création du résultat de la compétition '.$competition->getFftaCode()." pour l'archer ".$result->getLicenseNumber());
 
             ++$this->report['result'];
         }

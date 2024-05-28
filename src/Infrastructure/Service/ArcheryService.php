@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Service;
 
-class ArcheryService
+final class ArcheryService
 {
     public static function getCurrentSeason(): int
     {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Service\FFTA;
 
-readonly class CompetitionResultSearchDTO
+final readonly class CompetitionResultSearchDTO
 {
     public function __construct(
         private int $season,
