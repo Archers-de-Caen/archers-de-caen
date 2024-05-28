@@ -43,7 +43,7 @@ final class FFTACompetitionUpdateCommand extends Command
      */
     private array $report;
 
-    public const string GET_RESULT_DATE_MIN = '2024-05-01';
+    public const string GET_RESULT_DATE_MIN = '2024-05-13';
 
     public function __construct(
         private readonly EntityManagerInterface $em,
