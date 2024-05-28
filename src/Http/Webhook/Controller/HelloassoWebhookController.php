@@ -46,7 +46,6 @@ final class HelloassoWebhookController extends AbstractController
 
         if ($content) {
             try {
-                /** @phpstan-ignore-next-line  */
                 $event = $helloasso->event->decode($content);
                 $webhook
                     ->setContent((array) json_decode($content, true, 512, \JSON_THROW_ON_ERROR))
