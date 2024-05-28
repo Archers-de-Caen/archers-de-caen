@@ -31,8 +31,8 @@ readonly class CompetitionResultDTO
         private int $nine,
         private int $distance,
         private int $target,
-        private \DateTimeInterface $startCompetitionDate,
-        private \DateTimeInterface $endCompetitionDate,
+        private \DateTimeImmutable $startCompetitionDate,
+        private \DateTimeImmutable $endCompetitionDate,
         private string $location,
         private string $organizerStructureCode,
         private string $organizerStructureName,
@@ -121,6 +121,18 @@ readonly class CompetitionResultDTO
         );
         $categoryOverRanking = $competitionResult[8] ? Category::createFromString($competitionResult[8].' '.$genderLongString) : null;
 
+        $dateStart = \DateTimeImmutable::createFromFormat('Y-m-d', $competitionResult[19]);
+
+        if (false === $dateStart) {
+            throw new \Exception('Invalid date start format');
+        }
+
+        $dateEnd = \DateTimeImmutable::createFromFormat('Y-m-d', $competitionResult[20]);
+
+        if (false === $dateEnd) {
+            throw new \Exception('Invalid date end format');
+        }
+
         return new self(
             season: (int) $competitionResult[0],
             discipline: $competitionType,
@@ -141,8 +153,8 @@ readonly class CompetitionResultDTO
             nine: (int) $competitionResult[16],
             distance: $distance,
             target: $target,
-            startCompetitionDate: new \DateTime($competitionResult[19]),
-            endCompetitionDate: new \DateTime($competitionResult[20]),
+            startCompetitionDate: $dateStart,
+            endCompetitionDate: $dateEnd,
             location: $competitionResult[21],
             organizerStructureCode: $competitionResult[22],
             organizerStructureName: $competitionResult[23],
@@ -179,6 +191,27 @@ readonly class CompetitionResultDTO
             $this->getEndCompetitionDate()->format('Ymd'),
             $this->getDiscipline()->value,
         );
+    }
+
+    public function getCompletionDate(): \DateTimeImmutable
+    {
+        if ($this->getStartCompetitionDate() === $this->getEndCompetitionDate()) {
+            return $this->getStartCompetitionDate();
+        }
+
+        if (1 === $this->getStartNumber()) {
+            return $this->getStartCompetitionDate();
+        }
+
+        if ($this->getStartNumber() >= 3) {
+            return $this->getEndCompetitionDate();
+        }
+
+        if (2 === $this->getStartNumber() && $this->getDiscipline()->isTAE()) {
+            return $this->getEndCompetitionDate();
+        }
+
+        return $this->getStartCompetitionDate();
     }
 
     public function getSeason(): int
@@ -276,12 +309,12 @@ readonly class CompetitionResultDTO
         return $this->target;
     }
 
-    public function getStartCompetitionDate(): \DateTimeInterface
+    public function getStartCompetitionDate(): \DateTimeImmutable
     {
         return $this->startCompetitionDate;
     }
 
-    public function getEndCompetitionDate(): \DateTimeInterface
+    public function getEndCompetitionDate(): \DateTimeImmutable
     {
         return $this->endCompetitionDate;
     }

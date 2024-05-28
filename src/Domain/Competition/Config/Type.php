@@ -139,10 +139,14 @@ enum Type: string
             self::INDOOR_4x18_M,
             self::INDOOR_2x25_M,
             self::INDOOR_2x18_M_2x25_M,
+            self::PARA_INDOOR,
 
             self::FEDERAL_50_M_30_M,
             self::FEDERAL_2x50_M,
 
+            self::OUTDOOR_INTERNATIONAL,
+            self::OUTDOOR_NATIONAL,
+            self::PARA_OUTDOOR,
             self::FITA,
             self::FITA_4x70_M,
             self::FITA_SCRATCH,
@@ -153,14 +157,21 @@ enum Type: string
             self::FLAG_SHOOTING,
             self::NATURE,
             self::THREE_D,
-            self::OUTDOOR_INTERNATIONAL,
-            self::OUTDOOR_NATIONAL,
             self::GOLDEN_APPLE_CHALLENGE,
             self::PROMOTIONAL,
             self::SPECIAL_YOUNG,
             self::RUN_ARCHERY,
-            self::PARA_INDOOR,
-            self::PARA_OUTDOOR,
         ];
+    }
+
+    public function isTAE(): bool
+    {
+        return \in_array($this, [
+            self::OUTDOOR_INTERNATIONAL,
+            self::OUTDOOR_NATIONAL,
+            self::PARA_OUTDOOR,
+            self::FITA,
+            self::FEDERAL_2x50_M,
+        ]);
     }
 }

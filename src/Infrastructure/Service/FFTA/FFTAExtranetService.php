@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Service\FFTA;
 
+use App\Infrastructure\Service\ArcheryService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
@@ -69,14 +70,20 @@ class FFTAExtranetService
     }
 
     /**
-     * @return array<array<string, CompetitionResultDTO>>
+     * @return array<string, array<CompetitionResultDTO>>
      *
      * @throws HttpExceptionInterface
      * @throws TransportExceptionInterface
      * @throws \Exception
      */
-    public function getCompetitionResults(int $season): array
+    public function getCompetitionResults(?CompetitionResultSearchDTO $search = null): array
     {
+        if (!$search) {
+            $search = new CompetitionResultSearchDTO(
+                season: ArcheryService::getCurrentSeason(),
+            );
+        }
+
         $pageConnexion = new \DOMDocument();
         $pageConnexion->validateOnParse = true;
 
@@ -89,14 +96,14 @@ class FFTAExtranetService
                 ],
                 'body' => [
                     'search' => [
-                        'Saison' => $season,
+                        'Saison' => $search->getSeason(),
                         'Discipline' => 'all',
                         'TypeChampionnat' => 'all',
                         'Pers' => 'CLU',
                         'oldPers' => 'CLU',
                         'Struc' => self::STRUCTURE_ID,
-                        'Date_dbt' => '01/01/'.($season - 1),
-                        'Date_fin' => '31/12/'.($season + 1),
+                        'Date_dbt' => $search->getDateStart() ? $search->getDateStart()->format('d/m/Y') : '01/01/'.($search->getSeason() - 1),
+                        'Date_fin' => $search->getDateEnd() ? $search->getDateEnd()->format('d/m/Y') : '31/12/'.($search->getSeason() + 1),
                     ],
                     'StartGen' => 'Générer les documents',
                 ],
@@ -149,7 +156,7 @@ class FFTAExtranetService
     /**
      * @param array<int, CompetitionResultDTO> $competitionResult
      *
-     * @return array<array<string, CompetitionResultDTO>>
+     * @return array<string, array<CompetitionResultDTO>>
      */
     private function groupResultsByCompetition(array $competitionResult): array
     {
