@@ -114,6 +114,7 @@ enum Type: string
                 // TODO: Check if the distance is in the range of the category
                 return Type::OUTDOOR_INTERNATIONAL;
             }
+
             return Type::OUTDOOR_NATIONAL;
         }
 
