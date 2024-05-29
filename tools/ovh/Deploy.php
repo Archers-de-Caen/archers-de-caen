@@ -11,22 +11,22 @@ declare(strict_types=1);
  */
 class Deploy
 {
-    private const BASE_PATH = '/home/archerschl';
-    private const PRODUCTION_PATH = self::BASE_PATH.'/v3';
+    private const string BASE_PATH = '/home/archerschl';
+    private const string PRODUCTION_PATH = self::BASE_PATH.'/v3';
 
-    private const PHP_EXECUTABLE = '/usr/local/php8.1/bin/php ';
+    private const string PHP_EXECUTABLE = '/usr/local/php8.3/bin/php ';
 
-    private const GET_COMMAND_ERROR = ' 2>&1';
+    private const string GET_COMMAND_ERROR = ' 2>&1';
 
-    private const PROJECT_ZIP = self::BASE_PATH.'/production.zip';
-    private const CURRENT_VERSION_FILE = self::BASE_PATH.'/current-version.txt';
+    private const string PROJECT_ZIP = self::BASE_PATH.'/production.zip';
+    private const string CURRENT_VERSION_FILE = self::BASE_PATH.'/current-version.txt';
 
-    private const PRODUCING_PATH = self::BASE_PATH.'/producing';
-    private const PRODUCTION_BK_PATH = self::PRODUCTION_PATH.'_bk';
+    private const string PRODUCING_PATH = self::BASE_PATH.'/producing';
+    private const string PRODUCTION_BK_PATH = self::PRODUCTION_PATH.'_bk';
 
-    private const GITHUB_RELEASES_HOST = 'https://api.github.com/repos/Archers-de-Caen/archers-de-caen/releases';
+    private const string GITHUB_RELEASES_HOST = 'https://api.github.com/repos/Archers-de-Caen/archers-de-caen/releases';
 
-    public const EMAIL = 'site@archers-caen.fr';
+    public const string EMAIL = 'site@archers-caen.fr';
 
     private array $logs = [];
 
@@ -110,7 +110,7 @@ class Deploy
 
         $this->logs('INFO - Migration base de donnée');
         if (!shell_exec(self::PHP_EXECUTABLE.self::PRODUCTION_PATH.'/bin/console doctrine:migration:migrate --no-interaction'.self::GET_COMMAND_ERROR)) {
-            $this->sendEmailDeployment('ERROR - Nouvelle version non déplacé');
+            $this->sendEmailDeployment('ERROR - Migration base de donnée impossible');
 
             return;
         }
