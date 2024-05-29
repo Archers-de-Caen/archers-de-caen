@@ -10,9 +10,9 @@ use App\Domain\Competition\Model\Competition;
 use App\Http\Landing\Controller\Results\CompetitionController;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class CompetitionManager
+final readonly class CompetitionManager
 {
-    public function __construct(readonly private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
     }
 
@@ -24,7 +24,7 @@ final class CompetitionManager
     {
         $iframeUrl = $this->urlGenerator->generate(CompetitionController::ROUTE, [
             'slug' => $competition->getSlug(),
-        ]).'?iframe=true';
+        ], UrlGeneratorInterface::ABSOLUTE_URL).'?iframe=true';
 
         return (new Page())
             ->setCategory(Category::ACTUALITY)

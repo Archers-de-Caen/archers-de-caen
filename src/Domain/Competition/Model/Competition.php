@@ -64,6 +64,12 @@ class Competition
     #[Assert\Valid]
     private Collection $resultsTeams;
 
+    /**
+     * @var string Ce code n'est pas vraiment un code ffta mais un code reconstitué avec les infos venant de la FFTA
+     */
+    #[ORM\Column(type: Types::STRING, length: 191)]
+    private string $fftaCode;
+
     public function __construct()
     {
         $this->results = new ArrayCollection();
@@ -218,5 +224,17 @@ class Competition
     {
         $this->resultsTeams->removeElement($resultTeam);
         $resultTeam->setCompetition(null);
+    }
+
+    public function getFftaCode(): string
+    {
+        return $this->fftaCode;
+    }
+
+    public function setFftaCode(string $competitionCode): self
+    {
+        $this->fftaCode = $competitionCode;
+
+        return $this;
     }
 }
