@@ -1,7 +1,0 @@
-{% from 'landing/_parts/file.html.twig' import file %}
-
-{% if competitionRegister.mandate %}
-    <div class="files mt-2">
-        {{ file(vich_uploader_asset(competitionRegister.mandate), 'Mandat') }}
-    </div>
-{% endif %}

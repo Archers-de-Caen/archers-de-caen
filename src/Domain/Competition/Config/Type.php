@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Competition\Config;
 
+use App\Domain\Archer\Config\Category;
+use App\Domain\Archer\Config\Weapon;
+
 enum Type: string
 {
     case INDOOR_2x18_M = 'indoor_2_x_18_m';
@@ -26,6 +29,9 @@ enum Type: string
     case GOLDEN_APPLE_CHALLENGE = 'golden_apple_challenge';
     case PROMOTIONAL = 'promotional';
     case SPECIAL_YOUNG = 'special_young';
+    case RUN_ARCHERY = 'run_archery';
+    case PARA_INDOOR = 'para_indoor';
+    case PARA_OUTDOOR = 'para_outdoor';
 
     public function toString(): string
     {
@@ -50,6 +56,9 @@ enum Type: string
             self::GOLDEN_APPLE_CHALLENGE => "Challenge de la Pomme d'Or",
             self::PROMOTIONAL => 'Promotionnel',
             self::SPECIAL_YOUNG => 'Spécial jeune',
+            self::RUN_ARCHERY => 'Run Archery',
+            self::PARA_INDOOR => 'Para Indoor',
+            self::PARA_OUTDOOR => 'Para Outdoor',
         };
     }
 
@@ -82,6 +91,47 @@ enum Type: string
         };
     }
 
+    /**
+     * @throws \ValueError
+     */
+    public static function createFromFFTACode(
+        string $fftaCode,
+        int $distance,
+        Category $archerCategory,
+        Weapon $weapon,
+        int $target
+    ): self {
+        if ('T' === $fftaCode) {
+            if ($weapon->isCompound()) {
+                if (80 === $target) {
+                    return Type::OUTDOOR_INTERNATIONAL;
+                }
+
+                return Type::OUTDOOR_NATIONAL;
+            }
+
+            if ($distance > 50) {
+                // TODO: Check if the distance is in the range of the category
+                return Type::OUTDOOR_INTERNATIONAL;
+            }
+
+            return Type::OUTDOOR_NATIONAL;
+        }
+
+        return match ($fftaCode) {
+            'S' => Type::INDOOR_2x18_M,
+            'C' => Type::CAMPAGNE,
+            '3' => Type::THREE_D,
+            'N' => Type::NATURE,
+            'B' => Type::BEURSAULT,
+            'P' => Type::SPECIAL_YOUNG,
+            'A' => Type::RUN_ARCHERY,
+            'H' => Type::PARA_OUTDOOR,
+            'I' => Type::PARA_INDOOR,
+            default => throw new \ValueError('Competition type not found'),
+        };
+    }
+
     public static function getInOrder(): array
     {
         return [
@@ -89,10 +139,14 @@ enum Type: string
             self::INDOOR_4x18_M,
             self::INDOOR_2x25_M,
             self::INDOOR_2x18_M_2x25_M,
+            self::PARA_INDOOR,
 
             self::FEDERAL_50_M_30_M,
             self::FEDERAL_2x50_M,
 
+            self::OUTDOOR_INTERNATIONAL,
+            self::OUTDOOR_NATIONAL,
+            self::PARA_OUTDOOR,
             self::FITA,
             self::FITA_4x70_M,
             self::FITA_SCRATCH,
@@ -103,11 +157,21 @@ enum Type: string
             self::FLAG_SHOOTING,
             self::NATURE,
             self::THREE_D,
-            self::OUTDOOR_INTERNATIONAL,
-            self::OUTDOOR_NATIONAL,
             self::GOLDEN_APPLE_CHALLENGE,
             self::PROMOTIONAL,
             self::SPECIAL_YOUNG,
+            self::RUN_ARCHERY,
         ];
+    }
+
+    public function isTAE(): bool
+    {
+        return \in_array($this, [
+            self::OUTDOOR_INTERNATIONAL,
+            self::OUTDOOR_NATIONAL,
+            self::PARA_OUTDOOR,
+            self::FITA,
+            self::FEDERAL_2x50_M,
+        ]);
     }
 }
