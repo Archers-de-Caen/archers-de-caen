@@ -53,7 +53,7 @@ final class CompetitionController extends AbstractController
                             ++$recordCount;
                         }
 
-                        if ($result->getRank() <= 3) {
+                        if ($result->getRank() <= 3 && $result->getRank() > 0) {
                             ++$podiumCount;
                         }
 

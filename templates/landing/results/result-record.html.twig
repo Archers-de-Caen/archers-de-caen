@@ -31,6 +31,7 @@
 
             <thead class="--header-sticky">
                 <tr>
+                    <th></th>
                     <th>Archer</th>
                     <th>Catégorie</th>
                     <th>Arme</th>
@@ -42,6 +43,9 @@
             <tbody>
                 {% for result in resultRecords %}
                     <tr>
+                        <td>
+                            {{ loop.index }}
+                        </td>
                         <td>
                             <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Archer\\ArcherRecapController::ROUTE'), { licenseNumber: result.archer.licenseNumber }) }}"
                                target="_parent"
@@ -71,7 +75,7 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="5">Aucun record dans cette catégorie</td>
+                        <td colspan="7">Aucun record dans cette catégorie</td>
                     </tr>
                 {% endfor %}
             </tbody>

@@ -28,6 +28,7 @@ table {
     td, th {
       padding: 10px 20px;
       border: 1px solid $color-yellow;
+      vertical-align: middle;
     }
 
     &:first-child {

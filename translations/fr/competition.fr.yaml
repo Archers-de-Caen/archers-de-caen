@@ -59,6 +59,15 @@ promotional: 'Promotionnel'
 SPECIAL_YOUNG: 'Spécial jeune'
 special_young: 'Spécial jeune'
 
+RUN_ARCHERY: 'Run Archery'
+run_archery: 'Run Archery'
+
+PARA_INDOOR: 'Para-tir salle'
+para_indoor: 'Para-tir salle'
+
+PARA_OUTDOOR: 'Para-tir extérieur'
+para_outdoor: 'Para-tir extérieur'
+
 # Target
 mono_40: 'cible de 40'
 mono_60: 'cible de 60'

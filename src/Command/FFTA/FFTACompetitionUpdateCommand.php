@@ -9,6 +9,7 @@ use App\Domain\Archer\Repository\ArcherRepository;
 use App\Domain\Competition\Manager\CompetitionManager;
 use App\Domain\Competition\Model\Competition;
 use App\Domain\Competition\Repository\CompetitionRepository;
+use App\Domain\Result\Manager\ResultCompetitionManager;
 use App\Domain\Result\Model\ResultCompetition;
 use App\Domain\Result\Repository\ResultCompetitionRepository;
 use App\Infrastructure\Service\ArcheryService;
@@ -55,6 +56,7 @@ final class FFTACompetitionUpdateCommand extends Command
         private readonly ArcherRepository $archerRepository,
         private readonly CompetitionManager $competitionManager,
         private readonly FFTAExtranetService $fftaExtranetService,
+        private readonly ResultCompetitionManager $resultCompetitionManager,
         ?string $name = null
     ) {
         parent::__construct($name);
@@ -87,7 +89,10 @@ final class FFTACompetitionUpdateCommand extends Command
             foreach ($competitionResult as $result) {
                 $competition = $this->retrieveCompetition($competitionCode, $result);
                 $archer = $this->retrieveArcher($result);
-                $this->retrieveCompetitionResult($archer, $competition, $result);
+                $result = $this->retrieveCompetitionResult($archer, $competition, $result);
+
+                $this->resultCompetitionManager->awardingBadges($result);
+                $this->resultCompetitionManager->awardingRecord($result);
             }
         }
 
