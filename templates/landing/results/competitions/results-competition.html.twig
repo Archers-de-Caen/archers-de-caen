@@ -17,6 +17,14 @@
             podiumCount: podiumCount
         }) }}
 
+        <div class="text-right">
+            <p>
+                Bilan: {{ participantCount }} participant{% if participantCount > 1%}s{% endif%},
+                {{ recordCount }} record{% if recordCount > 1%}s{% endif%},
+                {{ podiumCount }} podium{% if podiumCount > 1%}s{% endif%}
+            </p>
+        </div>
+
         {% set season = competition.dateStart|date('m') >= 9 ? competition.dateStart|date('Y') + 1 : competition.dateStart|date('Y') %}
         <a href="#"
            onclick="window.history.back(); return false;"
