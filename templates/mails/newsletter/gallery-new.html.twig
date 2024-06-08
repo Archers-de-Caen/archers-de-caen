@@ -8,21 +8,21 @@
 
     <table>
         <tr>
-            {% if gallery.photos[0] is defined %}
+            {% if gallery.mainPhoto is defined %}
                 <td colspan="2">
-                    <img src="{{ absolute_url(vich_uploader_asset(gallery.photos[0], 'imageFile')) }}" alt="{{ gallery.photos[0].imageName }}">
+                    <img src="{{ absolute_url(vich_uploader_asset(gallery.mainPhoto, 'imageFile')) }}" alt="{{ gallery.mainPhoto.imageName }}">
                 </td>
             {% endif %}
         </tr>
 
         <tr>
-            {% if gallery.photos[1] is defined %}
+            {% if gallery.photos[0] is defined %}
                 <td>
                     <img src="{{ absolute_url(vich_uploader_asset(gallery.photos[1], 'imageFile')) }}" alt="{{ gallery.photos[1].imageName }}">
                 </td>
             {% endif %}
 
-            {% if gallery.photos[2] is defined %}
+            {% if gallery.photos[1] is defined %}
                 <td>
                     <img src="{{ absolute_url(vich_uploader_asset(gallery.photos[2], 'imageFile')) }}" alt="{{ gallery.photos[2].imageName }}">
                 </td>
