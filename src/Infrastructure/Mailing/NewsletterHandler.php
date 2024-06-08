@@ -7,19 +7,21 @@ namespace App\Infrastructure\Mailing;
 use App\Domain\Archer\Repository\ArcherRepository;
 use App\Domain\Cms\Repository\GalleryRepository;
 use App\Domain\Cms\Repository\PageRepository;
+use App\Domain\Competition\Repository\CompetitionRepository;
 use App\Domain\Newsletter\Newsletter;
 use App\Domain\Newsletter\NewsletterRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class NewsletterHandler
+final readonly class NewsletterHandler
 {
     public function __construct(
-        private readonly NewsletterRepository $newsletterRepository,
-        private readonly ArcherRepository $archerRepository,
-        private readonly GalleryRepository $galleryRepository,
-        private readonly PageRepository $pageRepository,
-        private readonly Mailer $mailer,
+        private NewsletterRepository $newsletterRepository,
+        private ArcherRepository $archerRepository,
+        private GalleryRepository $galleryRepository,
+        private PageRepository $pageRepository,
+        private CompetitionRepository $competitionRepository,
+        private Mailer $mailer,
     ) {
     }
 
@@ -70,6 +72,14 @@ final class NewsletterHandler
         if ($newsletterMessage instanceof ActualityNewsletterMessage) {
             return [
                 'actuality' => $this->pageRepository->find($newsletterMessage->getActualityUid()),
+            ];
+        }
+
+        if ($newsletterMessage instanceof MonthlyReportNewsletterMessage) {
+            return [
+                'actualities' => $this->pageRepository->findBy(['id' => $newsletterMessage->getActualityUuids()]),
+                'competitions' => $this->competitionRepository->findBy(['id' => $newsletterMessage->getCompetitionUuids()]),
+                'galleries' => $this->galleryRepository->findBy(['id' => $newsletterMessage->getGalerieUuids()]),
             ];
         }
 
