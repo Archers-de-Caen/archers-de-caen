@@ -72,7 +72,7 @@ final class CompetitionRepository extends ServiceEntityRepository
 
         /** @var array<Competition> $competitions */
         $competitions = $this->createQueryBuilder('competition')
-            ->where('competition.createdAt BETWEEN :lastMonth AND :currentMonth')
+            ->where('competition.dateStart BETWEEN :lastMonth AND :currentMonth')
             ->setParameter('lastMonth', $lastMonth)
             ->setParameter('currentMonth', $currentMonth)
             ->getQuery()

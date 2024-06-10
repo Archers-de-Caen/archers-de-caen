@@ -11,12 +11,12 @@ final readonly class MonthlyReportNewsletterMessage implements NewsletterMessage
 {
     /**
      * @param array<Uuid> $actualityUuids
-     * @param array<Uuid> $galerieUuids
+     * @param array<Uuid> $galleryUuids
      * @param array<Uuid> $competitionUuids
      */
     public function __construct(
         private array $actualityUuids,
-        private array $galerieUuids,
+        private array $galleryUuids,
         private array $competitionUuids,
     ) {
     }
@@ -26,9 +26,9 @@ final readonly class MonthlyReportNewsletterMessage implements NewsletterMessage
         return $this->actualityUuids;
     }
 
-    public function getGalerieUuids(): array
+    public function getGalleryUuids(): array
     {
-        return $this->galerieUuids;
+        return $this->galleryUuids;
     }
 
     public function getCompetitionUuids(): array
@@ -47,7 +47,7 @@ final readonly class MonthlyReportNewsletterMessage implements NewsletterMessage
     {
         return [
             'actualities' => implode(',', array_map(fn (Uuid $uuid) => $uuid->__toString(), $this->actualityUuids)),
-            'galeries' => implode(',', array_map(fn (Uuid $uuid) => $uuid->__toString(), $this->galerieUuids)),
+            'galeries' => implode(',', array_map(fn (Uuid $uuid) => $uuid->__toString(), $this->galleryUuids)),
             'competitions' => implode(',', array_map(fn (Uuid $uuid) => $uuid->__toString(), $this->competitionUuids)),
         ];
     }

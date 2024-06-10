@@ -1,33 +1,138 @@
-{# @var actuality \App\Domain\Cms\Model\Page #}
+{# @var actualities \App\Domain\Cms\Model\Page[] #}
+{# @var competitions \App\Domain\Competition\Model\Competition[] #}
+{# @var galleries \App\Domain\Cms\Model\Gallery[] #}
 
 {% extends layout %}
 
 {% block body %}
-    <h1>{{ actuality.title }}</h1>
+    <h1 style="text-align: center; font-size: 1.8rem">
+        Que s'est-il passé le mois dernier ?
+    </h1>
 
-    {% if actuality.image %}
-        <table>
+    {% if actualities|length %}
+        <h2 style="text-align: center; font-size: 1.5rem">
+            {{ actualities|length }} Actualités
+        </h2>
+
+        <table class="table">
+            {% for actuality in actualities %}
+                {% if loop.index is odd %}<tr style="display: flex; gap: 5px">{% endif %}
+                    <td style="flex: 1">
+                        <a href="{{ absolute_url(path(constant('App\\Http\\Landing\\Controller\\Actuality\\ActualityController::ROUTE'), { slug: actuality.slug })) }}"
+                            style="display: block"
+                        >
+                            {% if actuality.image %}
+                                <img
+                                    src="{{ absolute_url(vich_uploader_asset(actuality.image, 'imageFile')) }}"
+                                    alt="{{ actuality.image.imageName }}"
+                                    style="height: 150px; width: 100%; object-fit: cover"
+                                >
+                            {% else %}
+                                <img
+                                    src="{{ absolute_url(asset('build/images/photo/cible.webp')) }}"
+                                    alt="Image par défaut"
+                                    style="height: 150px; width: 100%; object-fit: cover"
+                                >
+                            {% endif %}
+                            <span>
+                                {{ actuality.title }}
+                            </span>
+                        </a>
+                    </td>
+                {% if loop.index is even or loop.last %}</tr>{% endif %}
+            {% endfor %}
+        </table>
+
+        <hr>
+    {% endif %}
+
+    {% if competitions|length %}
+        <h2 style="text-align: center; margin-top: 25px; font-size: 1.5rem">
+            {{ competitions|length }} Compétitions
+        </h2>
+
+        <table class="table">
+            {% for competition in competitions %}
+                <tr>
+                    <td>
+                        <a href="{{ absolute_url(path(constant('App\\Http\\Landing\\Controller\\Results\\CompetitionController::ROUTE'), { slug: competition.slug })) }}">
+                            {{ competition.dateStart|date('d/m/Y') }} - {{ competition.type.toString }} à {{ competition.location }}
+                        </a>
+                        <span>
+                            {% for result in competition.results %}
+                            {# @var result \App\Domain\Result\Model\ResultCompetition #}
+
+                                 | <strong>{{ result.archer.firstName }} {{ result.archer.lastName }}</strong>
+                                {% if result.rank != 0 %}
+                                {{ result.rank }}<sup>e{% if result.rank == 1 %}r{% endif %}</sup>
+                                {% endif %}
+                                {{ result.weapon.toShortString }} {{ result.score }}
+                            {% endfor %}
+                        </span>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <h3 style="margin-top: 10px; font-size: 1.2rem">
+            En chiffres
+        </h3>
+
+        <table style="margin-bottom: 20px; width: 100%">
             <tr>
                 <td>
-                    <img src="{{ absolute_url(vich_uploader_asset(actuality.image, 'imageFile')) }}" alt="{{ actuality.image.imageName }}">
+                    <strong>{{ competitions|length }}</strong> compétitions
+                </td>
+                <td>
+                    <strong>{{ competitions|map(c => c.results|filter(r => r.rank <= 3 and r.rank != 0)|length)|reduce((carry, v) => carry + v, 10) }}</strong> podiums
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>{{ competitions|map(c => c.results|length)|reduce((carry, v) => carry + v, 10) }}</strong> participations
+                </td>
+                <td>
+                    <strong>{{ competitions|map(c => c.results|filter(r => r.record)|length)|reduce((carry, v) => carry + v, 10) }}</strong> records personnels
                 </td>
             </tr>
         </table>
+
+        <hr>
     {% endif %}
 
-    {{ actuality.content|raw }}
+    {% if galleries|length %}
+        <h2 style="text-align: center; margin-top: 25px; font-size: 1.5rem">
+            {{ galleries|length }} Albums photos
+        </h2>
 
-    <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin-top: 1rem">
-        <tr>
-            <td align="center">
-                <a href="{{ absolute_url(path(constant('App\\Http\\Landing\\Controller\\Actuality\\ActualityController::ROUTE'), { slug: actuality.slug })) }}"
-                   class="button button-primary"
-                >
-                    Voir l'article
-                </a>
-            </td>
-        </tr>
-    </table>
+        <table class="table">
+            {% for gallery in galleries %}
+                {% if loop.index is odd %}<tr style="display: flex; gap: 5px">{% endif %}
+                    <td style="flex: 1; text-align: left">
+                        <a href="{{ absolute_url(path(constant('App\\Http\\Landing\\Controller\\Gallery\\GalleryController::ROUTE'), { slug: gallery.slug })) }}">
+                            {% if gallery.mainPhoto %}
+                                <img
+                                    src="{{ absolute_url(vich_uploader_asset(gallery.mainPhoto, 'imageFile')) }}"
+                                    alt="{{ gallery.mainPhoto.imageName }}"
+                                    style="height: 150px; width: 100%; object-fit: cover"
+                                >
+                            {% else %}
+                                <img
+                                    src="{{ absolute_url(asset('build/images/photo/cible.webp')) }}"
+                                    alt="Image par défaut"
+                                    style="height: 150px; width: 100%; object-fit: cover"
+                                >
+                            {% endif %}
+                            <span>
+                                {{ gallery.title }}
+                            </span>
+                        </a>
+                    </td>
+                {% if loop.index is even or loop.last %}</tr>{% endif %}
+            {% endfor %}
+        </table>
+    {% endif %}
+
 {% endblock %}
 
 {% block footer_link %}

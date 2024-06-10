@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Cms\Repository;
 
+use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Model\Gallery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -60,6 +61,10 @@ final class GalleryRepository extends ServiceEntityRepository
             ->where('gallery.createdAt BETWEEN :lastMonth AND :currentMonth')
             ->setParameter('lastMonth', $lastMonth)
             ->setParameter('currentMonth', $currentMonth)
+
+            ->andWhere('gallery.status = :status')
+            ->setParameter('status', Status::PUBLISH)
+
             ->getQuery()
             ->getResult();
 

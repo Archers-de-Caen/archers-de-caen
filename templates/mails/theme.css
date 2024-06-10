@@ -46,6 +46,7 @@ h1 {
 }
 
 h2 {
+    color: #3d4852;
     font-size: 16px;
     font-weight: bold;
     margin-top: 0;
@@ -253,32 +254,6 @@ img {
 .button-error {
     background-color: #CC333D;
     border: 2px solid #CC333D;
-}
-
-/* Panels */
-
-.panel {
-    border-left: #2d3748 solid 4px;
-    margin: 21px 0;
-}
-
-.panel-content {
-    background-color: #edf2f7;
-    color: #718096;
-    padding: 16px;
-}
-
-.panel-content p {
-    color: #718096;
-}
-
-.panel-item {
-    padding: 0;
-}
-
-.panel-item p:last-of-type {
-    margin-bottom: 0;
-    padding-bottom: 0;
 }
 
 /* Utilities */

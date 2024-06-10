@@ -53,7 +53,7 @@ class MonthlyReportCommand extends Command
 
                 return $id;
             }, $actualities),
-            galerieUuids: array_map(function (Gallery $gallery) {
+            galleryUuids: array_map(function (Gallery $gallery) {
                 /** @var Uuid $id */
                 $id = $gallery->getId();
 

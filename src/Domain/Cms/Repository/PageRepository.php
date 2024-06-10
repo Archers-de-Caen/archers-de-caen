@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Cms\Repository;
 
 use App\Domain\Cms\Config\Category;
+use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Model\Page;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -81,6 +82,9 @@ final class PageRepository extends ServiceEntityRepository
         $actualities = $this->createQueryBuilder('page')
             ->where('page.category = :category')
             ->setParameter('category', Category::ACTUALITY)
+
+            ->andWhere('page.status = :status')
+            ->setParameter('status', Status::PUBLISH)
 
             ->andWhere('page.createdAt BETWEEN :lastMonth AND :currentMonth')
             ->setParameter('lastMonth', $lastMonth)

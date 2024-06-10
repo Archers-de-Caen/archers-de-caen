@@ -11,6 +11,7 @@ use App\Domain\Competition\Repository\CompetitionRepository;
 use App\Domain\Newsletter\Newsletter;
 use App\Domain\Newsletter\NewsletterRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Component\Uid\Uuid;
 
 #[AsMessageHandler]
 final readonly class NewsletterHandler
@@ -53,6 +54,10 @@ final readonly class NewsletterHandler
             $this->getEmailTemplateData($newsletterMessage)
         );
 
+        if (empty($emails)) {
+            return;
+        }
+
         $email
             ->subject($newsletterMessage->getType()->emailSubject())
             ->addBcc(...$emails)
@@ -77,9 +82,21 @@ final readonly class NewsletterHandler
 
         if ($newsletterMessage instanceof MonthlyReportNewsletterMessage) {
             return [
-                'actualities' => $this->pageRepository->findBy(['id' => $newsletterMessage->getActualityUuids()]),
-                'competitions' => $this->competitionRepository->findBy(['id' => $newsletterMessage->getCompetitionUuids()]),
-                'galleries' => $this->galleryRepository->findBy(['id' => $newsletterMessage->getGalerieUuids()]),
+                'actualities' => $this->pageRepository->createQueryBuilder('page')
+                    ->where('page.id IN (:ids)')
+                    ->setParameter('ids', array_map(static fn (Uuid $uuid) => $uuid->toBinary(), $newsletterMessage->getActualityUuids()))
+                    ->getQuery()
+                    ->getResult(),
+                'competitions' => $this->competitionRepository->createQueryBuilder('competition')
+                    ->where('competition.id IN (:ids)')
+                    ->setParameter('ids', array_map(static fn (Uuid $uuid) => $uuid->toBinary(), $newsletterMessage->getCompetitionUuids()))
+                    ->getQuery()
+                    ->getResult(),
+                'galleries' => $this->galleryRepository->createQueryBuilder('gallery')
+                    ->where('gallery.id IN (:ids)')
+                    ->setParameter('ids', array_map(static fn (Uuid $uuid) => $uuid->toBinary(), $newsletterMessage->getGalleryUuids()))
+                    ->getQuery()
+                    ->getResult(),
             ];
         }
 
