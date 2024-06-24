@@ -12,6 +12,7 @@ use App\Domain\Competition\Repository\CompetitionRepository;
 use App\Domain\Result\Manager\ResultCompetitionManager;
 use App\Domain\Result\Model\ResultCompetition;
 use App\Domain\Result\Repository\ResultCompetitionRepository;
+use App\Infrastructure\Mailing\AdminNotificationMessage;
 use App\Infrastructure\Service\ArcheryService;
 use App\Infrastructure\Service\FFTA\CompetitionResultDTO;
 use App\Infrastructure\Service\FFTA\CompetitionResultSearchDTO;
@@ -25,6 +26,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
@@ -42,9 +44,9 @@ final class FFTACompetitionUpdateCommand extends Command
 
     /**
      * @var array{
-     *     competition: int,
-     *     archer: int,
-     *     result: int,
+     *     competition: array<Competition>,
+     *     archer: array<Archer>,
+     *     result: array<ResultCompetition>,
      * }
      */
     private array $report;
@@ -57,6 +59,7 @@ final class FFTACompetitionUpdateCommand extends Command
         private readonly CompetitionManager $competitionManager,
         private readonly FFTAExtranetService $fftaExtranetService,
         private readonly ResultCompetitionManager $resultCompetitionManager,
+        private readonly MessageBusInterface $messageBus,
         ?string $name = null
     ) {
         parent::__construct($name);
@@ -67,9 +70,9 @@ final class FFTACompetitionUpdateCommand extends Command
     {
         $this->io = new SymfonyStyle($input, $output);
         $this->report = [
-            'competition' => 0,
-            'archer' => 0,
-            'result' => 0,
+            'competition' => [],
+            'archer' => [],
+            'result' => [],
         ];
 
         $this->io->info('Run '.$this->getName());
@@ -97,7 +100,19 @@ final class FFTACompetitionUpdateCommand extends Command
         }
 
         $this->io->info('Rapport:');
-        $this->io->table(array_keys($this->report), [$this->report]);
+        $this->io->table(array_keys($this->report), [array_map(fn (array $report) => \count($report), $this->report)]);
+
+        if (\count($this->report['result']) > 0) {
+            $this->messageBus->dispatch(new AdminNotificationMessage(
+                'Les résultats des compétitions ont été importés',
+                'mails/admin/new-competition-imported.html.twig',
+                [
+                    'report' => $this->report,
+                ]
+            ));
+
+            $this->io->info('Notification envoyée');
+        }
 
         $this->io->success('finish '.$this->getName());
 
@@ -170,7 +185,7 @@ final class FFTACompetitionUpdateCommand extends Command
 
             $this->io->info('Création de la compétition '.$competitionCode);
 
-            ++$this->report['competition'];
+            $this->report['competition'][] = $competition;
         }
 
         return $competition;
@@ -194,7 +209,7 @@ final class FFTACompetitionUpdateCommand extends Command
 
             $this->io->info('Création de l\'archer '.$result->getLicenseNumber());
 
-            ++$this->report['archer'];
+            $this->report['archer'][] = $archer;
         }
 
         return $archer;
@@ -231,7 +246,7 @@ final class FFTACompetitionUpdateCommand extends Command
 
             $this->io->info('Création du résultat de la compétition '.$competition->getFftaCode()." pour l'archer ".$result->getLicenseNumber());
 
-            ++$this->report['result'];
+            $this->report['result'][] = $competitionResult;
         }
 
         return $competitionResult;
