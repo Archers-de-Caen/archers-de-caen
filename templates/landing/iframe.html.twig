@@ -9,7 +9,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
+            {% for path in encore_entry_css_files('app') %}
+                <link rel="stylesheet" href="{{ absolute_url(path) }}">
+            {% endfor %}
         {% endblock %}
 
         {% block javascripts %}

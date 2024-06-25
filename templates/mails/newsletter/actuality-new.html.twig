@@ -15,9 +15,9 @@
         </table>
     {% endif %}
 
-    {{ actuality.content|raw }}
+    {{ actuality.content|replace_iframes|raw }}
 
-    <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin-top: 1rem">
+    <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin-top: 1rem; width: 100%; text-align: center">
         <tr>
             <td align="center">
                 <a href="{{ absolute_url(path(constant('App\\Http\\Landing\\Controller\\Actuality\\ActualityController::ROUTE'), { slug: actuality.slug })) }}"
