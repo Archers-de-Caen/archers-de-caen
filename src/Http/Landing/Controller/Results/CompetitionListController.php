@@ -44,7 +44,7 @@ final class CompetitionListController extends AbstractController
         #[MapQueryString]
         ?CompetitionFilterDto $filterDto,
         #[MapQueryString]
-        PaginationDto $pagination = null,
+        ?PaginationDto $pagination = null,
     ): Response {
         $filterForm = $this->createForm(CompetitionFilter::class, $filterDto);
         $filterForm->handleRequest($request);

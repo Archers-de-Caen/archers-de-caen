@@ -30,7 +30,7 @@ final class Recaptcha
         $this->url = $url ?? '';
     }
 
-    public function checkRecaptcha(string $clientSideToken, string $clientIp = null): bool
+    public function checkRecaptcha(string $clientSideToken, ?string $clientIp = null): bool
     {
         $params = [
             'body' => [

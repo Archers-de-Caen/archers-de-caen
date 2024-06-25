@@ -23,7 +23,7 @@ final class CreateArcher extends Command
     public function __construct(
         private readonly ValidatorInterface $validator,
         private readonly EntityManagerInterface $em,
-        string $name = null
+        ?string $name = null
     ) {
         parent::__construct($name);
     }
