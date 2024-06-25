@@ -50,16 +50,16 @@ enum Weapon: string
 
     public function isRecurve(): bool
     {
-        return $this === self::RECURVE_BOW;
+        return self::RECURVE_BOW === $this;
     }
 
     public function isCompound(): bool
     {
-        return $this === self::COMPOUND_BOW;
+        return self::COMPOUND_BOW === $this;
     }
 
     public function isBareBow(): bool
     {
-        return $this === self::BARE_BOW;
+        return self::BARE_BOW === $this;
     }
 }

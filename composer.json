@@ -128,22 +128,22 @@
     "post-update-cmd": [
       "@auto-scripts"
     ],
-    "dev-server": "php -S localhost:80 -t public",
-    "lint": "vendor/bin/phpstan analyse -c tools/phpstan/phpstan.neon",
-    "clean": "vendor/bin/php-cs-fixer fix src --allow-risky=yes --config=tools/php-cs-fixer/.php-cs-fixer.php",
-    "tests": [
+    "app:dev-server": "php -S localhost:80 -t public",
+    "app:lint": "vendor/bin/phpstan analyse -c tools/phpstan/phpstan.neon",
+    "app:clean": "vendor/bin/php-cs-fixer fix src --allow-risky=yes --config=tools/php-cs-fixer/.php-cs-fixer.php",
+    "app:tests": [
       "php bin/console --env=test cache:clear",
       "@database-init --env=test",
       "php bin/phpunit  --bootstrap tests/bootstrap.php --configuration phpunit.xml.dist",
       "php bin/console --env=test doctrine:database:drop --no-interaction --force"
     ],
-    "database-init": [
+    "app:database-init": [
       "php bin/console doctrine:database:drop --no-interaction --if-exists --force",
       "php bin/console doctrine:database:create --no-interaction",
       "php bin/console doctrine:schema:create --no-interaction"
     ],
-    "fixtures": "php bin/console hautelook:fixtures:load --no-interaction",
-    "rector": "vendor/bin/rector process src"
+    "app:fixtures": "php bin/console hautelook:fixtures:load --no-interaction",
+    "app:rector": "vendor/bin/rector process src"
   },
   "conflict": {
     "symfony/symfony": "*"

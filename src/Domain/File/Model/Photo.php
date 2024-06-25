@@ -90,7 +90,7 @@ class Photo implements UploadableInterface
      * must be able to accept an instance of 'File' as the bundle will inject one here
      * during Doctrine hydration.
      */
-    public function setImageFile(File|UploadedFile $imageFile = null): self
+    public function setImageFile(File|UploadedFile|null $imageFile = null): self
     {
         $this->imageFile = $imageFile;
 
