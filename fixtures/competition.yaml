@@ -4,3 +4,4 @@ App\Domain\Competition\Model\Competition:
     dateStart: '<dateTimeImmutableBetween("-2 years", "+2 years")>'
     dateEnd: '<dateTimeImmutableBetween("-2 years", "+2 years")>'
     type: '<randomElement(<(App\Domain\Competition\Config\Type::cases())>)>'
+    ffta_code: '<word()>-<numberBetween(1000, 9999)>'

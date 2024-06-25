@@ -40,13 +40,15 @@ final class FFTACompetitionUpdateCommand extends Command
 
     public const string LICENSE_NUMBER_OF_CREATOR_ACTUALITY = '0785039D';
 
+    public const array RESULT_KEYS = ['competition', 'archer', 'result'];
+
     private SymfonyStyle $io;
 
     /**
      * @var array{
      *     competition: array<Competition>,
      *     archer: array<Archer>,
-     *     result: array<ResultCompetition>,
+     *     result: array<ResultCompetition>
      * }
      */
     private array $report;
@@ -100,9 +102,9 @@ final class FFTACompetitionUpdateCommand extends Command
         }
 
         $this->io->info('Rapport:');
-        $this->io->table(array_keys($this->report), [array_map(fn (array $report) => \count($report), $this->report)]);
+        $this->io->table(array_keys($this->report), [array_map(static fn(array $report): int => \count($report), $this->report)]);
 
-        if (\count($this->report['result']) > 0) {
+        if ($this->getReport('result') !== []) {
             $this->messageBus->dispatch(new AdminNotificationMessage(
                 'Les résultats des compétitions ont été importés',
                 'mails/admin/new-competition-imported.html.twig',
@@ -185,7 +187,7 @@ final class FFTACompetitionUpdateCommand extends Command
 
             $this->io->info('Création de la compétition '.$competitionCode);
 
-            $this->report['competition'][] = $competition;
+            $this->addReport('competition', $competition);
         }
 
         return $competition;
@@ -209,7 +211,7 @@ final class FFTACompetitionUpdateCommand extends Command
 
             $this->io->info('Création de l\'archer '.$result->getLicenseNumber());
 
-            $this->report['archer'][] = $archer;
+            $this->addReport('archer', $archer);
         }
 
         return $archer;
@@ -246,9 +248,28 @@ final class FFTACompetitionUpdateCommand extends Command
 
             $this->io->info('Création du résultat de la compétition '.$competition->getFftaCode()." pour l'archer ".$result->getLicenseNumber());
 
-            $this->report['result'][] = $competitionResult;
+            $this->addReport('result', $competitionResult);
         }
 
         return $competitionResult;
+    }
+
+    private function addReport(string $type, mixed $value): void
+    {
+        if (!\in_array($type, self::RESULT_KEYS, true)) {
+            throw new \InvalidArgumentException('Type de rapport inconnu');
+        }
+
+        /* @phpstan-ignore-next-line */
+        $this->report[$type][] = $value;
+    }
+
+    private function getReport(string $type): array
+    {
+        if (!\in_array($type, self::RESULT_KEYS, true)) {
+            throw new \InvalidArgumentException('Type de rapport inconnu');
+        }
+
+        return $this->report[$type];
     }
 }
