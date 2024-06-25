@@ -18,7 +18,7 @@ use Gedmo\Mapping\Annotation\Slug;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CompetitionRepository::class)]
-class Competition
+class Competition implements \Stringable
 {
     use IdTrait;
     use TimestampTrait;
@@ -67,7 +67,7 @@ class Competition
     /**
      * @var string Ce code n'est pas vraiment un code ffta mais un code reconstitué avec les infos venant de la FFTA
      */
-    #[ORM\Column(type: Types::STRING, length: 191)]
+    #[ORM\Column(type: Types::STRING, length: 191, nullable: true)]
     private string $fftaCode;
 
     public function __construct()
