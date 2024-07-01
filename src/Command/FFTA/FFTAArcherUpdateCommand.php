@@ -127,7 +127,7 @@ final class FFTAArcherUpdateCommand extends Command
                     (new ArcherLicense())
                         ->setActive(true)
                         ->setDateStart($newLicense->getLicenseDateStart())
-                        ->setDateEnd($newLicense->getLicenseDateEnd())
+                        ->setDateEnd($newLicense->getLicenseDateEnd() ?? new \DateTime('31-12-'.$season))
                         ->setLicense($license[array_key_first($license)])
                         ->setCategory($category)
                 );
@@ -171,11 +171,17 @@ final class FFTAArcherUpdateCommand extends Command
         }
 
         if ($archerData->getLicense()) {
+            $phone = null;
+            if ($archerData->getPhone()) {
+                $phone = str_replace([' ', '-', '.'], '', $archerData->getPhone());
+                $phone = substr($phone, 0, 12);
+            }
+
             $archer = (new Archer())
                 ->setFirstName($archerData->getFirstName())
                 ->setLastName($archerData->getLastName())
                 ->setLicenseNumber($archerData->getLicense())
-                ->setPhone($archerData->getPhone())
+                ->setPhone($phone)
                 // Todo: Gérer les doublons
                 // ->setEmail($archerData->getEmail())
                 ->setGender($archerData->getGender())
