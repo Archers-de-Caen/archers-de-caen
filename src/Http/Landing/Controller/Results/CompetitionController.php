@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Landing\Controller\Results;
 
-use App\Domain\Archer\Config\Category;
-use App\Domain\Archer\Config\Weapon;
 use App\Domain\Competition\Model\Competition;
+use App\Domain\Competition\Service\CompetitionService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,45 +22,14 @@ final class CompetitionController extends AbstractController
 {
     public const string ROUTE = 'landing_results_competition';
 
+    public function __construct(
+        private readonly CompetitionService $competitionService
+    ) {
+    }
+
     public function __invoke(Request $request, Competition $competition): Response
     {
-        $results = [];
-        $participants = [];
-        $recordCount = 0;
-        $podiumCount = 0;
-
-        foreach (Weapon::cases() as $weapon) {
-            foreach (Category::cases() as $category) {
-                foreach ($competition->getResults() as $result) {
-                    if (
-                        $category->value === $result->getCategory()?->value
-                        && $weapon->value === $result->getWeapon()?->value
-                    ) {
-                        if (!isset($results[$weapon->value])) {
-                            $results[$weapon->value] = [];
-                        }
-
-                        if (!isset($results[$weapon->value][$category->value])) {
-                            $results[$weapon->value][$category->value] = [];
-                        }
-
-                        if (($archer = $result->getArcher()) && !\in_array($archer, $participants, true)) {
-                            $participants[] = $archer;
-                        }
-
-                        if ($result->getRecord()) {
-                            ++$recordCount;
-                        }
-
-                        if ($result->getRank() <= 3 && $result->getRank() > 0) {
-                            ++$podiumCount;
-                        }
-
-                        $results[$weapon->value][$category->value][] = $result;
-                    }
-                }
-            }
-        }
+        $groupedResults = $this->competitionService->groupCompetitionResultsByWeaponAndCategories($competition);
 
         $template = '/landing/results/competitions/results-competition.html.twig';
         if ($request->query->get('iframe')) {
@@ -70,10 +38,10 @@ final class CompetitionController extends AbstractController
 
         return $this->render($template, [
             'competition' => $competition,
-            'results' => $results,
-            'participantCount' => \count($participants),
-            'recordCount' => $recordCount,
-            'podiumCount' => $podiumCount,
+            'results' => $groupedResults['results'],
+            'participantCount' => \count($groupedResults['participants']),
+            'recordCount' => $groupedResults['recordCount'],
+            'podiumCount' => $groupedResults['podiumCount'],
         ]);
     }
 }

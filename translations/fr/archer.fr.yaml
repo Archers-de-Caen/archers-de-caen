@@ -23,6 +23,11 @@ senior_two_woman: 'Senior 2 Femme'
 senior_three_man: 'Senior 3 Homme'
 senior_three_woman: 'Senior 3 Femme'
 
+SCRATCH_WOMAN: 'Scratch Femme'
+scratch_woman: 'Scratch Femme'
+SCRATCH_MAN: 'Scratch Homme'
+scratch_man: 'Scratch Homme'
+
 # Olds catégories
 senior_man: 'Senior Homme'
 senior_woman: 'Senior Femme'
@@ -43,6 +48,8 @@ bare_bow: 'Arc nu'
 
 # Gender
 man: 'Homme'
+MAN: 'Homme'
 woman: 'Femme'
+WOMAN: 'Femme'
 other: 'Autre'
 undefined: 'Non défini'
