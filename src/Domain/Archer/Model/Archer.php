@@ -34,7 +34,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ArcherRepository::class)]
 #[UniqueEntity('email')]
 #[UniqueEntity('licenseNumber')]
-class Archer implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface
+class Archer implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface, \Stringable
 {
     use ArcherCategoryTrait;
     use EmailTrait;

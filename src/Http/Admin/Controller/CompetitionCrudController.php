@@ -6,8 +6,8 @@ namespace App\Http\Admin\Controller;
 
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Competition\Config\Type;
-use App\Domain\Competition\Manager\CompetitionManager;
 use App\Domain\Competition\Model\Competition;
+use App\Domain\Competition\Service\CompetitionService;
 use App\Domain\Result\Form\ResultCompetitionForm;
 use App\Domain\Result\Form\ResultTeamForm;
 use App\Domain\Result\Manager\ResultCompetitionManager;
@@ -38,7 +38,7 @@ final class CompetitionCrudController extends AbstractCrudController
 {
     public function __construct(
         readonly private ResultCompetitionManager $resultCompetitionManager,
-        readonly private CompetitionManager $competitionManager,
+        readonly private CompetitionService $competitionManager,
         readonly private UrlGeneratorInterface $urlGenerator,
         readonly private AdminUrlGenerator $adminUrlGenerator,
     ) {

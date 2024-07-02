@@ -17,6 +17,7 @@ final class DocumentFormType extends AbstractType
     {
         $builder
             ->add('documentFile', VichFileType::class, [
+                'label' => false,
                 'required' => true,
             ])
         ;

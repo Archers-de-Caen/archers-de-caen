@@ -6,13 +6,16 @@
 
         <h3>{{ weapon|trans([], 'archer') }}</h3>
 
-        <table>
+        <table class="table">
             <thead class="highlighted">
                 <tr>
                     <th>Categories</th>
                     <th>Archer</th>
                     <th>Score</th>
                     <th>Classement</th>
+                    {% if showScoreSheet is defined and showScoreSheet %}
+                        <th>Feuille de marque</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -56,6 +59,17 @@
                                     </span>
                                 </div>
                             </td>
+                            {% if showScoreSheet is defined and showScoreSheet %}
+                                <td>
+                                    {% if result.scoreSheet %}
+                                        <a href="{{ absolute_url(vich_uploader_asset(result.scoreSheet, 'documentFile')) }}"
+                                           target="_blank"
+                                        >
+                                            Afficher
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 {% endfor %}
@@ -70,7 +84,7 @@
     <h2>Résultat en équipe</h2>
 
     {% for resultTeam in competition.resultsTeams %}
-        <table>
+        <table class="table">
             <tr class="highlighted">
                 <td colspan="2">Membre de l'équipe</td>
             </tr>
@@ -110,4 +124,10 @@
         </table>
     {% endfor %}
 
+{% endif %}
+
+{% if competition.resultsTeams|length == 0 and results|length == 0 %}
+    <div class="w-100 flex jc-center">
+        <p>Aucun résultat n'a été publié pour cette compétition.</p>
+    </div>
 {% endif %}
