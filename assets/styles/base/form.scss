@@ -170,3 +170,61 @@
     }
   }
 }
+
+// for auto complete form
+.ts-wrapper {
+  width: 100%;
+
+  border-radius: $border-radius-normal !important;
+  border: 2px solid $color-yellow !important;
+
+  .ts-control {
+    border-color: inherit !important;
+    box-shadow: inherit !important;
+    background-color: inherit !important;
+    background-image: inherit !important;
+
+    input {
+      border: 2px solid $color-yellow !important;
+      border-radius: $border-radius-normal !important;
+      padding: 10px 20px !important;
+      background-color: $color-white !important;
+      color: $color-grey !important;
+      margin-top: 1rem !important;
+
+      &::placeholder {
+        color: $color-grey !important;
+      }
+    }
+
+    .ts-clear {
+      color: $color-grey !important;
+    }
+  }
+
+  .ts-dropdown {
+    border-bottom-left-radius: $border-radius-normal !important;
+    border-bottom-right-radius: $border-radius-normal !important;
+    border-bottom: 2px solid $color-yellow !important;
+    background-color: $color-white !important;
+
+    .option {
+      padding: 10px 20px;
+      border-bottom: 1px solid $color-yellow;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background-color: $color-yellow;
+        color: $color-white;
+      }
+    }
+  }
+}
+
+// module d'upload de fichier
+.vich-file {
+  width: 100%;
+}

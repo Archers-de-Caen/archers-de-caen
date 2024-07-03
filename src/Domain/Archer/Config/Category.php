@@ -22,6 +22,8 @@ enum Category: string
     case SENIOR_TWO_WOMAN = 'senior_two_woman';
     case SENIOR_THREE_MAN = 'senior_three_man';
     case SENIOR_THREE_WOMAN = 'senior_three_woman';
+    case SCRATCH_MAN = 'scratch_man';
+    case SCRATCH_WOMAN = 'scratch_woman';
     // Anciennes catégories
 
     case OLD_SENIOR_MAN = 'senior_man';
@@ -57,6 +59,9 @@ enum Category: string
 
             self::SENIOR_THREE_MAN => 'S3H',
             self::SENIOR_THREE_WOMAN => 'S3F',
+
+            self::SCRATCH_MAN => 'SCRATCH-H',
+            self::SCRATCH_WOMAN => 'SCRATCH-F',
 
             self::OLD_SENIOR_MAN => 'SH',
             self::OLD_SENIOR_WOMAN => 'SF',
@@ -111,8 +116,8 @@ enum Category: string
             'S3H', 'Senior 3 Homme', 'S3 Homme' => self::SENIOR_THREE_MAN,
             'S3F', 'Senior 3 Femme', 'S3 Femme' => self::SENIOR_THREE_WOMAN,
 
-            'SH', 'Senior Homme' => self::OLD_SENIOR_MAN,
-            'SF', 'Senior Femme' => self::OLD_SENIOR_WOMAN,
+            'SH', 'Senior Homme', 'Non Homme' => self::OLD_SENIOR_MAN, // TODO: Non Homme, voir d'ou ca vien dans l'export de la FFTA
+            'SF', 'Senior Femme', 'Non Femme' => self::OLD_SENIOR_WOMAN, // TODO: Non Femme, voir d'ou ca vien dans l'export de la FFTA
 
             'VH', 'Vétéran Homme' => self::OLD_VETERAN_MAN,
             'VF', 'Vétéran Femme' => self::OLD_VETERAN_WOMAN,

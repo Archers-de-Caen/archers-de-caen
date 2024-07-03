@@ -13,7 +13,13 @@ $color-white: #FFFFFF;
 $color-grey: #3B3D3F;
 $color-light-grey: #c6c6c6;
 
+$color-yellow-logo: #FEF13F;
+$color-red-logo: #E52421;
+$color-blue-logo: #3DBAEC;
+$color-black-logo: #1D1D1B;
+
 $linear-gradient-target: linear-gradient(to right, $color-white, $color-black, $color-blue, $color-red, $color-yellow);
+$linear-gradient-target-logo: linear-gradient(to right, $color-white, $color-black-logo, $color-blue-logo, $color-red-logo, $color-yellow-logo);
 
 $box-shadow: rgba(0, 0, 0, 0.05) 2px 2px 20px 0;
 

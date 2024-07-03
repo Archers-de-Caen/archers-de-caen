@@ -80,7 +80,7 @@ final class TwigEmailExtension extends AbstractExtension
                 pattern: sprintf('/<iframe[^>]+src="%s".*?<\/iframe>/i', preg_quote($url, '/')),
                 replacement: "
                     <figure class='iframe-flatten'>
-                        $iframeContent
+                        {$iframeContent}
                     </figure>
                 ",
                 subject: $content ?? ''
@@ -96,14 +96,13 @@ final class TwigEmailExtension extends AbstractExtension
 
     private function extractIframeUrls(string $content): array
     {
-        $urls = [];
         preg_match_all('/<iframe[^>]+src="([^"]+)"/i', $content, $matches);
 
         if (isset($matches[1])) {
-            $urls = $matches[1];
+            return $matches[1];
         }
 
-        return $urls;
+        return [];
     }
 
     /**

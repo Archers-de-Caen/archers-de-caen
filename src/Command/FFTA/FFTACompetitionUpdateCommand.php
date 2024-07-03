@@ -6,9 +6,9 @@ namespace App\Command\FFTA;
 
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Archer\Repository\ArcherRepository;
-use App\Domain\Competition\Manager\CompetitionManager;
 use App\Domain\Competition\Model\Competition;
 use App\Domain\Competition\Repository\CompetitionRepository;
+use App\Domain\Competition\Service\CompetitionService;
 use App\Domain\Result\Manager\ResultCompetitionManager;
 use App\Domain\Result\Model\ResultCompetition;
 use App\Domain\Result\Repository\ResultCompetitionRepository;
@@ -58,7 +58,7 @@ final class FFTACompetitionUpdateCommand extends Command
         private readonly CompetitionRepository $competitionRepository,
         private readonly ResultCompetitionRepository $resultCompetitionRepository,
         private readonly ArcherRepository $archerRepository,
-        private readonly CompetitionManager $competitionManager,
+        private readonly CompetitionService $competitionManager,
         private readonly FFTAExtranetService $fftaExtranetService,
         private readonly ResultCompetitionManager $resultCompetitionManager,
         private readonly MessageBusInterface $messageBus,
@@ -102,9 +102,9 @@ final class FFTACompetitionUpdateCommand extends Command
         }
 
         $this->io->info('Rapport:');
-        $this->io->table(array_keys($this->report), [array_map(static fn(array $report): int => \count($report), $this->report)]);
+        $this->io->table(array_keys($this->report), [array_map(static fn (array $report): int => \count($report), $this->report)]);
 
-        if ($this->getReport('result') !== []) {
+        if ([] !== $this->getReport('result')) {
             $this->messageBus->dispatch(new AdminNotificationMessage(
                 'Les résultats des compétitions ont été importés',
                 'mails/admin/new-competition-imported.html.twig',

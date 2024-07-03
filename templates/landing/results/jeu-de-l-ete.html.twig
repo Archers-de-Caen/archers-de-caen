@@ -1,0 +1,28 @@
+{% extends '/landing/base.html.twig' %}
+
+{% block title %}Jeu de l'été{% endblock %}
+
+{% block main %}
+    {{ include('/landing/results/competitions/_parts/results-competition-table.html.twig', {
+        competition: competition,
+        results: results,
+        participantCount: participantCount,
+        recordCount: recordCount,
+        podiumCount: podiumCount,
+        showScoreSheet: true
+    }) }}
+
+    <hr class="separator my-5">
+
+    <div class="w-100 flex jc-center">
+        Pour envoyer vos résultats, un lien vous a été envoyé par mail ou
+        un qr code est disponible sur le terrain extérieur !<br>
+    </div>
+
+    <hr class="separator my-5">
+
+    <h2>Règlement</h2>
+
+    <iframe src="https://archers-caen.fr/document/jo-reglement-a3-5-5-zones-6683331e09f6b074471957.pdf" width="100%" height="800px"></iframe>
+{% endblock %}
+

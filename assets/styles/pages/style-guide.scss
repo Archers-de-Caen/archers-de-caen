@@ -110,6 +110,22 @@
       &.-white {
         background-color: $color-white;
       }
+
+      &.-logo-yellow {
+        background-color: $color-yellow-logo;
+      }
+
+      &.-logo-red {
+        background-color: $color-red-logo;
+      }
+
+      &.-logo-blue {
+        background-color: $color-blue-logo;
+      }
+
+      &.-logo-grey {
+        background-color: $color-black-logo;
+      }
     }
   }
 
@@ -117,6 +133,12 @@
     width: 100%;
     height: 50px;
     background: $linear-gradient-target;
+  }
+
+  .gradiant-logo {
+    width: 100%;
+    height: 50px;
+    background: $linear-gradient-target-logo;
   }
 
   .typography-container {
@@ -128,6 +150,26 @@
         justify-content: space-between;
         align-items: flex-start;
       }
+    }
+  }
+
+  .font-container {
+    .font-element {
+      &-col-2 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-column-gap: 3rem;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+    }
+
+    .font-roboto * {
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .font-galaxy * {
+      font-family: 'Galaxy BT', sans-serif;
     }
   }
 }

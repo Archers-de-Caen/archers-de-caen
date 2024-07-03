@@ -32,6 +32,7 @@ enum Type: string
     case RUN_ARCHERY = 'run_archery';
     case PARA_INDOOR = 'para_indoor';
     case PARA_OUTDOOR = 'para_outdoor';
+    case HOBBIES = 'hobbies';
 
     public function toString(): string
     {
@@ -59,6 +60,7 @@ enum Type: string
             self::RUN_ARCHERY => 'Run Archery',
             self::PARA_INDOOR => 'Para Indoor',
             self::PARA_OUTDOOR => 'Para Outdoor',
+            self::HOBBIES => 'Loisir',
         };
     }
 
@@ -86,6 +88,7 @@ enum Type: string
             strtolower('TAE National') => self::OUTDOOR_NATIONAL,
             strtolower("Challenge de la Pomme d'Or") => self::GOLDEN_APPLE_CHALLENGE,
             strtolower('Promotionnel') => self::PROMOTIONAL,
+            strtolower('Loisir') => self::HOBBIES,
 
             default => throw new \ValueError($type.' not found'),
         };
@@ -161,6 +164,7 @@ enum Type: string
             self::PROMOTIONAL,
             self::SPECIAL_YOUNG,
             self::RUN_ARCHERY,
+            self::HOBBIES,
         ];
     }
 
