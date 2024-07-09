@@ -56,6 +56,6 @@ final class DataRepository extends ServiceEntityRepository
             return null;
         }
 
-        return $content[0]['text'] ?? null;
+        return $content[array_key_first($content)]['text'] ?? null;
     }
 }
