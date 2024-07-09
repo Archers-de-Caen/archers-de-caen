@@ -93,7 +93,7 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
                 default => 'wut ?'
             })
             ->setQueryBuilder(
-                fn (QueryBuilder $queryBuilder) => $queryBuilder
+                fn (QueryBuilder $queryBuilder): QueryBuilder => $queryBuilder
                         ->where(sprintf("entity.type = '%s'", $this->badgeType))
             );
 

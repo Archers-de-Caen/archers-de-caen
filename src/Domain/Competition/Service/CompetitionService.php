@@ -88,7 +88,7 @@ final readonly class CompetitionService
         // Sort results by score
         foreach ($results as $weapon => $categories) {
             foreach (array_keys($categories) as $category) {
-                usort($results[$weapon][$category], static function (ResultCompetition $a, ResultCompetition $b) : int {
+                usort($results[$weapon][$category], static function (ResultCompetition $a, ResultCompetition $b): int {
                     if (!$a->getRank() && $b->getRank()) {
                         return 1;
                     }
@@ -119,7 +119,7 @@ final readonly class CompetitionService
         $results = $competition->getResults()->toArray();
         $archers = [];
 
-        usort($results, static fn(ResultCompetition $a, ResultCompetition $b): int => $b->getScore() <=> $a->getScore());
+        usort($results, static fn (ResultCompetition $a, ResultCompetition $b): int => $b->getScore() <=> $a->getScore());
 
         $previousScore = null;
         foreach ($results as $result) {

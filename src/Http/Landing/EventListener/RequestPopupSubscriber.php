@@ -39,7 +39,7 @@ final readonly class RequestPopupSubscriber implements EventSubscriberInterface
 
         $data = $this->dataRepository->findByCode(Data::CODE_POPUP);
 
-        if (!$data || !($content = $data->getContent())) {
+        if (!$data instanceof Data || !($content = $data->getContent())) {
             return;
         }
 
