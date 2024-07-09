@@ -5,33 +5,20 @@ declare(strict_types=1);
 namespace App\Infrastructure\DataFixtures\Processor;
 
 use App\Domain\Cms\Model\Gallery;
-use Faker\Factory;
-use Faker\Generator;
 use Fidry\AliceDataFixtures\ProcessorInterface;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Random\RandomException;
 
-final class GalleryProcessor implements ProcessorInterface
+final readonly class GalleryProcessor implements ProcessorInterface
 {
-    use GenerateRandomPhotoTrait;
-
-    private Generator $faker;
-
     public function __construct(
-        HttpClientInterface $httpClient,
-        Filesystem $filesystem,
-        LoggerInterface $logger,
-        private readonly string $env,
+        private GenerateRandomPhotoService $generateRandomPhotoService,
+        private string $env,
     ) {
-        $this->faker = Factory::create('fr_FR');
-
-        $this->setFilesystem($filesystem);
-        $this->setHttpClient($httpClient);
-        $this->setLogger($logger);
-        $this->setFaker($this->faker);
     }
 
+    /**
+     * @throws RandomException
+     */
     #[\Override]
     public function preProcess(string $id, object $object): void
     {
@@ -39,12 +26,12 @@ final class GalleryProcessor implements ProcessorInterface
             return;
         }
 
-        $object->setMainPhoto($this->generateRandomPhoto($this->env));
+        $object->setMainPhoto($this->generateRandomPhotoService->generateRandomPhoto($this->env));
 
-        $photoNumber = 'gallery_100_photos' === $id ? 100 : $this->faker->numberBetween(3, 25);
+        $photoNumber = 'gallery_100_photos' === $id ? 100 : random_int(3, 25);
 
         for ($i = 0; $i < $photoNumber; ++$i) {
-            $object->addPhoto($this->generateRandomPhoto($this->env));
+            $object->addPhoto($this->generateRandomPhotoService->generateRandomPhoto($this->env));
         }
     }
 
