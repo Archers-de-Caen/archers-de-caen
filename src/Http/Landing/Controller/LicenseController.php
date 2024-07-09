@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Landing\Controller;
 
+use App\Domain\Cms\Model\Data;
 use App\Domain\Cms\Repository\DataRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +26,7 @@ final class LicenseController extends AbstractController
     public function __invoke(DataRepository $dataRepository): Response
     {
         return $this->render('/landing/license/new.html.twig', [
-            'takeLicense' => $dataRepository->findOneBy(['code' => 'TAKE_LICENSE'])?->getContent(),
+            'takeLicense' => $dataRepository->findByCode(Data::CODE_TAKE_LICENSE)?->getContent(),
         ]);
     }
 }

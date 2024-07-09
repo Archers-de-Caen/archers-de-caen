@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Landing\Controller\Page;
 
+use App\Domain\Cms\Model\Data;
 use App\Domain\Cms\Repository\DataRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +26,7 @@ final class TeamManagementController extends AbstractController
     public function __invoke(DataRepository $dataRepository): Response
     {
         return $this->render('/landing/club/management-team.html.twig', [
-            'managementTeams' => $dataRepository->findOneBy(['code' => 'MANAGEMENT_TEAM'])?->getContent(),
+            'managementTeams' => $dataRepository->findByCode(Data::CODE_MANAGEMENT_TEAM)?->getContent(),
         ]);
     }
 }

@@ -6,8 +6,10 @@ namespace App\Http\Landing\Twig;
 
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Config\Status;
+use App\Domain\Cms\Model\Data;
 use App\Domain\Cms\Model\Gallery;
 use App\Domain\Cms\Model\Page;
+use App\Domain\Cms\Repository\DataRepository;
 use App\Domain\Cms\Repository\PageRepository;
 use App\Domain\Competition\Model\Competition;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,7 +27,7 @@ final class GetHeaderDataExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('getHeaderData', [$this, 'getHeaderData']),
+            new TwigFunction('getHeaderData', $this->getHeaderData(...)),
         ];
     }
 
@@ -36,6 +38,7 @@ final class GetHeaderDataExtension extends AbstractExtension
      *     sport: array<string, array<Page>>,
      *     competitions: array<Competition>,
      *     clubOtherPages: array<Page>,
+     *     messageImportant: ?string
      * }
      */
     public function getHeaderData(): array
@@ -46,6 +49,7 @@ final class GetHeaderDataExtension extends AbstractExtension
             'sport' => $this->getSportPage(),
             'competitions' => $this->getCompetitions(),
             'clubOtherPages' => $this->getClubOtherPages(),
+            'messageImportant' => $this->getMessageImportant(),
         ];
     }
 
@@ -57,35 +61,7 @@ final class GetHeaderDataExtension extends AbstractExtension
         /** @var PageRepository $pageRepository */
         $pageRepository = $this->em->getRepository(Page::class);
 
-        $pages = $pageRepository->findByTagName('sport');
-
-        $pagesSortByTags = [];
-        foreach ($pages as $page) {
-            $tagsName = [];
-            foreach ($page->getTags() as $tag) {
-                if (!$tag->getName()) {
-                    continue;
-                }
-
-                if ('sport' === strtolower($tag->getName())) {
-                    continue;
-                }
-
-                $tagsName[] = $tag->getName();
-            }
-
-            if ([] === $tagsName) {
-                $tagsName[] = 'no-category';
-            }
-
-            if (!isset($pagesSortByTags[$tagsName[0]])) {
-                $pagesSortByTags[$tagsName[0]] = [];
-            }
-
-            $pagesSortByTags[$tagsName[0]][] = $page;
-        }
-
-        return $pagesSortByTags;
+        return $pageRepository->findSportPages();
     }
 
     /**
@@ -160,5 +136,13 @@ final class GetHeaderDataExtension extends AbstractExtension
         $pageRepository = $this->em->getRepository(Page::class);
 
         return $pageRepository->findByTagName('Club autres pages');
+    }
+
+    private function getMessageImportant(): ?string
+    {
+        /** @var DataRepository $dataRepository */
+        $dataRepository = $this->em->getRepository(Data::class);
+
+        return $dataRepository->getText(Data::CODE_MESSAGE_IMPORTANT);
     }
 }

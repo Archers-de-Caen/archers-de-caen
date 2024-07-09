@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Landing\EventListener;
 
+use App\Domain\Cms\Model\Data;
 use App\Domain\Cms\Repository\DataRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
@@ -36,7 +37,7 @@ final readonly class RequestPopupSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $data = $this->dataRepository->findOneBy(['code' => 'POPUP']);
+        $data = $this->dataRepository->findByCode(Data::CODE_POPUP);
 
         if (!$data || !($content = $data->getContent())) {
             return;

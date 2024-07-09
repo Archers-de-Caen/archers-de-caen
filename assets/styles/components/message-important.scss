@@ -1,0 +1,13 @@
+@import "../variable";
+
+.message-important-container {
+  width: 100%;
+  padding: 10px 15px;
+  box-shadow: $box-shadow;
+
+  .message-important-content {
+    margin: auto;
+    color: $color-grey;
+    width: fit-content;
+  }
+}

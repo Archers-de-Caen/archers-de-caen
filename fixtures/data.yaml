@@ -291,3 +291,10 @@ App\Domain\Cms\Model\Data:
       - license_form: https://archers-caen.fr/document/adhesion-licences-creation-formulaire-v2-63302afdbee3d428537945.pdf
         assurance: https://archers-caen.fr/document/notice-assurance-2022-2026-63a744ddc1a8a495657602.pdf
         health: https://archers-caen.fr/document/questionnaire-de-sante-adulte-1-63302b4f31439754714635.pdf
+
+  message_important (extends data):
+    code: MESSAGE_IMPORTANT
+    description: Header - Message affiché sur toutes les pages
+    formType: App\Domain\Cms\Form\Data\Element\TextForm
+    content:
+      - text: Le club est fermé du 24 décembre 2022 au 2 janvier 2023 inclus <a href="/club">En savoir plus</a>

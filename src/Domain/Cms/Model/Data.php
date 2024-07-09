@@ -14,10 +14,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DataRepository::class)]
 #[ORM\Table(options: ['collate' => 'utf8mb4_unicode_ci', 'charset' => 'utf8mb4'])]
-class Data
+class Data implements \Stringable
 {
     use IdTrait;
     use TimestampTrait;
+
+    public const string CODE_INDEX_PAGE_ELEMENT = 'INDEX_PAGE_ELEMENT';
+    public const string CODE_PARTNER = 'PARTNER';
+    public const string CODE_MANAGEMENT_TEAM = 'MANAGEMENT_TEAM';
+    public const string CODE_FAQ = 'FAQ';
+    public const string CODE_INDEX_ACTUALITY_LOCKED = 'INDEX_ACTUALITY_LOCKED';
+    public const string CODE_TAKE_LICENSE = 'TAKE_LICENSE';
+    public const string CODE_POPUP = 'POPUP';
+    public const string CODE_MESSAGE_IMPORTANT = 'MESSAGE_IMPORTANT';
 
     #[ORM\Column(type: Types::STRING, length: 191, unique: true)]
     #[Assert\Length(max: 191)]

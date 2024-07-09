@@ -82,6 +82,9 @@ trait GenerateRandomPhotoTrait
 
     private function downloadImage(string $imageUrl): string
     {
+        // TODO: source.unsplash.com is broken
+        return '';
+
         try {
             return $this->httpClient->request(Request::METHOD_GET, $imageUrl)->getContent();
         } catch (ExceptionInterface $exception) {
