@@ -27,6 +27,6 @@ trait FixturesTrait
 
     public function getFixturesPath(): string
     {
-        return __DIR__.'/../../../../fixtures/';
+        return __DIR__.'/../../../../database/fixtures/';
     }
 }

@@ -6,6 +6,7 @@ namespace App\Http\Landing\Controller;
 
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Config\Status;
+use App\Domain\Cms\Model\Data;
 use App\Domain\Cms\Model\Page;
 use App\Domain\Cms\Repository\DataRepository;
 use App\Domain\Cms\Repository\PageRepository;
@@ -29,8 +30,8 @@ final class IndexController extends AbstractController
     public function __invoke(PageRepository $pageRepository, DataRepository $dataRepository): Response
     {
         $actualityLocked = null;
-        if ($actualityLockedData = $dataRepository->findOneBy(['code' => 'INDEX_ACTUALITY_LOCKED'])?->getContent()) {
-            $actualityLocked = $pageRepository->findOneBy(['slug' => $actualityLockedData[array_key_first($actualityLockedData)]]);
+        if ($actualityLockedData = $dataRepository->getText(Data::CODE_INDEX_ACTUALITY_LOCKED)) {
+            $actualityLocked = $pageRepository->findOneBy(['slug' => $actualityLockedData]);
         }
 
         /** @var array<Page> $actualities */
@@ -58,8 +59,8 @@ final class IndexController extends AbstractController
 
         return $this->render('/landing/index/index.html.twig', [
             'actualities' => $actualities,
-            'contents' => $dataRepository->findOneBy(['code' => 'INDEX_PAGE_ELEMENT'])?->getContent(),
-            'partners' => $dataRepository->findOneBy(['code' => 'PARTNER'])?->getContent(),
+            'contents' => $dataRepository->findByCode(Data::CODE_INDEX_PAGE_ELEMENT)?->getContent(),
+            'partners' => $dataRepository->findByCode(Data::CODE_PARTNER)?->getContent(),
         ]);
     }
 }

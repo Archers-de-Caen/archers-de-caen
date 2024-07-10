@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Landing\Filter;
 
+use Doctrine\ORM\QueryBuilder;
 use App\Domain\Archer\Config\Weapon;
 use App\Domain\Badge\Model\Badge;
 use App\Domain\Badge\Repository\BadgeRepository;
@@ -76,7 +77,7 @@ final class BadgeFilter extends AbstractType
                 'class' => Badge::class,
                 'choice_translation_domain' => 'competition',
                 'group_by' => static fn (Badge $badge) => $badge->getCompetitionType()?->name,
-                'query_builder' => static fn (BadgeRepository $repository) => $repository->createQueryBuilder('b')
+                'query_builder' => static fn (BadgeRepository $repository): QueryBuilder => $repository->createQueryBuilder('b')
                     ->andWhere('b.type = :type')
                     ->setParameter('type', Badge::COMPETITION)
                     ->orderBy('b.name', 'ASC'),

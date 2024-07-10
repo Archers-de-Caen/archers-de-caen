@@ -2,6 +2,14 @@
 {% from '/shared/components/thumbnail.html.twig' import thumbnail %}
 
 {# from App\Http\Landing\Twig\GetHeaderDataExtension::getHeaderData() #}
+{# @var headerData array{
+    actualities: \App\Domain\Cms\Model\Page[],
+    galleries: array<\App\Domain\Cms\Model\Gallery>,
+    sport: array<string, array<\App\Domain\Cms\Model\Page>>,
+    competitions: array<\App\Domain\Cms\Competition\Competition>,
+    clubOtherPages: array<\App\Domain\Cms\Model\Page>,
+    messageImportant: string
+} #}
 {% set headerData = getHeaderData() %}
 
 <header class="header">
@@ -19,6 +27,8 @@
             </ul>
         </div>
     </div>
+
+    {{ include('landing/_message-important.html.twig') }}
 
     <div class="header-primary">
         <div class="header-content">

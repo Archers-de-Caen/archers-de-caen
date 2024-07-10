@@ -48,7 +48,7 @@ final class BadgeRepository extends ServiceEntityRepository
     public function findProgressArrow(): array
     {
         return $this->findBy([
-           'type' => Badge::PROGRESS_ARROW,
+            'type' => Badge::PROGRESS_ARROW,
         ], [
             'level' => Criteria::ASC,
         ]);
