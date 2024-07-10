@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Landing\Form;
 
+use Doctrine\ORM\QueryBuilder;
 use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Config\Weapon;
 use App\Domain\Archer\Model\Archer;
@@ -26,7 +27,7 @@ final class SendResultForJeuDeLEteCompetitionForm extends AbstractType
         $builder
             ->add('archer', EntityType::class, [
                 'class' => Archer::class,
-                'query_builder' => static fn(ArcherRepository $queryBuilder) => $queryBuilder
+                'query_builder' => static fn (ArcherRepository $queryBuilder): QueryBuilder => $queryBuilder
                     ->createQueryBuilder('archer')
                     ->leftJoin('archer.archerLicenses', 'al', 'WITH', 'al.active = TRUE')
                     ->andWhere('al.id IS NOT NULL')

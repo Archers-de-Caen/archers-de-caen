@@ -19,12 +19,12 @@ App\Domain\Cms\Model\Page:
 
   actuality_with_real_content (extends page):
     title: Using PHP 8.1 enumerations in Symfony
-    content: <file_get_contents('fixtures/page-content.html.twig')>
+    content: <file_get_contents('database/fixtures/page-content.html.twig')>
     category: actuality
     status: publish
 
   page_with_real_content (extends page):
     title: Using PHP 8.1 enumerations in Symfony
-    content: <file_get_contents('fixtures/page-content.html.twig')>
+    content: <file_get_contents('database/fixtures/page-content.html.twig')>
     category: page
     status: publish

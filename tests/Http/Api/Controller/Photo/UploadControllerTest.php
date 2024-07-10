@@ -23,7 +23,7 @@ class UploadControllerTest extends WebTestCase
 
         $client->loginUser($user);
 
-        $fixturesPath = __DIR__.'/../../../../../fixtures';
+        $fixturesPath = __DIR__.'/../../../../../database/fixtures';
 
         $copyResult = copy(
             from: $fixturesPath.'/photo-femme-tir-a-l-arc.jpeg',
@@ -43,6 +43,6 @@ class UploadControllerTest extends WebTestCase
             'imageFile' => $image,
         ]);
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
     }
 }

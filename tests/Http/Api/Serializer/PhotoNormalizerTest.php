@@ -13,6 +13,9 @@ class PhotoNormalizerTest extends KernelTestCase
 {
     use FixturesTrait;
 
+    /**
+     * @throws \JsonException
+     */
     public function testPhotoSerialization(): void
     {
         /** @var SerializerInterface $serializer */
@@ -26,7 +29,7 @@ class PhotoNormalizerTest extends KernelTestCase
         self::assertJson($data);
 
         /** @var array $dataDecoded */
-        $dataDecoded = json_decode($data, true);
+        $dataDecoded = json_decode($data, true, 512, \JSON_THROW_ON_ERROR);
 
         self::assertArrayHasKey('url', $dataDecoded);
         self::assertArrayHasKey('urlThumbnail', $dataDecoded);
