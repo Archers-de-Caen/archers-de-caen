@@ -55,4 +55,30 @@ final class CompetitionRepository extends ServiceEntityRepository
             ->getSingleColumnResult()
         ;
     }
+
+    /**
+     * @return array<Competition>
+     */
+    public function findLastMonthCompetitions(): array
+    {
+        $now = new \DateTimeImmutable('now');
+        $currentMonth = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $now->format('Y-m-01 00:00:00'));
+
+        if (false === $currentMonth) {
+            throw new \RuntimeException('Cannot create date from format Y-m-01 00:00:00');
+        }
+
+        $lastMonth = $currentMonth->modify('-1 month');
+
+        /** @var array<Competition> $competitions */
+        $competitions = $this->createQueryBuilder('competition')
+            ->where('competition.dateStart BETWEEN :lastMonth AND :currentMonth')
+            ->setParameter('lastMonth', $lastMonth)
+            ->setParameter('currentMonth', $currentMonth)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $competitions;
+    }
 }

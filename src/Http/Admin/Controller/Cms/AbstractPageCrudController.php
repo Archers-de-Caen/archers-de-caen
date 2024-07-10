@@ -160,7 +160,7 @@ abstract class AbstractPageCrudController extends AbstractCrudController
         $em->flush();
 
         if (Category::ACTUALITY === $entity->getCategory() && $entity->getId()) {
-            $messageBus->dispatch(new ActualityNewsletterMessage($entity->getId(), NewsletterType::ACTUALITY_NEW));
+            $messageBus->dispatch(new ActualityNewsletterMessage($entity->getId()));
         }
 
         return $this->redirect($context->getReferrer() ?: $urlGenerator->generate(DashboardController::ROUTE));

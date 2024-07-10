@@ -19,6 +19,15 @@ enum Weapon: string
         };
     }
 
+    public function toShortString(): string
+    {
+        return match ($this) {
+            self::RECURVE_BOW => 'CL',
+            self::COMPOUND_BOW => 'CO',
+            self::BARE_BOW => 'BB',
+        };
+    }
+
     public static function createFromString(string $weapon): self
     {
         return match ($weapon) {
