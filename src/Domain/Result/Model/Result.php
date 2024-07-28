@@ -39,7 +39,7 @@ abstract class Result implements \Stringable
     #[Assert\NotBlank]
     private ?int $score = null;
 
-    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    #[ORM\Column(name: "`rank`", type: Types::INTEGER, nullable: true)]
     private ?int $rank = null;
 
     // Categories de l'archer
