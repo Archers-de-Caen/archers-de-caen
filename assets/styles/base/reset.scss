@@ -75,6 +75,7 @@ p {
 a {
   cursor: unset;
   display: inline-block;
+  overflow-wrap: anywhere;
 
   &:not([disabled]):not([class="btn"]) {
     cursor: pointer;

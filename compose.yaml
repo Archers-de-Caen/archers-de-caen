@@ -1,6 +1,6 @@
 services:
   php:
-    image: app-php
+    image: archers-caen-php
     restart: unless-stopped
     environment:
       SERVER_NAME: localhost, php:443
