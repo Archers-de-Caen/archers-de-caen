@@ -6,75 +6,77 @@
 
         <h3>{{ weapon|trans([], 'archer') }}</h3>
 
-        <table class="table">
-            <thead class="highlighted">
-                <tr>
-                    <th>Categories</th>
-                    <th>Archer</th>
-                    <th>Score</th>
-                    <th>Classement</th>
-                    {% if showScoreSheet is defined and showScoreSheet %}
-                        <th>Feuille de marque</th>
-                    {% endif %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for category, results in categories %}
-                    {% for result in results %}
-                        <tr>
-                            {% if loop.first %}
-                                <td rowspan="{{ results|length }}">
-                                    {{ category|trans([], 'archer') }}
-                                </td>
-                            {% endif %}
+        <div class="table-container">
+            <table class="table">
+                <thead class="highlighted">
+                    <tr>
+                        <th>Categories</th>
+                        <th>Archer</th>
+                        <th>Score</th>
+                        <th>Classement</th>
+                        {% if showScoreSheet is defined and showScoreSheet %}
+                            <th>Feuille de marque</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category, results in categories %}
+                        {% for result in results %}
+                            <tr>
+                                {% if loop.first %}
+                                    <td rowspan="{{ results|length }}">
+                                        {{ category|trans([], 'archer') }}
+                                    </td>
+                                {% endif %}
 
-                            <td>
-                                <p>
-                                    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Archer\\ArcherRecapController::ROUTE'), { licenseNumber: result.archer.licenseNumber }) }}"
-                                       target="_parent"
-                                    >
-                                        {{ result.archer.fullName }}
-                                    </a>
-                                </p>
-                            </td>
-                            <td>
-                                {{ result.score }}
-                            </td>
-                            <td>
-                                <div class="flex jc-space-between">
-                                    {% if result.rank != 0 %}
-                                        <p>
-                                            {{ result.rank }}<sup>{% if result.rank == 1 %}er{% else %}e{% endif %}</sup>
-                                        </p>
-                                    {% endif %}
-
-                                    <span>
-                                        {% if result.onThePodium %}
-                                            <i class="text-small">Podium</i>{% if result.record %}, {% endif %}
-                                        {% endif %}
-
-                                        {% if result.record %}
-                                            <i class="text-small">Record personnel</i>
-                                        {% endif %}
-                                    </span>
-                                </div>
-                            </td>
-                            {% if showScoreSheet is defined and showScoreSheet %}
                                 <td>
-                                    {% if result.scoreSheet %}
-                                        <a href="{{ absolute_url(vich_uploader_asset(result.scoreSheet, 'documentFile')) }}"
-                                           target="_blank"
+                                    <p>
+                                        <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Archer\\ArcherRecapController::ROUTE'), { licenseNumber: result.archer.licenseNumber }) }}"
+                                           target="_parent"
                                         >
-                                            Afficher
+                                            {{ result.archer.fullName }}
                                         </a>
-                                    {% endif %}
+                                    </p>
                                 </td>
-                            {% endif %}
-                        </tr>
+                                <td>
+                                    {{ result.score }}
+                                </td>
+                                <td>
+                                    <div class="flex jc-space-between">
+                                        {% if result.rank != 0 %}
+                                            <p>
+                                                {{ result.rank }}<sup>{% if result.rank == 1 %}er{% else %}e{% endif %}</sup>
+                                            </p>
+                                        {% endif %}
+
+                                        <span>
+                                            {% if result.onThePodium %}
+                                                <i class="text-small">Podium</i>{% if result.record %}, {% endif %}
+                                            {% endif %}
+
+                                            {% if result.record %}
+                                                <i class="text-small">Record personnel</i>
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                </td>
+                                {% if showScoreSheet is defined and showScoreSheet %}
+                                    <td>
+                                        {% if result.scoreSheet %}
+                                            <a href="{{ absolute_url(vich_uploader_asset(result.scoreSheet, 'documentFile')) }}"
+                                               target="_blank"
+                                            >
+                                                Afficher
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     {% endfor %}
 
 {% endif %}
@@ -84,44 +86,46 @@
     <h2>Résultat en équipe</h2>
 
     {% for resultTeam in competition.resultsTeams %}
-        <table class="table">
-            <tr class="highlighted">
-                <td colspan="2">Membre de l'équipe</td>
-            </tr>
-
-            {% for teammate in resultTeam.teammates %}
-                <tr>
-                    <td colspan="2">{{ teammate }}</td>
+        <div class="table-container">
+            <table class="table">
+                <tr class="highlighted">
+                    <td colspan="2">Membre de l'équipe</td>
                 </tr>
-            {% endfor %}
 
-            <tr class="highlighted">
-                <td colspan="2">Résultats</td>
-            </tr>
+                {% for teammate in resultTeam.teammates %}
+                    <tr>
+                        <td colspan="2">{{ teammate }}</td>
+                    </tr>
+                {% endfor %}
 
-            <tr>
-                <td>Qualification</td>
-                <td>{{ resultTeam.score }} - {{ resultTeam.rank }}</td>
-            </tr>
-
-            {% for duel in resultTeam.duels %}
-                <tr>
-                    <td>{{ duel.title }}</td>
-                    <td>Caen {{ duel.score }} - {{ duel.opponentScore }} {{ duel.opponentName }}</td>
+                <tr class="highlighted">
+                    <td colspan="2">Résultats</td>
                 </tr>
-            {% endfor %}
 
-            <tr class="highlighted">
-                <td colspan="2">Classement final</td>
-            </tr>
-
-            {% for finalRanking in resultTeam.finalRankings %}
                 <tr>
-                    <td>{{ finalRanking.rank }}</td>
-                    <td>{{ finalRanking.teamName }}</td>
+                    <td>Qualification</td>
+                    <td>{{ resultTeam.score }} - {{ resultTeam.rank }}</td>
                 </tr>
-            {% endfor %}
-        </table>
+
+                {% for duel in resultTeam.duels %}
+                    <tr>
+                        <td>{{ duel.title }}</td>
+                        <td>Caen {{ duel.score }} - {{ duel.opponentScore }} {{ duel.opponentName }}</td>
+                    </tr>
+                {% endfor %}
+
+                <tr class="highlighted">
+                    <td colspan="2">Classement final</td>
+                </tr>
+
+                {% for finalRanking in resultTeam.finalRankings %}
+                    <tr>
+                        <td>{{ finalRanking.rank }}</td>
+                        <td>{{ finalRanking.teamName }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
     {% endfor %}
 
 {% endif %}

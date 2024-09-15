@@ -1,5 +1,9 @@
 @import "../variable";
 
+.table-container {
+  overflow-x: auto;
+}
+
 .table {
   width: 100%;
   margin: 25px 0;

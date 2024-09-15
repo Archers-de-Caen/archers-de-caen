@@ -40,62 +40,64 @@
     </div>
 
     <h2 class="mt-5">Résultats concours</h2>
-    <table class="table">
-        <thead class="highlighted">
-            <tr>
-                <th>Competition</th>
-                <th>Categories</th>
-                <th>Arme</th>
-                <th>Score</th>
-                <th>Classement</th>
-            </tr>
-        </thead>
-        <tbody>
-            {# @var result \App\Domain\Result\Model\ResultCompetition #}
-            {% for result in archer.resultsCompetition %}
+    <div class="table-container">
+        <table class="table">
+            <thead class="highlighted">
                 <tr>
-                    <td>
-                        <p>
-                            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Results\\CompetitionController::ROUTE'), { slug: result.competition.slug }) }}">
-                                {{ result.competition|replace({"concours ": ""}) }}
-                            </a>
-                        </p>
-                    </td>
-
-                    <td>
-                        {{ result.category.value|trans([], 'archer') }}
-                    </td>
-
-                    <td>
-                        {{ result.weapon.value|trans([], 'archer') }}
-                    </td>
-
-                    <td>
-                        {{ result.score }}
-                    </td>
-                    <td>
-                        <div class="flex jc-space-between">
-                            {% if result.rank != 0 %}
-                                <p>
-                                    {{ result.rank }}<sup>{% if result.rank == 1 %}er{% else %}e{% endif %}</sup>
-                                </p>
-                            {% endif %}
-
-                            <span>
-                                {% if result.onThePodium %}
-                                    <i class="text-small">Podium</i>{% if result.record %}, {% endif %}
-                                {% endif %}
-
-                                {% if result.record %}
-                                    <i class="text-small">Record personnel</i>
-                                {% endif %}
-                            </span>
-                        </div>
-                    </td>
+                    <th>Competition</th>
+                    <th>Categories</th>
+                    <th>Arme</th>
+                    <th>Score</th>
+                    <th>Classement</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {# @var result \App\Domain\Result\Model\ResultCompetition #}
+                {% for result in archer.resultsCompetition %}
+                    <tr>
+                        <td>
+                            <p>
+                                <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Results\\CompetitionController::ROUTE'), { slug: result.competition.slug }) }}">
+                                    {{ result.competition|replace({"concours ": ""}) }}
+                                </a>
+                            </p>
+                        </td>
+
+                        <td>
+                            {{ result.category.value|trans([], 'archer') }}
+                        </td>
+
+                        <td>
+                            {{ result.weapon.value|trans([], 'archer') }}
+                        </td>
+
+                        <td>
+                            {{ result.score }}
+                        </td>
+                        <td>
+                            <div class="flex jc-space-between">
+                                {% if result.rank != 0 %}
+                                    <p>
+                                        {{ result.rank }}<sup>{% if result.rank == 1 %}er{% else %}e{% endif %}</sup>
+                                    </p>
+                                {% endif %}
+
+                                <span>
+                                    {% if result.onThePodium %}
+                                        <i class="text-small">Podium</i>{% if result.record %}, {% endif %}
+                                    {% endif %}
+
+                                    {% if result.record %}
+                                        <i class="text-small">Record personnel</i>
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
     <h2 class="mt-5">Flèches de progressions</h2>
     <div class="flex jc-space-evenly --gap-1 --wrap w-100">

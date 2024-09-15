@@ -23,42 +23,44 @@
 
     <hr class="my-5">
 
-    <table class="table list">
-        <thead>
-            <tr>
-                <th>Lieu</th>
-                <th>Dates</th>
-                <th>Type</th>
-            </tr>
-        </thead>
-        <tbody>
-            {# @var competitions \App\Domain\Competition\Model\Competition[] #}
-            {% for competition in competitions %}
-                {% set url = path('landing_results_competition', { slug: competition.slug }) %}
-
-                <tr class="cursor-pointer" onclick="document.location.href = '{{ url }}'; return">
-                    <td>
-                        <a href="{{ url }}">{{ competition.location }}</a>
-                    </td>
-                    <td>
-                        <a href="{{ url }}">
-                            {{ competition.dateStart|date('d/m/Y') }}
-                            {% if competition.dateStart|date('d/m/Y') != competition.dateEnd|date('d/m/Y') %}
-                                - {{ competition.dateEnd|date('d/m/Y') }}
-                            {% endif %}
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{{ url }}">{{ competition.type.value|trans([], 'competition') }}</a>
-                    </td>
-                </tr>
-            {% else %}
+    <div class="table-container">
+        <table class="table list">
+            <thead>
                 <tr>
-                    <td colspan="3">Aucune compétition</td>
+                    <th>Lieu</th>
+                    <th>Dates</th>
+                    <th>Type</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {# @var competitions \App\Domain\Competition\Model\Competition[] #}
+                {% for competition in competitions %}
+                    {% set url = path('landing_results_competition', { slug: competition.slug }) %}
+
+                    <tr class="cursor-pointer" onclick="document.location.href = '{{ url }}'; return">
+                        <td>
+                            <a href="{{ url }}">{{ competition.location }}</a>
+                        </td>
+                        <td>
+                            <a href="{{ url }}">
+                                {{ competition.dateStart|date('d/m/Y') }}
+                                {% if competition.dateStart|date('d/m/Y') != competition.dateEnd|date('d/m/Y') %}
+                                    - {{ competition.dateEnd|date('d/m/Y') }}
+                                {% endif %}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ url }}">{{ competition.type.value|trans([], 'competition') }}</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">Aucune compétition</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
     {{ include('/shared/components/paginator.html.twig', { paginator: paginator }) }}
 {% endblock %}
