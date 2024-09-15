@@ -7,6 +7,7 @@ namespace App\Http\Admin\Controller\Cms;
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Model\Page;
 use App\Http\Landing\Controller\Actuality\ActualityController;
+use App\Http\Landing\Controller\Page\PageController;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
@@ -49,7 +50,7 @@ final class PageCrudController extends AbstractPageCrudController
         $publicLink = Action::new('public-link')
             ->setLabel('Lien public')
             ->linkToUrl(function (Page $page): string {
-                return $this->urlGenerator->generate(ActualityController::ROUTE, [
+                return $this->urlGenerator->generate(PageController::ROUTE, [
                     'slug' => $page->getSlug(),
                 ], UrlGeneratorInterface::ABSOLUTE_URL);
             })
