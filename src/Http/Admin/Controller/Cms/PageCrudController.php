@@ -6,7 +6,6 @@ namespace App\Http\Admin\Controller\Cms;
 
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Model\Page;
-use App\Http\Landing\Controller\Actuality\ActualityController;
 use App\Http\Landing\Controller\Page\PageController;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;

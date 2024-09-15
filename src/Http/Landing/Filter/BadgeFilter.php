@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Landing\Filter;
 
-use Doctrine\ORM\QueryBuilder;
 use App\Domain\Archer\Config\Weapon;
 use App\Domain\Badge\Model\Badge;
 use App\Domain\Badge\Repository\BadgeRepository;
 use App\Http\Landing\Request\BadgeFilterDto;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
