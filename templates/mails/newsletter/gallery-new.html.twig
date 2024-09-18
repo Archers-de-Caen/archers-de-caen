@@ -8,7 +8,7 @@
 
     <table>
         <tr>
-            {% if gallery.mainPhoto is defined %}
+            {% if gallery.mainPhoto %}
                 <td colspan="2">
                     <img src="{{ absolute_url(vich_uploader_asset(gallery.mainPhoto, 'imageFile')) }}" alt="{{ gallery.mainPhoto.imageName }}">
                 </td>

@@ -159,7 +159,7 @@ final class GalleryCrudController extends AbstractCrudController
         $em->flush();
 
         if ($entity->getId()) {
-            $messageBus->dispatch(new GalleryNewsletterMessage($entity->getId(), NewsletterType::GALLERY_NEW));
+            $messageBus->dispatch(new GalleryNewsletterMessage($entity->getId()));
         }
 
         return $this->redirect($context->getReferrer() ?: $urlGenerator->generate(DashboardController::ROUTE));

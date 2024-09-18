@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Cms\Repository;
 
+use App\Domain\Cms\Config\Category;
+use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Model\Page;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -94,5 +96,38 @@ final class PageRepository extends ServiceEntityRepository
         }
 
         return $pagesSortByTags;
+    }
+
+    /**
+     * @return array<Page>
+     */
+    public function findLastMonthActualities(): array
+    {
+        $now = new \DateTimeImmutable('now');
+        $currentMonth = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $now->format('Y-m-01 00:00:00'));
+
+        if (false === $currentMonth) {
+            throw new \RuntimeException('Cannot create date from format Y-m-01 00:00:00');
+        }
+
+        $lastMonth = $currentMonth->modify('-1 month');
+
+        /** @var array<Page> $actualities */
+        $actualities = $this->createQueryBuilder('page')
+            ->where('page.category = :category')
+            ->setParameter('category', Category::ACTUALITY)
+
+            ->andWhere('page.status = :status')
+            ->setParameter('status', Status::PUBLISH)
+
+            ->andWhere('page.createdAt BETWEEN :lastMonth AND :currentMonth')
+            ->setParameter('lastMonth', $lastMonth)
+            ->setParameter('currentMonth', $currentMonth)
+
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $actualities;
     }
 }

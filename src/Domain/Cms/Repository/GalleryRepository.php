@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Cms\Repository;
 
+use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Model\Gallery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -39,5 +40,34 @@ final class GalleryRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * @return array<Gallery>
+     */
+    public function findLastMonthGalleries(): array
+    {
+        $now = new \DateTimeImmutable('now');
+        $currentMonth = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $now->format('Y-m-01 00:00:00'));
+
+        if (false === $currentMonth) {
+            throw new \RuntimeException('Cannot create date from format Y-m-01 00:00:00');
+        }
+
+        $lastMonth = $currentMonth->modify('-1 month');
+
+        /** @var array<Gallery> $galleries */
+        $galleries = $this->createQueryBuilder('gallery')
+            ->where('gallery.createdAt BETWEEN :lastMonth AND :currentMonth')
+            ->setParameter('lastMonth', $lastMonth)
+            ->setParameter('currentMonth', $currentMonth)
+
+            ->andWhere('gallery.status = :status')
+            ->setParameter('status', Status::PUBLISH)
+
+            ->getQuery()
+            ->getResult();
+
+        return $galleries;
     }
 }

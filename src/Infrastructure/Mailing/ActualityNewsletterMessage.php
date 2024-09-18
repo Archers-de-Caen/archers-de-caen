@@ -7,11 +7,10 @@ namespace App\Infrastructure\Mailing;
 use App\Domain\Newsletter\NewsletterType;
 use Symfony\Component\Uid\Uuid;
 
-final class ActualityNewsletterMessage implements NewsletterMessage
+final readonly class ActualityNewsletterMessage implements NewsletterMessage
 {
     public function __construct(
-        private readonly Uuid $actualityUid,
-        private readonly NewsletterType $type,
+        private Uuid $actualityUid,
     ) {
     }
 
@@ -23,7 +22,7 @@ final class ActualityNewsletterMessage implements NewsletterMessage
     #[\Override]
     public function getType(): NewsletterType
     {
-        return $this->type;
+        return NewsletterType::ACTUALITY_NEW;
     }
 
     #[\Override]
