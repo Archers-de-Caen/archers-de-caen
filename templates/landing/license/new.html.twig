@@ -18,6 +18,13 @@
             vous aurez la possibilité de le payer plus tard au club ou via la boutique du site.</li>
     </ul>
 
+    <h3>Renouvellement</h3>
+    <p>
+        Pour les renouvellements, pour plus de simplicité, vous pouvez le faire via votre
+        <a href="https://monespace.ffta.fr/auth/login" rel="nofollow">espace licencé FFTA</a>,
+        le paiement reste à faire via ce formulaire ou au club.
+    </p>
+
     {% set takeLicense = takeLicense|first %}
 
     <div class="files mt-2">
@@ -27,7 +34,7 @@
     </div>
 
     <iframe
-        src="{{ takeLicense['helloasso'] }}"
+        src="{{ takeLicense['helloasso'] ?? '' }}"
         class="mt-2"
         style="width: 100%; height: 750px; border: none;"
         title="Prise de Licence aux Archers de Caen"
