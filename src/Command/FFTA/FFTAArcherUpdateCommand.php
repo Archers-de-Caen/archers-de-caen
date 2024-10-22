@@ -58,9 +58,9 @@ final class FFTAArcherUpdateCommand extends Command
 
             $io->info('Récupération des licences');
 
-            $newLicenses = $this->fftaDirigeantService->getLicenses($season);
+            $licensesFromFFTA = $this->fftaDirigeantService->getLicenses($season);
 
-            $io->info(\count($newLicenses).' licences récupéré');
+            $io->info(\count($licensesFromFFTA).' licences récupéré');
         } catch (HttpExceptionInterface|TransportExceptionInterface $httpException) {
             $io->error($httpException->getMessage());
 
@@ -72,9 +72,9 @@ final class FFTAArcherUpdateCommand extends Command
         $archers = $this->reformatArchersArray($this->archerRepository->findAll());
         $licenses = $this->licenseRepository->findAll();
 
-        foreach ($newLicenses as $newLicense) {
+        foreach ($licensesFromFFTA as $licenseFromFFTA) {
             try {
-                $archer = $this->getArcher($archers, $newLicense);
+                $archer = $this->getArcher($archers, $licenseFromFFTA);
             } catch (\RuntimeException $e) {
                 $io->error($e->getMessage());
 
@@ -83,7 +83,7 @@ final class FFTAArcherUpdateCommand extends Command
                 break;
             }
 
-            $licenseType = str_replace('"', '', $newLicense->getLicenseType() ?? '');
+            $licenseType = str_replace('"', '', $licenseFromFFTA->getLicenseType() ?? '');
 
             if (!$archer->getArcherLicenseActive() instanceof ArcherLicense) {
                 $license = array_filter(
@@ -102,19 +102,19 @@ final class FFTAArcherUpdateCommand extends Command
                 }
 
                 try {
-                    $io->info('Nouvelle licence: '.json_encode($newLicense, \JSON_THROW_ON_ERROR));
+                    $io->info('Nouvelle licence: '.json_encode($licenseFromFFTA, \JSON_THROW_ON_ERROR));
                 } catch (\JsonException) {
                     $io->info('Nouvelle licence: impossible d\'encodé $newLicense');
                 }
 
                 try {
-                    $gender = match ($newLicense->getGender()) {
+                    $gender = match ($licenseFromFFTA->getGender()) {
                         Gender::MAN => 'Homme',
                         Gender::WOMAN => 'Femme',
                         Gender::OTHER, Gender::UNDEFINED, null => throw new \RuntimeException('To be implemented'),
                     };
 
-                    $category = Category::createFromString($newLicense->getCategory().' '.$gender);
+                    $category = Category::createFromString($licenseFromFFTA->getCategory().' '.$gender);
                 } catch (\ValueError $e) {
                     $io->error($e->getMessage());
 
@@ -126,8 +126,8 @@ final class FFTAArcherUpdateCommand extends Command
                 $archer->addArcherLicense(
                     (new ArcherLicense())
                         ->setActive(true)
-                        ->setDateStart($newLicense->getLicenseDateStart())
-                        ->setDateEnd($newLicense->getLicenseDateEnd() ?? new \DateTime('31-12-'.$season))
+                        ->setDateStart($licenseFromFFTA->getLicenseDateStart())
+                        ->setDateEnd($licenseFromFFTA->getLicenseDateEnd() ?? new \DateTime('31-12-'.$season))
                         ->setLicense($license[array_key_first($license)])
                         ->setCategory($category)
                 );

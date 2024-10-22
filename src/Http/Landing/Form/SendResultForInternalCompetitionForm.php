@@ -8,7 +8,6 @@ use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Config\Weapon;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Archer\Repository\ArcherRepository;
-use App\Domain\File\Form\DocumentFormType;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
