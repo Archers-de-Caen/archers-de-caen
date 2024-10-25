@@ -8,7 +8,6 @@
   width: 100%;
   margin: 25px 0;
   background-color: $color-white;
-  border-radius: $border-radius-normal;
 
   .highlighted {
     background-color: lighten($color-yellow, 25);
@@ -21,7 +20,6 @@
 
   thead {
     background-color: $color-white;
-    border-radius: $border-radius-normal;
 
     th {
       font-weight: bold;
@@ -33,34 +31,6 @@
       padding: 10px 20px;
       border: 1px solid $color-yellow;
       vertical-align: middle;
-    }
-
-    &:first-child {
-      border-radius: $border-radius-normal $border-radius-normal 0 0;
-
-      td, th {
-        &:first-child {
-          border-radius: $border-radius-normal 0 0 0;
-        }
-
-        &:last-child {
-          border-radius: 0 $border-radius-normal 0 0;
-        }
-      }
-    }
-
-    &:last-child {
-      border-radius: 0 0 $border-radius-normal $border-radius-normal;
-
-      td, th {
-        &:first-child {
-          border-radius: 0 0 0 $border-radius-normal;
-        }
-
-        &:last-child {
-          border-radius: 0 0  0;
-        }
-      }
     }
   }
 
