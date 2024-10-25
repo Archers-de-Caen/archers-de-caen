@@ -3,37 +3,41 @@
 <div class="wrapper-planning">
     <div class="planning">
         {% for planning in plannings %}
-            <div class="planning__row planning__row--hours">
-                <div class="planning__row-first"></div>
-                {% for header in planning.headers %}
-                    <span>{{ header }}</span>
-                {% endfor %}
-            </div>
-
-            {% if loop.first %}
-                <div class="planning__row planning__row--lines" data-month="{{ planning.headers|length }}">
+            {% if planning.headers is defined %}
+                <div class="planning__row planning__row--hours">
+                    <div class="planning__row-first"></div>
                     {% for header in planning.headers %}
-                        <span></span>
+                        <span>{{ header }}</span>
                     {% endfor %}
                 </div>
+
+                {% if loop.first %}
+                    <div class="planning__row planning__row--lines" data-month="{{ planning.headers|length }}">
+                        {% for header in planning.headers %}
+                            <span></span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             {% endif %}
 
-            {% for row in planning.rows %}
-                <div class="planning__row">
-                    <div class="planning__row-first">
-                        {{ row.day }}
+            {% if planning.rows is defined %}
+                {% for row in planning.rows %}
+                    <div class="planning__row">
+                        <div class="planning__row-first">
+                            {{ row.day }}
+                        </div>
+                        <ul class="planning__row-bars">
+                            {% for slot in row.slots %}
+                                <li style="grid-column: {{ slot.start }}/{{ slot.end }}" class="{{ slot.color }}">
+                                    <b>{{ slot.title }}</b>
+                                    <br>
+                                    <span>{{ slot.content|raw }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
                     </div>
-                    <ul class="planning__row-bars">
-                        {% for slot in row.slots %}
-                            <li style="grid-column: {{ slot.start }}/{{ slot.end }}" class="{{ slot.color }}">
-                                <b>{{ slot.title }}</b>
-                                <br>
-                                <span>{{ slot.content|raw }}</span>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            {% endif %}
         {% endfor %}
     </div>
 </div>

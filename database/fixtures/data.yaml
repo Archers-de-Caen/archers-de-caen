@@ -298,3 +298,9 @@ App\Domain\Cms\Model\Data:
     formType: App\Domain\Cms\Form\Data\Element\TextForm
     content:
       - text: Le club est fermé du 24 décembre 2022 au 2 janvier 2023 inclus <a href="/club">En savoir plus</a>
+
+  planning (extends data):
+    code: PLANNING
+    description: Club - Planning des entraînements
+    formType: App\Domain\Cms\Form\Data\Planning\PlanningForm
+    content: []

@@ -22,7 +22,7 @@ class PlanningForm extends AbstractType
                 'entry_type' => TextType::class,
                 'entry_options' => [
                     'attr' => [
-                        'label' => 'L\'heure',
+                        'label' => "L'heure",
                         'placeholder' => '17h',
                     ],
                 ],
