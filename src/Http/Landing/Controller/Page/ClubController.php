@@ -23,12 +23,19 @@ final class ClubController extends AbstractController
 {
     public const string ROUTE = 'landing_club';
 
-    public function __invoke(DataRepository $dataRepository): Response
+    public function __construct(
+        private readonly DataRepository $dataRepository
+    ) {
+    }
+
+    public function __invoke(): Response
     {
-        $faqs = $dataRepository->findByCode(Data::CODE_FAQ);
+        $faqs = $this->dataRepository->findByCode(Data::CODE_FAQ);
+        $plannings = $this->dataRepository->findByCode(Data::CODE_PLANNING)?->getContent() ?? [];
 
         return $this->render('/landing/club/index.html.twig', [
             'faqs' => $faqs,
+            'plannings' => $plannings,
         ]);
     }
 }

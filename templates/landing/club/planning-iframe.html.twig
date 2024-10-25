@@ -3,6 +3,6 @@
 {% block title %}Créneaux d’entraînement{% endblock %}
 
 {% block body %}
-    {{ include('/landing/club/_parts/planning.html.twig') }}
+    {% include '/landing/club/_parts/planning.html.twig' with vars %}
 {% endblock %}
 

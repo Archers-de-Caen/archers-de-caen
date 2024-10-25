@@ -2,138 +2,39 @@
 
 <div class="wrapper-planning">
     <div class="planning">
-        <div class="planning__row planning__row--hours">
-            <div class="planning__row-first"></div>
-            <span>17h</span>
-            <span>18h</span>
-            <span>19h</span>
-            <span>20h</span>
-            <span>21h</span>
-            <span>22h</span>
-        </div>
-        <div class="planning__row planning__row--lines" data-month="5">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-
-        <div class="planning__row">
-            <div class="planning__row-first">
-                Lundi
+        {% for planning in plannings %}
+            <div class="planning__row planning__row--hours">
+                <div class="planning__row-first"></div>
+                {% for header in planning.headers %}
+                    <span>{{ header }}</span>
+                {% endfor %}
             </div>
-            <ul class="planning__row-bars">
-                <li style="grid-column: 1/12" class="bg-red">
-                    <b>17h - 19h45</b>
-                    <br>
-                    <span>Entraînement libre</span>
-                </li>
-                <li style="grid-column: 5/12" class="bg-yellow text-grey">
-                    <b>18h00 - 19h45</b>
-                    <br>
-                    <span>Entraînement 2<sup>e</sup> et 3<sup>e</sup> années jeunes et adultes + compétition</span>
-                </li>
-                <li style="grid-column: 13/19" class="bg-blue">
-                    <b>20h00 - 21h30</b>
-                    <br>
-                    <span>Entraînement 1<sup>er</sup> années adultes</span>
-                </li>
-            </ul>
-        </div>
 
-        <div class="planning__row">
-            <div class="planning__row-first">
-                Mardi
-            </div>
-            <ul class="planning__row-bars">
-                <li style="grid-column: 1/5" class="bg-red">
-                    <b>17h - 18h</b>
-                    <br>
-                    <span>Entraînement libre</span>
-                </li>
-                <li style="grid-column: 5/11" class="bg-blue">
-                    <b>18h00 - 19h30</b>
-                    <br>
-                    <span>Entraînement 1<sup>er</sup> années jeunes</span>
-                </li>
-                <li style="grid-column: 11/17" class="bg-red">
-                    <b>19h30 - 22h</b>
-                    <br>
-                    <span>Entraînement libre</span>
-                </li>
-            </ul>
-        </div>
+            {% if loop.first %}
+                <div class="planning__row planning__row--lines" data-month="{{ planning.headers|length }}">
+                    {% for header in planning.headers %}
+                        <span></span>
+                    {% endfor %}
+                </div>
+            {% endif %}
 
-        <div class="planning__row">
-            <div class="planning__row-first">
-                Mercredi
-            </div>
-            <ul class="planning__row-bars">
-                <li style="grid-column: 7/13" class="bg-primary">
-                    <b>18h30 - 20h</b>
-                    <br>
-                    <span>Fit-archery</span>
-                </li>
-                <li style="grid-column: 1/17" class="bg-red">
-                    <b>17h - 21h</b>
-                    <br>
-                    <span>Entraînement libre</span>
-                </li>
-            </ul>
-        </div>
-
-        <div class="planning__row">
-            <div class="planning__row-first">
-                Jeudi
-            </div>
-            <ul class="planning__row-bars">
-                <li style="grid-column: 1/17" class="bg-red">
-                    <b>17h - 21h</b>
-                    <br>
-                    <span>Entraînement libre</span>
-                </li>
-            </ul>
-        </div>
-
-        <div class="planning__row">
-            <div class="planning__row-first">
-                Vendredi
-            </div>
-            <ul class="planning__row-bars">
-                <li style="grid-column: 1/9" class="bg-red">
-                    <b>17h - 19h</b>
-                    <br>
-                    <span>Entraînement libre</span>
-                </li>
-            </ul>
-        </div>
-
-        <div class="planning__row planning__row--hours">
-            <div class="planning__row-first"></div>
-            <span>9h</span>
-            <span>10h</span>
-            <span>11h</span>
-            <span>12h</span>
-            <span>13h</span>
-            <span>14h</span>
-        </div>
-
-        <div class="planning__row">
-            <div class="planning__row-first">
-                Samedi
-            </div>
-            <ul class="planning__row-bars">
-                <li style="grid-column: 1/13" class="bg-red">
-                    <b>9h00 - 12h00</b>
-                    <br>
-                    <span>Entraînement libre</span>
-                </li>
-            </ul>
-        </div>
-
+            {% for row in planning.rows %}
+                <div class="planning__row">
+                    <div class="planning__row-first">
+                        {{ row.day }}
+                    </div>
+                    <ul class="planning__row-bars">
+                        {% for slot in row.slots %}
+                            <li style="grid-column: {{ slot.start }}/{{ slot.end }}" class="{{ slot.color }}">
+                                <b>{{ slot.title }}</b>
+                                <br>
+                                <span>{{ slot.content|raw }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        {% endfor %}
     </div>
 </div>
 
