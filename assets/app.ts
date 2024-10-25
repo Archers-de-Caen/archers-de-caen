@@ -26,6 +26,7 @@ import './js/flash'
 import './js/iframe-fit-content'
 import './js/display'
 import './js/embedly'
+import './js/open-native-share'
 
 window.Swal = require('sweetalert2').default
 

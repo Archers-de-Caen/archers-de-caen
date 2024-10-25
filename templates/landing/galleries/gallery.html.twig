@@ -58,15 +58,6 @@
                 <i data-feather="facebook"></i>
             </a>
 
-            {% set twitterLink = 'https://twitter.com/share?text=' ~ gallery.title ~ '&url=' ~ galleryUrl|url_encode %}
-            <a
-                class="share-bar-btn share-bar-btn-width-15 btn -secondary -outline"
-                href="{{ twitterLink }}"
-                onclick="openInNewTab(this.href); return false;"
-            >
-                <i data-feather="twitter"></i>
-            </a>
-
             {% set emailLink = 'mailto:?subject=' ~ gallery.title ~ '&body=' ~ galleryUrl|url_encode ~ ' ' ~ gallery.title %}
             <a
                 class="share-bar-btn share-bar-btn-width-15 btn -secondary -outline"
@@ -83,12 +74,21 @@
                 <i data-feather="clipboard"></i>
             </a>
 
-{# TODO            <a#}
-{#                class="share-bar-btn share-bar-btn-width-15 copy-btn btn -secondary -outline"#}
-{#                href="{{ galleryUrl }}"#}
-{#            >#}
-{#                <i data-feather="download"></i>#}
-{#            </a>#}
+            <a
+                class="share-bar-btn btn -secondary -outline open-native-share"
+                data-url="{{ galleryUrl }}"
+                data-title="{{ gallery.title }}"
+                data-text='Salut, regarde les photos "{{ gallery.title }}" des Archers de Caen'
+            >
+                <i data-feather="share-2"></i>
+            </a>
+
+            {# TODO            <a#}
+            {#                class="share-bar-btn share-bar-btn-width-15 copy-btn btn -secondary -outline"#}
+            {#                href="{{ galleryUrl }}"#}
+            {#            >#}
+            {#                <i data-feather="download"></i>#}
+            {#            </a>#}
         </div>
     </div>
 {% endblock %}
