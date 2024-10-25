@@ -14,9 +14,10 @@ use App\Domain\Cms\Repository\PageRepository;
 use App\Domain\Competition\Model\Competition;
 use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
+use Twig\Extension\GlobalsInterface;
 use Twig\TwigFunction;
 
-final class GetHeaderDataExtension extends AbstractExtension
+final class GetDataExtension extends AbstractExtension implements GlobalsInterface
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
@@ -28,6 +29,20 @@ final class GetHeaderDataExtension extends AbstractExtension
     {
         return [
             new TwigFunction('getHeaderData', $this->getHeaderData(...)),
+        ];
+    }
+
+    public function getGlobals(): array
+    {
+        $socialNetwork = $this->getSocialNetwork();
+
+        return [
+            'social_network' => [
+                'facebook' => $socialNetwork['facebook'] ?? null,
+                'instagram' => $socialNetwork['instagram'] ?? null,
+                'youtube' => $socialNetwork['youtube'] ?? null,
+                'tiktok' => $socialNetwork['tiktok'] ?? null,
+            ],
         ];
     }
 
@@ -144,5 +159,13 @@ final class GetHeaderDataExtension extends AbstractExtension
         $dataRepository = $this->em->getRepository(Data::class);
 
         return $dataRepository->getText(Data::CODE_MESSAGE_IMPORTANT);
+    }
+
+    private function getSocialNetwork(): array
+    {
+        /** @var DataRepository $dataRepository */
+        $dataRepository = $this->em->getRepository(Data::class);
+
+        return $dataRepository->findByCode(Data::CODE_SOCIAL_NETWORK)?->getContent()[0] ?? [];
     }
 }

@@ -14,12 +14,6 @@ twig:
             phone: '%phone%'
             postal_address: '%postal_address%'
 
-        social_network:
-            facebook: "https://www.facebook.com/ArchersdeCaen"
-            instagram: "https://www.instagram.com/archersdecaen/"
-            youtube: "https://www.youtube.com/channel/UCkbHDxHZnQmr05kvKf5mqkQ"
-            tiktok: "https://www.tiktok.com/@archersdecaen2"
-
         router:
             request_context:
                 scheme: '%router.request_context.scheme%'

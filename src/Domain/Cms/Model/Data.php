@@ -37,6 +37,8 @@ class Data implements \Stringable
 
     public const string CODE_PLANNING = 'PLANNING';
 
+    public const string CODE_SOCIAL_NETWORK = 'SOCIAL_NETWORK';
+
     #[ORM\Column(type: Types::STRING, length: 191, unique: true)]
     #[Assert\Length(max: 191)]
     #[Assert\NotBlank]
