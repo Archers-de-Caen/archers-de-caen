@@ -32,9 +32,9 @@
         {% for competition in report.competition %}
             <tr>
                 <td>
-                    <a href="{{ path(
+                    <a href="{{ absolute_url(path(
                         constant('App\\Http\\Landing\\Controller\\Results\\CompetitionController::ROUTE'),
-                        { slug: competition.slug }) }}"
+                        { slug: competition.slug })) }}"
                     >
                         {{ competition }}
                     </a>

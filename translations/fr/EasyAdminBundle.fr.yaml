@@ -7,3 +7,8 @@ import_action_modal:
 copy_string_modal:
   title: 'Copier'
   action: 'Copier'
+
+send_newsletter_confirm:
+  title: 'Envoyer la newsletter'
+  content: 'Êtes-vous sûr de vouloir envoyer la newsletter ?'
+  action: 'Envoyer'

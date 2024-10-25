@@ -24,6 +24,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -116,6 +117,8 @@ final class GalleryCrudController extends AbstractCrudController
 
     /**
      * @param Gallery $entityInstance
+     *
+     * @throws ExceptionInterface
      */
     #[\Override]
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
@@ -127,6 +130,8 @@ final class GalleryCrudController extends AbstractCrudController
 
     /**
      * @param Gallery $entityInstance
+     *
+     * @throws ExceptionInterface
      */
     #[\Override]
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
@@ -136,6 +141,9 @@ final class GalleryCrudController extends AbstractCrudController
         $this->dispatchCache($entityInstance);
     }
 
+    /**
+     * @throws ExceptionInterface
+     */
     private function dispatchCache(Gallery $entityInstance): void
     {
         if ($entityInstance->getMainPhoto() instanceof Photo && $entityInstance->getMainPhoto()->getImageName()) {
@@ -145,6 +153,9 @@ final class GalleryCrudController extends AbstractCrudController
         $this->bus->dispatch(new CacheResolveMessage($entityInstance->getPhotos()->map(static fn ($photo): ?string => $photo->getImageName())->toArray()));
     }
 
+    /**
+     * @throws ExceptionInterface
+     */
     public function publish(
         MessageBusInterface $messageBus,
         AdminContext $context,

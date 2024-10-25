@@ -294,3 +294,95 @@ img {
 .iframe-flatten, .iframe-flatten .body {
     background-color: white;
 }
+
+/* Copy du fichier assets/styles/base/table.scss */
+table {
+    border-collapse: collapse;
+}
+
+.table {
+    width: 100%;
+    margin: 25px 0;
+    background-color: #FFFFFF;
+    border-radius: 0.75rem;
+}
+
+.table .highlighted {
+    background-color: #ffeb7e; /* lighten(#FDD20E, 25%) */
+    font-weight: bold;
+}
+
+.table .highlighted td,
+.table .highlighted th {
+    font-weight: bold;
+}
+
+.table thead {
+    background-color: #FFFFFF;
+}
+
+.table thead th {
+    font-weight: bold;
+}
+
+.table tr td,
+.table tr th {
+    padding: 10px 20px;
+    border: 1px solid #FDD20E;
+    vertical-align: middle;
+}
+
+.table.list thead.--header-sticky {
+    position: sticky;
+    top: 50px;
+    z-index: 100;
+}
+
+.table.list tbody tr:nth-child(odd) td {
+    background-color: #fff5b3; /* lighten(#FDD20E, 40%) */
+}
+
+.table.list tbody tr:nth-child(even) td {
+    background-color: #FFFFFF;
+}
+
+.table.list tbody tr:hover {
+    background-color: #ffeb7e; /* lighten(#FDD20E, 25%) */
+}
+
+.table.list tbody tr:hover td {
+    background-color: unset;
+}
+
+.table.list tbody tr:hover td:first-child {
+    background-color: #ffeb7e; /* lighten(#FDD20E, 25%) */
+}
+
+.table.list tr {
+    border-bottom: 1px solid #FDD20E;
+}
+
+.table.list tr td,
+.table.list tr th {
+    border-top: unset;
+    border-left: unset;
+    border-right: unset;
+}
+
+.table.list tr td:first-child,
+.table.list tr th:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 99;
+}
+
+.table.list tr th:first-child {
+    z-index: 101;
+    background-color: #FFFFFF;
+}
+
+.table.--center td,
+.table.--center th {
+    text-align: center;
+    vertical-align: middle;
+}

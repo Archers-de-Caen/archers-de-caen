@@ -9,10 +9,12 @@ use App\Domain\Archer\Repository\ArcherRepository;
 use App\Domain\Competition\Model\Competition;
 use App\Domain\Competition\Repository\CompetitionRepository;
 use App\Domain\Competition\Service\CompetitionService;
+use App\Domain\Newsletter\NewsletterType;
 use App\Domain\Result\Manager\ResultCompetitionManager;
 use App\Domain\Result\Model\ResultCompetition;
 use App\Domain\Result\Repository\ResultCompetitionRepository;
 use App\Infrastructure\Mailing\AdminNotificationMessage;
+use App\Infrastructure\Mailing\CompetitionResultsNewsletterMessage;
 use App\Infrastructure\Service\ArcheryService;
 use App\Infrastructure\Service\FFTA\CompetitionResultDTO;
 use App\Infrastructure\Service\FFTA\CompetitionResultSearchDTO;
@@ -26,6 +28,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
@@ -40,7 +43,17 @@ final class FFTACompetitionUpdateCommand extends Command
 
     public const string LICENSE_NUMBER_OF_CREATOR_ACTUALITY = '0785039D';
 
-    public const array RESULT_KEYS = ['competition', 'archer', 'result'];
+    public const string REPORT_COMPETITION = 'competition';
+
+    public const string REPORT_ARCHER = 'archer';
+
+    public const string REPORT_RESULT = 'result';
+
+    public const array REPORT_KEYS = [
+        self::REPORT_COMPETITION,
+        self::REPORT_ARCHER,
+        self::REPORT_RESULT,
+    ];
 
     private SymfonyStyle $io;
 
@@ -67,6 +80,9 @@ final class FFTACompetitionUpdateCommand extends Command
         parent::__construct($name);
     }
 
+    /**
+     * @throws ExceptionInterface
+     */
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -104,7 +120,7 @@ final class FFTACompetitionUpdateCommand extends Command
         $this->io->info('Rapport:');
         $this->io->table(array_keys($this->report), [array_map(static fn (array $report): int => \count($report), $this->report)]);
 
-        if ([] !== $this->getReport('result')) {
+        if ([] !== $this->getReport(self::REPORT_RESULT)) {
             $this->messageBus->dispatch(new AdminNotificationMessage(
                 'Les résultats des compétitions ont été importés',
                 'mails/admin/new-competition-imported.html.twig',
@@ -114,6 +130,13 @@ final class FFTACompetitionUpdateCommand extends Command
             ));
 
             $this->io->info('Notification envoyée');
+        }
+
+        foreach ($this->getReport(self::REPORT_COMPETITION) as $competition) {
+            $this->messageBus->dispatch(new CompetitionResultsNewsletterMessage(
+                $competition->getId(),
+                NewsletterType::COMPETITION_RESULTS_NEW
+            ));
         }
 
         $this->io->success('finish '.$this->getName());
@@ -256,7 +279,7 @@ final class FFTACompetitionUpdateCommand extends Command
 
     private function addReport(string $type, mixed $value): void
     {
-        if (!\in_array($type, self::RESULT_KEYS, true)) {
+        if (!\in_array($type, self::REPORT_KEYS, true)) {
             throw new \InvalidArgumentException('Type de rapport inconnu');
         }
 
@@ -266,7 +289,7 @@ final class FFTACompetitionUpdateCommand extends Command
 
     private function getReport(string $type): array
     {
-        if (!\in_array($type, self::RESULT_KEYS, true)) {
+        if (!\in_array($type, self::REPORT_KEYS, true)) {
             throw new \InvalidArgumentException('Type de rapport inconnu');
         }
 

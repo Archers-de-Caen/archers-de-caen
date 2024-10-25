@@ -8,16 +8,19 @@ use App\Domain\Archer\Model\Archer;
 use App\Domain\Competition\Config\Type;
 use App\Domain\Competition\Model\Competition;
 use App\Domain\Competition\Service\CompetitionService;
+use App\Domain\Newsletter\NewsletterType;
 use App\Domain\Result\Form\ResultCompetitionForm;
 use App\Domain\Result\Form\ResultTeamForm;
 use App\Domain\Result\Manager\ResultCompetitionManager;
 use App\Domain\Result\Model\ResultCompetition;
 use App\Http\Admin\Controller\Cms\AbstractPageCrudController;
 use App\Http\Landing\Controller\Results\CompetitionController;
+use App\Infrastructure\Mailing\CompetitionResultsNewsletterMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -28,11 +31,15 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use function Symfony\Component\Translation\t;
 
 use Symfony\Component\Translation\TranslatableMessage;
+use Symfony\Component\Uid\Uuid;
 
 final class CompetitionCrudController extends AbstractCrudController
 {
@@ -41,6 +48,7 @@ final class CompetitionCrudController extends AbstractCrudController
         readonly private CompetitionService $competitionManager,
         readonly private UrlGeneratorInterface $urlGenerator,
         readonly private AdminUrlGenerator $adminUrlGenerator,
+        readonly private MessageBusInterface $messageBus,
     ) {
     }
 
@@ -90,9 +98,19 @@ final class CompetitionCrudController extends AbstractCrudController
             ])
         ;
 
+        $sendNewsletter = Action::new('send-newsletter', 'Envoyer la newsletter')
+            ->linkToCrudAction('sendNewsletter')
+            ->displayIf(static fn (Competition $competition): bool => $competition->getResults()->count() > 0)
+            ->setHtmlAttributes([
+                'data-bs-toggle' => 'modal',
+                'data-bs-target' => '#modal-send-newsletter-confirm',
+            ])
+        ;
+
         return $actions
             ->add(Crud::PAGE_INDEX, $publicLink)
             ->add(Crud::PAGE_INDEX, $copyIframe)
+            ->add(Crud::PAGE_INDEX, $sendNewsletter)
         ;
     }
 
@@ -219,5 +237,34 @@ final class CompetitionCrudController extends AbstractCrudController
         ], UrlGeneratorInterface::ABSOLUTE_URL);
 
         $this->addFlash('success', 'Compétition mise à jour, lien public <a href="'.$competitionUrl.'">ici</a>');
+    }
+
+    /**
+     * @throws ExceptionInterface
+     */
+    public function sendNewsletter(AdminContext $context): RedirectResponse
+    {
+        /** @var Uuid $uuid */
+        $uuid = $context->getEntity()->getInstance()?->getId();
+
+        $message = new CompetitionResultsNewsletterMessage(
+            competitionUuid: $uuid,
+            type: NewsletterType::COMPETITION_RESULTS_NEW
+        );
+
+        $this->messageBus->dispatch($message);
+
+        $this->addFlash('success', 'La newsletter a été envoyée');
+
+        $referer = $context->getReferrer();
+
+        if (null === $referer) {
+            $referer = $this->adminUrlGenerator
+                ->setController(__CLASS__)
+                ->setAction(Action::INDEX)
+                ->generateUrl();
+        }
+
+        return $this->redirect($referer);
     }
 }

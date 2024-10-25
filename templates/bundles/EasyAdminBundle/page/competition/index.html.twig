@@ -4,5 +4,6 @@
     {{ parent() }}
 
     {{ include('@EasyAdmin/crud/includes/_copy_string_action_modal.html.twig', {}, with_context = false) }}
+    {{ include('@EasyAdmin/crud/includes/_confirm_send_newsletter_modal.html.twig', {}, with_context = false) }}
 {% endblock main %}
 
