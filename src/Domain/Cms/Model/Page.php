@@ -49,7 +49,7 @@ class Page
     private ?Photo $image = null;
 
     /**
-     * @var Collection<Tag>
+     * @var Collection<int, Tag>
      */
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'pages')]
     private Collection $tags;

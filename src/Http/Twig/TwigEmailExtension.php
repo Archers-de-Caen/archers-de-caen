@@ -20,7 +20,7 @@ final class TwigEmailExtension extends AbstractExtension
      * @param string $baseHost auto-inject from services.yaml
      */
     public function __construct(
-        readonly string $baseHost,
+        private readonly string $baseHost,
         private readonly LoggerInterface $logger
     ) {
     }
@@ -77,7 +77,7 @@ final class TwigEmailExtension extends AbstractExtension
             }
 
             $content = preg_replace(
-                pattern: sprintf('/<iframe[^>]+src="%s".*?<\/iframe>/i', preg_quote($url, '/')),
+                pattern: \sprintf('/<iframe[^>]+src="%s".*?<\/iframe>/i', preg_quote($url, '/')),
                 replacement: "
                     <figure class='iframe-flatten'>
                         {$iframeContent}
@@ -98,11 +98,7 @@ final class TwigEmailExtension extends AbstractExtension
     {
         preg_match_all('/<iframe[^>]+src="([^"]+)"/i', $content, $matches);
 
-        if (isset($matches[1])) {
-            return $matches[1];
-        }
-
-        return [];
+        return $matches[1];
     }
 
     /**

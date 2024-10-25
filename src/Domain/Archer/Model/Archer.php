@@ -50,15 +50,15 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
 
     private const bool EMAIL_UNIQUE = true;
 
-    public const ROLE_ARCHER = 'ROLE_ARCHER';
+    public const string ROLE_ARCHER = 'ROLE_ARCHER';
 
-    public const ROLE_EDITOR = 'ROLE_EDITOR';
+    public const string ROLE_EDITOR = 'ROLE_EDITOR';
 
-    public const ROLE_ADMIN = 'ROLE_ADMIN';
+    public const string ROLE_ADMIN = 'ROLE_ADMIN';
 
-    public const ROLE_DEVELOPER = 'ROLE_DEVELOPER';
+    public const string ROLE_DEVELOPER = 'ROLE_DEVELOPER';
 
-    public const ROLES = [
+    public const array ROLES = [
         self::ROLE_ARCHER,
         self::ROLE_EDITOR,
         self::ROLE_ADMIN,
@@ -85,17 +85,17 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     /**
      * @var array<string>
      */
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: Types::SIMPLE_ARRAY)]
     private array $roles = [];
 
     /**
      * @var Collection<int, Result|ResultBadge|ResultCompetition>
      */
-    #[ORM\OneToMany(mappedBy: 'archer', targetEntity: Result::class, cascade: ['ALL'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Result::class, mappedBy: 'archer', cascade: ['ALL'], orphanRemoval: true)]
     private Collection $results;
 
     /**
-     * @var Collection<int, Result|ResultTeam>
+     * @var Collection<int, ResultTeam>
      */
     #[ORM\ManyToMany(targetEntity: ResultTeam::class, mappedBy: 'teammates')]
     private Collection $resultsTeams;

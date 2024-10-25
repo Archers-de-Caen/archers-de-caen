@@ -46,7 +46,7 @@ final class DashboardController extends AbstractDashboardController
     public function index(): Response
     {
         return $this->render('@EasyAdmin/page/index.html.twig', [
-            'dashboard_controller_filepath' => (new \ReflectionClass(static::class))->getFileName(),
+            'dashboard_controller_filepath' => (new \ReflectionClass(self::class))->getFileName(),
         ]);
     }
 

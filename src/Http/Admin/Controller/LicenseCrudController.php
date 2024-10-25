@@ -27,7 +27,7 @@ final class LicenseCrudController extends AbstractCrudController
             ->setPageTitle('index', 'Liste des type de licence')
             ->setPageTitle('new', 'Ajouter une licence')
             ->setPageTitle('detail', static fn (License $license): string => (string) $license)
-            ->setPageTitle('edit', static fn (License $license): string => sprintf('Edition de la licence <b>%s</b>', $license))
+            ->setPageTitle('edit', static fn (License $license): string => \sprintf('Edition de la licence <b>%s</b>', $license))
         ;
     }
 

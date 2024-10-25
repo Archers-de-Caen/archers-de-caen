@@ -18,7 +18,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 
 use function Symfony\Component\Translation\t;
@@ -27,10 +26,6 @@ use Symfony\Component\Translation\TranslatableMessage;
 
 final class BadgeCrudController extends AbstractCrudController
 {
-    public function __construct(protected readonly EntityRepository $entityRepository)
-    {
-    }
-
     #[\Override]
     public static function getEntityFqcn(): string
     {
@@ -43,7 +38,7 @@ final class BadgeCrudController extends AbstractCrudController
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, 'Listes des badges')
             ->setPageTitle(Crud::PAGE_DETAIL, static fn (Badge $badge): string => (string) $badge)
-            ->setPageTitle(Crud::PAGE_EDIT, static fn (Badge $badge): string => sprintf('Edition le badge <b>%s</b>', $badge))
+            ->setPageTitle(Crud::PAGE_EDIT, static fn (Badge $badge): string => \sprintf('Edition le badge <b>%s</b>', $badge))
         ;
     }
 

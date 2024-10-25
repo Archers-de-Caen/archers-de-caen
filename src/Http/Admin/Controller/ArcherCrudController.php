@@ -44,7 +44,7 @@ final class ArcherCrudController extends AbstractCrudController
             ->setPageTitle('index', 'Liste des archers')
             ->setPageTitle('new', 'Ajouter un archer')
             ->setPageTitle('detail', static fn (Archer $archer): string => (string) $archer)
-            ->setPageTitle('edit', static fn (Archer $archer): string => sprintf("Edition de l'archer <b>%s</b>", $archer));
+            ->setPageTitle('edit', static fn (Archer $archer): string => \sprintf("Edition de l'archer <b>%s</b>", $archer));
     }
 
     #[\Override]

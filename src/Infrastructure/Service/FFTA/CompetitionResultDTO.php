@@ -184,7 +184,7 @@ final readonly class CompetitionResultDTO
 
     public function getEventCode(): string
     {
-        return sprintf(
+        return \sprintf(
             '%s_%s_%s_%s',
             $this->structureCode,
             $this->startCompetitionDate->format('Ymd'),
