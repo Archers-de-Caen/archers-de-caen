@@ -32,6 +32,7 @@ final class GetDataExtension extends AbstractExtension implements GlobalsInterfa
         ];
     }
 
+    #[\Override]
     public function getGlobals(): array
     {
         $socialNetwork = $this->getSocialNetwork();

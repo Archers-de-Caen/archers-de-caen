@@ -84,6 +84,24 @@ final readonly class LicenseDTO
         );
     }
 
+    public function toArray(): array
+    {
+        return [
+            'license' => $this->license,
+            'firstName' => $this->firstName,
+            'lastName' => $this->lastName,
+            'gender' => $this->gender?->value,
+            'phone' => $this->phone,
+            'email' => $this->email,
+            'location' => $this->location,
+            'status' => $this->status,
+            'licenseDateStart' => $this->licenseDateStart?->format('Y-m-d'),
+            'licenseDateEnd' => $this->licenseDateEnd?->format('Y-m-d'),
+            'licenseType' => $this->licenseType,
+            'category' => $this->category,
+        ];
+    }
+
     public function getLicense(): ?string
     {
         return $this->license;
