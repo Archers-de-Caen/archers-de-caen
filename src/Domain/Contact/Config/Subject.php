@@ -7,8 +7,8 @@ namespace App\Domain\Contact\Config;
 enum Subject: string
 {
     case CLUB = 'club';
-    case PRESS = 'press';
-    case GDPR = 'gdpr';
-    case WEB_SITE = 'web_site';
+    case BEGINNER = 'beginner';
+    case LICENSE = 'license';
+    case COMPETITION = 'competition';
     case OTHER = 'other';
 }
