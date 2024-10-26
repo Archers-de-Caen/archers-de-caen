@@ -79,14 +79,16 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     /**
      * @var Collection<int, ArcherLicense>
      */
-    #[ORM\OneToMany(mappedBy: 'archer', targetEntity: ArcherLicense::class, cascade: ['ALL'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ArcherLicense::class, mappedBy: 'archer', cascade: ['ALL'], orphanRemoval: true)]
     private Collection $archerLicenses;
 
     /**
      * @var array<string>
      */
     #[ORM\Column(type: Types::SIMPLE_ARRAY)]
-    private array $roles = [];
+    private array $roles = [
+        self::ROLE_ARCHER,
+    ];
 
     /**
      * @var Collection<int, Result|ResultBadge|ResultCompetition>
