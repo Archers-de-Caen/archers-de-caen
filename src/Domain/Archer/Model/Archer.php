@@ -327,7 +327,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     }
 
     /**
-     * @return Collection<int, Result|ResultTeam>
+     * @return Collection<int, ResultTeam>
      */
     public function getResultsTeams(): Collection
     {
