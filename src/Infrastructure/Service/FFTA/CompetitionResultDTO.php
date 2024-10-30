@@ -186,7 +186,7 @@ final readonly class CompetitionResultDTO
     {
         return \sprintf(
             '%s_%s_%s_%s',
-            $this->structureCode,
+            $this->organizerStructureCode,
             $this->startCompetitionDate->format('Ymd'),
             $this->endCompetitionDate->format('Ymd'),
             $this->discipline->value,
