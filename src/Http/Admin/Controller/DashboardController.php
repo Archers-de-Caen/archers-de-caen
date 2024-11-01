@@ -19,7 +19,6 @@ use App\Http\Admin\Controller\Badge\ResultBadgeFederalHonorCrudController;
 use App\Http\Admin\Controller\Badge\ResultBadgeProgressArrowCrudController;
 use App\Http\Admin\Controller\Cms\ActualityCrudControllerAbstract;
 use App\Http\Admin\Controller\Cms\PageCrudController;
-use App\Http\Admin\Controller\Developer\Liip\ListPathsLiipAdminController;
 use App\Http\Admin\Controller\File\DocumentCrudController;
 use App\Http\Admin\Controller\File\NewspaperCrudControllerAbstract;
 use App\Http\Landing\Controller\IndexController;
@@ -103,11 +102,6 @@ final class DashboardController extends AbstractDashboardController
             ->setController(DocumentCrudController::class);
         yield MenuItem::linkToCrud('Gazette', 'fas fa-newspaper', Document::class)
             ->setController(NewspaperCrudControllerAbstract::class);
-
-        yield MenuItem::section();
-        yield MenuItem::linktoRoute('Liip image cache', 'fa fa-clock-rotate-left', ListPathsLiipAdminController::ROUTE)
-            ->setPermission(Archer::ROLE_DEVELOPER)
-        ;
 
         yield MenuItem::section();
         yield MenuItem::linkToRoute('Revenir au site', 'fas fa-left-long', IndexController::ROUTE);

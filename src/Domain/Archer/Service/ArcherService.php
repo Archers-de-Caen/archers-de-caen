@@ -33,8 +33,8 @@ readonly class ArcherService
         $base->setLicenseNumber($base->getLicenseNumber() ?? $toMerge->getLicenseNumber());
         $base->setCreatedAt($base->getCreatedAt() ?? $toMerge->getCreatedAt());
         $base->setLastLogin($base->getLastLogin() ?? $toMerge->getLastLogin());
-        $base->setNewsletters($base->getNewsletters() === [] ? $toMerge->getNewsletters() : $base->getNewsletters());
-        $base->setRoles($base->getRoles() === [] ? $toMerge->getRoles() : $base->getRoles());
+        $base->setNewsletters([] === $base->getNewsletters() ? $toMerge->getNewsletters() : $base->getNewsletters());
+        $base->setRoles([] === $base->getRoles() ? $toMerge->getRoles() : $base->getRoles());
         $base->setPassword($base->getPassword() ?? $toMerge->getPassword());
 
         foreach ($toMerge->getResults() as $result) {
