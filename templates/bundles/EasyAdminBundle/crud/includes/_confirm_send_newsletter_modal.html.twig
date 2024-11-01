@@ -1,0 +1,37 @@
+<div id="modal-send-newsletter-confirm" class="modal fade" tabindex="-1">
+    <form class="modal-dialog" action="#" method="post" enctype="multipart/form-data">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4 id="import-action-confirmation-title">{{ 'send_newsletter_confirm.title'|trans(domain = 'EasyAdminBundle') }}</h4>
+
+                <div class="input-group mb-3">
+                    <p>{{ 'send_newsletter_confirm.content'|trans(domain = 'EasyAdminBundle') }}</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">
+                    <span class="btn-label">{{ 'action.cancel'|trans(domain = 'EasyAdminBundle') }}</span>
+                </button>
+
+                <button type="submit" data-bs-dismiss="modal" class="btn btn-primary" id="modal-send-newsletter-confirm-button">
+                    <i class="fa fa-fw fa-send"></i>
+                    <span class="btn-label">{{ 'send_newsletter_confirm.action'|trans(domain = 'EasyAdminBundle') }}</span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.querySelectorAll('.action-send-newsletter').forEach((action) => {
+        action.addEventListener('click', (event) => {
+            const href = event.currentTarget.getAttribute('href')
+
+            document.querySelector('#modal-send-newsletter-confirm-button').addEventListener('click', (eventConfirm) => {
+                eventConfirm.preventDefault()
+
+                document.location = href
+            })
+        })
+    })
+</script>

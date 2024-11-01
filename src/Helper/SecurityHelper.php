@@ -6,7 +6,7 @@ namespace App\Helper;
 
 final class SecurityHelper
 {
-    public static function generateApiKey(string $prefix = null): string
+    public static function generateApiKey(?string $prefix = null): string
     {
         // pattern key "xxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
         $random = implode('-', [
@@ -25,7 +25,7 @@ final class SecurityHelper
      *
      * @throws \Exception
      */
-    public static function generateRandomToken(int $length = 8, string $prefix = null): string
+    public static function generateRandomToken(int $length = 8, ?string $prefix = null): string
     {
         $token = bin2hex(random_bytes($length));
 

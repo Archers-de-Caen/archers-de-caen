@@ -31,7 +31,7 @@ final class PhotoNormalizer implements NormalizerInterface, NormalizerAwareInter
      * @throws ExceptionInterface
      */
     #[\Override]
-    public function normalize(mixed $object, string $format = null, array $context = []): array
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array
     {
         /** @var array $data */
         $data = $this->baseNormalizer->normalize($object, $format, $context);
@@ -48,7 +48,7 @@ final class PhotoNormalizer implements NormalizerInterface, NormalizerAwareInter
     }
 
     #[\Override]
-    public function supportsNormalization($data, string $format = null, array $context = []): bool
+    public function supportsNormalization($data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof Photo;
     }

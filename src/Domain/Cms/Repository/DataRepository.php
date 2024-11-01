@@ -40,4 +40,22 @@ final class DataRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function findByCode(string $code): ?Data
+    {
+        return $this->findOneBy(['code' => $code]);
+    }
+
+    public function getText(string $code): ?string
+    {
+        $data = $this->findByCode($code);
+
+        $content = $data?->getContent();
+
+        if (!$content) {
+            return null;
+        }
+
+        return $content[array_key_first($content)]['text'] ?? null;
+    }
 }

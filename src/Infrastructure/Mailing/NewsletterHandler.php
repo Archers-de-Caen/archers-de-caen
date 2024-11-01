@@ -7,19 +7,24 @@ namespace App\Infrastructure\Mailing;
 use App\Domain\Archer\Repository\ArcherRepository;
 use App\Domain\Cms\Repository\GalleryRepository;
 use App\Domain\Cms\Repository\PageRepository;
+use App\Domain\Competition\Model\Competition;
+use App\Domain\Competition\Repository\CompetitionRepository;
+use App\Domain\Competition\Service\CompetitionService;
 use App\Domain\Newsletter\Newsletter;
 use App\Domain\Newsletter\NewsletterRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class NewsletterHandler
+final readonly class NewsletterHandler
 {
     public function __construct(
-        private readonly NewsletterRepository $newsletterRepository,
-        private readonly ArcherRepository $archerRepository,
-        private readonly GalleryRepository $galleryRepository,
-        private readonly PageRepository $pageRepository,
-        private readonly Mailer $mailer,
+        private NewsletterRepository $newsletterRepository,
+        private ArcherRepository $archerRepository,
+        private GalleryRepository $galleryRepository,
+        private PageRepository $pageRepository,
+        private CompetitionRepository $competitionRepository,
+        private CompetitionService $competitionService,
+        private Mailer $mailer,
     ) {
     }
 
@@ -37,6 +42,10 @@ final class NewsletterHandler
             ->getQuery()
             ->getSingleColumnResult()
         ;
+
+        if (empty($emails)) {
+            return;
+        }
 
         $newsletter = (new Newsletter())
             ->setEmails($emails)
@@ -70,6 +79,21 @@ final class NewsletterHandler
         if ($newsletterMessage instanceof ActualityNewsletterMessage) {
             return [
                 'actuality' => $this->pageRepository->find($newsletterMessage->getActualityUid()),
+            ];
+        }
+
+        if ($newsletterMessage instanceof CompetitionResultsNewsletterMessage) {
+            /** @var Competition $competition */
+            $competition = $this->competitionRepository->find($newsletterMessage->getCompetitionUuid());
+
+            $groupedResults = $this->competitionService->groupCompetitionResultsByWeaponAndCategories($competition);
+
+            return [
+                'competition' => $competition,
+                'results' => $groupedResults['results'],
+                'participantCount' => \count($groupedResults['participants']),
+                'recordCount' => $groupedResults['recordCount'],
+                'podiumCount' => $groupedResults['podiumCount'],
             ];
         }
 

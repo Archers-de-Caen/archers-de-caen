@@ -36,8 +36,7 @@ jobs:
         run: |
           mkdir -p data
           touch data/database.sqlite
-          php bin/console doctrine:database:create --no-interaction
-          php bin/console doctrine:schema:create --no-interaction
+          php bin/console d:s:c --no-interaction
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         run: vendor/bin/phpunit --bootstrap tests/bootstrap.php --configuration phpunit.xml.dist

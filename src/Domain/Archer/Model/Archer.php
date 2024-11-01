@@ -34,7 +34,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ArcherRepository::class)]
 #[UniqueEntity('email')]
 #[UniqueEntity('licenseNumber')]
-class Archer implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface
+class Archer implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface, \Stringable
 {
     use ArcherCategoryTrait;
     use EmailTrait;
@@ -50,15 +50,15 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
 
     private const bool EMAIL_UNIQUE = true;
 
-    public const ROLE_ARCHER = 'ROLE_ARCHER';
+    public const string ROLE_ARCHER = 'ROLE_ARCHER';
 
-    public const ROLE_EDITOR = 'ROLE_EDITOR';
+    public const string ROLE_EDITOR = 'ROLE_EDITOR';
 
-    public const ROLE_ADMIN = 'ROLE_ADMIN';
+    public const string ROLE_ADMIN = 'ROLE_ADMIN';
 
-    public const ROLE_DEVELOPER = 'ROLE_DEVELOPER';
+    public const string ROLE_DEVELOPER = 'ROLE_DEVELOPER';
 
-    public const ROLES = [
+    public const array ROLES = [
         self::ROLE_ARCHER,
         self::ROLE_EDITOR,
         self::ROLE_ADMIN,
@@ -79,23 +79,25 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     /**
      * @var Collection<int, ArcherLicense>
      */
-    #[ORM\OneToMany(mappedBy: 'archer', targetEntity: ArcherLicense::class, cascade: ['ALL'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ArcherLicense::class, mappedBy: 'archer', cascade: ['ALL'], orphanRemoval: true)]
     private Collection $archerLicenses;
 
     /**
      * @var array<string>
      */
-    #[ORM\Column(type: Types::ARRAY)]
-    private array $roles = [];
+    #[ORM\Column(type: Types::SIMPLE_ARRAY)]
+    private array $roles = [
+        self::ROLE_ARCHER,
+    ];
 
     /**
      * @var Collection<int, Result|ResultBadge|ResultCompetition>
      */
-    #[ORM\OneToMany(mappedBy: 'archer', targetEntity: Result::class, cascade: ['ALL'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Result::class, mappedBy: 'archer', cascade: ['ALL'], orphanRemoval: true)]
     private Collection $results;
 
     /**
-     * @var Collection<int, Result|ResultTeam>
+     * @var Collection<int, ResultTeam>
      */
     #[ORM\ManyToMany(targetEntity: ResultTeam::class, mappedBy: 'teammates')]
     private Collection $resultsTeams;
@@ -334,7 +336,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     }
 
     /**
-     * @return Collection<int, Result|ResultTeam>
+     * @return Collection<int, ResultTeam>
      */
     public function getResultsTeams(): Collection
     {
@@ -400,14 +402,6 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         $this->newsletters = $newsletters;
 
         return $this;
-    }
-
-    /**
-     * call in easyadmin crud.
-     */
-    public function getNewslettersToString(): string
-    {
-        return implode(', ', array_map(static fn (NewsletterType $newsletterType) => $newsletterType->value, $this->getNewsletters()));
     }
 
     public function getExternalAuthId(): ?string

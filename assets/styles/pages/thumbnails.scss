@@ -7,8 +7,9 @@
   align-items: center;
 
   .title {
-    margin: 100px 0;
+    margin: 100px 25px;
     text-align: center;
+    max-width: map-get($grid-breakpoints, md);
   }
 
   .thumbnails {

@@ -44,7 +44,7 @@ final class CompetitionListController extends AbstractController
         #[MapQueryString]
         ?CompetitionFilterDto $filterDto,
         #[MapQueryString]
-        PaginationDto $pagination = null,
+        ?PaginationDto $pagination = null,
     ): Response {
         $filterForm = $this->createForm(CompetitionFilter::class, $filterDto);
         $filterForm->handleRequest($request);
@@ -92,6 +92,8 @@ final class CompetitionListController extends AbstractController
 
             ->setFirstResult($pagination?->page * $pagination?->limit ?: 0)
             ->setMaxResults($pagination?->limit ?: 10)
+
+            ->orderBy('competition.dateStart', 'DESC')
 
             ->getQuery()
             ->getResult()

@@ -16,8 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class NewsletterControllerTest extends WebTestCase
 {
-    private const LICENSE_NUMBER = '0123456A';
-    private const EMAIL = '0123456A';
+    private const string LICENSE_NUMBER = '0123456A';
+    private const string EMAIL = '0123456A';
 
     private KernelBrowser $client;
     private EntityManagerInterface $em;
@@ -73,6 +73,8 @@ class NewsletterControllerTest extends WebTestCase
             ->eq(0)
         ;
 
+        self::assertResponseIsSuccessful();
+
         self::assertSame('Vous êtes bien inscrit à la newsletter.', $flashElement->attr('value'));
         self::assertSame('success', $flashElement->attr('data-type'));
 
@@ -99,6 +101,8 @@ class NewsletterControllerTest extends WebTestCase
             ->filter('input.flash')
             ->eq(0)
         ;
+
+        self::assertResponseIsSuccessful();
 
         self::assertSame('Votre désinscription a été prise en compte.', $flashElement->attr('value'));
         self::assertSame('success', $flashElement->attr('data-type'));

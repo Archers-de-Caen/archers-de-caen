@@ -1,0 +1,16 @@
+{# @var headerData array{
+    actualities: \App\Domain\Cms\Model\Page[],
+    galleries: array<\App\Domain\Cms\Model\Gallery>,
+    sport: array<string, array<\App\Domain\Cms\Model\Page>>,
+    competitions: array<\App\Domain\Cms\Competition\Competition>,
+    clubOtherPages: array<\App\Domain\Cms\Model\Page>,
+    messageImportant: string
+} #}
+
+{% if headerData.messageImportant %}
+    <div class="message-important-container">
+        <div class="message-important-content">
+            {{ headerData.messageImportant|raw }}
+        </div>
+    </div>
+{% endif %}

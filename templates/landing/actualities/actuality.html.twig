@@ -62,15 +62,6 @@
                     <i data-feather="facebook"></i>
                 </a>
 
-                {% set twitterLink = 'https://twitter.com/share?text=' ~ page.title ~ '&url=' ~actualityUrl|url_encode %}
-                <a
-                    class="share-bar-btn btn -secondary -outline"
-                    href="{{ twitterLink }}"
-                    onclick="openInNewTab(this.href); return false;"
-                >
-                    <i data-feather="twitter"></i>
-                </a>
-
                 {% set emailLink = 'mailto:?subject=' ~ page.title ~ '&body=' ~ actualityUrl|url_encode ~ ' ' ~ page.title %}
                 <a
                     class="share-bar-btn btn -secondary -outline"
@@ -85,6 +76,15 @@
                     href="{{ actualityUrl }}"
                 >
                     <i data-feather="clipboard"></i>
+                </a>
+
+                <a
+                    class="share-bar-btn btn -secondary -outline open-native-share"
+                    data-url="{{ actualityUrl }}"
+                    data-title="{{ page.title }}"
+                    data-text='Salut, je te laisse aller lire cette actualité "{{ page.title }}" des Archers de Caen'
+                >
+                    <i data-feather="share-2"></i>
                 </a>
             </div>
 

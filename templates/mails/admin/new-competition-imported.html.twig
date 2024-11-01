@@ -1,0 +1,45 @@
+{# @var report array{
+     competition: array<Competition>,
+     archer: array<Archer>,
+     result: array<ResultCompetition>
+} #}
+
+{% extends layout %}
+
+{% block body %}
+
+    <h1 style="width: 100%; text-align: center">
+        app:ffta:competition-results-update
+    </h1>
+
+    <table style="width: 100%; text-align: left">
+        <tr>
+            <th>Competition</th>
+            <th>Archer</th>
+            <th>Result</th>
+        </tr>
+        <tr>
+            <td>{{ report.competition|length }}</td>
+            <td>{{ report.archer|length }}</td>
+            <td>{{ report.result|length }}</td>
+        </tr>
+    </table>
+
+    <table style="margin-top: 15px">
+        <tr>
+            <th>Competition</th>
+        </tr>
+        {% for competition in report.competition %}
+            <tr>
+                <td>
+                    <a href="{{ absolute_url(path(
+                        constant('App\\Http\\Landing\\Controller\\Results\\CompetitionController::ROUTE'),
+                        { slug: competition.slug })) }}"
+                    >
+                        {{ competition }}
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

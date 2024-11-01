@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector;
 use Rector\Config\RectorConfig;
+use Rector\DeadCode\Rector\ClassMethod\RemoveUnusedPublicMethodParameterRector;
 use Rector\Set\ValueObject\SetList;
 use Rector\Symfony\Set\SymfonySetList;
 use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictConstructorRector;
@@ -46,5 +47,6 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->skip([
         ExplicitBoolCompareRector::class,
+        RemoveUnusedPublicMethodParameterRector::class,
     ]);
 };

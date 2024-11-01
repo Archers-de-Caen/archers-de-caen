@@ -6,7 +6,7 @@ namespace App\Http\Admin\Controller\Cms;
 
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Model\Page;
-use App\Http\Landing\Controller\Actuality\ActualityController;
+use App\Http\Landing\Controller\Page\PageController;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
@@ -29,7 +29,7 @@ final class PageCrudController extends AbstractPageCrudController
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, 'Liste des pages du site')
             ->setPageTitle(Crud::PAGE_NEW, 'Ajouter une page au site')
-            ->setPageTitle(Crud::PAGE_EDIT, static fn (Page $page): string => sprintf('Edition de la page <b>%s</b>', $page))
+            ->setPageTitle(Crud::PAGE_EDIT, static fn (Page $page): string => \sprintf('Edition de la page <b>%s</b>', $page))
         ;
     }
 
@@ -37,7 +37,7 @@ final class PageCrudController extends AbstractPageCrudController
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
         return parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters)
-            ->where(sprintf("entity.category = '%s'", Category::PAGE->value))
+            ->where(\sprintf("entity.category = '%s'", Category::PAGE->value))
         ;
     }
 
@@ -49,7 +49,7 @@ final class PageCrudController extends AbstractPageCrudController
         $publicLink = Action::new('public-link')
             ->setLabel('Lien public')
             ->linkToUrl(function (Page $page): string {
-                return $this->urlGenerator->generate(ActualityController::ROUTE, [
+                return $this->urlGenerator->generate(PageController::ROUTE, [
                     'slug' => $page->getSlug(),
                 ], UrlGeneratorInterface::ABSOLUTE_URL);
             })

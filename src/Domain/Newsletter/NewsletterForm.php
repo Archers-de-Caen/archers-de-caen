@@ -35,7 +35,7 @@ final class NewsletterForm extends AbstractType
                 'required' => true,
                 'label' => 'Numéro de licence',
                 'attr' => [
-                    'pattern' => '[0-9]{7}[A-Za-z]',
+                    'pattern' => '\d{7}[A-Za-z]',
                     'placeholder' => '123456A',
                 ],
                 'constraints' => [

@@ -7,6 +7,7 @@ namespace App\Http\Admin\Controller;
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Model\Archer;
+use App\Domain\Newsletter\NewsletterType;
 use App\Http\Landing\Controller\IndexController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -44,7 +45,7 @@ final class ArcherCrudController extends AbstractCrudController
             ->setPageTitle('index', 'Liste des archers')
             ->setPageTitle('new', 'Ajouter un archer')
             ->setPageTitle('detail', static fn (Archer $archer): string => (string) $archer)
-            ->setPageTitle('edit', static fn (Archer $archer): string => sprintf("Edition de l'archer <b>%s</b>", $archer));
+            ->setPageTitle('edit', static fn (Archer $archer): string => \sprintf("Edition de l'archer <b>%s</b>", $archer));
     }
 
     #[\Override]
@@ -88,9 +89,22 @@ final class ArcherCrudController extends AbstractCrudController
             ])
             ->formatValue(static fn ($value, ?Archer $entity): ?TranslatableMessage => $entity?->getCategory()?->value ? t($entity->getCategory()->value, domain: 'archer') : null);
 
-        $newsletters = TextField::new('newslettersToString')
+        $newsletters = ChoiceField::new('newsletters')
             ->setLabel('Inscrit aux newsletters')
-            ->hideOnForm();
+            ->setFormType(EnumType::class)
+            ->setFormTypeOptions([
+                'class' => NewsletterType::class,
+                'choice_label' => static fn (NewsletterType $choice): TranslatableMessage => t(strtoupper($choice->value), domain: 'newsletter'),
+                'choices' => NewsletterType::cases(),
+                'multiple' => true,
+            ])
+            ->setTranslatableChoices(function (Archer $archer): array {
+                return array_reduce(
+                    $archer->getNewsletters(),
+                    static fn(array $carry, NewsletterType $choice): array => $carry + [$choice->value => t($choice->name, domain: 'newsletter')],
+                    NewsletterType::cases()
+                );
+            });
 
         if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {
             if ($this->isGranted(Archer::ROLE_DEVELOPER)) {

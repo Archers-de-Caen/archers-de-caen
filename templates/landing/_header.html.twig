@@ -1,7 +1,15 @@
 {% from 'landing/_parts/social-networks.html.twig' import socialNetwork %}
 {% from '/shared/components/thumbnail.html.twig' import thumbnail %}
 
-{# from App\Http\Landing\Twig\GetHeaderDataExtension::getHeaderData() #}
+{# from App\Http\Landing\Twig\GetDataExtension::getHeaderData() #}
+{# @var headerData array{
+    actualities: \App\Domain\Cms\Model\Page[],
+    galleries: array<\App\Domain\Cms\Model\Gallery>,
+    sport: array<string, array<\App\Domain\Cms\Model\Page>>,
+    competitions: array<\App\Domain\Cms\Competition\Competition>,
+    clubOtherPages: array<\App\Domain\Cms\Model\Page>,
+    messageImportant: string
+} #}
 {% set headerData = getHeaderData() %}
 
 <header class="header">
@@ -19,6 +27,8 @@
             </ul>
         </div>
     </div>
+
+    {{ include('landing/_message-important.html.twig') }}
 
     <div class="header-primary">
         <div class="header-content">
@@ -55,7 +65,9 @@
             informé(e) de toutes les dernières actualités et photos. Rejoignez-nous et ne manquez rien !
         </p>
         <p class="description">
-            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\NewsletterController::ROUTE')) }}">S'inscrire</a>
+            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\NewsletterController::ROUTE')) }}" class="btn -primary">
+                S'inscrire à la newsletter
+            </a>
         </p>
     </div>
 
@@ -155,7 +167,7 @@
                     Retrouvé les différents tarifs de la licence sportive
                 </span>
             </a>
-            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ClubController::ROUTE')) }}#qui"
+            <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\TeamManagementController::ROUTE')) }}"
                class="mt-2"
             >
                 <div>

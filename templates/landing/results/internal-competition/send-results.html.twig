@@ -1,0 +1,30 @@
+{% extends '/landing/base.html.twig' %}
+
+{% block title %}Concours interne - Envoie des réslutats{% endblock %}
+
+{% block main %}
+    {{ form_start(form) }}
+    {{ form_row(form.archer) }}
+    {{ form_row(form.weapon) }}
+    {{ form_row(form.score) }}
+    {{ form_row(form.completionDate) }}
+
+    <div class="flex w-100 jc-center mt-5">
+        <strong>
+            La feuille de marque est à mettre dans le local du club.
+        </strong>
+    </div>
+
+    <div class="flex jc-end mt-5">
+        {{ form_row(form.submit) }}
+    </div>
+    {{ form_end(form) }}
+
+    <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Results\\InternalCompetitionController::ROUTE_RESULT')) }}"
+       class="highlighted mt-5"
+    >
+        <i class="fas fa-arrow-left"></i>
+        Retour aux résultats
+    </a>
+{% endblock %}
+

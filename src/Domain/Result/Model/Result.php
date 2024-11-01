@@ -6,6 +6,7 @@ namespace App\Domain\Result\Model;
 
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Model\Archer;
+use App\Domain\File\Model\Document;
 use App\Domain\Result\Repository\ResultRepository;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
@@ -24,7 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     'result_badge' => ResultBadge::class,
     'result_team' => ResultTeam::class,
 ])]
-abstract class Result
+abstract class Result implements \Stringable
 {
     use IdTrait;
     use TimestampTrait;
@@ -38,7 +39,7 @@ abstract class Result
     #[Assert\NotBlank]
     private ?int $score = null;
 
-    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    #[ORM\Column(name: '`rank`', type: Types::INTEGER, nullable: true)]
     private ?int $rank = null;
 
     // Categories de l'archer
@@ -53,6 +54,12 @@ abstract class Result
     #[Assert\NotNull]
     #[Assert\NotBlank]
     private ?\DateTimeInterface $completionDate = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $metadata = null;
+
+    #[ORM\OneToOne(targetEntity: Document::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private ?Document $scoreSheet = null;
 
     #[\Override]
     public function __toString(): string
@@ -133,6 +140,30 @@ abstract class Result
     public function setCompletionDate(?\DateTimeInterface $completionDate): self
     {
         $this->completionDate = $completionDate;
+
+        return $this;
+    }
+
+    public function getMetadata(): ?array
+    {
+        return $this->metadata;
+    }
+
+    public function setMetadata(?array $metadata): self
+    {
+        $this->metadata = $metadata;
+
+        return $this;
+    }
+
+    public function getScoreSheet(): ?Document
+    {
+        return $this->scoreSheet;
+    }
+
+    public function setScoreSheet(?Document $scoreSheet): self
+    {
+        $this->scoreSheet = $scoreSheet;
 
         return $this;
     }

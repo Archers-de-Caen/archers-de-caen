@@ -1,0 +1,104 @@
+{% extends '/landing/base.html.twig' %}
+
+{% block title %}
+    Nos outils de communication
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <style>
+        .communication .container {
+            margin-top: 15px;
+        }
+
+        .communication .container .tools {
+            margin-top: 15px;
+            display: flex;
+            gap: 45px;
+            align-items: center;
+        }
+
+        .communication .container .tools .img-container {
+            display: flex;
+            gap: 15px;
+            min-width: 100px;
+            width: 100px;
+            flex-direction: column;
+        }
+
+        @media (max-width: 768px) {
+            .communication .container .tools .img-container {
+                min-width: 50px;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+<div class="communication">
+    <p>Afin de communiquer, nous utilisons plusieurs outils en interne au membre et en externe, les voici</p>
+
+    <div class="container">
+        <div class="tools">
+            <div class="img-container">
+                <img src="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.png') }}" alt="Site des Archers de Caen" style="min-width: 100%" />
+            </div>
+            <div>
+                <h3>Site internet</h3>
+                <p>
+                    <a href="{{ absolute_url(path(constant('App\\Http\\Landing\\Controller\\IndexController::ROUTE'))) }}">
+                        archers-caen.fr
+                    </a>
+                    en plus de ce site, vous pouvez vous abonner à une newsletter qui enverra un mail
+                    dès qu'une actualité ou un album photos sera publié, vous pouvez vous y inscrire
+                    <a href="{{ absolute_url(path(constant('App\\Http\\Landing\\Controller\\Page\\NewsletterController::ROUTE'))) }}">
+                        ici
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <div class="tools">
+            <div class="img-container">
+                <img src="{{ asset('build/images/social-network/facebook.webp') }}" alt="Facebook" style="min-width: 100%" />
+            </div>
+            <div>
+                <h3>Facebook</h3>
+                <a href="{{ social_network.facebook }}" class="highlighted">{{ social_network.facebook }}</a>
+                <p>
+                    Le club dispose d'une page Facebook pour communiquer avec les membres et les non-membres
+                </p>
+            </div>
+        </div>
+
+        <div class="tools">
+            <div class="img-container">
+                <img src="{{ asset('build/images/social-network/instagram.webp') }}" alt="Instagram" style="min-width: 100%" />
+            </div>
+            <div>
+                <h3>Instagram</h3>
+                <a href="{{ social_network.instagram }}" class="highlighted">{{ social_network.instagram }}</a>
+                <p>Le club dispose d'un compte Instagram pour communiquer avec les membres et les non-membres</p>
+            </div>
+        </div>
+
+        <div class="tools">
+            <div class="img-container">
+                <img src="{{ asset('build/images/social-network/messenger.png') }}" alt="Messenger" style="min-width: 100%" />
+                <img src="{{ asset('build/images/social-network/whatsapp.svg') }}" alt="WhatsApp" style="min-width: 100%" />
+            </div>
+
+            <div>
+                <h3>Messenger et Whatsapp</h3>
+                <p>
+                    Plusieurs groupes privés, sur Messenger et WhatsApp, nous permettent de communiquer entre membres du club.
+                    <br>
+                    N'hésitez pas à faire la demande pour les rejoindre
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

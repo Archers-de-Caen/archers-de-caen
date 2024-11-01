@@ -17,7 +17,7 @@ final class Anonymize
                 $firstPart = str_repeat('*', \strlen($matches[1]));
             }
 
-            return sprintf('%s@%s.%s', $firstPart, $matches[2], $matches[3]);
+            return \sprintf('%s@%s.%s', $firstPart, $matches[2], $matches[3]);
         }
 
         return '******@*****.**';

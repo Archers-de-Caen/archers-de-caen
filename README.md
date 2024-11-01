@@ -63,6 +63,5 @@ npm run dev-server
 
 @ Damien Hebert |
 [site](https://damienhebert.fr) |
-[twitter](https://twitter.com/Doskyft) |
 [github](https://github.com/Doskyft) |
 [gitlab](https://gitlab.com/Doskyft1)

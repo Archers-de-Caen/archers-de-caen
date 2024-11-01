@@ -75,4 +75,11 @@ abstract class AbstractDocumentCrudController extends AbstractCrudController
             ->add(Crud::PAGE_INDEX, $display)
         ;
     }
+
+    #[\Override]
+    public function configureCrud(Crud $crud): Crud
+    {
+        return parent::configureCrud($crud)
+            ->setDefaultSort(['createdAt' => 'DESC']);
+    }
 }

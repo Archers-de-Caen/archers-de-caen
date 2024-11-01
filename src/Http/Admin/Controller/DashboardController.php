@@ -12,7 +12,6 @@ use App\Domain\Cms\Model\Gallery;
 use App\Domain\Cms\Model\Page;
 use App\Domain\Cms\Model\Tag;
 use App\Domain\Competition\Model\Competition;
-use App\Domain\Competition\Model\CompetitionRegister;
 use App\Domain\File\Model\Document;
 use App\Domain\File\Model\Photo;
 use App\Domain\Result\Model\ResultBadge;
@@ -21,7 +20,7 @@ use App\Http\Admin\Controller\Badge\ResultBadgeProgressArrowCrudController;
 use App\Http\Admin\Controller\Cms\ActualityCrudControllerAbstract;
 use App\Http\Admin\Controller\Cms\PageCrudController;
 use App\Http\Admin\Controller\Developer\Liip\ListPathsLiipAdminController;
-use App\Http\Admin\Controller\File\AbstractDocumentCrudController;
+use App\Http\Admin\Controller\File\DocumentCrudController;
 use App\Http\Admin\Controller\File\NewspaperCrudControllerAbstract;
 use App\Http\Landing\Controller\IndexController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
@@ -47,7 +46,7 @@ final class DashboardController extends AbstractDashboardController
     public function index(): Response
     {
         return $this->render('@EasyAdmin/page/index.html.twig', [
-            'dashboard_controller_filepath' => (new \ReflectionClass(static::class))->getFileName(),
+            'dashboard_controller_filepath' => (new \ReflectionClass(self::class))->getFileName(),
         ]);
     }
 
@@ -98,13 +97,10 @@ final class DashboardController extends AbstractDashboardController
             ->setPermission(Archer::ROLE_DEVELOPER);
 
         yield MenuItem::section();
-        yield MenuItem::linkToCrud('Inscription concours Caen', 'fas fa-star', CompetitionRegister::class);
-
-        yield MenuItem::section();
         yield MenuItem::linkToCrud('Galerie', 'fas fa-images', Gallery::class);
         yield MenuItem::linkToCrud('Photo', 'fas fa-image', Photo::class);
         yield MenuItem::linkToCrud('Document', 'fas fa-file', Document::class)
-            ->setController(AbstractDocumentCrudController::class);
+            ->setController(DocumentCrudController::class);
         yield MenuItem::linkToCrud('Gazette', 'fas fa-newspaper', Document::class)
             ->setController(NewspaperCrudControllerAbstract::class);
 

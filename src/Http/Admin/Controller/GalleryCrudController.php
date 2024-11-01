@@ -24,6 +24,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -35,7 +36,8 @@ final class GalleryCrudController extends AbstractCrudController
 {
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly MessageBusInterface $bus,
+        private readonly MessageBusInterface $messageBus,
+        private readonly EntityManagerInterface $em,
     ) {
     }
 
@@ -66,6 +68,12 @@ final class GalleryCrudController extends AbstractCrudController
             ->displayIf(static fn (Gallery $gallery): bool => Status::DRAFT === $gallery->getStatus())
         ;
 
+        $publishWithoutSendNewsletter = Action::new('publishWithoutSendNewsletter')
+            ->setLabel('Publier sans envoyer la newsletter')
+            ->linkToCrudAction('publishWithoutSendNewsletter')
+            ->displayIf(static fn (Gallery $gallery): bool => Status::DRAFT === $gallery->getStatus())
+        ;
+
         $publicLink = Action::new('public-link')
             ->setLabel('Lien public')
             ->linkToUrl(function (Gallery $gallery): string {
@@ -77,6 +85,7 @@ final class GalleryCrudController extends AbstractCrudController
 
         return $actions
             ->add(Crud::PAGE_INDEX, $publish)
+            ->add(Crud::PAGE_INDEX, $publishWithoutSendNewsletter)
             ->add(Crud::PAGE_INDEX, $publicLink);
     }
 
@@ -116,6 +125,8 @@ final class GalleryCrudController extends AbstractCrudController
 
     /**
      * @param Gallery $entityInstance
+     *
+     * @throws ExceptionInterface
      */
     #[\Override]
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
@@ -127,6 +138,8 @@ final class GalleryCrudController extends AbstractCrudController
 
     /**
      * @param Gallery $entityInstance
+     *
+     * @throws ExceptionInterface
      */
     #[\Override]
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
@@ -136,32 +149,45 @@ final class GalleryCrudController extends AbstractCrudController
         $this->dispatchCache($entityInstance);
     }
 
+    /**
+     * @throws ExceptionInterface
+     */
     private function dispatchCache(Gallery $entityInstance): void
     {
         if ($entityInstance->getMainPhoto() instanceof Photo && $entityInstance->getMainPhoto()->getImageName()) {
-            $this->bus->dispatch(new CacheResolveMessage($entityInstance->getMainPhoto()->getImageName()));
+            $this->messageBus->dispatch(new CacheResolveMessage($entityInstance->getMainPhoto()->getImageName()));
         }
 
-        $this->bus->dispatch(new CacheResolveMessage($entityInstance->getPhotos()->map(static fn ($photo): ?string => $photo->getImageName())->toArray()));
+        $this->messageBus->dispatch(new CacheResolveMessage($entityInstance->getPhotos()->map(static fn ($photo): ?string => $photo->getImageName())->toArray()));
     }
 
-    public function publish(
-        MessageBusInterface $messageBus,
-        AdminContext $context,
-        EntityManagerInterface $em,
-        UrlGeneratorInterface $urlGenerator
-    ): Response {
+    /**
+     * @throws ExceptionInterface
+     */
+    public function publish(AdminContext $context): Response {
         /** @var Gallery $entity */
         $entity = $context->getEntity()->getInstance();
 
         $entity->publish();
 
-        $em->flush();
+        $this->em->flush();
 
         if ($entity->getId()) {
-            $messageBus->dispatch(new GalleryNewsletterMessage($entity->getId(), NewsletterType::GALLERY_NEW));
+            $this->messageBus->dispatch(new GalleryNewsletterMessage($entity->getId(), NewsletterType::GALLERY_NEW));
         }
 
-        return $this->redirect($context->getReferrer() ?: $urlGenerator->generate(DashboardController::ROUTE));
+        return $this->redirect($context->getReferrer() ?: $this->urlGenerator->generate(DashboardController::ROUTE));
+    }
+
+    public function publishWithoutSendNewsletter(AdminContext $context): Response
+    {
+        /** @var Gallery $entity */
+        $entity = $context->getEntity()->getInstance();
+
+        $entity->publish();
+
+        $this->em->flush();
+
+        return $this->redirect($context->getReferrer() ?: $this->urlGenerator->generate(DashboardController::ROUTE));
     }
 }
