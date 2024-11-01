@@ -25,7 +25,7 @@
                     {% for category, results in categories %}
                         {% for result in results %}
                             <tr>
-                                {% if loop.first and hideCategory is not defined or hideCategory != true %}
+                                {% if loop.first and (hideCategory is not defined or hideCategory != true) %}
                                     <td rowspan="{{ results|length }}">
                                         {{ category|trans([], 'archer') }}
                                     </td>
