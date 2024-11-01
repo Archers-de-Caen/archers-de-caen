@@ -394,12 +394,4 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
 
         return $this;
     }
-
-    /**
-     * call in easyadmin crud.
-     */
-    public function getNewslettersToString(): string
-    {
-        return implode(', ', array_map(static fn (NewsletterType $newsletterType) => $newsletterType->value, $this->getNewsletters()));
-    }
 }
