@@ -7,18 +7,24 @@ namespace App\Http\Admin\Controller;
 use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Model\Archer;
+use App\Domain\Archer\Repository\ArcherRepository;
+use App\Domain\Archer\Service\ArcherService;
 use App\Domain\Newsletter\NewsletterType;
 use App\Http\Landing\Controller\IndexController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use function Symfony\Component\Translation\t;
@@ -28,7 +34,10 @@ use Symfony\Component\Translation\TranslatableMessage;
 final class ArcherCrudController extends AbstractCrudController
 {
     public function __construct(
-        readonly private UrlGeneratorInterface $urlGenerator,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly AdminUrlGenerator $adminUrlGenerator,
+        private readonly ArcherRepository $archerRepository,
+        private readonly ArcherService $archerService,
     ) {
     }
 
@@ -137,7 +146,54 @@ final class ArcherCrudController extends AbstractCrudController
             }
         );
 
+        $mergeArchers = Action::new('mergeArchers')
+            ->setLabel('Fusionner des archers')
+            ->linkToCrudAction('mergeArchers')
+            ->createAsGlobalAction();
+
         return $actions
-            ->add(Crud::PAGE_INDEX, $impersonation);
+            ->add(Crud::PAGE_INDEX, $impersonation)
+            ->add(Crud::PAGE_INDEX, $mergeArchers);
+    }
+
+    public function mergeArchers(AdminContext $context): Response
+    {
+        if (Request::METHOD_POST === $context->getRequest()->getMethod()) {
+            $base = $context->getRequest()->request->get('archer-base');
+            $toMerge = $context->getRequest()->request->get('archer-to-merge');
+
+            if (null === $base || null === $toMerge) {
+                throw new \InvalidArgumentException('Les archers à fusionner sont obligatoires');
+            }
+
+            $base = $this->archerRepository->find($base);
+
+            if (null === $base) {
+                throw new \InvalidArgumentException("L'archer de destination n'existe pas");
+            }
+
+            $toMerge = $this->archerRepository->find($toMerge);
+
+            if (null === $toMerge) {
+                throw new \InvalidArgumentException('L\'archer à fusionner n\'existe pas');
+            }
+
+            $this->archerService->merge($base, $toMerge);
+
+            $this->addFlash('success', 'Les archers ont été fusionnés');
+
+            $redirectUrl = $this->adminUrlGenerator
+                ->setController(self::class)
+                ->setAction(Action::INDEX)
+                ->generateUrl();
+
+            return $this->redirect($redirectUrl);
+        }
+
+        $archers = $this->archerRepository->findAll();
+
+        return $this->render('admin/archers/merge.html.twig', [
+            'archers' => $archers,
+        ]);
     }
 }

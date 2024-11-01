@@ -128,6 +128,13 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
         return array_unique($this->roles);
     }
 
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
     public function addRole(?string $role): self
     {
         if ($role && !\in_array($role, $this->roles, true) && \in_array($role, self::ROLES)) {

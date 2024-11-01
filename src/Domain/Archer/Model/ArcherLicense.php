@@ -35,6 +35,12 @@ class ArcherLicense
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
     private ?bool $active = false;
 
+    #[\Override]
+    public function __toString(): string
+    {
+        return $this->getLicense()?->getTitle() ?? '';
+    }
+
     public function getArcher(): ?Archer
     {
         return $this->archer;

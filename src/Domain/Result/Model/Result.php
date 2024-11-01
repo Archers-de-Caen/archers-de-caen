@@ -67,6 +67,28 @@ abstract class Result implements \Stringable
         return $this->getArcher()?->__toString().' | '.$this->getScore().' points | '.$this->getRank();
     }
 
+    public function getType(): string
+    {
+        return (new \ReflectionClass($this))->getShortName();
+    }
+
+    public function getTitle(): string
+    {
+        if ($this instanceof ResultCompetition) {
+            return $this->getCompetition()?->__toString() ?? '';
+        }
+
+        if ($this instanceof ResultBadge) {
+            return $this->getBadge()?->__toString() ?? '';
+        }
+
+        if ($this instanceof ResultTeam) {
+            return $this->getCompetition()?->__toString() ?? '';
+        }
+
+        return '';
+    }
+
     public function getArcher(): ?Archer
     {
         return $this->archer;

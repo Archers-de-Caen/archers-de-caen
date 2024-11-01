@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Landing\Controller\Page;
 
-use App\Domain\File\Model\NewspaperAccess;
 use App\Domain\File\Config\DocumentType;
+use App\Domain\File\Model\NewspaperAccess;
 use App\Domain\File\Repository\DocumentRepository;
 use App\Domain\File\Service\NewspaperAccessService;
 use App\Http\Landing\Form\NewspapersAccessForm;

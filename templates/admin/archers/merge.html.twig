@@ -1,0 +1,303 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% macro option(archer) %}
+<option
+    value="{{ archer.id }}"
+    data-id="{{ archer.id }}"
+    data-firstname="{{ archer.firstname }}"
+    data-lastname="{{ archer.lastname }}"
+    data-roles="{{ archer.roles|join(';') }}"
+    data-email="{{ archer.email }}"
+    data-phone="{{ archer.phone }}"
+    data-gender="{{ archer.gender ? archer.gender.value : null }}"
+    data-license-number="{{ archer.licenseNumber }}"
+    data-category="{{ archer.category ? archer.category.value : null }}"
+    data-newsletters="{{ archer.newsletters|map((newsletter) => newsletter.value)|join(';') }}"
+    data-last-login="{{ archer.lastLogin|date('Y-m-d H:i:s') }}"
+    data-created-at="{{ archer.createdAt|date('Y-m-d H:i:s') }}"
+    data-updated-at="{{ archer.updatedAt ? archer.updatedAt|date('Y-m-d H:i:s') : null }}"
+    data-results="{{ archer.results|map((result) => result.type ~ ' - ' ~ result.title ~ ' - ' ~ result.score ~ ' - ' ~ result.rank ~ ' - ' ~ (result.completionDate ? result.completionDate|date('d/m/Y')))|join(';') }}"
+    data-results-team="{{ archer.resultsTeams|join(';') }}"
+    data-archer-licenses="{{ archer.archerLicenses|join(';') }}"
+>
+    {{ archer }}
+</option>
+{% endmacro %}
+
+{% block page_content %}
+
+    <div class="alert alert-warning">
+        <p>
+            <strong>Attention</strong> : Cette action est irréversible.
+        </p>
+    </div>
+
+    <form method="post" action="#" class="form-horizontal mt-3">
+        <div class="row">
+            <div class="col-4 archer-base">
+                <div class="form-group">
+                    <label class="control-label required" for="archer-base">
+                        Archer de base
+                    </label>
+                    <select
+                        id="archer-base"
+                        name="archer-base"
+                        required="required"
+                        class="form-control"
+                        data-ea-widget="ea-autocomplete"
+                    >
+                        <option value="">Sélectionner un archer</option>
+                        {% for archer in archers %}
+                            {{ _self.option(archer) }}
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <hr>
+
+                <div class="preview"></div>
+            </div>
+
+            <div class="col-4 archer-to-merge">
+                <div class="form-group">
+                    <label class="control-label required" for="archer-to-merge">
+                        Archer a fusionner
+                    </label>
+                    <select
+                        id="archer-to-merge"
+                        name="archer-to-merge"
+                        required="required"
+                        class="form-control"
+                        data-ea-widget="ea-autocomplete"
+                    >
+                        <option value="">Sélectionner un archer</option>
+                        {% for archer in archers %}
+                            {{ _self.option(archer) }}
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <hr>
+
+                <div class="preview"></div>
+            </div>
+
+            <div class="col-4 archer-final">
+                <div class="form-group">
+                    <label class="control-label" for="archer-to-merge">
+                        Archer final
+                    </label>
+                </div>
+
+                <hr class="mt-5">
+
+                <div class="preview"></div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-danger">Fusionner</button>
+        </div>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const archerBaseContainer = document.querySelector('.archer-base')
+            const archerToContainer = document.querySelector('.archer-to-merge')
+
+            const previewBase = archerBaseContainer.querySelector('.preview')
+            const previewToMerge = archerToContainer.querySelector('.preview')
+
+            const archerBase = archerBaseContainer.querySelector('select')
+            const archerToMerge = archerToContainer.querySelector('select')
+
+            let archerBasePreviousValue = null;
+            let archerToMergePreviousValue = null;
+
+            archerBase.addEventListener('change', function (event) {
+                const option = archerBase.options[archerBase.selectedIndex]
+
+                if (!option.value) {
+                    return
+                }
+
+                if (archerToMerge.selectedIndex && option.dataset.id === archerToMerge.options[archerToMerge.selectedIndex].dataset.id) {
+                    event.preventDefault()
+
+                    alert('Vous ne pouvez pas fusionner un archer avec lui-même.')
+
+                    archerBase.tomselect.setValue(archerBasePreviousValue)
+
+                    return
+                }
+
+                previewBase.innerHTML = createPreview(option.dataset, 'base')
+
+                if (archerToMerge.selectedIndex) {
+                    createFinalDataset()
+                }
+
+                archerBasePreviousValue = option.value
+            })
+
+            archerToMerge.addEventListener('change', function (event) {
+                const option = archerToMerge.options[archerToMerge.selectedIndex]
+
+                if (!option.value) {
+                    return
+                }
+
+                if (archerBase.selectedIndex && option.dataset.id === archerBase.options[archerBase.selectedIndex].dataset.id) {
+                    event.preventDefault()
+
+                    alert('Vous ne pouvez pas fusionner un archer avec lui-même.')
+
+                    archerToMerge.tomselect.setValue(archerToMergePreviousValue)
+
+                    return
+                }
+
+                previewToMerge.innerHTML = createPreview(option.dataset, 'to-merge')
+
+                if (archerBase.selectedIndex) {
+                    createFinalDataset()
+                }
+
+                archerToMergePreviousValue = option.value
+            })
+        })
+
+        function createPreview(archer, type) {
+            return `
+                <div class="form-group">
+                    <label class="control-label" for="archer-${type}-id">
+                        Id
+                    </label>
+                    <input type="text" class="form-control" value="${archer.id}" readonly id="archer-${type}-id">
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="archer-${type}-firstname">
+                        Nom
+                    </label>
+                    <input type="text" class="form-control" value="${archer.firstname}" readonly id="archer-${type}-firstname">
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="archer-${type}-lastname">
+                        Prénom
+                    </label>
+                    <input type="text" class="form-control" value="${archer.lastname}" readonly id="archer-${type}-lastname">
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="archer-${type}-email">
+                        Email
+                    </label>
+                    <input type="text" class="form-control" value="${archer.email}" readonly id="archer-${type}-email">
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="archer-${type}-phone">
+                        Téléphone
+                    </label>
+                    <input type="text" class="form-control" value="${archer.phone}" readonly id="archer-${type}-phone">
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="archer-${type}-gender">
+                        Sexe (M/F)
+                    </label>
+                    <input type="text" class="form-control" value="${archer.gender}" readonly id="archer-${type}-gender">
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="archer-${type}-license-number">
+                        Numéro de licence
+                    </label>
+                    <input type="text" class="form-control" value="${archer.licenseNumber}" readonly id="archer-${type}-license-number">
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="archer-${type}-category">
+                        Catégorie
+                    </label>
+                    <input type="text" class="form-control" value="${archer.category}" readonly id="archer-${type}-category">
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="archer-${type}-newsletters">
+                        Newsletters
+                    </label>
+                    <input type="text" class="form-control" value="${archer.newsletters}" readonly id="archer-${type}-newsletters">
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="archer-${type}-last-login">
+                        Dernière connexion
+                    </label>
+                    <input type="text" class="form-control" value="${archer.lastLogin}" readonly id="archer-${type}-last-login">
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="archer-${type}-created-at">
+                        Créé le
+                    </label>
+                    <input type="text" class="form-control" value="${archer.createdAt}" readonly id="archer-${type}-created-at">
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="archer-${type}-updated-at">
+                        Modifié le
+                    </label>
+                    <input type="text" class="form-control" value="${archer.updatedAt}" readonly id="archer-${type}-updated-at">
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="archer-${type}-results">
+                        Résultats individuels
+                    </label>
+                    ${archer.results.split(';').filter((result) => result).map((result) => `<input type="text" class="form-control mt-1" value="${result}" readonly>`).join('')}
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="archer-${type}-results-team">
+                        Résultats par équipe
+                    </label>
+                    ${archer.resultsTeam.split(';').filter((result) => result).map((result) => `<input type="text" class="form-control mt-1" value="${result}" readonly>`).join('')}
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="archer-${type}-archer-licenses">
+                        Licences
+                    </label>
+                    ${archer.archerLicenses.split(';').filter((license) => license).map((license) => `<input type="text" class="form-control mt-1" value="${license}" readonly>`).join('')}
+                </div>`
+        }
+
+        function createFinalDataset() {
+            const archerBase = document.querySelector('.archer-base select')
+            const archerBaseDataset = archerBase.options[archerBase.selectedIndex].dataset
+
+            const archerToMerge = document.querySelector('.archer-to-merge select')
+            const archerToMergeDataset = archerToMerge.options[archerToMerge.selectedIndex].dataset
+
+            const archerFinalPreview = document.querySelector('.archer-final .preview')
+
+            const results = archerBaseDataset.results.split(';').filter((result) => result)
+            results.push(...archerToMergeDataset.results.split(';').filter((result) => result))
+
+            const resultsTeam = archerBaseDataset.resultsTeam.split(';').filter((resultTeam) => resultTeam)
+            resultsTeam.push(...archerToMergeDataset.resultsTeam.split(';').filter((resultTeam) => resultTeam))
+
+            const archerLicenses = archerBaseDataset.archerLicenses.split(';').filter((archerLicense) => archerLicense)
+            archerLicenses.push(...archerToMergeDataset.archerLicenses.split(';').filter((archerLicense) => archerLicense))
+
+            const dataset = {
+                id: archerBaseDataset.id,
+                firstname: archerBaseDataset.firstname ? archerBaseDataset.firstname : archerToMergeDataset.firstname,
+                lastname: archerBaseDataset.lastname ? archerBaseDataset.lastname : archerToMergeDataset.lastname,
+                email: archerBaseDataset.email ? archerBaseDataset.email : archerToMergeDataset.email,
+                phone: archerBaseDataset.phone ? archerBaseDataset.phone : archerToMergeDataset.phone,
+                gender: archerBaseDataset.gender ? archerBaseDataset.gender : archerToMergeDataset.gender,
+                licenseNumber: archerBaseDataset.licenseNumber ? archerBaseDataset.licenseNumber : archerToMergeDataset.licenseNumber,
+                category: archerBaseDataset.category ? archerBaseDataset.category : archerToMergeDataset.category,
+                newsletters: archerBaseDataset.newsletters ? archerBaseDataset.newsletters : archerToMergeDataset.newsletters,
+                lastLogin: archerBaseDataset.lastLogin ? archerBaseDataset.lastLogin : archerToMergeDataset.lastLogin,
+                createdAt: archerBaseDataset.createdAt ? archerBaseDataset.createdAt : archerToMergeDataset.createdAt,
+                updatedAt: 'une nouvelle date',
+                results: results.join(';'),
+                resultsTeam: resultsTeam.join(';'),
+                archerLicenses: archerLicenses.join(';')
+            }
+
+            archerFinalPreview.innerHTML = createPreview(dataset, 'final')
+        }
+    </script>
+{% endblock %}
