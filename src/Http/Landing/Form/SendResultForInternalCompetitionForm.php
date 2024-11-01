@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Landing\Form;
 
-use App\Domain\Archer\Config\Gender;
 use App\Domain\Archer\Config\Weapon;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Archer\Repository\ArcherRepository;

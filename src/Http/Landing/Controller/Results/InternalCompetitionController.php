@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Landing\Controller\Results;
 
 use App\Domain\Archer\Config\Category;
-use App\Domain\Archer\Config\Gender;
 use App\Domain\Competition\Config\Type;
 use App\Domain\Competition\Model\Competition;
 use App\Domain\Competition\Repository\CompetitionRepository;
