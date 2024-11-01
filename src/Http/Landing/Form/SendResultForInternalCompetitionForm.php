@@ -41,16 +41,6 @@ final class SendResultForInternalCompetitionForm extends AbstractType
                 'translation_domain' => 'archer',
                 'required' => true,
             ])
-            ->add('category', EnumType::class, [
-                'class' => Gender::class,
-                'choices' => [
-                    Gender::WOMAN,
-                    Gender::MAN,
-                ],
-                'label' => 'Catégorie',
-                'translation_domain' => 'archer',
-                'required' => true,
-            ])
             ->add('score', IntegerType::class, [
                 'label' => 'Score',
                 'required' => true,
@@ -59,6 +49,7 @@ final class SendResultForInternalCompetitionForm extends AbstractType
                 'label' => 'Date de réalisation',
                 'widget' => 'single_text',
                 'required' => true,
+                'data' => new \DateTimeImmutable(),
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Envoyer',

@@ -27,6 +27,8 @@ SCRATCH_WOMAN: 'Scratch Femme'
 scratch_woman: 'Scratch Femme'
 SCRATCH_MAN: 'Scratch Homme'
 scratch_man: 'Scratch Homme'
+scratch_mixte: 'Scratch Mixte'
+SCRATCH_MIXTE: 'Scratch Mixte'
 
 # Olds catégories
 senior_man: 'Senior Homme'

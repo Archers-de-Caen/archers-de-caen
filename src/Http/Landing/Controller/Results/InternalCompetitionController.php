@@ -101,21 +101,14 @@ final class InternalCompetitionController extends AbstractController
             /** @var array $data */
             $data = $form->getData();
 
-            $category = match ($data['category']) {
-                Gender::MAN => Category::SCRATCH_MAN,
-                Gender::WOMAN => Category::SCRATCH_WOMAN,
-                default => throw new \InvalidArgumentException('Invalid category'),
-            };
-
             $resultCompetition = new ResultCompetition();
             $resultCompetition
                 ->setCompetition($competition)
                 ->setArcher($data['archer'])
                 ->setWeapon($data['weapon'])
-                ->setCategory($category)
+                ->setCategory(Category::SCRATCH_MIXTE)
                 ->setScore($data['score'])
-                ->setCompletionDate(\DateTimeImmutable::createFromInterface($data['completionDate']))
-                ->setScoreSheet($data['scoreSheet']);
+                ->setCompletionDate(\DateTimeImmutable::createFromInterface($data['completionDate']));
 
             $this->resultCompetitionRepository->save($resultCompetition, true);
 

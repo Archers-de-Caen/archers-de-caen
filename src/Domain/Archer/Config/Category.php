@@ -24,8 +24,9 @@ enum Category: string
     case SENIOR_THREE_WOMAN = 'senior_three_woman';
     case SCRATCH_MAN = 'scratch_man';
     case SCRATCH_WOMAN = 'scratch_woman';
-    // Anciennes catégories
+    case SCRATCH_MIXTE = 'scratch_mixte';
 
+    // Anciennes catégories
     case OLD_SENIOR_MAN = 'senior_man';
     case OLD_SENIOR_WOMAN = 'senior_woman';
     case OLD_VETERAN_MAN = 'veteran_man';
@@ -62,6 +63,7 @@ enum Category: string
 
             self::SCRATCH_MAN => 'SCRATCH-H',
             self::SCRATCH_WOMAN => 'SCRATCH-F',
+            self::SCRATCH_MIXTE => 'SCRATCH-MIXTE',
 
             self::OLD_SENIOR_MAN => 'SH',
             self::OLD_SENIOR_WOMAN => 'SF',
