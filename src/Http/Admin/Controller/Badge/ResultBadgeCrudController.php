@@ -53,7 +53,7 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
     {
         return $crud
             ->setPageTitle(Crud::PAGE_DETAIL, static fn (ResultBadge $resultBadge): string => (string) $resultBadge)
-            ->setPageTitle(Crud::PAGE_EDIT, static fn (ResultBadge $resultBadge): string => \sprintf('Edition du résultat <b>%s</b>', $resultBadge))
+            ->setPageTitle(Crud::PAGE_EDIT, static fn (ResultBadge $resultBadge): string => sprintf('Edition du résultat <b>%s</b>', $resultBadge))
             ->setDefaultSort(['completionDate' => 'DESC'])
         ;
     }
@@ -75,7 +75,7 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
     {
         return $this->entityRepository->createQueryBuilder($searchDto, $entityDto, $fields, $filters)
             ->join('entity.badge', 'badge')
-            ->andWhere(\sprintf("badge.type = '%s'", $this->badgeType))
+            ->andWhere(sprintf("badge.type = '%s'", $this->badgeType))
         ;
     }
 
@@ -94,7 +94,7 @@ abstract class ResultBadgeCrudController extends AbstractCrudController
             })
             ->setQueryBuilder(
                 fn (QueryBuilder $queryBuilder): QueryBuilder => $queryBuilder
-                        ->where(\sprintf("entity.type = '%s'", $this->badgeType))
+                        ->where(sprintf("entity.type = '%s'", $this->badgeType))
             );
 
         $archer = AssociationField::new('archer');

@@ -38,7 +38,7 @@ final class BadgeCrudController extends AbstractCrudController
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, 'Listes des badges')
             ->setPageTitle(Crud::PAGE_DETAIL, static fn (Badge $badge): string => (string) $badge)
-            ->setPageTitle(Crud::PAGE_EDIT, static fn (Badge $badge): string => \sprintf('Edition le badge <b>%s</b>', $badge))
+            ->setPageTitle(Crud::PAGE_EDIT, static fn (Badge $badge): string => sprintf('Edition le badge <b>%s</b>', $badge))
         ;
     }
 

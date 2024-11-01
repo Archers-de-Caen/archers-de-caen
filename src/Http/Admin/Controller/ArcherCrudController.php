@@ -45,7 +45,7 @@ final class ArcherCrudController extends AbstractCrudController
             ->setPageTitle('index', 'Liste des archers')
             ->setPageTitle('new', 'Ajouter un archer')
             ->setPageTitle('detail', static fn (Archer $archer): string => (string) $archer)
-            ->setPageTitle('edit', static fn (Archer $archer): string => \sprintf("Edition de l'archer <b>%s</b>", $archer));
+            ->setPageTitle('edit', static fn (Archer $archer): string => sprintf("Edition de l'archer <b>%s</b>", $archer));
     }
 
     #[\Override]
@@ -101,7 +101,7 @@ final class ArcherCrudController extends AbstractCrudController
             ->setTranslatableChoices(function (Archer $archer): array {
                 return array_reduce(
                     $archer->getNewsletters(),
-                    static fn(array $carry, NewsletterType $choice): array => $carry + [$choice->value => t($choice->name, domain: 'newsletter')],
+                    static fn (array $carry, NewsletterType $choice): array => $carry + [$choice->value => t($choice->name, domain: 'newsletter')],
                     NewsletterType::cases()
                 );
             });

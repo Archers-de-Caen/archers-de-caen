@@ -16,3 +16,4 @@ framework:
       'App\Infrastructure\Mailing\GalleryNewsletterMessage': async
       'App\Infrastructure\Mailing\CompetitionResultsNewsletterMessage': async
       'App\Infrastructure\LiipImagine\CacheResolveMessage': async
+      'App\Domain\File\Message\NewspaperAccessCreatedMessage': async

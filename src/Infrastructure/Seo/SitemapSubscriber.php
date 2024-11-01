@@ -41,7 +41,7 @@ final class SitemapSubscriber implements EventSubscriberInterface
         /** @var Page[] $pages */
         $pages = $this->pageRepository
             ->createQueryBuilder('page')
-            ->where(\sprintf("page.status = '%s'", Status::PUBLISH->value))
+            ->where(sprintf("page.status = '%s'", Status::PUBLISH->value))
             ->getQuery()
             ->getResult()
         ;

@@ -164,7 +164,8 @@ final class GalleryCrudController extends AbstractCrudController
     /**
      * @throws ExceptionInterface
      */
-    public function publish(AdminContext $context): Response {
+    public function publish(AdminContext $context): Response
+    {
         /** @var Gallery $entity */
         $entity = $context->getEntity()->getInstance();
 

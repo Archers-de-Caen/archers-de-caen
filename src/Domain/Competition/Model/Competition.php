@@ -79,7 +79,7 @@ class Competition implements \Stringable
     #[\Override]
     public function __toString(): string
     {
-        return \sprintf(
+        return sprintf(
             'concours %s d%s %s du %s au %s',
             $this->getType()?->toString(),
             \in_array(strtolower($this->getLocation() ?? '')[0], ['a', 'e', 'i', 'o', 'u', 'y', 'h']) ? "'" : 'e',

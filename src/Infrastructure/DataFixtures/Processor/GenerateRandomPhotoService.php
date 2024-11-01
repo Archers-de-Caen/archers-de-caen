@@ -31,7 +31,7 @@ readonly class GenerateRandomPhotoService
             $imageRaw = $this->downloadImage($imageUrl);
             $imageFile = $this->saveImageFromString($imageRaw);
         } else {
-            throw new \InvalidArgumentException(\sprintf('Environment "%s" is not supported.', $environment));
+            throw new \InvalidArgumentException(sprintf('Environment "%s" is not supported.', $environment));
         }
 
         return $this->createPhoto($imageFile);
@@ -46,7 +46,7 @@ readonly class GenerateRandomPhotoService
         $width = $randomSize[array_rand($randomSize)];
         $height = $randomSize[array_rand($randomSize)];
 
-        return \sprintf('https://picsum.photos/seed/%s/%s', $width, $height);
+        return sprintf('https://picsum.photos/seed/%s/%s', $width, $height);
     }
 
     private function downloadImage(string $imageUrl): string

@@ -45,7 +45,7 @@ final readonly class ContactService
 
         $message = (new Email())
             ->text($contactRequest->getContent())
-            ->subject(\sprintf('Site::Contact : %s : ', $contactRequest->getName()).t($contactRequest->getSubject()->value, domain: 'mail'))
+            ->subject(sprintf('Site::Contact : %s : ', $contactRequest->getName()).t($contactRequest->getSubject()->value, domain: 'mail'))
             ->from('noreply@archers-caen.fr')
             ->replyTo(new Address($contactRequest->getEmail(), $contactRequest->getName()))
             ->to($this->email);

@@ -131,7 +131,7 @@
     ],
     "app:dev-server": "php -S localhost:80 -t public",
     "app:lint": "vendor/bin/phpstan analyse -c tools/phpstan/phpstan.neon",
-    "app:clean": "vendor/bin/php-cs-fixer fix src --allow-risky=yes --config=tools/php-cs-fixer/.php-cs-fixer.php",
+    "app:cs": "vendor/bin/php-cs-fixer fix src --allow-risky=yes --config=tools/php-cs-fixer/.php-cs-fixer.php",
     "app:tests": [
       "php bin/console --env=test cache:clear",
       "@app:database-init --env=test",
@@ -144,7 +144,13 @@
       "php bin/console doctrine:schema:create --no-interaction"
     ],
     "app:fixtures": "php bin/console hautelook:fixtures:load --no-interaction --no-bundles",
-    "app:rector": "vendor/bin/rector process src"
+    "app:rector": "vendor/bin/rector process src",
+    "app:clean": [
+      "@app:cs",
+      "@app:rector",
+      "@app:rector",
+      "@app:lint"
+    ]
   },
   "conflict": {
     "symfony/symfony": "*"
