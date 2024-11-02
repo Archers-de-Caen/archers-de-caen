@@ -4,6 +4,8 @@
   .logos {
     display: flex;
     justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
 
     .logo {
       width: 250px;
@@ -12,6 +14,7 @@
       display: flex;
       justify-content: center;
       position: relative;
+      background-color: lighten($color-secondary, 50%);
 
       &:before {
         content: "Télécharger";
@@ -142,34 +145,32 @@
   }
 
   .typography-container {
-    .typography-element {
-      &-col-2 {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-column-gap: 3rem;
-        justify-content: space-between;
-        align-items: flex-start;
+    .typography-elements {
+      display: flex;
+      gap: 3rem;
+
+      .typography-element {
+        width: 100%;
       }
     }
   }
 
   .font-container {
-    .font-element {
-      &-col-2 {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-column-gap: 3rem;
-        justify-content: space-between;
-        align-items: flex-start;
+    .font-elements {
+      display: flex;
+      gap: 3rem;
+
+      .font-element {
+        width: 100%;
+
+        .font-roboto * {
+          font-family: 'Roboto', sans-serif;
+        }
+
+        .font-galaxy * {
+          font-family: 'Galaxy BT', sans-serif;
+        }
       }
-    }
-
-    .font-roboto * {
-      font-family: 'Roboto', sans-serif;
-    }
-
-    .font-galaxy * {
-      font-family: 'Galaxy BT', sans-serif;
     }
   }
 }

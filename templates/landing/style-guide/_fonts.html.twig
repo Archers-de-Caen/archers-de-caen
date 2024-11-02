@@ -1,11 +1,25 @@
+{% from 'landing/_parts/file.html.twig' import file %}
+
 <div class="font-container">
-    <div class="font-element-col-2">
-        <div class="font-galaxy">
-            <h3>Galaxy BT</h3>
+    <div class="font-elements">
+        <div class="font-element">
+            <div class="font-galaxy">
+                <h3>Galaxy BT</h3>
+
+                <div class="files mt-2">
+                    {{ file(asset('build/fonts/galaxy/GalaxyBT.ttf'), 'GalaxyBT.ttf', 'font', '_self', true) }}
+                </div>
+            </div>
         </div>
 
-        <div class="font-roboto">
-            <h3>Roboto</h3>
+        <div class="font-element">
+            <div class="font-roboto">
+                <h3>Roboto</h3>
+
+                <div class="files mt-2">
+                    {{ file(asset('build/fonts/roboto/Roboto.zip'), 'Roboto.zip', 'font', '_self', true) }}
+                </div>
+            </div>
         </div>
     </div>
 </div>

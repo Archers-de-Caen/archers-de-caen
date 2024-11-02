@@ -1,9 +1,14 @@
-{% macro file(url, title, fileIcon='file-pdf', target='_blank') %}
-    <a class="file" href="{{ url }}" target="{{ target }}">
+{% macro file(url, title, fileIcon='file-pdf', target='_blank', download=false) %}
+    <a
+        class="file"
+        href="{{ url }}"
+        target="{{ target }}"
+        download="{{ download ? title : '' }}"
+    >
             <span>
                 <i class="fa-solid fa-{{ fileIcon }}"></i>
                 {{ title }}
             </span>
-        <i class="fa-solid fa-eye"></i>
+        <i class="fa-solid fa-{{ download ? 'download' : 'eye' }}"></i>
     </a>
 {% endmacro %}
