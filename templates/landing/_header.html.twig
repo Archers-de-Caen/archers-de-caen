@@ -23,6 +23,13 @@
                 {% if is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_ADMIN')) %}
                     <li><a href="{{ path('admin_index') }}">Admin</a></li>
                 {% endif %}
+                {% if 'dev' == environment %}
+                    <li>
+                        <a href="https://archers-caen.fr{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">
+                            PROD
+                        </a>
+                    </li>
+                {% endif %}
                 {# <li><a href="#">🔍</a></li>#}
             </ul>
         </div>
@@ -54,9 +61,9 @@
 
 <div class="header-element" id="actualities">
     <div>
-        <div class="flex item-center">
+        <div class="flex item-center --gap-2">
             <div class="back">
-                <i class="fa fa-arrow-left mr-3"></i>
+                <i class="fa fa-arrow-left"></i>
             </div>
             <p class="title">Actualités</p>
         </div>
@@ -102,9 +109,9 @@
 </div>
 <div class="header-element" id="club">
     <div>
-        <div class="flex item-center">
+        <div class="flex item-center --gap-2">
             <div class="back">
-                <i class="fa fa-arrow-left mr-3"></i>
+                <i class="fa fa-arrow-left"></i>
             </div>
             <p class="title">Le club</p>
         </div>
@@ -252,9 +259,9 @@
 </div>
 <div class="header-element" id="results">
     <div>
-        <div class="flex item-center">
+        <div class="flex item-center --gap-2">
             <div class="back">
-                <i class="fa fa-arrow-left mr-3"></i>
+                <i class="fa fa-arrow-left"></i>
             </div>
             <p class="title">Les résultats</p>
         </div>
@@ -264,26 +271,30 @@
         </p>
     </div>
     <div>
-        <div class="thumbnails">
+        <div class="thumbnails-results">
             {{ thumbnail(
                 path(constant('App\\Http\\Landing\\Controller\\Results\\ArrowsController::ROUTE')),
                 asset('build/images/photo/fleche_de_progression.webp'),
-                'Fleches de progression'
+                'Fleches de progression',
+                true
             ) }}
             {{ thumbnail(
                 path(constant('App\\Http\\Landing\\Controller\\Results\\CompetitionListController::ROUTE')),
                 asset('build/images/photo/trapa_et_coupe.webp'),
-                'Concours'
+                'Concours',
+                true
             ) }}
             {{ thumbnail(
                 path(constant('App\\Http\\Landing\\Controller\\Results\\RecordController::ROUTE')),
                 asset('build/images/photo/cible_tout_dans_le_dix.webp'),
-                'Record'
+                'Record',
+                true
             ) }}
             {{ thumbnail(
                 path(constant('App\\Http\\Landing\\Controller\\Results\\FederalHonorsController::ROUTE')),
                 asset('build/images/photo/badge_70.webp'),
-                'Distinctions fédérales'
+                'Distinctions fédérales',
+                true
             ) }}
         </div>
     </div>
@@ -303,9 +314,9 @@
 </div>
 <div class="header-element" id="sport">
     <div>
-        <div class="flex item-center">
+        <div class="flex item-center --gap-2">
             <div class="back">
-                <i class="fa fa-arrow-left mr-3"></i>
+                <i class="fa fa-arrow-left"></i>
             </div>
             <p class="title">Le sport</p>
         </div>
@@ -344,9 +355,9 @@
 </div>
 <div class="header-element" id="galleries">
     <div>
-        <div class="flex item-center">
+        <div class="flex item-center --gap-2">
             <div class="back">
-                <i class="fa fa-arrow-left mr-3"></i>
+                <i class="fa fa-arrow-left"></i>
             </div>
             <p class="title">Les photos</p>
         </div>
@@ -356,12 +367,13 @@
         </p>
     </div>
     <div>
-        <div class="thumbnails">
+        <div class="thumbnails-galleries">
             {% for gallery in headerData.galleries %}
                 {{ thumbnail(
                     path(constant('App\\Http\\Landing\\Controller\\Gallery\\GalleryController::ROUTE'), { slug: gallery.slug }),
                     gallery.mainPhoto is defined and gallery.mainPhoto ? gallery.mainPhoto|imagine_filter('thumbnail') : asset('build/images/photo/cible.webp'),
-                    gallery.title
+                    gallery.title,
+                    true
                 ) }}
             {% endfor %}
         </div>
@@ -374,9 +386,9 @@
 </div>
 <div class="header-element" id="shop">
     <div>
-        <div class="flex item-center">
+        <div class="flex item-center --gap-2">
             <div class="back">
-                <i class="fa fa-arrow-left mr-3"></i>
+                <i class="fa fa-arrow-left"></i>
             </div>
             <p class="title">Boutique</p>
         </div>
@@ -385,9 +397,9 @@
         </p>
     </div>
     <div>
-        <div class="thumbnails">
-            {{ thumbnail(path(constant('App\\Http\\Landing\\Controller\\ShopController::ROUTE')), asset('build/images/logo-archers-de-caen/shop.webp'), 'Boutique officiel') }}
-            {{ thumbnail(path(constant('App\\Http\\Landing\\Controller\\Page\\PageController::ROUTE'), { slug: 'vente-doccasion' }), asset('build/images/logo-archers-de-caen/vente-occasion.webp'), "Vente d'occasion") }}
+        <div class="thumbnails-shop">
+            {{ thumbnail(path(constant('App\\Http\\Landing\\Controller\\ShopController::ROUTE')), asset('build/images/logo-archers-de-caen/shop.webp'), 'Boutique officiel', true) }}
+            {{ thumbnail(path(constant('App\\Http\\Landing\\Controller\\Page\\PageController::ROUTE'), { slug: 'vente-doccasion' }), asset('build/images/logo-archers-de-caen/vente-occasion.webp'), "Vente d'occasion", true) }}
         </div>
     </div>
 </div>

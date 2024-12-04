@@ -122,6 +122,7 @@
     padding: 2rem 3rem;
 
     .title {
+      margin: 0;
       border-bottom: .4rem solid $color-yellow;
       width: max-content;
       text-transform: uppercase;
@@ -137,7 +138,7 @@
   }
 
   &#galleries {
-    .thumbnails {
+    .thumbnails-galleries {
       gap: 1rem;
       display: flex;
       flex-wrap: wrap;
@@ -147,7 +148,7 @@
         font-size: medium;
       }
 
-      .thumbnail {
+      .thumbnail-with-text {
         height: 140px;
         overflow: clip;
       }
@@ -155,7 +156,7 @@
   }
 
   &#results {
-    .thumbnails {
+    .thumbnails-results {
       display: grid;
 
       grid-template-columns: repeat(3, 200px);
@@ -168,7 +169,7 @@
 
       justify-content: center;
 
-      .thumbnail {
+      .thumbnail-with-text {
         width: unset;
         height: unset;
         display: unset;
@@ -214,13 +215,13 @@
   }
 
   &#shop {
-    .thumbnails {
+    .thumbnails-shop {
       display: flex;
       justify-content: space-evenly;
       gap: .8rem;
       align-items: center;
 
-      .thumbnail {
+      .thumbnail-with-text {
         width: 300px;
         height: 200px;
 
@@ -293,7 +294,7 @@
     }
 
     &#shop {
-      .thumbnails {
+      .thumbnails-shop {
         flex-direction: column;
       }
     }
@@ -317,11 +318,11 @@
 @media (max-width: 700px) {
   .header-element {
     &#results {
-      .thumbnails {
+      .thumbnails-results {
         grid-template-rows: repeat(3, calc(600px / 3));
         grid-template-columns: repeat(2, calc(450px / 2));
 
-        .thumbnail {
+        .thumbnail-with-text {
           &:nth-child(1) {
             grid-column-start: 1;
             grid-column-end: 3;
@@ -358,11 +359,11 @@
 @media (max-width: 500px) {
   .header-element {
     &#results {
-      .thumbnails {
+      .thumbnails-results {
         grid-template-rows: repeat(4, calc(700px / 4));
         grid-template-columns: repeat(1, 350px);
 
-        .thumbnail {
+        .thumbnail-with-text {
           grid-column-start: 1 !important;
           grid-column-end: 2 !important;
 

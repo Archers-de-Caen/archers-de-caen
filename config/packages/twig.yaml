@@ -9,6 +9,8 @@ twig:
         timezone: Europe/Paris
 
     globals:
+        environment: '%kernel.environment%'
+
         parameters:
             email: '%email%'
             phone: '%phone%'

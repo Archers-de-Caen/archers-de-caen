@@ -28,7 +28,7 @@ final class GalleriesController extends AbstractController
     public function __invoke(Request $request, GalleryRepository $galleryRepository): Response
     {
         $currentPage = ((int) $request->query->get('page') ?: 1) - 1;
-        $elementByPage = 16;
+        $elementByPage = 5;
 
         $galleries = new Paginator(
             $galleryRepository->createQueryBuilder('gallery')
@@ -36,7 +36,7 @@ final class GalleriesController extends AbstractController
                 ->setParameter('status', Status::PUBLISH->value)
                 ->orderBy('gallery.createdAt', 'DESC')
                 ->setFirstResult($currentPage * $elementByPage)
-                ->setMaxResults($elementByPage) // 24, car sur un écran 1080p la dernière ligne est complete
+                ->setMaxResults($elementByPage)
         );
 
         return $this->render('/landing/galleries/galleries.html.twig', [

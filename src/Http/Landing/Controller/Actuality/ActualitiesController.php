@@ -29,7 +29,7 @@ final class ActualitiesController extends AbstractController
     public function __invoke(Request $request, PageRepository $pageRepository): Response
     {
         $currentPage = ((int) $request->query->get('page') ?: 1) - 1;
-        $elementByPage = 24;
+        $elementByPage = 12;
 
         $actualities = new Paginator(
             $pageRepository
@@ -40,7 +40,7 @@ final class ActualitiesController extends AbstractController
                 ->setParameter('category', Category::ACTUALITY->value)
                 ->orderBy('p.createdAt', 'DESC')
                 ->setFirstResult($currentPage * $elementByPage)
-                ->setMaxResults(24) // 24, car sur un écran 1080p la dernière ligne est complete
+                ->setMaxResults($elementByPage)
         );
 
         return $this->render('/landing/actualities/actualities.html.twig', [

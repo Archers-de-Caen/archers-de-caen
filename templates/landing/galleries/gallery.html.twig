@@ -17,14 +17,8 @@
     <meta property="og:image" content="{{ gallery.mainPhoto is defined and gallery.mainPhoto ? gallery.mainPhoto|imagine_filter('thumbnail') : absolute_url(asset('build/images/photo/cible.webp')) }}" />
 {% endblock og %}
 
-{% block body %}
-    <div class="bg-target shape-target"></div>
-
+{% block main %}
     <div class="thumbnails-container">
-        <div class="title">
-            <h1 class="-white">{{ gallery.title }}</h1>
-        </div>
-
         <div class="thumbnails" id="galleries">
             {% for photo in photos %}
                 {# @var photo \App\Domain\File\Model\Photo #}

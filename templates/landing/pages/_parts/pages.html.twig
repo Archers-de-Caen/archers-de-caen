@@ -1,4 +1,4 @@
-{% macro pages(pages) %}
+{% macro pages(pages, withText = false) %}
     <div class="thumbnails">
         {% for page in pages %}
             {% set route = constant('App\\Http\\Landing\\Controller\\Page\\PageController::ROUTE') %}
@@ -6,10 +6,13 @@
                 {% set route = constant('App\\Http\\Landing\\Controller\\Actuality\\ActualityController::ROUTE') %}
             {% endif %}
 
-            <a class="thumbnail" href="{{ path(route , { slug: page.slug }) }}" title="{{ page.title }}">
+            <a class="{% if withText %}thumbnail-with-text{% else %}thumbnail{% endif %}"
+               href="{{ path(route , { slug: page.slug }) }}"
+               title="{{ page.title }}"
+            >
                 <img
                     src="{{ page.image is defined and page.image ? page.image|imagine_filter('thumbnail_medium') : asset('build/images/photo/cible.webp') }}"
-                    alt="Photo de la page: {{ page.title }}"
+                    alt="{{ page.title }}"
                 >
                 <p>{{ page.title }}</p>
             </a>
