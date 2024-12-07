@@ -75,6 +75,7 @@ class Photo implements UploadableInterface
     private ?array $imageDimension = [];
 
     #[ORM\ManyToOne(targetEntity: Gallery::class, inversedBy: 'photos')]
+    #[Groups(['Photo'])]
     private ?Gallery $gallery = null;
 
     #[\Override]

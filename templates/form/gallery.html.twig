@@ -1,10 +1,17 @@
 {% block gallery_row %}
-    <div id="gallery-form" class="gallery-form">
+    <div id="gallery-form" class="gallery-form" data-gallery-id="{{ ea.entity.primaryKeyValue }}">
         <div class="form-group">
             <label for="gallery-photo" class="form-control-label">{{ form.vars.label }}</label>
             <div class="form-widget">
                 <input id="gallery-photo" type="file" multiple class="form-control" />
             </div>
+
+            <label class="gallery-photo-progress-container mt-3 w-100">
+                Photos en cours de chargement... <span class="gallery-photo-progress-count">0</span> / <span class="gallery-photo-progress-total">0</span>
+
+                <progress class="gallery-photo-progress w-100 mt-1" value="0" max="100"></progress>
+            </label>
+
             <output class="gallery-photo-previews">
                 <table class="table">
                     <thead>
@@ -14,39 +21,9 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {% for data in form.vars.data %}
-                            <tr class="gallery-photo-preview" data-photo-token="{{ data.token }}">
-                                <td>{{ data.imageOriginalName }}</td>
-                                <td>
-                                    {% set url = absolute_url(vich_uploader_asset(data, 'imageFile')) %}
-
-                                    <div class="photo-preview">
-                                        <a href="{{ url }}">{{ url }}</a>
-                                        <img
-                                            src="{{ url }}"
-                                            loading="lazy"
-                                            alt="preview {{ data.imageOriginalName }}"
-                                        >
-                                    </div>
-                                </td>
-                                <td>
-                                    <i class="fa fa-trash"></i>
-                                </td>
-                            </tr>
-
-                        {% endfor %}
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </output>
         </div>
-
-        <div class="photos-token-list">
-            {% for data in form.vars.data %}
-                <input type="hidden" name="{{ form.vars.full_name }}[]" value="{{ data.token }}">
-            {% endfor %}
-        </div>
-
-        <input type="hidden" value="{{ form.vars.full_name }}[]" class="gallery-input-name">
     </div>
 {% endblock %}

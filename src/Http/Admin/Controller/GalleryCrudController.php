@@ -97,9 +97,10 @@ final class GalleryCrudController extends AbstractCrudController
             ->setLabel('Titre');
         $mainPhoto = PhotoField::new('mainPhoto')
             ->setLabel('Image principale')
-            ->setRequired(false)
-        ;
-        $gallery = GalleryField::new('photos');
+            ->setRequired(false);
+
+        $gallery = GalleryField::new('photos')
+            ->setFormTypeOption('mapped', false);
 
         $status = ChoiceField::new('status')
             ->setLabel('Statut')
@@ -109,8 +110,7 @@ final class GalleryCrudController extends AbstractCrudController
                 'choice_label' => static fn (Status $choice): TranslatableMessage => t($choice->value, domain: 'page'),
                 'choices' => Status::cases(),
             ])
-            ->formatValue(static fn ($value, ?Gallery $entity): TranslatableMessage|string => !$value || !$entity instanceof Gallery || !$entity->getStatus() instanceof Status ? '' : t($entity->getStatus()->value, domain: 'page'))
-        ;
+            ->formatValue(static fn ($value, ?Gallery $entity): TranslatableMessage|string => !$value || !$entity instanceof Gallery || !$entity->getStatus() instanceof Status ? '' : t($entity->getStatus()->value, domain: 'page'));
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $title, $status, $mainPhoto];
@@ -120,7 +120,15 @@ final class GalleryCrudController extends AbstractCrudController
             return [$id, $title, $status, $mainPhoto, $gallery];
         }
 
-        return [$title, $mainPhoto, $gallery];
+        if (Crud::PAGE_NEW === $pageName) {
+            return [$title, $mainPhoto];
+        }
+
+        if (Crud::PAGE_EDIT === $pageName) {
+            return [$title, $mainPhoto, $gallery];
+        }
+
+        return [];
     }
 
     /**
@@ -157,8 +165,6 @@ final class GalleryCrudController extends AbstractCrudController
         if ($entityInstance->getMainPhoto() instanceof Photo && $entityInstance->getMainPhoto()->getImageName()) {
             $this->messageBus->dispatch(new CacheResolveMessage($entityInstance->getMainPhoto()->getImageName()));
         }
-
-        $this->messageBus->dispatch(new CacheResolveMessage($entityInstance->getPhotos()->map(static fn ($photo): ?string => $photo->getImageName())->toArray()));
     }
 
     /**

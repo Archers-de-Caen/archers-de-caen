@@ -22,7 +22,6 @@ final class GalleryField implements FieldInterface
             ->setProperty($propertyName)
             ->setLabel($label)
             ->setFormType(GalleryType::class)
-            ->setColumns('')
-        ;
+            ->setColumns('');
     }
 }
