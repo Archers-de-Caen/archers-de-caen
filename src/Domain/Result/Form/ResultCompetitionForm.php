@@ -7,6 +7,7 @@ namespace App\Domain\Result\Form;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\Result\Model\ResultCompetition;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -24,7 +25,10 @@ final class ResultCompetitionForm extends ResultForm
                 ],
                 'required' => true,
             ])
-        ;
+            ->add('record', CheckboxType::class, [
+                'label' => 'Record perso ?',
+                'required' => false,
+            ]);
 
         parent::buildForm($builder, $options);
     }
