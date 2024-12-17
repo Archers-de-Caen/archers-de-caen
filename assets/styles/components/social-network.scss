@@ -1,8 +1,7 @@
 .social-networks {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: 75px;
+  gap: .7rem;
 
   &-vertical {
     flex-direction: column;

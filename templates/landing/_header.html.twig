@@ -15,23 +15,23 @@
 <header class="header">
     <div class="header-secondary">
         <div class="header-content">
-            <ul>
-                <li class="mr-2">{{ socialNetwork() }}</li>
-                <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\NewspaperController::ROUTE')) }}">La gazette</a></li>
-                <li><a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ContactController::ROUTE')) }}">Contact</a></li>
+            <div class="header-titles">
+                <div class="header-title mr-2">{{ socialNetwork() }}</div>
+                <div class="header-title"><a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\NewspaperController::ROUTE')) }}">La gazette</a></div>
+                <div class="header-title"><a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ContactController::ROUTE')) }}">Contact</a></div>
                 {# <li><a href="{{ path('app_index') }}">Espace licencié</a></li> #}
                 {% if is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_ADMIN')) %}
-                    <li><a href="{{ path('admin_index') }}">Admin</a></li>
+                    <div class="header-title"><a href="{{ path('admin_index') }}">Admin</a></div>
                 {% endif %}
                 {% if 'dev' == environment %}
-                    <li>
+                    <div class="header-title">
                         <a href="https://archers-caen.fr{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">
                             PROD
                         </a>
-                    </li>
+                    </div>
                 {% endif %}
-                {# <li><a href="#">🔍</a></li>#}
-            </ul>
+                {# <div><a href="#">🔍</a></div>#}
+            </div>
         </div>
     </div>
 
@@ -43,14 +43,14 @@
                 <img src="{{ asset('build/images/logo-archers-de-caen/logo-normal-v2.svg') }}" alt="Logo des archers de Caen">
                 <header class="logo-text">Archers de CAEN</header>
             </a>
-            <ul>
-                <li data-header-element="actualities">Actualités</li>
-                <li data-header-element="club">Club</li>
-                <li data-header-element="results">Résultats</li>
-                <li data-header-element="sport">Sport</li>
-                <li data-header-element="galleries">Photos</li>
-                <li data-header-element="shop">Boutique</li>
-            </ul>
+            <div class="header-titles">
+                <div class="header-title" data-header-element="actualities">Actualités</div>
+                <div class="header-title" data-header-element="club">Club</div>
+                <div class="header-title" data-header-element="results">Résultats</div>
+                <div class="header-title" data-header-element="sport">Sport</div>
+                <div class="header-title" data-header-element="galleries">Photos</div>
+                <div class="header-title" data-header-element="shop">Boutique</div>
+            </div>
             <div class="menu-responsive-btn hamburger-menu">
                 <div class="hamburger-menu-bar"></div>
                 <div class="hamburger-menu-bar"></div>

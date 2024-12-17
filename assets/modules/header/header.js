@@ -64,7 +64,7 @@ const burgerBtn = document.querySelector(".header .header-primary .menu-responsi
 if (burgerBtn) {
     burgerBtn.addEventListener('click', (e) => {
         const target = e.currentTarget
-        const menu = document.querySelector(".header .header-primary ul")
+        const menu = document.querySelector(".header .header-primary .header-titles")
         const body = document.querySelector('body')
         menu.style.top = document.querySelector(".header .header-primary").style.height
 
@@ -77,7 +77,7 @@ if (burgerBtn) {
 
             // Permet d'avoir une animation propre a la fermeture du menu
             setTimeout(function () {
-                menu.querySelectorAll('li').forEach(li => li.style.display = 'none')
+                menu.querySelectorAll('.header-title').forEach(li => li.style.display = 'none')
 
                 setTimeout(function () {
                     menu.style.display = 'none'
@@ -96,7 +96,7 @@ if (burgerBtn) {
                 menu.style.bottom = '0'
 
                 setTimeout(function () {
-                    menu.querySelectorAll('li').forEach(li => li.style.display = 'block')
+                    menu.querySelectorAll('.header-title').forEach(li => li.style.display = 'block')
                 }, 150)
             }, 10) // For trigger/see css transition
         }
@@ -104,7 +104,7 @@ if (burgerBtn) {
 }
 
 window.onresize = () => {
-    const menu = document.querySelector(".header .header-primary ul")
+    const menu = document.querySelector(".header .header-primary .header-titles")
 
     if (menu === undefined) {
         return
@@ -114,7 +114,7 @@ window.onresize = () => {
     document.querySelector('body').style.overflow = 'auto'
     menu.style.removeProperty('display')
 
-    menu.querySelectorAll('li').forEach(li => {
+    menu.querySelectorAll('.header-title').forEach(li => {
         li.style.removeProperty('display')
     })
 
@@ -122,7 +122,7 @@ window.onresize = () => {
 }
 
 // Permet d'ouvrir le menu
-document.querySelectorAll(".header .header-primary ul li").forEach((element) => {
+document.querySelectorAll(".header .header-primary .header-titles .header-title").forEach((element) => {
     element.addEventListener('click', (event) => {
         event.preventDefault()
 
