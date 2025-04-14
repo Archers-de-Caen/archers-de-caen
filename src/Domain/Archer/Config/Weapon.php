@@ -7,8 +7,14 @@ namespace App\Domain\Archer\Config;
 enum Weapon: string
 {
     case RECURVE_BOW = 'recurve_bow';
+
     case COMPOUND_BOW = 'compound_bow';
+
     case BARE_BOW = 'bare_bow';
+
+    case FREE_BOW = 'free_bow';
+
+    case LONG_BOW = 'long_bow';
 
     public function toString(): string
     {
@@ -16,6 +22,8 @@ enum Weapon: string
             self::RECURVE_BOW => 'Arc classique',
             self::COMPOUND_BOW => 'Arc à poulies',
             self::BARE_BOW => 'Arc nu',
+            self::FREE_BOW => 'Arc libre',
+            self::LONG_BOW => 'Arc droit',
         };
     }
 
@@ -24,7 +32,9 @@ enum Weapon: string
         return match ($weapon) {
             'CL', 'Arc classique' => self::RECURVE_BOW,
             'CO', 'Arc à poulies', 'Arc a poulies' => self::COMPOUND_BOW,
-            'BB', 'Arc nu', 'TL', 'Tir libre' => self::BARE_BOW,
+            'BB', 'Arc nu' => self::BARE_BOW,
+            'TL', 'Tir libre' => self::FREE_BOW,
+            'AD', 'Arc droit' => self::LONG_BOW,
 
             default => throw new \ValueError($weapon.' not found'),
         };
