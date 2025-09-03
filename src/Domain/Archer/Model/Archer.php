@@ -105,6 +105,15 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true, enumType: NewsletterType::class)]
     private array $newsletters = [];
 
+    #[ORM\Column(type: Types::STRING, nullable: true)]
+    private ?string $externalAuthId = null;
+
+    #[ORM\Column(type: Types::STRING, nullable: true)]
+    private ?string $externalAuthType = null;
+
+    #[ORM\Column(type: Types::STRING, nullable: true)]
+    private ?string $hostedDomain = null;
+
     public function __construct()
     {
         $this->results = new ArrayCollection();
@@ -398,6 +407,42 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     public function setNewsletters(array $newsletters): self
     {
         $this->newsletters = $newsletters;
+
+        return $this;
+    }
+
+    public function getExternalAuthId(): ?string
+    {
+        return $this->externalAuthId;
+    }
+
+    public function setExternalAuthId(?string $externalAuthId): self
+    {
+        $this->externalAuthId = $externalAuthId;
+
+        return $this;
+    }
+
+    public function getExternalAuthType(): ?string
+    {
+        return $this->externalAuthType;
+    }
+
+    public function setExternalAuthType(?string $externalAuthType): self
+    {
+        $this->externalAuthType = $externalAuthType;
+
+        return $this;
+    }
+
+    public function getHostedDomain(): ?string
+    {
+        return $this->hostedDomain;
+    }
+
+    public function setHostedDomain(?string $hostedDomain): self
+    {
+        $this->hostedDomain = $hostedDomain;
 
         return $this;
     }

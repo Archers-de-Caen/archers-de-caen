@@ -10,7 +10,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 trait LicenseNumberTrait
 {
-    #[ORM\Column(type: Types::STRING, length: 8, unique: self::LICENSE_NUMBER_UNIQUE)]
+    #[ORM\Column(
+        type: Types::STRING,
+        length: 8,
+        unique: self::LICENSE_NUMBER_UNIQUE,
+        nullable: true
+    )]
     #[Assert\NotBlank]
     #[Assert\NotNull]
     #[Assert\Length(max: 8)]

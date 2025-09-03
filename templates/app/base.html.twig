@@ -5,9 +5,8 @@
         <meta charset="UTF-8">
         <title>{% block title %}{% endblock %}{% if block('title') %} | {% endif %}Les Archers de Caen</title>
 
-        <link rel="icon" href="/favicon/16x16.png" sizes="16x16">
-
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {{ include('shared/_link.html.twig') }}
+        {{ include('shared/_meta.html.twig') }}
 
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}

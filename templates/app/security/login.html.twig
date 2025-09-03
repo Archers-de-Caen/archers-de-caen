@@ -5,7 +5,11 @@
 {% block body %}
     <div class="page-container">
 
-        <form action="{{ path(constant('App\\Http\\App\\Controller\\Security\\LoginController::ROUTE')) }}" method="post" class="form-groups mt-3">
+        <form
+            action="{{ path(constant('App\\Http\\App\\Controller\\Security\\LoginController::ROUTE')) }}"
+            method="post"
+            class="form-groups form-auth mt-3"
+        >
             <h2>Connexion</h2>
 
             <div class="form-group{% if error %} -error{% endif %}">
@@ -13,6 +17,18 @@
                     <div class="error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}
             </div>
+
+            <a href="{{ path(constant('App\\Http\\App\\Controller\\Security\\OAuth2Controller::ROUTE_GOOGLE')) }}" class="btn mb-2">
+                <img src="{{ asset('build/images/logo-auth/google.png') }}" alt="Logo Google">
+                Se connecter avec Google
+            </a>
+
+            <a href="{{ path(constant('App\\Http\\App\\Controller\\Security\\RegisterController::ROUTE')) }}" class="btn">
+                <img src="{{ asset('build/images/logo-auth/gmail.png') }}" alt="Logo Gmail">
+                S'inscrire avec un email
+            </a>
+
+            <hr class="my-3">
 
             <div class="form-group">
                 <label for="username">Email:</label>
@@ -27,14 +43,20 @@
             <input type="hidden" name="_target_path" value="/admin">
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-            <div class="right">
-                {% if 'dev' == app.environment %}
+            <hr class="my-3">
+
+            {% if 'dev' == app.environment %}
+                <div class="flex jc-end --gap-1">
                     <button type="button" class="btn -secondary auto-connect" data-username="archer@archers-caen.fr" data-password="Pwd123">Archer</button>
                     <button type="button" class="btn -secondary auto-connect" data-username="editor@archers-caen.fr" data-password="Pwd123">Editor</button>
                     <button type="button" class="btn -secondary auto-connect" data-username="admin@archers-caen.fr" data-password="Pwd123">Admin</button>
                     <button type="button" class="btn -secondary auto-connect" data-username="dev@archers-caen.fr" data-password="Pwd123">Developer</button>
-                {% endif %}
+                </div>
 
+                <hr class="my-3">
+            {% endif %}
+
+            <div class="flex jc-end">
                 <button type="submit" class="btn -primary">Connexion</button>
             </div>
         </form>

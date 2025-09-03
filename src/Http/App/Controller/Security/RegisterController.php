@@ -6,6 +6,7 @@ namespace App\Http\App\Controller\Security;
 
 use App\Domain\Archer\Form\RegistrationFormType;
 use App\Domain\Archer\Model\Archer;
+use App\Http\Security\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,7 +35,7 @@ final class RegisterController extends AbstractController
         Request $request,
         EntityManagerInterface $em,
         UserAuthenticatorInterface $authenticator,
-        AbstractLoginFormAuthenticator $loginFormAuthenticator
+        LoginFormAuthenticator $loginFormAuthenticator
     ): ?Response {
         if ($this->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY)) {
             return $this->redirectToRoute('');
