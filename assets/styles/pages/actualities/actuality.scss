@@ -1,3 +1,5 @@
+@use 'sass:color';
+@use 'sass:map';
 @import "../../variable";
 
 .actuality-container {
@@ -32,7 +34,7 @@
     .actuality-title {
       .actuality-info {
         font-size: .8em;
-        color: lighten($color-grey, .8);
+        color: color.adjust($color-grey, $lightness: 80%);
         display: flex;
         justify-content: start;
         align-items: center;
@@ -84,7 +86,7 @@
   }
 }
 
-@media (min-width: map-get($grid-breakpoints, sm)) and (max-width: map-get($grid-breakpoints, md)) {
+@media (min-width: map.get($grid-breakpoints, sm)) and (max-width: map.get($grid-breakpoints, md)) {
   .actuality-container {
     .actuality-container-header {
       width: 90%;
@@ -96,7 +98,7 @@
   }
 }
 
-@media (min-width: map-get($grid-breakpoints, xs)) and (max-width: map-get($grid-breakpoints, sm)) {
+@media (min-width: map.get($grid-breakpoints, xs)) and (max-width: map.get($grid-breakpoints, sm)) {
   .actuality-container {
     .actuality-container-header {
       width: 95%;
@@ -108,7 +110,7 @@
   }
 }
 
-@media (max-width: map-get($grid-breakpoints, xs)) {
+@media (max-width: map.get($grid-breakpoints, xs)) {
   .actuality-container {
     .actuality-container-header {
       width: 100%;

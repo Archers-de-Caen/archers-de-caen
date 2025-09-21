@@ -1,3 +1,4 @@
+@use 'sass:color';
 @import "../variable";
 
 .form-groups {
@@ -109,12 +110,12 @@
       }
 
       &:disabled {
-        border-color: lighten($color-grey, 50%);
+        border-color: color.adjust($color-grey, $lightness: 50%);
         cursor: not-allowed;
       }
 
       &:disabled + label {
-        color: lighten($color-grey, 50%);
+        color: color.adjust($color-grey, $lightness: 50%);
         cursor: not-allowed;
       }
     }
@@ -150,7 +151,7 @@
     &.-error {
       input, textarea {
         border-color: $color-red;
-        background-color: lighten($color-red, 45%);
+        background-color: color.adjust($color-red, $lightness: 45%);
       }
 
       .error {

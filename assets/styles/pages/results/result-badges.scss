@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 .result-badges-page {
   min-height: 1000px;
 
@@ -61,8 +63,8 @@
   }
 }
 
-@media (max-width: map-get($grid-breakpoints, md)) {
+@media (max-width: map.get($grid-breakpoints, md)) {
 }
 
-@media (max-width: map-get($grid-breakpoints, sm)) {
+@media (max-width: map.get($grid-breakpoints, sm)) {
 }

@@ -1,3 +1,4 @@
+@use 'sass:color';
 @import "../variable";
 
 .style-guide-page {
@@ -14,7 +15,7 @@
       display: flex;
       justify-content: center;
       position: relative;
-      background-color: lighten($color-secondary, 50%);
+      background-color: color.adjust($color-secondary, $lightness: 50%);
 
       &:before {
         content: "Télécharger";
@@ -79,7 +80,7 @@
         text-transform: uppercase;
         font-size: x-large;
         color: $color-white;
-        background-color: transparentize($color-grey, 0.5);
+        background-color: color.adjust($color-grey, $alpha: .5);
         cursor: pointer;
         display: flex;
         align-items: center;

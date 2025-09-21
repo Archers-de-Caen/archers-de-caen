@@ -1,3 +1,4 @@
+@use 'sass:color';
 @import "../variable";
 
 .btn {
@@ -11,8 +12,8 @@
   text-decoration: none;
 
   &:disabled {
-    background-color: lighten($color-grey, 20%) !important;
-    color: lighten($color-grey, 50%) !important;
+    background-color: color.adjust($color-grey, $lightness: 20%) !important;
+    color: color.adjust($color-grey, $lightness: 50%) !important;
     border: unset !important;
     cursor: not-allowed;
   }

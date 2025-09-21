@@ -1,3 +1,4 @@
+@use 'sass:color';
 @import "../variable";
 
 .table-container {
@@ -10,7 +11,7 @@
   background-color: $color-white;
 
   .highlighted {
-    background-color: lighten($color-yellow, 25);
+    background-color: color.adjust($color-yellow, $lightness: 25);
     font-weight: bold;
 
     td, th {
@@ -47,7 +48,7 @@
       tr {
         &:nth-child(odd) {
           td {
-            background-color: lighten($color-yellow, 40);
+            background-color: color.adjust($color-yellow, $lightness: 40%);
           }
         }
 
@@ -58,14 +59,14 @@
         }
 
         &:hover {
-          background-color: lighten($color-yellow, 25);
+          background-color: color.adjust($color-yellow, $lightness: 25%);
 
           td {
             background-color: unset;
           }
 
           td:first-child {
-            background-color: lighten($color-yellow, 25);
+            background-color: color.adjust($color-yellow, $lightness: 25%);
           }
         }
       }

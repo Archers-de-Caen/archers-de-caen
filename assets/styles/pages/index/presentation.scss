@@ -1,3 +1,4 @@
+@use 'sass:map';
 @import "../../variable";
 
 .index-page {
@@ -99,7 +100,7 @@
   }
 }
 
-@media (min-width: map-get($grid-breakpoints, lg)) and (max-width: map-get($grid-breakpoints, xl)) {
+@media (min-width: map.get($grid-breakpoints, lg)) and (max-width: map.get($grid-breakpoints, xl)) {
   .index-page {
     .presentations {
 
@@ -147,7 +148,7 @@
   }
 }
 
-@media (min-width: map-get($grid-breakpoints, md)) and (max-width: map-get($grid-breakpoints, lg)) {
+@media (min-width: map.get($grid-breakpoints, md)) and (max-width: map.get($grid-breakpoints, lg)) {
   .index-page {
     .presentations {
 
@@ -195,7 +196,7 @@
   }
 }
 
-@media (min-width: map-get($grid-breakpoints, sm)) and (max-width: map-get($grid-breakpoints, md)) {
+@media (min-width: map.get($grid-breakpoints, sm)) and (max-width: map.get($grid-breakpoints, md)) {
   .index-page {
     .bg-target {
       display: none;
@@ -247,7 +248,7 @@
   }
 }
 
-@media (max-width: map-get($grid-breakpoints, sm)) {
+@media (max-width: map.get($grid-breakpoints, sm)) {
   .index-page {
     .bg-target {
       display: none;

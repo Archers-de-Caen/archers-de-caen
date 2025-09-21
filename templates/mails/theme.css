@@ -308,7 +308,7 @@ table {
 }
 
 .table .highlighted {
-    background-color: #ffeb7e; /* lighten(#FDD20E, 25%) */
+    background-color: #ffeb7e; /* color.adjust(#FDD20E, $lightness: 25%) */
     font-weight: bold;
 }
 
@@ -339,7 +339,7 @@ table {
 }
 
 .table.list tbody tr:nth-child(odd) td {
-    background-color: #fff5b3; /* lighten(#FDD20E, 40%) */
+    background-color: #fff5b3; /* color.adjust(#FDD20E, $lightness: 40%) */
 }
 
 .table.list tbody tr:nth-child(even) td {
@@ -347,7 +347,7 @@ table {
 }
 
 .table.list tbody tr:hover {
-    background-color: #ffeb7e; /* lighten(#FDD20E, 25%) */
+    background-color: #ffeb7e; /* color.adjust(#FDD20E, $lightness: 25%) */
 }
 
 .table.list tbody tr:hover td {
@@ -355,7 +355,7 @@ table {
 }
 
 .table.list tbody tr:hover td:first-child {
-    background-color: #ffeb7e; /* lighten(#FDD20E, 25%) */
+    background-color: #ffeb7e; /* color.adjust(#FDD20E, $lightness: 25%) */
 }
 
 .table.list tr {

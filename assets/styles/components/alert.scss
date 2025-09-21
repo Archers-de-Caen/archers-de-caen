@@ -1,3 +1,4 @@
+@use 'sass:color';
 @import "../../styles/variable";
 
 .alert {
@@ -6,7 +7,7 @@
   padding: 10px 15px;
 
   &-danger {
-    background-color: lighten($color-red, 45) !important;
+    background-color: color.adjust($color-red, $lightness: 45) !important;
     border-color: $color-red;
   }
 }

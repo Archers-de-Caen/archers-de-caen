@@ -1,3 +1,4 @@
+@use 'sass:color';
 @import "../../styles/variable";
 
 .header {
@@ -135,7 +136,7 @@
     }
 
     &:nth-child(3) {
-      background-color: transparentize($color-light-grey, .9);
+      background-color: color.adjust($color-light-grey, $alpha: .9);
     }
   }
 

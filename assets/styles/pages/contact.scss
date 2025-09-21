@@ -1,3 +1,4 @@
+@use 'sass:map';
 @import "../variable";
 
 .contact-page {
@@ -64,13 +65,13 @@
   }
 }
 
-@media (max-width: map-get($grid-breakpoints, sm)) {
+@media (max-width: map.get($grid-breakpoints, sm)) {
   .contact-page {
     width: 90%;
   }
 }
 
-@media (max-width: map-get($grid-breakpoints, xs)) {
+@media (max-width: map.get($grid-breakpoints, xs)) {
   .contact-page {
     header {
       .contact-items {
