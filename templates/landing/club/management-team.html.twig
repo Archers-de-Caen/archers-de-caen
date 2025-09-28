@@ -14,31 +14,21 @@
 {% endblock og %}
 
 {% block main %}
-    <div class="page-content mt-3">
+    <div class="page-content mt-3" id="management-team-page">
         {% for managementTeam in managementTeams|sort((a, b) => a.order > b.order ? 1 : -1) %}
             <h2>{{ managementTeam.name }}</h2>
-            <div class="carousels-container">
-                <div class="carousels-prev">
-                    <img src="{{ asset('build/images/symbole/down-arrow-grey.svg') }}" alt="Fleche vers la gauche">
-                </div>
-
-                <div class="carousels">
-                    {% for archer in managementTeam.archers %}
-                        <div class="element">
-                            <main>
-                                <img src="{{ archer.image }}" alt="Photo de {{ archer.firstName }} {{ archer.lastName }}">
-                            </main>
-                            <footer>
-                                <p class="text-">{{ archer.firstName }} {{ archer.lastName|upper }}</p>
-                                <span>{{ archer.function }}</span>
-                            </footer>
-                        </div>
-                    {% endfor %}
-                </div>
-
-                <div class="carousels-next">
-                    <img src="{{ asset('build/images/symbole/down-arrow-grey.svg') }}" alt="Fleche vers la droite">
-                </div>
+            <div class="management-team-team">
+                {% for archer in managementTeam.archers %}
+                    <div class="management-team-mate">
+                        <main>
+                            <img src="{{ archer.image }}" alt="Photo de {{ archer.firstName }} {{ archer.lastName }}">
+                        </main>
+                        <footer>
+                            <p>{{ archer.firstName }} {{ archer.lastName|upper }}</p>
+                            <span>{{ archer.function }}</span>
+                        </footer>
+                    </div>
+                {% endfor %}
             </div>
         {% endfor %}
 

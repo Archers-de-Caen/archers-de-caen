@@ -1,0 +1,36 @@
+@use "../../variable";
+
+#management-team-page {
+  h2 {
+    margin-top: 2.5rem;
+  }
+
+  .management-team-team {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+
+    .management-team-mate {
+      width: 254px;
+
+      main {
+        img {
+          width: 100%;
+          height: 254px;
+          object-fit: cover;
+          border-radius: variable.$border-radius-normal;
+        }
+      }
+
+      footer {
+        text-wrap: wrap;
+
+        p {
+          font-weight: 700;
+          font-size: x-large;
+        }
+      }
+    }
+  }
+}
