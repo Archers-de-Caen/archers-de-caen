@@ -25,6 +25,13 @@
         height: 100px;
 
         padding: 10px 0;
+
+        border-radius: variable.$border-radius-normal;
+        background-color: variable.$color-yellow;
+
+        &:hover {
+          color: unset;
+        }
       }
     }
   }

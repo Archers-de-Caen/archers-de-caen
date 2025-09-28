@@ -11,7 +11,7 @@ parameters:
 
     email: "contact@archers-caen.fr"
     email_site: "site@archers-caen.fr"
-    phone: "+33 6 67 45 31 14"
+    phone: "contact par téléphone impossible pour le moment"
     postal_address: "Avenue Albert 1er, 14000 Caen"
 
     recaptcha_public: "%env(GOOGLE_RECAPTCHA_PUBLIC)%"

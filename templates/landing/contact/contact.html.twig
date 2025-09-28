@@ -26,23 +26,32 @@
 
         <header>
             <h1>Entrons en contact</h1>
-            <h2>Mais attention, on est armé !</h2>
 
             <div class="contact-items">
-                <div class="contact-item border --rounded bg-yellow">
+                <a
+                    href="https://maps.app.goo.gl/4SqGTxp4nBs68WLQ6"
+                    target="_blank"
+                    class="contact-item"
+                >
                     <i data-feather="map-pin"></i>
                     <span>{{ parameters.postal_address }}</span>
-                </div>
+                </a>
 
-                <div class="contact-item border --rounded bg-yellow">
+                <a
+                    href="tel:{{ parameters.phone }}"
+                    class="contact-item"
+                >
                     <i data-feather="phone"></i>
                     <span>{{ parameters.phone }}</span>
-                </div>
+                </a>
 
-                <div class="contact-item border --rounded bg-yellow">
+                <a
+                    href="mailto:{{ parameters.email }}"
+                    class="contact-item"
+                >
                     <i data-feather="mail"></i>
                     <span>{{ parameters.email }}</span>
-                </div>
+                </a>
             </div>
         </header>
 
