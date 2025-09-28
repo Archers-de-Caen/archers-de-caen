@@ -2,29 +2,64 @@
 
 {% from 'landing/_parts/file.html.twig' import file %}
 
-{% block title %}Prendre une licence{% endblock %}
+{% block title %}Prendre ma licence{% endblock %}
 
 {% block main %}
     <h2>À savoir avant de prendre votre licence</h2>
-    <ul class="disc">
-        <li>Vous devez nous fournir la fiche d'adhésion via le formulaire ci-dessous.</li>
-        <li>Si après avoir rempli le questionnaire de santé, vous devez nous fournir un certificat médical, merci de nous
-            le présenter au club, sans celui-ci, nous ne pourrons pas réaliser l'inscription auprès de la FFTA.</li>
-        <li>Le certificat médical doit avoir la mention "Pratique de l'activité en competition."
-            (même pour les 1<sup>ere</sup> années)</li>
-        <li>Les cotisations comprennent le montant de la licence Fédération Française de Tir à l’Arc (FFTA),
-            les parts Comité Régional, Comité Départemental et Club des Archers de Caen.</li>
-        <li>Si vous voulez prendre le "Kit de l'archer" mais vous ne désirez pas le payer en même temps que votre licence,
-            vous aurez la possibilité de le payer plus tard au club ou via la boutique du site.</li>
-    </ul>
 
-    <h3>Renouvellement</h3>
-    <p>
-        Pour les renouvellements, pour plus de simplicité, vous pouvez le faire via votre
-        <a href="https://monespace.ffta.fr/auth/login" rel="nofollow">espace licencé FFTA</a>,
-        le paiement reste à faire via ce formulaire ou au club.
-    </p>
+    <div class="toggleables">
+        <div class="toggleable">
+            <div class="toggleable-summary">
+                <h3>Débutant</h3>
+            </div>
+            <div class="toggleable-content">
+                <ul class="disc">
+                    <li>À chaque début de saison, nous mettons en place un formulaire d'inscription spécifique pour les débutants disponible sur le site,
+                        qui permet de s'inscrire à deux séances d'essais, une fois ces deux séances faite, vous pourrez prendre une licence.</li>
+                    <li>Si vous souhaitez prendre en cours de saison, merci de nous contacter avant tout de chose.</li>
+                    <li>Pour prendre une licence vous devez nous fournir la <strong>fiche d'adhésion</strong> via le formulaire ci-dessous.</li>
+                    <li>Si après avoir rempli le questionnaire de santé, vous devez nous fournir un certificat médical, merci de nous
+                        le présenter au club, sans celui-ci, nous ne pourrons pas réaliser l'inscription auprès de la FFTA.</li>
+                    <li>Si vous voulez prendre le "Kit de l'archer" mais vous ne désirez pas le payer en même temps que votre licence,
+                        vous aurez la possibilité de le payer plus tard au club ou via la boutique du site.</li>
+                </ul>
+            </div>
+        </div>
 
+        <div class="toggleable">
+            <div class="toggleable-summary">
+                <h3>Renouvellement</h3>
+            </div>
+            <div class="toggleable-content">
+                <ul class="disc">
+                    <li>
+                        Pour plus de simplicité, vous pouvez le faire via votre
+                        <a href="https://monespace.ffta.fr/auth/login" rel="nofollow">espace licencé FFTA</a>,
+                        le paiement reste à faire via ce formulaire ou au club.
+                    </li>
+                    <li>
+                        Sinon, vous pouvez nous fournir les documents ci-dessous.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="toggleable">
+            <div class="toggleable-summary">
+                <h3>Transfère</h3>
+            </div>
+            <div class="toggleable-content">
+                <ul class="disc">
+                    <li>
+                        Dans le cas d'un transfère de club, vous devez d'abord nous contacter par mail.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <h2>Document à nous fournir</h2>
+    <p>À envoyer par mail ou à donner en main propre au club</p>
     {% set takeLicense = takeLicense|first %}
 
     <div class="files mt-2">
@@ -33,10 +68,18 @@
         {{ file(takeLicense['health'], 'Questionnaire santé') }}
     </div>
 
+    <h2>Tarifs</h2>
+    <p>Les cotisations comprennent le montant de la licence Fédération Française de Tir à l’Arc (FFTA),
+        les parts Comité Régional, Comité Départemental et Club des Archers de Caen.</p>
+
+
+    <h2>Formulaire de paiement</h2>
+    <p>Si le formulaire ne s'affiche pas cliqué <a href="{{ (takeLicense['helloasso'] ?? '')|replace({'/widget': ''}) }}">ici</a></p>
+
     <iframe
         src="{{ takeLicense['helloasso'] ?? '' }}"
         class="mt-2"
-        style="width: 100%; height: 750px; border: none;"
+        style="width: 100%; height: 2000px; border: none;"
         title="Prise de Licence aux Archers de Caen"
     >
     </iframe>

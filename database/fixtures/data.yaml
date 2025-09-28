@@ -285,7 +285,7 @@ App\Domain\Cms\Model\Data:
 
   take_license (extends data):
     code: TAKE_LICENSE
-    description: Prendre une licence - Documents
+    description: Prendre ma licence - Documents
     formType: App\Domain\Cms\Form\Data\TakeLicenseForm
     content:
       - license_form: https://archers-caen.fr/document/adhesion-licences-creation-formulaire-v2-63302afdbee3d428537945.pdf

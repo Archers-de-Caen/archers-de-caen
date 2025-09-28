@@ -7,6 +7,15 @@
             <ul>
                 <li>{{ socialNetwork() }}</li>
 
+                <li>
+                    <a
+                        href="{{ path(constant('App\\Http\\Landing\\Controller\\LicenseController::ROUTE')) }}"
+                        class="text-weight-bold"
+                    >
+                        Prendre ma licence
+                    </a>
+                </li>
+
                 {% if app.environment == 'dev' or is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_DEVELOPER')) %}
                     <li><a href="{{ path('landing_style_guide') }}">Guide de style</a></li>
                 {% endif %}

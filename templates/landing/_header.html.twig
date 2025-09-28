@@ -19,6 +19,7 @@
                 <div class="header-title mr-2">{{ socialNetwork() }}</div>
                 <div class="header-title"><a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\NewspaperController::ROUTE')) }}">La gazette</a></div>
                 <div class="header-title"><a href="{{ path(constant('App\\Http\\Landing\\Controller\\Page\\ContactController::ROUTE')) }}">Contact</a></div>
+                <div class="header-title"><a href="{{ path(constant('App\\Http\\Landing\\Controller\\LicenseController::ROUTE')) }}">Prendre ma licence</a></div>
                 {# <li><a href="{{ path('app_index') }}">Espace licencié</a></li> #}
                 {% if is_granted(constant('App\\Domain\\Archer\\Model\\Archer::ROLE_ADMIN')) %}
                     <div class="header-title"><a href="{{ path('admin_index') }}">Admin</a></div>
