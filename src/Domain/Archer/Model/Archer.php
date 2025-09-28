@@ -169,11 +169,15 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     #[\Override]
     public function getUserIdentifier(): string
     {
-        if (!$this->getLicenseNumber() && !$this->getEmail()) {
-            throw new \RuntimeException('L\'utilisateur doit avoir au moins son numéro de licence ou un email');
+        if (null !== $this->getLicenseNumber() && '' !== $this->getLicenseNumber() && '0' !== $this->getLicenseNumber()) {
+            return $this->getLicenseNumber();
         }
 
-        return ($this->getLicenseNumber() ?: $this->getEmail()) ?: '';
+        if (null !== $this->getEmail() && '' !== $this->getEmail() && '0' !== $this->getEmail()) {
+            return $this->getEmail();
+        }
+
+        throw new \RuntimeException('L\'utilisateur doit avoir au moins son numéro de licence ou un email');
     }
 
     #[\Override]

@@ -1,14 +1,14 @@
-@import "../variable";
+@use "../variable";
 
 .message-important-container {
   width: 100%;
   padding: 10px 15px;
-  box-shadow: $box-shadow;
-  background-color: $color-white;
+  box-shadow: variable.$box-shadow;
+  background-color: variable.$color-white;
 
   .message-important-content {
     margin: auto;
-    color: $color-grey;
+    color: variable.$color-grey;
     width: fit-content;
   }
 }

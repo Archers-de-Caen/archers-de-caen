@@ -1,4 +1,6 @@
-@import "../../variable";
+@use "sass:color";
+@use "sass:map";
+@use "../../variable";
 
 .actuality-container {
   display: flex;
@@ -16,8 +18,8 @@
       max-height: 600px;
       width: 100%;
       object-fit: cover;
-      border-radius: 0 0 $border-radius-normal $border-radius-normal;
-      box-shadow: $box-shadow;
+      border-radius: 0 0 variable.$border-radius-normal variable.$border-radius-normal;
+      box-shadow: variable.$box-shadow;
     }
   }
 
@@ -26,13 +28,13 @@
     max-width: 1000px;
     padding: 20px 50px;
     margin-top: -200px;
-    border-radius: $border-radius-normal $border-radius-normal 0 0;
-    background-color: $color-white;
+    border-radius: variable.$border-radius-normal variable.$border-radius-normal 0 0;
+    background-color: variable.$color-white;
 
     .actuality-title {
       .actuality-info {
         font-size: .8em;
-        color: lighten($color-grey, .8);
+        color: color.adjust(variable.$color-grey, $lightness: 80%);
         display: flex;
         justify-content: start;
         align-items: center;
@@ -40,7 +42,7 @@
 
         .separator {
           display: block;
-          border-bottom: 2px solid $color-grey;
+          border-bottom: 2px solid variable.$color-grey;
 
           width: 15px;
           height: 1px;
@@ -50,7 +52,7 @@
       }
 
       h1 {
-        color: $color-grey;
+        color: variable.$color-grey;
       }
     }
 
@@ -67,14 +69,14 @@
     width: 70%;
     text-align: right;
     padding: 20px 50px;
-    background-color: $color-white;
-    border-radius: 0 0 $border-radius-normal $border-radius-normal;
+    background-color: variable.$color-white;
+    border-radius: 0 0 variable.$border-radius-normal variable.$border-radius-normal;
 
     a {
       display: flex;
       justify-content: end;
       align-items: center;
-      color: $color-yellow;
+      color: variable.$color-yellow;
       text-decoration: underline;
 
       svg {
@@ -84,7 +86,7 @@
   }
 }
 
-@media (min-width: map-get($grid-breakpoints, sm)) and (max-width: map-get($grid-breakpoints, md)) {
+@media (min-width: map.get(variable.$grid-breakpoints, sm)) and (max-width: map.get(variable.$grid-breakpoints, md)) {
   .actuality-container {
     .actuality-container-header {
       width: 90%;
@@ -96,7 +98,7 @@
   }
 }
 
-@media (min-width: map-get($grid-breakpoints, xs)) and (max-width: map-get($grid-breakpoints, sm)) {
+@media (min-width: map.get(variable.$grid-breakpoints, xs)) and (max-width: map.get(variable.$grid-breakpoints, sm)) {
   .actuality-container {
     .actuality-container-header {
       width: 95%;
@@ -108,7 +110,7 @@
   }
 }
 
-@media (max-width: map-get($grid-breakpoints, xs)) {
+@media (max-width: map.get(variable.$grid-breakpoints, xs)) {
   .actuality-container {
     .actuality-container-header {
       width: 100%;

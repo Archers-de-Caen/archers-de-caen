@@ -1,4 +1,4 @@
-@import "../variable";
+@use "../variable";
 
 .files {
   .file {
@@ -7,9 +7,9 @@
 
     width: 100%;
     border-radius: 10px;
-    box-shadow: $box-shadow;
+    box-shadow: variable.$box-shadow;
     padding: 15px;
     cursor: pointer;
-    background-color: $color-white;
+    background-color: variable.$color-white;
   }
 }

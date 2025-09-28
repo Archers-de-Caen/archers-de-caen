@@ -1,8 +1,9 @@
-@import "../../variable";
+@use "sass:map";
+@use "../../variable";
 
 .index-page {
   .hero-container {
-    background-color: $color-yellow;
+    background-color: variable.$color-yellow;
 
     .hero {
       width: 80%;
@@ -12,7 +13,7 @@
       display: flex;
       justify-content: space-between;
 
-      @media (max-width: map-get($grid-breakpoints, lg)) {
+      @media (max-width: map.get(variable.$grid-breakpoints, lg)) {
         flex-direction: column;
         height: 815px;
       }
@@ -35,23 +36,23 @@
         justify-content: space-evenly;
         margin-right: 35px;
 
-        color: $color-white;
+        color: variable.$color-white;
         text-transform: uppercase;
         text-align: center;
 
-        @media (max-width: map-get($grid-breakpoints, lg)) {
+        @media (max-width: map.get(variable.$grid-breakpoints, lg)) {
           margin-top: 15px;
           margin-right: 0;
         }
 
         h1, h2 {
-          color: $color-grey
+          color: variable.$color-grey
         }
 
         h1 {
           font-size: 4rem;
 
-          @media (max-width: map-get($grid-breakpoints, lg)) {
+          @media (max-width: map.get(variable.$grid-breakpoints, lg)) {
             font-size: xxx-large;
           }
         }
@@ -59,7 +60,7 @@
         h2 {
           font-size: xxx-large;
 
-          @media (max-width: map-get($grid-breakpoints, lg)) {
+          @media (max-width: map.get(variable.$grid-breakpoints, lg)) {
             margin-top: 15px;
             font-size: x-large;
 
@@ -76,7 +77,7 @@
         justify-content: center;
         align-items: end;
 
-        @media (max-width: map-get($grid-breakpoints, lg)) {
+        @media (max-width: map.get(variable.$grid-breakpoints, lg)) {
           margin: 15px 0;
         }
 
@@ -88,19 +89,19 @@
           row-gap: 15px;
           height: fit-content;
 
-          @media (max-width: map-get($grid-breakpoints, lg)) {
+          @media (max-width: map.get(variable.$grid-breakpoints, lg)) {
             grid-template-columns: repeat(3, calc((90vw - 75px) / 3)) !important;
           }
 
-          @media (max-width: map-get($grid-breakpoints, sm)) {
+          @media (max-width: map.get(variable.$grid-breakpoints, sm)) {
             grid-template-rows: repeat(3, calc(500px / 3));
           }
 
-          @media (min-width: map-get($grid-breakpoints, xs)) and (max-width: map-get($grid-breakpoints, sm)) {
+          @media (min-width: map.get(variable.$grid-breakpoints, xs)) and (max-width: map.get(variable.$grid-breakpoints, sm)) {
             grid-template-columns: repeat(2, calc((80vw - 75px) / 2)) !important;
           }
 
-          @media (max-width: map-get($grid-breakpoints, xs)) {
+          @media (max-width: map.get(variable.$grid-breakpoints, xs)) {
             grid-template-columns: repeat(2, calc((100vw - 75px) / 2)) !important;
           }
 
@@ -142,7 +143,7 @@
               grid-row-end: 3;
             }
 
-            @media (max-width: map-get($grid-breakpoints, sm)) {
+            @media (max-width: map.get(variable.$grid-breakpoints, sm)) {
               &:nth-child(1) {
                 grid-column-start: 1;
                 grid-column-end: 3;
@@ -178,7 +179,7 @@
           display: flex;
           align-items: center;
           margin-top: 15px;
-          color: $color-grey;
+          color: variable.$color-grey;
 
           &:hover {
             text-decoration: underline;

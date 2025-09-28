@@ -121,10 +121,6 @@ final class FFTAExtranetService
         $csvDownloadLink = null;
 
         foreach ($nodes as $node) {
-            if (!$node instanceof \DOMElement) {
-                continue;
-            }
-
             $href = $node->getAttribute('href');
 
             if (str_starts_with($href, 'https://extranet.ffta.fr/tmp/resultats/ResultatsIndividuels')) {

@@ -1,64 +1,65 @@
-@import "./variable";
+@use "sass:meta";
+@use "variable";
 
 :root {
   // For use variable outside sass/scss file
-  --color-yellow: #{$color-yellow};
-  --color-red: #{$color-red};
-  --color-blue: #{$color-blue};
-  --color-black: #{$color-black};
-  --color-white: #{$color-white};
-  --color-grey: #{$color-grey};
-  --color-light-grey: #{$color-light-grey};
+  --color-yellow: #{variable.$color-yellow};
+  --color-red: #{variable.$color-red};
+  --color-blue: #{variable.$color-blue};
+  --color-black: #{variable.$color-black};
+  --color-white: #{variable.$color-white};
+  --color-grey: #{variable.$color-grey};
+  --color-light-grey: #{variable.$color-light-grey};
 }
 
-@import "base/reset";
-@import "base/flex";
-@import "base/margin";
-@import "base/padding";
-@import "base/size";
-@import "base/form";
-@import "base/button";
-@import "base/title";
-@import "base/table";
-@import "base/border";
-@import "base/background";
-@import "base/pointer";
-@import "base/alignment";
-@import "base/text";
-@import "base/img";
+@include meta.load-css("base/reset");
+@include meta.load-css("base/flex");
+@include meta.load-css("base/margin");
+@include meta.load-css("base/padding");
+@include meta.load-css("base/size");
+@include meta.load-css("base/form");
+@include meta.load-css("base/button");
+@include meta.load-css("base/title");
+@include meta.load-css("base/table");
+@include meta.load-css("base/border");
+@include meta.load-css("base/background");
+@include meta.load-css("base/pointer");
+@include meta.load-css("base/alignment");
+@include meta.load-css("base/text");
+@include meta.load-css("base/img");
 
-@import "../modules/header/header";
-@import "../modules/body/body";
-@import "../modules/footer/footer";
-@import "../modules/header/hamburger-menu";
-@import "../modules/carousels/carousels";
-@import "../modules/toggleable/toggleable";
+@include meta.load-css("../modules/header/header");
+@include meta.load-css("../modules/body/body");
+@include meta.load-css("../modules/footer/footer");
+@include meta.load-css("../modules/header/hamburger-menu");
+@include meta.load-css("../modules/carousels/carousels");
+@include meta.load-css("../modules/toggleable/toggleable");
 
-@import "components/target";
-@import "components/thumbnail";
-@import "components/paginator";
-@import "components/files";
-@import "components/planning";
-@import "components/alert";
-@import "components/licenses";
-@import "components/switch";
-@import "components/social-network";
-@import "components/recaptcha";
-@import "components/share-bar";
-@import "components/message-important";
+@include meta.load-css("components/target");
+@include meta.load-css("components/thumbnail");
+@include meta.load-css("components/paginator");
+@include meta.load-css("components/files");
+@include meta.load-css("components/planning");
+@include meta.load-css("components/alert");
+@include meta.load-css("components/licenses");
+@include meta.load-css("components/switch");
+@include meta.load-css("components/social-network");
+@include meta.load-css("components/recaptcha");
+@include meta.load-css("components/share-bar");
+@include meta.load-css("components/message-important");
 
-@import "pages/index/main";
-@import "pages/thumbnails";
-@import "pages/style-guide";
-@import "pages/contact";
-@import "pages/page";
-@import "pages/club/index";
-@import "pages/galleries/gallery";
+@include meta.load-css("pages/index/main");
+@include meta.load-css("pages/thumbnails");
+@include meta.load-css("pages/style-guide");
+@include meta.load-css("pages/contact");
+@include meta.load-css("pages/page");
+@include meta.load-css("pages/club/index");
+@include meta.load-css("pages/galleries/gallery");
 
-@import "pages/actualities/actuality";
+@include meta.load-css("pages/actualities/actuality");
 
-@import "pages/results/results";
-@import "pages/results/result-badges";
-@import "pages/results/result-competition-season";
+@include meta.load-css("pages/results/results");
+@include meta.load-css("pages/results/result-badges");
+@include meta.load-css("pages/results/result-competition-season");
 
 //@import "assets/modules/ckeditor/ckeditor";

@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[AsDoctrineListener(event: Events::prePersist)]
 final class CreatedBySubscriber
 {
-    public function __construct(readonly private Security $security)
+    public function __construct(private readonly Security $security)
     {
     }
 

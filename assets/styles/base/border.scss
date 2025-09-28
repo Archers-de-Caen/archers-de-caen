@@ -1,13 +1,13 @@
-@import "../variable";
+@use "../variable";
 
 .border {
-  border: 2px solid $color-yellow;
+  border: 2px solid variable.$color-yellow;
 
   &.--rounded {
-    border-radius: $border-radius-normal;
+    border-radius: variable.$border-radius-normal;
   }
 }
 
 .rounded {
-  border-radius: $border-radius-normal;
+  border-radius: variable.$border-radius-normal;
 }

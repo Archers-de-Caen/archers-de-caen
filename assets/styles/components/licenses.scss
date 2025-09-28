@@ -1,5 +1,5 @@
-@import "../variable";
-@import "../base/margin";
+@use "../variable";
+@use "../base/margin";
 
 #licenses-switch {
   width: 500px;
@@ -14,25 +14,25 @@
   .license {
     width: 175px;
     height: 175px;
-    border: 2px solid $color-yellow;
-    border-radius: $border-radius-big;
+    border: 2px solid variable.$color-yellow;
+    border-radius: variable.$border-radius-big;
     padding: 15px;
     text-align: center;
-    background-color: $color-white;
+    background-color: variable.$color-white;
 
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 
     transition: transform ease-in-out 100ms;
-    box-shadow: $box-shadow;
+    box-shadow: variable.$box-shadow;
 
     .price {
       font-size: xx-large;
     }
 
     &:hover {
-      background-color: $color-yellow;
+      background-color: variable.$color-yellow;
       transform: scale(120%);
     }
   }

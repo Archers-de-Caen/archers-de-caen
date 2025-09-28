@@ -1,13 +1,13 @@
-@import "../../styles/variable";
+@use "../../styles/variable";
 
 .paginator-container {
   display: flex;
   align-items: center;
   overflow: auto;
-  background-color: $color-white;
+  background-color: variable.$color-white;
   width: fit-content;
   margin: auto;
-  border-radius: $border-radius-big;
+  border-radius: variable.$border-radius-big;
   padding: .5rem;
 
   .paginator-prev, .paginator-next, .paginator-page {
@@ -15,14 +15,14 @@
 
     &:not([disabled]) {
       &.active, &:hover {
-        border: $color-yellow 1px solid;
-        border-radius: $border-radius-big;
+        border: variable.$color-yellow 1px solid;
+        border-radius: variable.$border-radius-big;
       }
     }
 
     &.active {
-      background-color: $color-yellow;
-      color: $color-white;
+      background-color: variable.$color-yellow;
+      color: variable.$color-white;
     }
   }
 

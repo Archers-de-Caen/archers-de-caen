@@ -12,6 +12,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Webhook|null findOneBy(array $criteria, array $orderBy = null)
  * @method Webhook[]    findAll()
  * @method Webhook[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @extends ServiceEntityRepository<Webhook>
  */
 final class WebhookRepository extends ServiceEntityRepository
 {

@@ -19,7 +19,7 @@ final class Mailer
     public function __construct(
         private readonly Environment $twig,
         private readonly MailerInterface $mailer,
-        readonly private LoggerInterface $logger,
+        private readonly LoggerInterface $logger,
     ) {
     }
 

@@ -8,8 +8,6 @@ use App\Domain\Archer\Model\Archer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -18,23 +16,17 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
     name: 'app:archers:create',
     description: 'Permet de créer un archer',
 )]
-final class CreateArcher extends Command
+final readonly class CreateArcher
 {
     public function __construct(
-        private readonly ValidatorInterface $validator,
-        private readonly EntityManagerInterface $em,
-        ?string $name = null
+        private ValidatorInterface $validator,
+        private EntityManagerInterface $em,
     ) {
-        parent::__construct($name);
     }
 
-    #[\Override]
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function __invoke(SymfonyStyle $io): int
     {
-        $io = new SymfonyStyle($input, $output);
-
         $archer = new Archer();
-
         $properties = [
             'firstName' => [
                 'value' => null,
@@ -72,13 +64,12 @@ final class CreateArcher extends Command
                 ],
             ],
         ];
-
         foreach ($properties as $property => $details) {
             do {
                 /* @var string $value */
                 if ($details['hidden'] ?? false) {
                     $value = $io->askHidden($details['sentence']);
-                } elseif (isset($details['choices']) && [] !== $details['choices']) {
+                } elseif (isset($details['choices'])) {
                     $value = $io->choice($details['sentence'], $details['choices']);
                 } else {
                     $value = $io->ask($details['sentence']);
@@ -131,20 +122,18 @@ final class CreateArcher extends Command
         }
 
         $violations = $this->validator->validate($archer);
-
         if ($violations->count()) {
             /** @var ConstraintViolationInterface $violation */
             foreach ($violations as $violation) {
                 $io->error($violation->getPropertyPath().' : '.$violation->getMessage());
             }
 
-            return self::FAILURE;
+            return Command::FAILURE;
         }
 
         $this->em->persist($archer);
-
         $this->em->flush();
 
-        return self::SUCCESS;
+        return Command::SUCCESS;
     }
 }

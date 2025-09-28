@@ -1,4 +1,5 @@
-@import "../../styles/variable";
+@use "sass:color";
+@use "../../styles/variable";
 
 .header {
   width: 100%;
@@ -6,8 +7,8 @@
   position: relative;
 
   .header-primary {
-    background-color: $color-white;
-    box-shadow: $box-shadow;
+    background-color: variable.$color-white;
+    box-shadow: variable.$box-shadow;
     z-index: 1000;
     height: 100px;
     transition: height .5s ease;
@@ -37,7 +38,7 @@
           font-family: "Galaxy BT", serif;
           text-transform: none;
           font-size: 2.3rem;
-          color: $color-primary;
+          color: variable.$color-primary;
 
           margin-left: 1rem;
         }
@@ -54,7 +55,7 @@
   }
 
   .header-secondary {
-    background: $linear-gradient-target;
+    background: variable.$linear-gradient-target;
     z-index: 1001; // For box-shadow of .header-primary
     text-transform: uppercase;
 
@@ -92,15 +93,15 @@
   right: 1rem;
   z-index: 1000;
 
-  background-color: $color-white;
+  background-color: variable.$color-white;
 
   grid-template-columns: 1fr 2fr 1fr;
   justify-content: space-evenly;
 
   margin-top: -1.6rem;
 
-  border-radius: $border-radius-small;
-  box-shadow: $box-shadow;
+  border-radius: variable.$border-radius-small;
+  box-shadow: variable.$box-shadow;
 
   max-width: 90%;
 
@@ -125,7 +126,7 @@
 
     .title {
       margin: 0;
-      border-bottom: .4rem solid $color-yellow;
+      border-bottom: .4rem solid variable.$color-yellow;
       width: max-content;
       text-transform: uppercase;
     }
@@ -135,7 +136,7 @@
     }
 
     &:nth-child(3) {
-      background-color: transparentize($color-light-grey, .9);
+      background-color: color.adjust(variable.$color-light-grey, $alpha: -.9);
     }
   }
 
@@ -254,7 +255,7 @@
           top: 120px;
           left: 0;
           right: 0;
-          background: $color-white;
+          background: variable.$color-white;
 
           transition: bottom .5s ease;
 

@@ -20,39 +20,35 @@ use function Sentry\captureMessage;
 
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 #[AsCommand(
-    name: 'app:ffta:archer-update',
+    name: self::COMMAND_NAME,
     description: 'Met à jour les archers licencié depuis le site de la FFTA',
 )]
-final class FFTAArcherUpdateCommand extends Command
+final readonly class FFTAArcherUpdateCommand
 {
+    public const string COMMAND_NAME = 'app:ffta:archer-update';
+
     public function __construct(
-        private readonly EntityManagerInterface $em,
-        private readonly ArcherRepository $archerRepository,
-        private readonly LicenseRepository $licenseRepository,
-        private readonly FFTADirigeantService $fftaDirigeantService,
-        ?string $name = null
+        private EntityManagerInterface $em,
+        private ArcherRepository $archerRepository,
+        private LicenseRepository $licenseRepository,
+        private FFTADirigeantService $fftaDirigeantService
     ) {
-        parent::__construct($name);
     }
 
-    #[\Override]
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function __invoke(SymfonyStyle $io): int
     {
-        $io = new SymfonyStyle($input, $output);
-
-        $io->info('Run '.$this->getName());
+        $io->info('Run '.self::COMMAND_NAME);
 
         $season = ArcheryService::getCurrentSeason();
 
         // On se connecte à l'espace dirigeant
         $io->info('Connexion à l\'espace dirigeant');
+
         try {
             $this->fftaDirigeantService->connect();
 
@@ -71,7 +67,6 @@ final class FFTAArcherUpdateCommand extends Command
 
         $archers = $this->reformatArchersArray($this->archerRepository->findAll());
         $licenses = $this->licenseRepository->findAll();
-
         foreach ($licensesFromFFTA as $licenseFromFFTA) {
             try {
                 $archer = $this->getArcher($archers, $licenseFromFFTA);
@@ -135,10 +130,8 @@ final class FFTAArcherUpdateCommand extends Command
         }
 
         $io->info('Flush');
-
         $this->em->flush();
-
-        $io->success('finish '.$this->getName());
+        $io->success('finish '.self::COMMAND_NAME);
 
         return Command::SUCCESS;
     }

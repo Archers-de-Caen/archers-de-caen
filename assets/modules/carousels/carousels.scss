@@ -1,4 +1,4 @@
-@import "../../styles/variable";
+@use "../../styles/variable";
 
 .carousels-container {
   position: relative;
@@ -28,8 +28,8 @@
           min-width: 250px;
           height: 250px;
           object-fit: cover;
-          border-radius: $border-radius-normal;
-          box-shadow: $box-shadow;
+          border-radius: variable.$border-radius-normal;
+          box-shadow: variable.$box-shadow;
         }
       }
 
@@ -58,7 +58,7 @@
           top: 0;
           bottom: 0;
           right: 0;
-          border-radius: $border-radius-normal;
+          border-radius: variable.$border-radius-normal;
         }
 
         span {
@@ -73,7 +73,7 @@
           display: flex;
           justify-content: center;
           align-items: center;
-          color: $color-white;
+          color: variable.$color-white;
           text-align: center;
         }
       }
@@ -85,10 +85,10 @@
     height: 50px;
 
     border-radius: 100%;
-    box-shadow: $box-shadow;
+    box-shadow: variable.$box-shadow;
 
-    background-color: $color-white;
-    color: $color-grey;
+    background-color: variable.$color-white;
+    color: variable.$color-grey;
 
     position: absolute;
     top: 125px;

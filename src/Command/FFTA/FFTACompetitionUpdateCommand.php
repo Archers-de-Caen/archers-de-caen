@@ -25,8 +25,6 @@ use function Sentry\captureMessage;
 
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -34,11 +32,13 @@ use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 #[AsCommand(
-    name: 'app:ffta:competition-results-update',
+    name: self::COMMAND_NAME,
     description: 'Met à jour les résultats depuis le site de la FFTA',
 )]
-final class FFTACompetitionUpdateCommand extends Command
+final class FFTACompetitionUpdateCommand
 {
+    public const string COMMAND_NAME = 'app:ffta:competition-results-update';
+
     public const string GET_RESULT_DATE_MIN = '2024-05-13';
 
     public const string LICENSE_NUMBER_OF_CREATOR_ACTUALITY = '0785039D';
@@ -74,26 +74,24 @@ final class FFTACompetitionUpdateCommand extends Command
         private readonly CompetitionService $competitionManager,
         private readonly FFTAExtranetService $fftaExtranetService,
         private readonly ResultCompetitionManager $resultCompetitionManager,
-        private readonly MessageBusInterface $messageBus,
-        ?string $name = null
+        private readonly MessageBusInterface $messageBus
     ) {
-        parent::__construct($name);
     }
 
     /**
      * @throws ExceptionInterface
      */
-    #[\Override]
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function __invoke(SymfonyStyle $io): int
     {
-        $this->io = new SymfonyStyle($input, $output);
+        $this->io = $io;
+
         $this->report = [
             'competition' => [],
             'archer' => [],
             'result' => [],
         ];
 
-        $this->io->info('Run '.$this->getName());
+        $this->io->info('Run '.self::COMMAND_NAME);
         $this->io->info('Connexion à l\'espace extranet');
 
         try {
@@ -139,7 +137,7 @@ final class FFTACompetitionUpdateCommand extends Command
             ));
         }
 
-        $this->io->success('finish '.$this->getName());
+        $this->io->success('finish '.self::COMMAND_NAME);
 
         return Command::SUCCESS;
     }

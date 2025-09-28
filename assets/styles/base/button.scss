@@ -1,81 +1,82 @@
-@import "../variable";
+@use "sass:color";
+@use "../variable";
 
 .btn {
-  border-radius: $border-radius-big;
-  border: 2px solid $color-yellow;
+  border-radius: variable.$border-radius-big;
+  border: 2px solid variable.$color-yellow;
   padding: 10px 30px;
   cursor: pointer;
   font-weight: bold;
-  color: $color-yellow;
-  box-shadow: $box-shadow;
+  color: variable.$color-yellow;
+  box-shadow: variable.$box-shadow;
   text-decoration: none;
 
   &:disabled {
-    background-color: lighten($color-grey, 20%) !important;
-    color: lighten($color-grey, 50%) !important;
+    background-color: color.adjust(variable.$color-grey, $lightness: 20%) !important;
+    color: color.adjust(variable.$color-grey, $lightness: 50%) !important;
     border: unset !important;
     cursor: not-allowed;
   }
 
   &:hover {
-    background-color: $color-yellow;
-    color: $color-white;
+    background-color: variable.$color-yellow;
+    color: variable.$color-white;
   }
 
   &.-primary {
-    background-color: $color-yellow;
-    color: $color-grey;
+    background-color: variable.$color-yellow;
+    color: variable.$color-grey;
 
     &:hover, &.-outline {
       background-color: unset;
-      color: $color-grey!important;
+      color: variable.$color-grey!important;
     }
 
     &.-outline {
       &:hover {
-        background-color: $color-yellow;
-        color: $color-white;
+        background-color: variable.$color-yellow;
+        color: variable.$color-white;
       }
     }
   }
 
   &.-secondary {
-    background-color: $color-grey;
-    color: $color-white;
-    border-color: $color-grey;
+    background-color: variable.$color-grey;
+    color: variable.$color-white;
+    border-color: variable.$color-grey;
 
     &:hover, &.-outline {
       background-color: unset;
-      color: $color-grey;
+      color: variable.$color-grey;
     }
 
     &.-outline {
       &:hover {
-        background-color: $color-grey;
-        color: $color-white;
+        background-color: variable.$color-grey;
+        color: variable.$color-white;
       }
     }
   }
 
   &.-danger {
-    background-color: $color-red;
-    color: $color-white;
-    border-color: $color-red;
+    background-color: variable.$color-red;
+    color: variable.$color-white;
+    border-color: variable.$color-red;
 
     &:hover, &.-outline {
       background-color: unset;
-      color: $color-red;
+      color: variable.$color-red;
     }
   }
 
   &.-success {
-    background-color: $color-blue;
-    color: $color-white;
-    border-color: $color-blue;
+    background-color: variable.$color-blue;
+    color: variable.$color-white;
+    border-color: variable.$color-blue;
 
     &:hover, &.-outline {
       background-color: unset;
-      color: $color-blue;
+      color: variable.$color-blue;
     }
   }
 }

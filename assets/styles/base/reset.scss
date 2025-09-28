@@ -1,4 +1,4 @@
-@import "../variable";
+@use "../variable";
 
 @font-face {
   font-family: "Roboto";
@@ -61,7 +61,7 @@ p {
   margin-top: 15px;
 
   a {
-    color: $color-yellow;
+    color: variable.$color-yellow;
     text-decoration: underline;
 
     &:hover {
@@ -78,12 +78,12 @@ a {
     cursor: pointer;
 
     &.highlighted {
-      color: $color-yellow;
+      color: variable.$color-yellow;
       text-decoration: underline;
     }
 
     &:hover {
-      color: $color-yellow;
+      color: variable.$color-yellow;
     }
 
     &:visited {
@@ -101,7 +101,7 @@ i {
 }
 
 hr {
-  border-top: 1px solid $color-yellow;
+  border-top: 1px solid variable.$color-yellow;
   width: 100%;
 }
 

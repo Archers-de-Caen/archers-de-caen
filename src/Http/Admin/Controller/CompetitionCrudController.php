@@ -44,11 +44,11 @@ use Symfony\Component\Uid\Uuid;
 final class CompetitionCrudController extends AbstractCrudController
 {
     public function __construct(
-        readonly private ResultCompetitionManager $resultCompetitionManager,
-        readonly private CompetitionService $competitionManager,
-        readonly private UrlGeneratorInterface $urlGenerator,
-        readonly private AdminUrlGenerator $adminUrlGenerator,
-        readonly private MessageBusInterface $messageBus,
+        private readonly ResultCompetitionManager $resultCompetitionManager,
+        private readonly CompetitionService $competitionManager,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly AdminUrlGenerator $adminUrlGenerator,
+        private readonly MessageBusInterface $messageBus,
     ) {
     }
 
@@ -213,7 +213,7 @@ final class CompetitionCrudController extends AbstractCrudController
                 ->generateUrl()
             ;
 
-            $this->addFlash('success', 'Actualité créer, modifiable <a href="'.$actualityAdminUrl.'">ici</a>');
+            $this->addFlash('success', 'Actualitée créée, modifiable <a href="'.$actualityAdminUrl.'">ici</a>');
         }
     }
 
@@ -244,8 +244,25 @@ final class CompetitionCrudController extends AbstractCrudController
      */
     public function sendNewsletter(AdminContext $context): RedirectResponse
     {
+        $referer = $context->getReferrer();
+
+        if (null === $referer) {
+            $referer = $this->adminUrlGenerator
+                ->setController(__CLASS__)
+                ->setAction(Action::INDEX)
+                ->generateUrl();
+        }
+
+        $entity = $context->getEntity()->getInstance();
+
+        if (!$entity instanceof Competition) {
+            $this->addFlash('danger', 'La newsletter a été envoyée');
+
+            return $this->redirect($referer);
+        }
+
         /** @var Uuid $uuid */
-        $uuid = $context->getEntity()->getInstance()?->getId();
+        $uuid = $entity->getId();
 
         $message = new CompetitionResultsNewsletterMessage(
             competitionUuid: $uuid,
@@ -255,15 +272,6 @@ final class CompetitionCrudController extends AbstractCrudController
         $this->messageBus->dispatch($message);
 
         $this->addFlash('success', 'La newsletter a été envoyée');
-
-        $referer = $context->getReferrer();
-
-        if (null === $referer) {
-            $referer = $this->adminUrlGenerator
-                ->setController(__CLASS__)
-                ->setAction(Action::INDEX)
-                ->generateUrl();
-        }
 
         return $this->redirect($referer);
     }

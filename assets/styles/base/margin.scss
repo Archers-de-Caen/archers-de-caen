@@ -1,22 +1,11 @@
-@mixin m-a { margin: auto; }
-.m-a { @include m-a; }
-
-$multiplier: 10px;
-
-@mixin mt($i) { margin-top: $multiplier*$i!important; }
-@mixin mb($i) { margin-bottom: $multiplier*$i!important; }
-@mixin ml($i) { margin-left: $multiplier*$i!important; }
-@mixin mr($i) { margin-right: $multiplier*$i!important; }
-@mixin mx($i) { margin-left: $multiplier*$i!important; margin-right: $multiplier*$i!important; }
-@mixin my($i) { margin-top: $multiplier*$i!important; margin-bottom: $multiplier*$i!important; }
-@mixin m($i) { margin: $multiplier*$i!important; }
+.m-a { margin: auto; }
 
 @for $i from 0 through 15 {
-  .mt-#{$i} { @include mt($i); }
-  .mb-#{$i} { @include mb($i); }
-  .ml-#{$i} { @include ml($i); }
-  .mr-#{$i} { @include mr($i); }
-  .mx-#{$i} { @include mx($i); }
-  .my-#{$i} { @include my($i); }
-  .m-#{$i} { @include m($i); }
+  .mt-#{$i} { margin-top: 10px * $i !important; }
+  .mb-#{$i} { margin-bottom: 10px * $i !important; }
+  .ml-#{$i} { margin-left: 10px * $i !important; }
+  .mr-#{$i} { margin-right: 10px * $i !important; }
+  .mx-#{$i} { margin-left: 10px * $i !important; margin-right: 10px * $i !important; }
+  .my-#{$i} { margin-top: 10px * $i !important; margin-bottom: 10px * $i !important; }
+  .m-#{$i}  { margin: 10px * $i !important; }
 }

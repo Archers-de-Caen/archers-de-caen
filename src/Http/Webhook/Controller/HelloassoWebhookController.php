@@ -37,7 +37,6 @@ final class HelloassoWebhookController extends AbstractController
             $parameter['hello_asso_id'],
             $parameter['hello_asso_secret'],
             $parameter['hello_asso_organization_name'],
-            true
         );
 
         $webhook = (new Webhook())->setService(Webhook::SERVICE_HELLOASSO);
@@ -46,7 +45,7 @@ final class HelloassoWebhookController extends AbstractController
 
         if ($content) {
             try {
-                $event = $helloasso->event->decode($content);
+                $event = $helloasso->decodeEvent($content);
                 $webhook
                     ->setContent((array) json_decode($content, true, 512, \JSON_THROW_ON_ERROR))
                     ->setType($event->getEventType())

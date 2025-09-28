@@ -1,14 +1,14 @@
-@import "../../styles/variable";
+@use "../../styles/variable";
 
 .toggleables {
   .toggleable {
     background-color: var(--color-white);
     position: relative;
-    box-shadow: $box-shadow;
+    box-shadow: variable.$box-shadow;
     transition: margin ease-in-out .25s;
 
     &.--active {
-      border-radius: $border-radius-normal;
+      border-radius: variable.$border-radius-normal;
       margin: 1rem 0;
 
       .toggleable-summary {
@@ -25,11 +25,11 @@
     }
 
     &:first-child {
-      border-radius: $border-radius-normal $border-radius-normal 0 0;
+      border-radius: variable.$border-radius-normal variable.$border-radius-normal 0 0;
     }
 
     &:last-child {
-      border-radius: 0 0 $border-radius-normal $border-radius-normal;
+      border-radius: 0 0 variable.$border-radius-normal variable.$border-radius-normal;
     }
 
     .toggleable-summary {

@@ -1,4 +1,5 @@
-@import "../variable";
+@use "sass:color";
+@use "../variable";
 
 .style-guide-page {
   .logos {
@@ -14,7 +15,7 @@
       display: flex;
       justify-content: center;
       position: relative;
-      background-color: lighten($color-secondary, 50%);
+      background-color: color.adjust(variable.$color-secondary, $lightness: 50%);
 
       &:before {
         content: "Télécharger";
@@ -78,8 +79,8 @@
         height: 100%;
         text-transform: uppercase;
         font-size: x-large;
-        color: $color-white;
-        background-color: transparentize($color-grey, 0.5);
+        color: variable.$color-white;
+        background-color: color.adjust(variable.$color-grey, $alpha: -0.5);
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -87,47 +88,47 @@
       }
 
       &.-primary-purple {
-        background-color: $color-primary-purple;
+        background-color: variable.$color-primary-purple;
       }
 
       &.-primary-blue {
-        background-color: $color-primary-blue;
+        background-color: variable.$color-primary-blue;
       }
 
       &.-yellow {
-        background-color: $color-yellow;
+        background-color: variable.$color-yellow;
       }
 
       &.-red {
-        background-color: $color-red;
+        background-color: variable.$color-red;
       }
 
       &.-blue {
-        background-color: $color-blue;
+        background-color: variable.$color-blue;
       }
 
       &.-grey {
-        background-color: $color-grey;
+        background-color: variable.$color-grey;
       }
 
       &.-white {
-        background-color: $color-white;
+        background-color: variable.$color-white;
       }
 
       &.-logo-yellow {
-        background-color: $color-yellow-logo;
+        background-color: variable.$color-yellow-logo;
       }
 
       &.-logo-red {
-        background-color: $color-red-logo;
+        background-color: variable.$color-red-logo;
       }
 
       &.-logo-blue {
-        background-color: $color-blue-logo;
+        background-color: variable.$color-blue-logo;
       }
 
       &.-logo-grey {
-        background-color: $color-black-logo;
+        background-color: variable.$color-black-logo;
       }
     }
   }
@@ -135,13 +136,13 @@
   .gradiant {
     width: 100%;
     height: 50px;
-    background: $linear-gradient-target;
+    background: variable.$linear-gradient-target;
   }
 
   .gradiant-logo {
     width: 100%;
     height: 50px;
-    background: $linear-gradient-target-logo;
+    background: variable.$linear-gradient-target-logo;
   }
 
   .typography-container {

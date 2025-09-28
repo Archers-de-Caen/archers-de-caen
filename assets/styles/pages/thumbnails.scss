@@ -1,4 +1,4 @@
-@import "../variable";
+@use "../variable";
 
 .thumbnails {
   display: grid;
@@ -6,7 +6,7 @@
   gap: 20px;
 
   .thumbnail {
-    border-radius: $border-radius-normal;
+    border-radius: variable.$border-radius-normal;
     break-inside: avoid; /* Empêche les coupures d'éléments */
   }
 }

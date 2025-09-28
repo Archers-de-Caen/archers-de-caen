@@ -1,4 +1,4 @@
-@import "../../styles/variable";
+@use "../../styles/variable";
 
 .hamburger-menu {
   height: 25px;
@@ -10,8 +10,8 @@
   .hamburger-menu-bar {
     height: 15%;
     width: 100%;
-    background-color: $color-grey;
-    border-radius: $border-radius-normal;
+    background-color: variable.$color-grey;
+    border-radius: variable.$border-radius-normal;
     transition: transform .5s ease;
   }
 

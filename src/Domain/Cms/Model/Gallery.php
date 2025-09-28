@@ -22,11 +22,11 @@ class Gallery
     use StatusTrait;
     use TimestampTrait;
 
-    public const SERIALIZER_GROUP_SHOW = 'gallery_show';
+    public const string SERIALIZER_GROUP_SHOW = 'gallery_show';
 
     #[ORM\Column(type: Types::STRING, length: 191)]
     #[Groups([self::SERIALIZER_GROUP_SHOW])]
-    private ?string $title;
+    private ?string $title = null;
 
     #[ORM\Column(type: Types::STRING, length: 191, unique: true)]
     #[Slug(fields: ['title'], unique: true)]

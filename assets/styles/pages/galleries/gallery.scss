@@ -1,10 +1,10 @@
-@import "../../variable";
+@use "../../variable";
 
 #galleries {
   .thumbnail {
     header {
       img {
-        border-radius: $border-radius-normal;
+        border-radius: variable.$border-radius-normal;
       }
     }
   }

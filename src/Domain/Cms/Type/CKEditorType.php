@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 final class CKEditorType extends AbstractType
 {
     #[\Override]
-    public function getParent(): ?string
+    public function getParent(): string
     {
         return TextType::class;
     }

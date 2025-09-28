@@ -1,11 +1,12 @@
-@import "../../variable";
+@use "sass:map";
+@use "../../variable";
 
 .index-page {
   .partners-container {
     margin-top: 150px;
 
     h2 {
-      color: $color-grey;
+      color: variable.$color-grey;
       font-size: xxx-large;
       text-align: center;
       margin: 50px 0;
@@ -37,7 +38,7 @@
   }
 }
 
-@media (max-width: map-get($grid-breakpoints, xs)) {
+@media (max-width: map.get(variable.$grid-breakpoints, xs)) {
   .index-page {
     .partners-container {
 

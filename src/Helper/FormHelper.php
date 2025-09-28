@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Helper;
 
-use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 
@@ -13,7 +12,7 @@ final class FormHelper
     public static function getErrorsArray(FormInterface $form): array
     {
         $errors = [];
-        /** @var FormError $error */
+
         foreach ($form->getErrors() as $error) {
             /** @var ConstraintViolation $cause */
             $cause = $error->getCause();
@@ -26,10 +25,6 @@ final class FormHelper
         }
 
         foreach ($form->all() as $childForm) {
-            if (!$childForm instanceof FormInterface) {
-                continue;
-            }
-
             if (!($childErrors = self::getErrorsArray($childForm))) {
                 continue;
             }

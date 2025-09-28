@@ -15,7 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 final class ResultCompetitionManager
 {
-    public function __construct(readonly private EntityManagerInterface $em)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
     }
 

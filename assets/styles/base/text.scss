@@ -1,4 +1,4 @@
-@import "../variable";
+@use "../variable";
 
 .text- {
   &small {
@@ -36,35 +36,35 @@
   }
 
   &primary {
-    color: $color-primary-blue !important;
+    color: variable.$color-primary-blue !important;
   }
 
   &secondary {
-    color: $color-primary-purple !important;
+    color: variable.$color-primary-purple !important;
   }
 
   &yellow {
-    color: $color-yellow !important;
+    color: variable.$color-yellow !important;
   }
 
   &grey {
-    color: $color-grey !important;
+    color: variable.$color-grey !important;
   }
 
   &red {
-    color: $color-red !important;
+    color: variable.$color-red !important;
   }
 
   &blue {
-    color: $color-blue !important;
+    color: variable.$color-blue !important;
   }
 
   &black {
-    color: $color-black !important;
+    color: variable.$color-black !important;
   }
 
   &white {
-    color: $color-white !important;
+    color: variable.$color-white !important;
   }
 
   &line-height- {

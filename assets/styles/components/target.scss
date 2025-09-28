@@ -1,8 +1,8 @@
-@import "../variable";
+@use "../variable";
 
 .shape-target {
   width: 100%;
-  background-color: $color-yellow;
+  background-color: variable.$color-yellow;
   position: relative;
 
   &::after {

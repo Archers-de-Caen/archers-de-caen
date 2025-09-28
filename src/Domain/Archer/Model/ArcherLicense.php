@@ -33,7 +33,7 @@ class ArcherLicense
     private ?\DateTimeInterface $dateEnd;
 
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
-    private ?bool $active = false;
+    private bool $active = false;
 
     #[\Override]
     public function __toString(): string

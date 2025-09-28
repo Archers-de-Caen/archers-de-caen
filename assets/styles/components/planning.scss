@@ -1,7 +1,9 @@
-@import "../variable";
+@use "sass:color";
+@use "sass:map";
+@use "../variable";
 
 .wrapper-planning {
-  max-width: map-get($grid-breakpoints, lg);
+  max-width: map.get(variable.$grid-breakpoints, lg);
   min-width: 650px;
   width: 100%;
   margin: 0 auto;
@@ -45,7 +47,7 @@
         &:after {
           grid-row: 1;
           grid-column: 0;
-          background-color: lighten($color-grey, 45);
+          background-color: color.adjust(variable.$color-grey, $lightness: 45%);
           z-index: 2;
           height: 100%;
         }
@@ -53,13 +55,13 @@
 
       &--hours {
         color: #fff;
-        background-color: $color-grey !important;
+        background-color: variable.$color-grey !important;
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         grid-template-columns: 150px repeat(6, 1fr);
 
         .planning__row-first {
           border-top: 0 !important;
-          background-color: $color-grey !important;
+          background-color: variable.$color-grey !important;
         }
 
         span {
@@ -96,7 +98,7 @@
           text-align: left;
           font-size: 14px;
           min-height: 15px;
-          background-color: $color-yellow;
+          background-color: variable.$color-yellow;
           padding: 15px;
           margin: 10px;
           color: #fff;
@@ -127,7 +129,7 @@
   }
 }
 
-@media (max-width: map-get($grid-breakpoints, sm)) {
+@media (max-width: map.get(variable.$grid-breakpoints, sm)) {
   .wrapper-planning {
     max-width: 100%;
     min-width: 100%;

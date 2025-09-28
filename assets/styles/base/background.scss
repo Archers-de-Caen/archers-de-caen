@@ -1,35 +1,35 @@
-@import "../variable";
+@use "../variable";
 
 .bg {
   &-primary {
-    background-color: $color-primary-purple !important;
+    background-color: variable.$color-primary-purple !important;
   }
 
   &-yellow {
-    background-color: $color-yellow !important;
+    background-color: variable.$color-yellow !important;
   }
 
   &-secondary {
-    background-color: $color-secondary !important;
+    background-color: variable.$color-secondary !important;
   }
 
   &-grey {
-    background-color: $color-grey !important;
+    background-color: variable.$color-grey !important;
   }
 
   &-red {
-    background-color: $color-red !important;
+    background-color: variable.$color-red !important;
   }
 
   &-blue {
-    background-color: $color-blue !important;
+    background-color: variable.$color-blue !important;
   }
 
   &-black {
-    background-color: $color-black !important;
+    background-color: variable.$color-black !important;
   }
 
   &-white {
-    background-color: $color-white !important;
+    background-color: variable.$color-white !important;
   }
 }

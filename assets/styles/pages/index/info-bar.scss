@@ -1,8 +1,9 @@
-@import "../../variable";
+@use "sass:map";
+@use "../../variable";
 
 .index-page {
   .info-bar {
-    background-color: $color-white;
+    background-color: variable.$color-white;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -11,7 +12,7 @@
 
     min-height: 100px;
     padding: 20px;
-    box-shadow: $box-shadow;
+    box-shadow: variable.$box-shadow;
 
     .partner {
       height: 60px;
@@ -24,7 +25,7 @@
   }
 }
 
-@media (max-width: map-get($grid-breakpoints, md)) {
+@media (max-width: map.get(variable.$grid-breakpoints, md)) {
   .index-page {
     .shape-target {
       &::after {

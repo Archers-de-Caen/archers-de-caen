@@ -29,7 +29,7 @@ final class PageCrudController extends AbstractPageCrudController
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, 'Liste des pages du site')
             ->setPageTitle(Crud::PAGE_NEW, 'Ajouter une page au site')
-            ->setPageTitle(Crud::PAGE_EDIT, static fn (Page $page): string => sprintf('Edition de la page <b>%s</b>', $page))
+            ->setPageTitle(Crud::PAGE_EDIT, static fn (Page $page): string => \sprintf('Edition de la page <b>%s</b>', $page))
         ;
     }
 
@@ -37,7 +37,7 @@ final class PageCrudController extends AbstractPageCrudController
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
         return parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters)
-            ->where(sprintf("entity.category = '%s'", Category::PAGE->value))
+            ->where(\sprintf("entity.category = '%s'", Category::PAGE->value))
         ;
     }
 

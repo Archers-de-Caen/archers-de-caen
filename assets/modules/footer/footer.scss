@@ -1,9 +1,10 @@
-@import "../../styles/variable";
+@use "sass:map";
+@use "../../styles/variable";
 
 .footer {
   width: 100%;
-  background-color: $color-grey;
-  color: $color-white;
+  background-color: variable.$color-grey;
+  color: variable.$color-white;
   position: relative;
   margin-top: 200px; // min 174px size of image
 
@@ -46,7 +47,7 @@
   }
 }
 
-@media (max-width: map-get($grid-breakpoints, sm)) {
+@media (max-width: map.get(variable.$grid-breakpoints, sm)) {
   .footer {
     .footer-container {
       .logo {

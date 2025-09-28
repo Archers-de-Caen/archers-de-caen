@@ -14,7 +14,7 @@ final class DateTimeImmutableProvider extends DateTime
     public static function dateTimeImmutableBetween(
         \DateTimeInterface|string $startDate = '-30 years',
         string $endDate = 'now',
-        string $timezone = null
+        ?string $timezone = null
     ): \DateTimeImmutable {
         $startTimestamp = $startDate instanceof \DateTimeInterface ? (string) $startDate->getTimestamp() : $startDate;
         $dateTime = parent::dateTimeBetween($startTimestamp, $endDate, $timezone);
@@ -22,4 +22,3 @@ final class DateTimeImmutableProvider extends DateTime
         return \DateTimeImmutable::createFromMutable($dateTime);
     }
 }
-

@@ -77,7 +77,7 @@ final class TwigEmailExtension extends AbstractExtension
             }
 
             $content = preg_replace(
-                pattern: sprintf('/<iframe[^>]+src="%s".*?<\/iframe>/i', preg_quote($url, '/')),
+                pattern: \sprintf('/<iframe[^>]+src="%s".*?<\/iframe>/i', preg_quote($url, '/')),
                 replacement: "
                     <figure class='iframe-flatten'>
                         {$iframeContent}
