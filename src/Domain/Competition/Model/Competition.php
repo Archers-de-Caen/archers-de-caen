@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Competition\Model;
 
+use App\Domain\Competition\Config\Level;
 use App\Domain\Competition\Config\Type;
 use App\Domain\Competition\Repository\CompetitionRepository;
 use App\Domain\Result\Model\ResultCompetition;
@@ -46,6 +47,14 @@ class Competition implements \Stringable
     #[Assert\NotNull]
     private ?Type $type = null;
 
+    #[ORM\Column(type: Types::STRING, nullable: true, enumType: Level::class)]
+    #[Assert\NotNull]
+    private ?Level $level = null;
+
+    #[ORM\Column(type: Types::BOOLEAN, nullable: true)]
+    #[Assert\NotNull]
+    private ?bool $duel = null;
+
     #[ORM\Column(type: Types::STRING, length: 191, unique: true, nullable: false)]
     #[Slug(fields: ['location'])]
     private ?string $slug = null;
@@ -53,14 +62,24 @@ class Competition implements \Stringable
     /**
      * @var Collection<int, ResultCompetition>
      */
-    #[ORM\OneToMany(mappedBy: 'competition', targetEntity: ResultCompetition::class, cascade: ['ALL'], orphanRemoval: true)]
+    #[ORM\OneToMany(
+        targetEntity: ResultCompetition::class,
+        mappedBy: 'competition',
+        cascade: ['ALL'],
+        orphanRemoval: true,
+    )]
     #[Assert\Valid]
     private Collection $results;
 
     /**
      * @var Collection<int, ResultTeam>
      */
-    #[ORM\OneToMany(mappedBy: 'competition', targetEntity: ResultTeam::class, cascade: ['ALL'], orphanRemoval: true)]
+    #[ORM\OneToMany(
+        targetEntity: ResultTeam::class,
+        mappedBy: 'competition',
+        cascade: ['ALL'],
+        orphanRemoval: true,
+    )]
     #[Assert\Valid]
     private Collection $resultsTeams;
 
@@ -133,6 +152,30 @@ class Competition implements \Stringable
     public function setType(Type $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getLevel(): ?Level
+    {
+        return $this->level;
+    }
+
+    public function setLevel(Level $level): self
+    {
+        $this->level = $level;
+
+        return $this;
+    }
+
+    public function haveDuel(): ?bool
+    {
+        return $this->duel;
+    }
+
+    public function setDuel(bool $duel): self
+    {
+        $this->duel = $duel;
 
         return $this;
     }
