@@ -109,7 +109,8 @@ final readonly class FFTAArcherUpdateCommand
                         Gender::OTHER, Gender::UNDEFINED, null => throw new \RuntimeException('To be implemented'),
                     };
 
-                    $category = Category::createFromString($licenseFromFFTA->getCategory().' '.$gender);
+                    $category = str_replace('é', 'e', $licenseFromFFTA->getCategory() ?? '');
+                    $category = Category::createFromString($category.' '.$gender);
                 } catch (\ValueError $e) {
                     $io->error($e->getMessage());
 
@@ -175,8 +176,7 @@ final readonly class FFTAArcherUpdateCommand
                 ->setLastName($archerData->getLastName())
                 ->setLicenseNumber($archerData->getLicense())
                 ->setPhone($phone)
-                // Todo: Gérer les doublons
-                // ->setEmail($archerData->getEmail())
+                ->setEmail($archerData->getEmail())
                 ->setGender($archerData->getGender())
             ;
 

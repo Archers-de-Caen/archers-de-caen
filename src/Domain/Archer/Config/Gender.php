@@ -23,8 +23,8 @@ enum Gender: string
     public static function createFromString(string $gender): self
     {
         return match ($gender) {
-            'M.', 'M', 'Monsieur', 'Homme', 'H' => self::MAN,
-            'Mme.', 'Mme', 'Madame', 'Femme', 'F' => self::WOMAN,
+            'M.', 'M', 'Monsieur', 'Homme', 'H', 'Masculin' => self::MAN,
+            'Mme.', 'Mme', 'Madame', 'Femme', 'F', 'Féminin' => self::WOMAN,
 
             default => throw new \ValueError($gender.' not found'),
         };

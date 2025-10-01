@@ -79,7 +79,7 @@ final readonly class LicenseDTO
             status: $license[18],
             licenseDateStart: \DateTime::createFromFormat('Y-m-d', $license[31]) ?: null,
             licenseDateEnd: \DateTime::createFromFormat('Y-m-d', $license[33]) ?: null,
-            licenseType: $license[18],
+            licenseType: $license[17],
             category: $license[26],
         );
     }
