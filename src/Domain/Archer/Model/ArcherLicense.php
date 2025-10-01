@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Archer\Model;
 
+use App\Domain\Archer\Config\Category;
 use App\Domain\Archer\Repository\ArcherLicenseRepository;
-use App\Infrastructure\Model\ArcherCategoryTrait;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
 use Doctrine\DBAL\Types\Types;
@@ -14,7 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ArcherLicenseRepository::class)]
 class ArcherLicense
 {
-    use ArcherCategoryTrait;
     use IdTrait;
     use TimestampTrait;
 
@@ -34,6 +33,9 @@ class ArcherLicense
 
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
     private bool $active = false;
+
+    #[ORM\Column(type: Types::STRING, length: 191, nullable: true, enumType: Category::class)]
+    private ?Category $category = null;
 
     #[\Override]
     public function __toString(): string
@@ -103,6 +105,18 @@ class ArcherLicense
     public function setLicense(?License $license): self
     {
         $this->license = $license;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

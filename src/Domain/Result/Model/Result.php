@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Domain\Result\Model;
 
 use App\Domain\Archer\Config\Category;
+use App\Domain\Archer\Config\Weapon;
 use App\Domain\Archer\Model\Archer;
 use App\Domain\File\Model\Document;
 use App\Domain\Result\Repository\ResultRepository;
 use App\Infrastructure\Model\IdTrait;
 use App\Infrastructure\Model\TimestampTrait;
-use App\Infrastructure\Model\WeaponTrait;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -29,10 +29,14 @@ abstract class Result implements \Stringable
 {
     use IdTrait;
     use TimestampTrait;
-    use WeaponTrait;
 
     #[ORM\ManyToOne(targetEntity: Archer::class, inversedBy: 'results')]
     private ?Archer $archer = null;
+
+    #[ORM\Column(type: Types::STRING, length: 191, enumType: Weapon::class)]
+    #[Assert\NotNull]
+    #[Assert\NotBlank]
+    private ?Weapon $weapon = null;
 
     #[ORM\Column(type: Types::INTEGER)]
     #[Assert\NotNull]
@@ -97,6 +101,18 @@ abstract class Result implements \Stringable
     public function setArcher(?Archer $archer): self
     {
         $this->archer = $archer;
+
+        return $this;
+    }
+
+    public function getWeapon(): ?Weapon
+    {
+        return $this->weapon;
+    }
+
+    public function setWeapon(?Weapon $weapon): self
+    {
+        $this->weapon = $weapon;
 
         return $this;
     }
