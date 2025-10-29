@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Infrastructure\Service\FFTA;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -110,12 +113,13 @@ final class FFTADirigeantService
     }
 
     /**
-     * @return array<LicenseDTO>
-     *
+     * @throws RedirectionExceptionInterface
      * @throws HttpExceptionInterface
+     * @throws ClientExceptionInterface
      * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
      */
-    public function getLicenses(int $saison): array
+    public function downloadLicencesFftaCsv(int $saison): string
     {
         $token = $this->getToken('extractions/licences');
 
@@ -150,7 +154,21 @@ final class FFTADirigeantService
             throw new \RuntimeException('Content type not found');
         }
 
-        $content = $response->getContent();
+        return $response->getContent();
+    }
+
+    /**
+     * @return array<LicenseDTO>
+     *
+     * @throws ClientExceptionInterface
+     * @throws HttpExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
+    public function getLicenses(int $saison): array
+    {
+        $content = $this->downloadLicencesFftaCsv($saison);
 
         return LicenseDTO::createListFromCsv($content);
     }
