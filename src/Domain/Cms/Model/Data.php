@@ -27,6 +27,8 @@ class Data implements \Stringable
 
     public const string CODE_FAQ = 'FAQ';
 
+    public const string CODE_CALENDAR_IFRAME_SRC = 'CALENDAR_IFRAME_SRC';
+
     public const string CODE_INDEX_ACTUALITY_LOCKED = 'INDEX_ACTUALITY_LOCKED';
 
     public const string CODE_TAKE_LICENSE = 'TAKE_LICENSE';

@@ -1,0 +1,28 @@
+{% extends "/landing/base.html.twig" %}
+
+{% block title %}
+    Calendrier
+{% endblock %}
+
+{% block description %}
+    Calendrier des Archers de Caen, des compétitions, des événements du club, etc.
+{% endblock description %}
+
+{% block og %}
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="{{ absolute_url(asset('build/images/logo-archers-de-caen/logo-normal-v2.png')) }}" />
+{% endblock og %}
+
+{% block main %}
+    <div class="page-content mt-3">
+        <iframe
+            title="Calendrier"
+            src="{{ calendarIframeSrc }}"
+            style="border-width:0"
+            width="800"
+            height="600"
+            frameborder="0"
+            scrolling="no"
+        ></iframe>
+    </div>
+{% endblock %}

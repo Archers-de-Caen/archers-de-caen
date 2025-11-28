@@ -34,7 +34,7 @@ import FontSize from '@ckeditor/ckeditor5-font/src/fontsize'
 import FontColor from '@ckeditor/ckeditor5-font/src/fontcolor'
 import FontBackgroundColor from '@ckeditor/ckeditor5-font/src/fontbackgroundcolor'
 
-import MyUploadAdapter from "./MyUploadAdapter";
+import MyUploadAdapter from "./MyUploadAdapter.js";
 
 /* TODO: maybe un jour
 import CKFinder from '@ckeditor/ckeditor5-ckfinder/src/ckfinder';
