@@ -6,7 +6,7 @@ namespace App\Domain\Badge\Repository;
 
 use App\Domain\Badge\Model\Badge;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Order;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -50,7 +50,7 @@ final class BadgeRepository extends ServiceEntityRepository
         return $this->findBy([
             'type' => Badge::PROGRESS_ARROW,
         ], [
-            'level' => Criteria::ASC,
+            'level' => Order::Ascending,
         ]);
     }
 }

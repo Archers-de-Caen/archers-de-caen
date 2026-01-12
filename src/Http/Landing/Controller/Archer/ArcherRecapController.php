@@ -22,11 +22,16 @@ final class ArcherRecapController extends AbstractController
 {
     public const string ROUTE = 'landing_archer';
 
-    public function __invoke(Archer $archer, BadgeRepository $badgeRepository): Response
+    public function __construct(
+        private readonly BadgeRepository $badgeRepository,
+    ) {
+    }
+
+    public function __invoke(Archer $archer): Response
     {
         return $this->render('/landing/archers/archer.html.twig', [
             'archer' => $archer,
-            'progressArrows' => $badgeRepository->findProgressArrow(),
+            'progressArrows' => $this->badgeRepository->findProgressArrow(),
         ]);
     }
 }
