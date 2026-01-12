@@ -102,35 +102,47 @@ enum Type: string
         int $distance,
         Category $archerCategory,
         Weapon $weapon,
-        int $target
+        int $target,
+        string $shootFormule,
     ): self {
         if ('T' === $fftaCode) {
             if ($weapon->isCompound()) {
                 if (80 === $target) {
-                    return Type::OUTDOOR_INTERNATIONAL;
+                    return self::OUTDOOR_INTERNATIONAL;
                 }
 
-                return Type::OUTDOOR_NATIONAL;
+                return self::OUTDOOR_NATIONAL;
             }
 
             if ($distance > 50) {
                 // TODO: Check if the distance is in the range of the category
-                return Type::OUTDOOR_INTERNATIONAL;
+                return self::OUTDOOR_INTERNATIONAL;
             }
 
-            return Type::OUTDOOR_NATIONAL;
+            return self::OUTDOOR_NATIONAL;
+        }
+
+        if ('S' === $fftaCode) {
+            if ('2X25M + 2X18M' === $shootFormule) {
+                return self::INDOOR_2x18_M_2x25_M;
+            }
+
+            if ('4X18M' === $shootFormule) {
+                return self::INDOOR_4x18_M;
+            }
+
+            return self::INDOOR_2x18_M;
         }
 
         return match ($fftaCode) {
-            'S' => Type::INDOOR_2x18_M,
-            'C' => Type::CAMPAGNE,
-            '3' => Type::THREE_D,
-            'N' => Type::NATURE,
-            'B' => Type::BEURSAULT,
-            'P' => Type::SPECIAL_YOUNG,
-            'A' => Type::RUN_ARCHERY,
-            'H' => Type::PARA_OUTDOOR,
-            'I' => Type::PARA_INDOOR,
+            'C' => self::CAMPAGNE,
+            '3' => self::THREE_D,
+            'N' => self::NATURE,
+            'B' => self::BEURSAULT,
+            'P' => self::SPECIAL_YOUNG,
+            'A' => self::RUN_ARCHERY,
+            'H' => self::PARA_OUTDOOR,
+            'I' => self::PARA_INDOOR,
             default => throw new \ValueError('Competition type not found'),
         };
     }

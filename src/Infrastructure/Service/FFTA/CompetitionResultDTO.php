@@ -118,6 +118,7 @@ final readonly class CompetitionResultDTO
             archerCategory: $archerCategory,
             weapon: $weapon,
             target: $target,
+            shootFormule: $competitionResult[24],
         );
         $categoryOverRanking = $competitionResult[8] ? Category::createFromString($competitionResult[8].' '.$genderLongString) : null;
 
