@@ -1,4 +1,3 @@
-@use "sass:color";
 @use "../variable";
 
 .style-guide-page {
@@ -15,7 +14,7 @@
       display: flex;
       justify-content: center;
       position: relative;
-      background-color: color.adjust(variable.$color-secondary, $lightness: 50%);
+      background-color: var(--color-secondary-light);
 
       &:before {
         content: "Télécharger";
@@ -79,8 +78,8 @@
         height: 100%;
         text-transform: uppercase;
         font-size: x-large;
-        color: variable.$color-white;
-        background-color: color.adjust(variable.$color-grey, $alpha: -0.5);
+        color: var(--color-white);
+        background-color: var(--color-grey-transparent);
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -88,47 +87,47 @@
       }
 
       &.-primary-purple {
-        background-color: variable.$color-primary-purple;
+        background-color: var(--color-primary-purple);
       }
 
       &.-primary-blue {
-        background-color: variable.$color-primary-blue;
+        background-color: var(--color-primary-blue);
       }
 
       &.-yellow {
-        background-color: variable.$color-yellow;
+        background-color: var(--color-yellow);
       }
 
       &.-red {
-        background-color: variable.$color-red;
+        background-color: var(--color-red);
       }
 
       &.-blue {
-        background-color: variable.$color-blue;
+        background-color: var(--color-blue);
       }
 
       &.-grey {
-        background-color: variable.$color-grey;
+        background-color: var(--color-grey);
       }
 
       &.-white {
-        background-color: variable.$color-white;
+        background-color: var(--color-white);
       }
 
       &.-logo-yellow {
-        background-color: variable.$color-yellow-logo;
+        background-color: var(--color-yellow-logo);
       }
 
       &.-logo-red {
-        background-color: variable.$color-red-logo;
+        background-color: var(--color-red-logo);
       }
 
       &.-logo-blue {
-        background-color: variable.$color-blue-logo;
+        background-color: var(--color-blue-logo);
       }
 
       &.-logo-grey {
-        background-color: variable.$color-black-logo;
+        background-color: var(--color-black-logo);
       }
     }
   }
@@ -136,13 +135,13 @@
   .gradiant {
     width: 100%;
     height: 50px;
-    background: variable.$linear-gradient-target;
+    background: var(--linear-gradient-target);
   }
 
   .gradiant-logo {
     width: 100%;
     height: 50px;
-    background: variable.$linear-gradient-target-logo;
+    background: var(--linear-gradient-target-logo);
   }
 
   .typography-container {

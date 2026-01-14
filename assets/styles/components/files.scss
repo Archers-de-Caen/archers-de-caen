@@ -7,9 +7,9 @@
 
     width: 100%;
     border-radius: 10px;
-    box-shadow: variable.$box-shadow;
+    box-shadow: var(--box-shadow);
     padding: 15px;
     cursor: pointer;
-    background-color: variable.$color-white;
+    background-color: var(--color-white);
   }
 }

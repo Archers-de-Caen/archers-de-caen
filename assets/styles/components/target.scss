@@ -2,7 +2,7 @@
 
 .shape-target {
   width: 100%;
-  background-color: variable.$color-yellow;
+  background-color: var(--color-yellow);
   position: relative;
 
   &::after {

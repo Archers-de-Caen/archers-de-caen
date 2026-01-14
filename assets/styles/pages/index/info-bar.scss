@@ -3,7 +3,7 @@
 
 .index-page {
   .info-bar {
-    background-color: variable.$color-white;
+    background-color: var(--color-white);
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -12,7 +12,7 @@
 
     min-height: 100px;
     padding: 20px;
-    box-shadow: variable.$box-shadow;
+    box-shadow: var(--box-shadow);
 
     .partner {
       height: 60px;

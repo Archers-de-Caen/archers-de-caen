@@ -36,35 +36,35 @@
   }
 
   &primary {
-    color: variable.$color-primary-blue !important;
+    color: var(--color-primary-blue) !important;
   }
 
   &secondary {
-    color: variable.$color-primary-purple !important;
+    color: var(--color-primary-purple) !important;
   }
 
   &yellow {
-    color: variable.$color-yellow !important;
+    color: var(--color-yellow) !important;
   }
 
   &grey {
-    color: variable.$color-grey !important;
+    color: var(--color-grey) !important;
   }
 
   &red {
-    color: variable.$color-red !important;
+    color: var(--color-red) !important;
   }
 
   &blue {
-    color: variable.$color-blue !important;
+    color: var(--color-blue) !important;
   }
 
   &black {
-    color: variable.$color-black !important;
+    color: var(--color-black) !important;
   }
 
   &white {
-    color: variable.$color-white !important;
+    color: var(--color-white) !important;
   }
 
   &line-height- {

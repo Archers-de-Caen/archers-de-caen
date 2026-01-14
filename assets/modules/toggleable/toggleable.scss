@@ -4,11 +4,11 @@
   .toggleable {
     background-color: var(--color-white);
     position: relative;
-    box-shadow: variable.$box-shadow;
+    box-shadow: var(--box-shadow);
     transition: margin ease-in-out .25s;
 
     &.--active {
-      border-radius: variable.$border-radius-normal;
+      border-radius: var(--border-radius-normal);
       margin: 1rem 0;
 
       .toggleable-summary {
@@ -25,11 +25,11 @@
     }
 
     &:first-child {
-      border-radius: variable.$border-radius-normal variable.$border-radius-normal 0 0;
+      border-radius: var(--border-radius-normal) var(--border-radius-normal) 0 0;
     }
 
     &:last-child {
-      border-radius: 0 0 variable.$border-radius-normal variable.$border-radius-normal;
+      border-radius: 0 0 var(--border-radius-normal) var(--border-radius-normal);
     }
 
     .toggleable-summary {

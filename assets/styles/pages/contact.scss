@@ -26,8 +26,8 @@
 
         padding: 10px 0;
 
-        border-radius: variable.$border-radius-normal;
-        background-color: variable.$color-yellow;
+        border-radius: var(--border-radius-normal);
+        background-color: var(--color-yellow);
 
         &:hover {
           color: unset;

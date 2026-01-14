@@ -3,8 +3,8 @@
 
 .footer {
   width: 100%;
-  background-color: variable.$color-grey;
-  color: variable.$color-white;
+  background-color: var(--color-grey);
+  color: var(--color-white);
   position: relative;
   margin-top: 200px; // min 174px size of image
 

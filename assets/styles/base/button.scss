@@ -1,82 +1,81 @@
-@use "sass:color";
 @use "../variable";
 
 .btn {
-  border-radius: variable.$border-radius-big;
-  border: 2px solid variable.$color-yellow;
+  border-radius: var(--border-radius-big);
+  border: 2px solid var(--color-yellow);
   padding: 10px 30px;
   cursor: pointer;
   font-weight: bold;
-  color: variable.$color-yellow;
-  box-shadow: variable.$box-shadow;
+  color: var(--color-yellow);
+  box-shadow: var(--box-shadow);
   text-decoration: none;
 
   &:disabled {
-    background-color: color.adjust(variable.$color-grey, $lightness: 20%) !important;
-    color: color.adjust(variable.$color-grey, $lightness: 50%) !important;
+    background-color: var(--color-grey-light) !important;
+    color: var(--color-grey-lightest) !important;
     border: unset !important;
     cursor: not-allowed;
   }
 
   &:hover {
-    background-color: variable.$color-yellow;
-    color: variable.$color-white;
+    background-color: var(--color-yellow);
+    color: var(--color-white);
   }
 
   &.-primary {
-    background-color: variable.$color-yellow;
-    color: variable.$color-grey;
+    background-color: var(--color-yellow);
+    color: var(--color-grey);
 
     &:hover, &.-outline {
       background-color: unset;
-      color: variable.$color-grey!important;
+      color: var(--color-grey)!important;
     }
 
     &.-outline {
       &:hover {
-        background-color: variable.$color-yellow;
-        color: variable.$color-white;
+        background-color: var(--color-yellow);
+        color: var(--color-white);
       }
     }
   }
 
   &.-secondary {
-    background-color: variable.$color-grey;
-    color: variable.$color-white;
-    border-color: variable.$color-grey;
+    background-color: var(--color-grey);
+    color: var(--color-white);
+    border-color: var(--color-grey);
 
     &:hover, &.-outline {
       background-color: unset;
-      color: variable.$color-grey;
+      color: var(--color-grey);
     }
 
     &.-outline {
       &:hover {
-        background-color: variable.$color-grey;
-        color: variable.$color-white;
+        background-color: var(--color-grey);
+        color: var(--color-white);
       }
     }
   }
 
   &.-danger {
-    background-color: variable.$color-red;
-    color: variable.$color-white;
-    border-color: variable.$color-red;
+    background-color: var(--color-red);
+    color: var(--color-white);
+    border-color: var(--color-red);
 
     &:hover, &.-outline {
       background-color: unset;
-      color: variable.$color-red;
+      color: var(--color-red);
     }
   }
 
   &.-success {
-    background-color: variable.$color-blue;
-    color: variable.$color-white;
-    border-color: variable.$color-blue;
+    background-color: var(--color-blue);
+    color: var(--color-white);
+    border-color: var(--color-blue);
 
     &:hover, &.-outline {
       background-color: unset;
-      color: variable.$color-blue;
+      color: var(--color-blue);
     }
   }
 }

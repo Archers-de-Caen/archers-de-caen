@@ -1,28 +1,3 @@
-// Colors
-$color-primary: #572677;
-$color-primary-purple: #572677;
-
-$color-secondary: #2d3088;
-$color-primary-blue: #2d3088;
-
-$color-yellow: #FDD20E;
-$color-red: #CC333D;
-$color-blue: #3E55AB;
-$color-black: #3B3D3F;
-$color-white: #FFFFFF;
-$color-grey: #3B3D3F;
-$color-light-grey: #c6c6c6;
-
-$color-yellow-logo: #FEF13F;
-$color-red-logo: #E52421;
-$color-blue-logo: #3DBAEC;
-$color-black-logo: #1D1D1B;
-
-$linear-gradient-target: linear-gradient(to right, $color-white, $color-black, $color-blue, $color-red, $color-yellow);
-$linear-gradient-target-logo: linear-gradient(to right, $color-white, $color-black-logo, $color-blue-logo, $color-red-logo, $color-yellow-logo);
-
-$box-shadow: rgba(0, 0, 0, 0.05) 2px 2px 20px 0;
-
 $grid-breakpoints: (
   xs: 576px,
   sm: 768px,
@@ -30,7 +5,3 @@ $grid-breakpoints: (
   lg: 1200px,
   xl: 1400px
 );
-
-$border-radius-small: .25rem;
-$border-radius-normal: .75rem;
-$border-radius-big: 2.5rem;

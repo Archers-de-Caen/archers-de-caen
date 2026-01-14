@@ -5,8 +5,8 @@
   justify-content: space-between;
   margin: 20px 0;
   padding: 1rem;
-  background-color: variable.$color-white;
-  border-radius: variable.$border-radius-big;
+  background-color: var(--color-white);
+  border-radius: var(--border-radius-big);
 
   .share-bar-btn {
     width: 20%;

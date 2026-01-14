@@ -3,7 +3,7 @@
 
 .index-page {
   .hero-container {
-    background-color: variable.$color-yellow;
+    background-color: var(--color-yellow);
 
     .hero {
       width: 80%;
@@ -36,7 +36,7 @@
         justify-content: space-evenly;
         margin-right: 35px;
 
-        color: variable.$color-white;
+        color: var(--color-white);
         text-transform: uppercase;
         text-align: center;
 
@@ -46,7 +46,7 @@
         }
 
         h1, h2 {
-          color: variable.$color-grey
+          color: var(--color-grey)
         }
 
         h1 {
@@ -179,7 +179,7 @@
           display: flex;
           align-items: center;
           margin-top: 15px;
-          color: variable.$color-grey;
+          color: var(--color-grey);
 
           &:hover {
             text-decoration: underline;

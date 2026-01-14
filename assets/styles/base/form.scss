@@ -1,8 +1,7 @@
-@use "sass:color";
 @use "../variable";
 
 .form-groups {
-  color: variable.$color-grey;
+  color: var(--color-grey);
 
   .form-group {
     display: flex;
@@ -31,7 +30,7 @@
       }
 
       input[type="radio"]:checked + label, input[type="checkbox"]:checked + label {
-        box-shadow: 0 0 0 3px variable.$color-yellow inset;
+        box-shadow: 0 0 0 3px var(--color-yellow) inset;
       }
 
       label {
@@ -40,10 +39,10 @@
 
         padding: 10px 20px;
 
-        border-radius: variable.$border-radius-normal;
-        border: 2px solid variable.$color-yellow;
+        border-radius: var(--border-radius-normal);
+        border: 2px solid var(--color-yellow);
 
-        box-shadow: 0 0 0 0 variable.$color-yellow inset;
+        box-shadow: 0 0 0 0 var(--color-yellow) inset;
         transition: box-shadow .5s ease;
 
         text-align: center;
@@ -54,7 +53,7 @@
 
     &.--white {
       label {
-        background-color: variable.$color-white;
+        background-color: var(--color-white);
       }
     }
 
@@ -63,10 +62,10 @@
     }
 
     input, textarea, select {
-      border: 2px solid variable.$color-yellow;
-      border-radius: variable.$border-radius-normal;
+      border: 2px solid var(--color-yellow);
+      border-radius: var(--border-radius-normal);
       margin: 5px 0;
-      background-color: variable.$color-white;
+      background-color: var(--color-white);
       width: 100%;
 
       min-width: 200px;
@@ -77,7 +76,7 @@
         min-width: unset;
         height: 25px;
         width: 25px;
-        box-shadow: 0 0 0 0 variable.$color-yellow inset;
+        box-shadow: 0 0 0 0 var(--color-yellow) inset;
         padding: 10px;
 
         cursor: pointer;
@@ -88,18 +87,18 @@
         border-radius: 100%;
 
         &:checked {
-          box-shadow: 0 0 0 6px variable.$color-yellow inset;
+          box-shadow: 0 0 0 6px var(--color-yellow) inset;
         }
       }
 
       &[type="checkbox"] {
         &:checked {
-          box-shadow: 0 0 0 15px variable.$color-yellow inset;
+          box-shadow: 0 0 0 15px var(--color-yellow) inset;
           position: relative;
 
           &::before {
             content: '✓';
-            color: variable.$color-white;
+            color: var(--color-white);
             position: absolute;
             top: -2px;
             left: 4px;
@@ -110,12 +109,12 @@
       }
 
       &:disabled {
-        border-color: color.adjust(variable.$color-grey, $lightness: 50%);
+        border-color: var(--color-grey-lightest);
         cursor: not-allowed;
       }
 
       &:disabled + label {
-        color: color.adjust(variable.$color-grey, $lightness: 50%);
+        color: var(--color-grey-lightest);
         cursor: not-allowed;
       }
     }
@@ -150,8 +149,8 @@
 
     &.-error {
       input, textarea {
-        border-color: variable.$color-red;
-        background-color: color.adjust(variable.$color-red, $lightness: 45%);
+        border-color: var(--color-red);
+        background-color: var(--color-red-lighter);
       }
 
       .error {
@@ -161,7 +160,7 @@
 
     .error {
       display: none;
-      color: variable.$color-red;
+      color: var(--color-red);
     }
   }
 }
@@ -170,8 +169,8 @@
 .ts-wrapper {
   width: 100%;
 
-  border-radius: variable.$border-radius-normal !important;
-  border: 2px solid variable.$color-yellow !important;
+  border-radius: var(--border-radius-normal) !important;
+  border: 2px solid var(--color-yellow) !important;
 
   .ts-control {
     border-color: inherit !important;
@@ -180,40 +179,40 @@
     background-image: inherit !important;
 
     input {
-      border: 2px solid variable.$color-yellow !important;
-      border-radius: variable.$border-radius-normal !important;
+      border: 2px solid var(--color-yellow) !important;
+      border-radius: var(--border-radius-normal) !important;
       padding: 10px 20px !important;
-      background-color: variable.$color-white !important;
-      color: variable.$color-grey !important;
+      background-color: var(--color-white) !important;
+      color: var(--color-grey) !important;
       margin-top: 1rem !important;
 
       &::placeholder {
-        color: variable.$color-grey !important;
+        color: var(--color-grey) !important;
       }
     }
 
     .ts-clear {
-      color: variable.$color-grey !important;
+      color: var(--color-grey) !important;
     }
   }
 
   .ts-dropdown {
-    border-bottom-left-radius: variable.$border-radius-normal !important;
-    border-bottom-right-radius: variable.$border-radius-normal !important;
-    border-bottom: 2px solid variable.$color-yellow !important;
-    background-color: variable.$color-white !important;
+    border-bottom-left-radius: var(--border-radius-normal) !important;
+    border-bottom-right-radius: var(--border-radius-normal) !important;
+    border-bottom: 2px solid var(--color-yellow) !important;
+    background-color: var(--color-white) !important;
 
     .option {
       padding: 10px 20px;
-      border-bottom: 1px solid variable.$color-yellow;
+      border-bottom: 1px solid var(--color-yellow);
 
       &:last-child {
         border-bottom: none;
       }
 
       &:hover {
-        background-color: variable.$color-yellow;
-        color: variable.$color-white;
+        background-color: var(--color-yellow);
+        color: var(--color-white);
       }
     }
   }

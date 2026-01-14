@@ -61,7 +61,7 @@ p {
   margin-top: 15px;
 
   a {
-    color: variable.$color-yellow;
+    color: var(--color-yellow);
     text-decoration: underline;
 
     &:hover {
@@ -78,12 +78,12 @@ a {
     cursor: pointer;
 
     &.highlighted {
-      color: variable.$color-yellow;
+      color: var(--color-yellow);
       text-decoration: underline;
     }
 
     &:hover {
-      color: variable.$color-yellow;
+      color: var(--color-yellow);
     }
 
     &:visited {
@@ -101,7 +101,7 @@ i {
 }
 
 hr {
-  border-top: 1px solid variable.$color-yellow;
+  border-top: 1px solid var(--color-yellow);
   width: 100%;
 }
 

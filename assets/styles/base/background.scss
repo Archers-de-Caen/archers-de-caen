@@ -2,34 +2,34 @@
 
 .bg {
   &-primary {
-    background-color: variable.$color-primary-purple !important;
+    background-color: var(--color-primary-purple) !important;
   }
 
   &-yellow {
-    background-color: variable.$color-yellow !important;
+    background-color: var(--color-yellow) !important;
   }
 
   &-secondary {
-    background-color: variable.$color-secondary !important;
+    background-color: var(--color-secondary) !important;
   }
 
   &-grey {
-    background-color: variable.$color-grey !important;
+    background-color: var(--color-grey) !important;
   }
 
   &-red {
-    background-color: variable.$color-red !important;
+    background-color: var(--color-red) !important;
   }
 
   &-blue {
-    background-color: variable.$color-blue !important;
+    background-color: var(--color-blue) !important;
   }
 
   &-black {
-    background-color: variable.$color-black !important;
+    background-color: var(--color-black) !important;
   }
 
   &-white {
-    background-color: variable.$color-white !important;
+    background-color: var(--color-white) !important;
   }
 }

@@ -1,15 +1,47 @@
 @use "sass:meta";
-@use "variable";
 
 :root {
-  // For use variable outside sass/scss file
-  --color-yellow: #{variable.$color-yellow};
-  --color-red: #{variable.$color-red};
-  --color-blue: #{variable.$color-blue};
-  --color-black: #{variable.$color-black};
-  --color-white: #{variable.$color-white};
-  --color-grey: #{variable.$color-grey};
-  --color-light-grey: #{variable.$color-light-grey};
+  // Colors
+  --color-primary: #572677;
+  --color-primary-purple: #572677;
+
+  --color-secondary: #2d3088;
+  --color-primary-blue: #2d3088;
+
+  --color-yellow: #FDD20E;
+  --color-red: #CC333D;
+  --color-blue: #3E55AB;
+  --color-black: #3B3D3F;
+  --color-white: #FFFFFF;
+  --color-grey: #3B3D3F;
+  --color-light-grey: #c6c6c6;
+  --color-grey-light: color-mix(in srgb, var(--color-grey), white 20%);
+  --color-grey-lighter: color-mix(in srgb, var(--color-grey), white 45%);
+  --color-grey-lightest: color-mix(in srgb, var(--color-grey), white 50%);
+  --color-grey-ultra-light: color-mix(in srgb, var(--color-grey), white 96%);
+  --color-grey-transparent: color-mix(in srgb, var(--color-grey), transparent 50%);
+
+  --color-yellow-light: color-mix(in srgb, var(--color-yellow), white 60%);
+  --color-yellow-lighter: color-mix(in srgb, var(--color-yellow), white 80%);
+
+  --color-red-light: color-mix(in srgb, var(--color-red), white 45%);
+  --color-red-lighter: color-mix(in srgb, var(--color-red), white 90%);
+
+  --color-secondary-light: color-mix(in srgb, var(--color-secondary), white 50%);
+
+  --color-yellow-logo: #FEF13F;
+  --color-red-logo: #E52421;
+  --color-blue-logo: #3DBAEC;
+  --color-black-logo: #1D1D1B;
+
+  --linear-gradient-target: linear-gradient(to right, #FFFFFF, #3B3D3F, #3E55AB, #CC333D, #FDD20E);
+  --linear-gradient-target-logo: linear-gradient(to right, #FFFFFF, #1D1D1B, #3DBAEC, #E52421, #FEF13F);
+
+  --box-shadow: rgba(0, 0, 0, 0.05) 2px 2px 20px 0;
+
+  --border-radius-small: .25rem;
+  --border-radius-normal: .75rem;
+  --border-radius-big: 2.5rem;
 }
 
 @include meta.load-css("base/reset");

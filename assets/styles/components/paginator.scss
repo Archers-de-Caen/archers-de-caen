@@ -4,10 +4,10 @@
   display: flex;
   align-items: center;
   overflow: auto;
-  background-color: variable.$color-white;
+  background-color: var(--color-white);
   width: fit-content;
   margin: auto;
-  border-radius: variable.$border-radius-big;
+  border-radius: var(--border-radius-big);
   padding: .5rem;
 
   .paginator-prev, .paginator-next, .paginator-page {
@@ -15,14 +15,14 @@
 
     &:not([disabled]) {
       &.active, &:hover {
-        border: variable.$color-yellow 1px solid;
-        border-radius: variable.$border-radius-big;
+        border: var(--color-yellow) 1px solid;
+        border-radius: var(--border-radius-big);
       }
     }
 
     &.active {
-      background-color: variable.$color-yellow;
-      color: variable.$color-white;
+      background-color: var(--color-yellow);
+      color: var(--color-white);
     }
   }
 

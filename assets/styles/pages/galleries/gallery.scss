@@ -4,7 +4,7 @@
   .thumbnail {
     header {
       img {
-        border-radius: variable.$border-radius-normal;
+        border-radius: var(--border-radius-normal);
       }
     }
   }

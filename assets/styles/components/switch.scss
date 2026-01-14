@@ -7,8 +7,8 @@
   align-items: center;
   border-radius: 50px;
   height: 50px;
-  border: 2px solid variable.$color-yellow;
-  background-color: variable.$color-white;
+  border: 2px solid var(--color-yellow);
+  background-color: var(--color-white);
   padding: 10px 5px;
 
   .choice {
@@ -17,7 +17,7 @@
     label {
       width: 100%;
       border-radius: 50px;
-      background-color: variable.$color-white;
+      background-color: var(--color-white);
       padding: 10px;
       display: flex;
       justify-content: center;
@@ -31,7 +31,7 @@
     }
 
     input:checked + label {
-      background-color: variable.$color-yellow;
+      background-color: var(--color-yellow);
     }
   }
 }

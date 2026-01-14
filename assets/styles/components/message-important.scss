@@ -3,12 +3,12 @@
 .message-important-container {
   width: 100%;
   padding: 10px 15px;
-  box-shadow: variable.$box-shadow;
-  background-color: variable.$color-white;
+  box-shadow: var(--box-shadow);
+  background-color: var(--color-white);
 
   .message-important-content {
     margin: auto;
-    color: variable.$color-grey;
+    color: var(--color-grey);
     width: fit-content;
   }
 }

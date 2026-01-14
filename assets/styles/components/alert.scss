@@ -1,13 +1,12 @@
-@use "sass:color";
 @use "../../styles/variable";
 
 .alert {
-  border-radius: variable.$border-radius-normal;
+  border-radius: var(--border-radius-normal);
   border: 1px solid;
   padding: 10px 15px;
 
   &-danger {
-    background-color: color.adjust(variable.$color-red, $lightness: 45%) !important;
-    border-color: variable.$color-red;
+    background-color: var(--color-red-light) !important;
+    border-color: var(--color-red);
   }
 }

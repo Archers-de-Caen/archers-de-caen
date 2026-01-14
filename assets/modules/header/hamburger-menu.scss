@@ -10,8 +10,8 @@
   .hamburger-menu-bar {
     height: 12%;
     width: 100%;
-    background-color: variable.$color-grey;
-    border-radius: variable.$border-radius-normal;
+    background-color: var(--color-grey);
+    border-radius: var(--border-radius-normal);
     transition: transform .5s ease;
   }
 

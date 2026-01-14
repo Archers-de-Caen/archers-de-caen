@@ -1,13 +1,13 @@
 @use "../variable";
 
 .border {
-  border: 2px solid variable.$color-yellow;
+  border: 2px solid var(--color-yellow);
 
   &.--rounded {
-    border-radius: variable.$border-radius-normal;
+    border-radius: var(--border-radius-normal);
   }
 }
 
 .rounded {
-  border-radius: variable.$border-radius-normal;
+  border-radius: var(--border-radius-normal);
 }
