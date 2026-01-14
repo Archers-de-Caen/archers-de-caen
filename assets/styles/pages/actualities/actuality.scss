@@ -34,7 +34,7 @@
     .actuality-title {
       .actuality-info {
         font-size: .8em;
-        color: color.adjust(variable.$color-grey, $lightness: 80%);
+        color: variable.$color-grey;
         display: flex;
         justify-content: start;
         align-items: center;
