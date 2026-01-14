@@ -33,7 +33,7 @@
 
                                 <td>
                                     <p>
-                                        <a href="{{ path(constant('App\\Http\\Landing\\Controller\\Archer\\ArcherRecapController::ROUTE'), { licenseNumber: result.archer.licenseNumber }) }}"
+                                        <a href="{{ absolute_url(path(constant('App\\Http\\Landing\\Controller\\Archer\\ArcherRecapController::ROUTE'), { licenseNumber: result.archer.licenseNumber })) }}"
                                            target="_parent"
                                         >
                                             {{ result.archer.fullName }}

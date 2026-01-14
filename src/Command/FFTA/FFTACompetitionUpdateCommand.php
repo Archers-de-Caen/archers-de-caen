@@ -39,7 +39,7 @@ final class FFTACompetitionUpdateCommand
 {
     public const string COMMAND_NAME = 'app:ffta:competition-results-update';
 
-    public const string GET_RESULT_DATE_MIN = '2024-05-13';
+    public const string GET_RESULT_DATE_MIN = '2025-09-01';
 
     public const string LICENSE_NUMBER_OF_CREATOR_ACTUALITY = '0785039D';
 
