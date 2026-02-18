@@ -13,6 +13,7 @@ use App\Domain\Newsletter\NewsletterType;
 use App\Http\Landing\Controller\IndexController;
 use App\Infrastructure\Service\ArcheryService;
 use App\Infrastructure\Service\FFTA\FFTADirigeantService;
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -170,6 +171,10 @@ final class ArcherCrudController extends AbstractCrudController
     /**
      * @internal
      */
+    #[AdminRoute(
+        path: '/merge',
+        name: 'admin_archer_publish',
+    )]
     public function mergeArchers(AdminContext $context): Response
     {
         if (Request::METHOD_POST === $context->getRequest()->getMethod()) {
@@ -214,6 +219,10 @@ final class ArcherCrudController extends AbstractCrudController
     /**
      * @internal
      */
+    #[AdminRoute(
+        path: '/download-contact-from-ffta',
+        name: 'admin_download_contact_from_ffta',
+    )]
     public function downloadContactFromFfta(AdminContext $context): Response
     {
         $season = ArcheryService::getCurrentSeason();

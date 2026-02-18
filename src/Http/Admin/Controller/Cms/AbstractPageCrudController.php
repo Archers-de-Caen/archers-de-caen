@@ -17,6 +17,7 @@ use App\Infrastructure\LiipImagine\CacheResolveMessage;
 use App\Infrastructure\Mailing\ActualityNewsletterMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -146,6 +147,10 @@ abstract class AbstractPageCrudController extends AbstractCrudController
             ->add(Crud::PAGE_INDEX, $publish);
     }
 
+    #[AdminRoute(
+        path: '/publish',
+        name: 'admin_page_publish',
+    )]
     public function publish(
         MessageBusInterface $messageBus,
         AdminContext $context,

@@ -14,6 +14,7 @@ use App\Http\Landing\Controller\Gallery\GalleryController;
 use App\Infrastructure\LiipImagine\CacheResolveMessage;
 use App\Infrastructure\Mailing\GalleryNewsletterMessage;
 use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -170,6 +171,11 @@ final class GalleryCrudController extends AbstractCrudController
     /**
      * @throws ExceptionInterface
      */
+
+    #[AdminRoute(
+        path: '/publish',
+        name: 'admin_gallery_publish',
+    )]
     public function publish(AdminContext $context): Response
     {
         /** @var Gallery $entity */
@@ -186,6 +192,10 @@ final class GalleryCrudController extends AbstractCrudController
         return $this->redirect($context->getReferrer() ?: $this->urlGenerator->generate(DashboardController::ROUTE));
     }
 
+    #[AdminRoute(
+        path: '/publish-without-send-newsletter',
+        name: 'admin_gallery_publish_without_send_newsletter',
+    )]
     public function publishWithoutSendNewsletter(AdminContext $context): Response
     {
         /** @var Gallery $entity */

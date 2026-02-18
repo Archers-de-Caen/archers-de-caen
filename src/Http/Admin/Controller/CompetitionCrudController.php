@@ -17,6 +17,7 @@ use App\Http\Admin\Controller\Cms\AbstractPageCrudController;
 use App\Http\Landing\Controller\Results\CompetitionController;
 use App\Infrastructure\Mailing\CompetitionResultsNewsletterMessage;
 use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -242,6 +243,10 @@ final class CompetitionCrudController extends AbstractCrudController
     /**
      * @throws ExceptionInterface
      */
+    #[AdminRoute(
+        path: '/send-newsletter',
+        name: 'admin_competition_send_newsletter',
+    )]
     public function sendNewsletter(AdminContext $context): RedirectResponse
     {
         $referer = $context->getReferrer();
