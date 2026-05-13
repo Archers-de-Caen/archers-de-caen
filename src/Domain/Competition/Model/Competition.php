@@ -96,6 +96,15 @@ class Competition implements \Stringable
 
     public function setLocation(?string $location): self
     {
+        if ($location) {
+            // Supprime les caractères non-UTF-8, car la "location" est utilisé pour faire le slug
+            $location = iconv('UTF-8', 'UTF-8//IGNORE', $location);
+
+            if (false === $location) {
+                throw new \RuntimeException('Impossible de convertir la "location" en UTF-8');
+            }
+        }
+
         $this->location = $location;
 
         return $this;
