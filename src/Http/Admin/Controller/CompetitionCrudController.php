@@ -16,6 +16,8 @@ use App\Domain\Result\Model\ResultCompetition;
 use App\Http\Admin\Controller\Cms\AbstractPageCrudController;
 use App\Http\Landing\Controller\Results\CompetitionController;
 use App\Infrastructure\Mailing\CompetitionResultsNewsletterMessage;
+use App\Infrastructure\Service\FFTA\CompetitionResultImporter;
+use App\Infrastructure\Service\FFTA\FFTAExtranetService;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -32,10 +34,15 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 use function Symfony\Component\Translation\t;
 
@@ -50,6 +57,9 @@ final class CompetitionCrudController extends AbstractCrudController
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly AdminUrlGenerator $adminUrlGenerator,
         private readonly MessageBusInterface $messageBus,
+        private readonly FFTAExtranetService $fftaExtranetService,
+        private readonly CompetitionResultImporter $competitionResultImporter,
+        private readonly CsrfTokenManagerInterface $csrfTokenManager,
     ) {
     }
 
@@ -108,7 +118,12 @@ final class CompetitionCrudController extends AbstractCrudController
             ])
         ;
 
+        $importCsv = Action::new('importFftaCsv', 'Importer un CSV FFTA')
+            ->linkToCrudAction('importFftaCsv')
+            ->createAsGlobalAction();
+
         return $actions
+            ->add(Crud::PAGE_INDEX, $importCsv)
             ->add(Crud::PAGE_INDEX, $publicLink)
             ->add(Crud::PAGE_INDEX, $copyIframe)
             ->add(Crud::PAGE_INDEX, $sendNewsletter)
@@ -279,5 +294,77 @@ final class CompetitionCrudController extends AbstractCrudController
         $this->addFlash('success', 'La newsletter a été envoyée');
 
         return $this->redirect($referer);
+    }
+
+    /**
+     * Import des résultats depuis un CSV "Résultats individuels" de l'extranet FFTA.
+     *
+     * @internal
+     *
+     * @throws ExceptionInterface
+     */
+    public function importFftaCsv(AdminContext $context): Response
+    {
+        $request = $context->getRequest();
+
+        if (Request::METHOD_POST === $request->getMethod()) {
+            $redirectUrl = $this->adminUrlGenerator
+                ->setController(self::class)
+                ->setAction(Action::INDEX)
+                ->generateUrl();
+
+            if (!$this->csrfTokenManager->isTokenValid(new CsrfToken('import-ffta-csv', (string) $request->request->get('_token')))) {
+                $this->addFlash('danger', 'Jeton CSRF invalide');
+
+                return $this->redirect($redirectUrl);
+            }
+
+            $file = $request->files->get('csv');
+
+            if (!$file instanceof UploadedFile || !$file->isValid()) {
+                $this->addFlash('danger', 'Veuillez sélectionner un fichier CSV valide');
+
+                return $this->redirect($redirectUrl);
+            }
+
+            if (!\in_array(strtolower($file->getClientOriginalExtension()), ['csv', 'txt'], true)) {
+                $this->addFlash('danger', 'Le fichier doit être au format CSV');
+
+                return $this->redirect($redirectUrl);
+            }
+
+            $content = (string) file_get_contents($file->getPathname());
+            // Les exports FFTA peuvent être encodés en ISO-8859-1 / avec BOM UTF-8
+            $content = preg_replace('/^\xEF\xBB\xBF/', '', $content) ?? $content;
+
+            if (!mb_check_encoding($content, 'UTF-8')) {
+                $content = mb_convert_encoding($content, 'UTF-8', 'ISO-8859-1');
+            }
+
+            try {
+                $results = $this->fftaExtranetService->createCompetitionResultDTOListFromCsv(str_replace("\r\n", "\n", $content));
+                $report = $this->competitionResultImporter->import(
+                    $this->fftaExtranetService->groupResultsByCompetition($results)
+                );
+            } catch (\Throwable $exception) {
+                $this->addFlash('danger', "Erreur lors de l'import : ".$exception->getMessage());
+
+                return $this->redirect($redirectUrl);
+            }
+
+            $this->addFlash('success', \sprintf(
+                'Import terminé : %d compétition(s), %d archer(s) et %d résultat(s) créés (%d ligne(s) lue(s))',
+                \count($report['competition']),
+                \count($report['archer']),
+                \count($report['result']),
+                \count($results),
+            ));
+
+            return $this->redirect($redirectUrl);
+        }
+
+        return $this->render('admin/competitions/import-ffta-csv.html.twig', [
+            'csrf_token' => $this->csrfTokenManager->getToken('import-ffta-csv')->getValue(),
+        ]);
     }
 }

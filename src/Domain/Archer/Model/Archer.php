@@ -56,7 +56,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
     #[Assert\Regex('/\d{7}[A-Za-z]/')]
     private ?string $licenseNumber = null;
 
-    #[ORM\Column(type: Types::STRING, length: 191, nullable: false)]
+    #[ORM\Column(type: Types::STRING, length: 191, nullable: true)]
     #[Assert\Length(max: 191)]
     #[Assert\Email]
     private ?string $email = null;

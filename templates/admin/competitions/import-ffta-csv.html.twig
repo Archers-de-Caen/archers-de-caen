@@ -1,0 +1,22 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Importer un CSV FFTA{% endblock %}
+
+{% block page_content %}
+    <twig:ea:Alert variant="info">
+        Export « Résultats individuels » de l'extranet FFTA (séparateur <code>;</code>).
+        Les compétitions, archers et résultats manquants seront créés, les badges et records attribués,
+        et les notifications / newsletters envoyées.
+    </twig:ea:Alert>
+
+    <form method="post" enctype="multipart/form-data" class="form-horizontal mt-3">
+        <input type="hidden" name="_token" value="{{ csrf_token }}">
+
+        <div class="form-group mb-3">
+            <label class="control-label required" for="csv">Fichier CSV</label>
+            <input type="file" id="csv" name="csv" accept=".csv,.txt,text/csv" required class="form-control">
+        </div>
+
+        <twig:ea:Button variant="primary">Importer</twig:ea:Button>
+    </form>
+{% endblock %}

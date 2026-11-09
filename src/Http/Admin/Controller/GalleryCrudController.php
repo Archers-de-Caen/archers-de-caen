@@ -171,7 +171,6 @@ final class GalleryCrudController extends AbstractCrudController
     /**
      * @throws ExceptionInterface
      */
-
     #[AdminRoute(
         path: '/publish',
         name: 'admin_gallery_publish',

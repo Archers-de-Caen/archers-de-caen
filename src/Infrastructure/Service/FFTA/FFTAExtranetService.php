@@ -291,7 +291,7 @@ final class FFTAExtranetService
      *
      * @return array<string, array<CompetitionResultDTO>>
      */
-    private function groupResultsByCompetition(array $competitionResult): array
+    public function groupResultsByCompetition(array $competitionResult): array
     {
         $result = [];
 
