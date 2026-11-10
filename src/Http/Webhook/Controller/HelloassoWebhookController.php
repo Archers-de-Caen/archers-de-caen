@@ -12,7 +12,6 @@ use Helloasso\Models\Event;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -30,7 +29,7 @@ final class HelloassoWebhookController extends AbstractController
     {
     }
 
-    public function __invoke(Request $request, ParameterBagInterface $parameterBag): Response
+    public function __invoke(Request $request, ParameterBagInterface $parameterBag): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $parameter = $parameterBag->all();
         $helloasso = new HelloassoClient(

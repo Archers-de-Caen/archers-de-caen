@@ -142,7 +142,7 @@ final readonly class CompetitionResultImporter
             $this->em->persist($archer);
             $this->em->flush();
 
-            $log('Création de l\'archer '.$result->getLicenseNumber());
+            $log("Création de l'archer ".$result->getLicenseNumber());
 
             $report['archer'][] = $archer;
         }

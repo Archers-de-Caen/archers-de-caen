@@ -88,7 +88,7 @@ final class BadgeFilter extends AbstractType
                     return $string ? $this->badgeRepository->find($string) : null;
                 },
                 static function (?Badge $badge): ?string {
-                    return $badge ? (string) $badge->getId() : null;
+                    return $badge instanceof Badge ? (string) $badge->getId() : null;
                 }
             ))
         ;

@@ -89,7 +89,7 @@ final class JeuDeEteController extends AbstractController
         string $password
     ): Response {
         if ($userPassword !== $password) {
-            $this->addFlash('danger', 'Vous n\'avez pas le droit d\'accéder à cette page.');
+            $this->addFlash('danger', "Vous n'avez pas le droit d'accéder à cette page.");
 
             return $this->redirectToRoute(self::ROUTE_RESULT);
         }
@@ -101,7 +101,7 @@ final class JeuDeEteController extends AbstractController
             $competition = $this->competitionRepository->findOneBy(['slug' => self::COMPETITION_SLUG]);
 
             if (!$competition instanceof Competition) {
-                $this->addFlash('danger', 'La compétition n\'existe pas.');
+                $this->addFlash('danger', "La compétition n'existe pas.");
 
                 return $this->redirectToRoute(self::ROUTE_RESULT);
             }

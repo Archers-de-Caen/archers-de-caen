@@ -17,7 +17,7 @@ final class ResultTeamFinalRankForm extends AbstractType
     {
         $builder
             ->add('teamName', TextType::class, [
-                'label' => 'Nom de l\'équipe',
+                'label' => "Nom de l'équipe",
             ])
             ->add('rank', IntegerType::class, [
                 'label' => 'Classement',

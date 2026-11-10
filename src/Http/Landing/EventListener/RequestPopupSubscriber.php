@@ -6,12 +6,11 @@ namespace App\Http\Landing\EventListener;
 
 use App\Domain\Cms\Model\Data;
 use App\Domain\Cms\Repository\DataRepository;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Routing\RouterInterface;
 
-final readonly class RequestPopupSubscriber implements EventSubscriberInterface
+final readonly class RequestPopupSubscriber
 {
     public function __construct(
         private DataRepository $dataRepository,
@@ -19,14 +18,7 @@ final readonly class RequestPopupSubscriber implements EventSubscriberInterface
     ) {
     }
 
-    #[\Override]
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            RequestEvent::class => 'onKernelRequest',
-        ];
-    }
-
+    #[\Symfony\Component\EventDispatcher\Attribute\AsEventListener(event: RequestEvent::class)]
     public function onKernelRequest(RequestEvent $event): void
     {
         if (!$event->isMainRequest()) {

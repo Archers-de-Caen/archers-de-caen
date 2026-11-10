@@ -29,6 +29,7 @@ class Photo implements UploadableInterface
     use IdTrait;
     use TimestampTrait;
     use TokenTrait;
+
     public const PREFIX_TOKEN = 'pho';
 
     /**

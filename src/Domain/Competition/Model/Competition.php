@@ -53,14 +53,14 @@ class Competition implements \Stringable
     /**
      * @var Collection<int, ResultCompetition>
      */
-    #[ORM\OneToMany(mappedBy: 'competition', targetEntity: ResultCompetition::class, cascade: ['ALL'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ResultCompetition::class, mappedBy: 'competition', cascade: ['ALL'], orphanRemoval: true)]
     #[Assert\Valid]
     private Collection $results;
 
     /**
      * @var Collection<int, ResultTeam>
      */
-    #[ORM\OneToMany(mappedBy: 'competition', targetEntity: ResultTeam::class, cascade: ['ALL'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ResultTeam::class, mappedBy: 'competition', cascade: ['ALL'], orphanRemoval: true)]
     #[Assert\Valid]
     private Collection $resultsTeams;
 
@@ -82,7 +82,7 @@ class Competition implements \Stringable
         return \sprintf(
             'concours %s d%s %s du %s au %s',
             $this->getType()?->toString(),
-            \in_array(strtolower($this->getLocation() ?? '')[0], ['a', 'e', 'i', 'o', 'u', 'y', 'h']) ? "'" : 'e',
+            \in_array(strtolower($this->getLocation() ?? '')[0], ['a', 'e', 'i', 'o', 'u', 'y', 'h'], true) ? "'" : 'e',
             $this->getLocation(),
             $this->getDateStart()?->format('d/m/Y'),
             $this->getDateEnd()?->format('d/m/Y')

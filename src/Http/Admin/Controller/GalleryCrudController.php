@@ -25,7 +25,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGeneratorInterface;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -177,7 +176,7 @@ final class GalleryCrudController extends AbstractCrudController
         path: '/publish',
         name: 'admin_gallery_publish',
     )]
-    public function publish(AdminContext $context): Response
+    public function publish(AdminContext $context): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         /** @var Gallery $entity */
         $entity = $context->getEntity()->getInstance();
@@ -197,7 +196,7 @@ final class GalleryCrudController extends AbstractCrudController
         path: '/publish-without-send-newsletter',
         name: 'admin_gallery_publish_without_send_newsletter',
     )]
-    public function publishWithoutSendNewsletter(AdminContext $context): Response
+    public function publishWithoutSendNewsletter(AdminContext $context): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         /** @var Gallery $entity */
         $entity = $context->getEntity()->getInstance();

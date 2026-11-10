@@ -13,24 +13,16 @@ use App\Http\Landing\Controller\Page\PageController;
 use Presta\SitemapBundle\Event\SitemapPopulateEvent;
 use Presta\SitemapBundle\Service\UrlContainerInterface;
 use Presta\SitemapBundle\Sitemap\Url\UrlConcrete;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class SitemapSubscriber implements EventSubscriberInterface
+final class SitemapSubscriber
 {
     public function __construct(
         private readonly PageRepository $pageRepository
     ) {
     }
 
-    #[\Override]
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            SitemapPopulateEvent::class => 'populate',
-        ];
-    }
-
+    #[\Symfony\Component\EventDispatcher\Attribute\AsEventListener(event: SitemapPopulateEvent::class)]
     public function populate(SitemapPopulateEvent $event): void
     {
         $this->registerCmsPagesUrls($event->getUrlContainer(), $event->getUrlGenerator());

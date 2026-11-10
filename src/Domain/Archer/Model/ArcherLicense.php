@@ -87,7 +87,7 @@ class ArcherLicense
     public function setActive(bool $active): self
     {
         if ($active) {
-            foreach ($this->getArcher() ? $this->getArcher()->getArcherLicenses() : [] as $archerLicense) {
+            foreach ($this->getArcher() instanceof Archer ? $this->getArcher()->getArcherLicenses() : [] as $archerLicense) {
                 $archerLicense->setActive(false);
             }
         }

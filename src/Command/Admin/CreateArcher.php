@@ -30,7 +30,7 @@ final readonly class CreateArcher
         $properties = [
             'firstName' => [
                 'value' => null,
-                'sentence' => 'Prénom de l\'archer',
+                'sentence' => "Prénom de l'archer",
             ],
             'lastName' => [
                 'value' => null,
@@ -42,7 +42,7 @@ final readonly class CreateArcher
             ],
             'phone' => [
                 'value' => null,
-                'sentence' => 'Téléphone de l\'archer',
+                'sentence' => "Téléphone de l'archer",
             ],
             'plainPassword' => [
                 'value' => null,
@@ -51,7 +51,7 @@ final readonly class CreateArcher
             ],
             'licenseNumber' => [
                 'value' => null,
-                'sentence' => 'Numéro de licence de l\'archer',
+                'sentence' => "Numéro de licence de l'archer",
             ],
             'role' => [
                 'value' => null,

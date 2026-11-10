@@ -46,7 +46,7 @@ class Badge
     /**
      * @var Collection<int, ResultBadge>
      */
-    #[ORM\OneToMany(mappedBy: 'badge', targetEntity: ResultBadge::class)]
+    #[ORM\OneToMany(targetEntity: ResultBadge::class, mappedBy: 'badge')]
     private Collection $resultBadges;
 
     /**

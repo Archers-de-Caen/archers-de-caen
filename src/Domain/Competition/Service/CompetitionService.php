@@ -88,6 +88,7 @@ final readonly class CompetitionService
         // Sort results by score
         foreach ($results as $weapon => $categories) {
             foreach (array_keys($categories) as $category) {
+                /* @phpstan-ignore-next-line */
                 usort($results[$weapon][$category], static function (ResultCompetition $a, ResultCompetition $b): int {
                     if (!$a->getRank() && $b->getRank()) {
                         return 1;

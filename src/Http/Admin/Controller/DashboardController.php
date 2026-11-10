@@ -5,16 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Admin\Controller;
 
 use App\Domain\Archer\Model\Archer;
-use App\Domain\Archer\Model\License;
-use App\Domain\Badge\Model\Badge;
-use App\Domain\Cms\Model\Data;
-use App\Domain\Cms\Model\Gallery;
-use App\Domain\Cms\Model\Page;
-use App\Domain\Cms\Model\Tag;
-use App\Domain\Competition\Model\Competition;
-use App\Domain\File\Model\Document;
-use App\Domain\File\Model\Photo;
-use App\Domain\Result\Model\ResultBadge;
 use App\Http\Admin\Controller\Badge\BadgeCrudController;
 use App\Http\Admin\Controller\Badge\ResultBadgeFederalHonorCrudController;
 use App\Http\Admin\Controller\Badge\ResultBadgeProgressArrowCrudController;

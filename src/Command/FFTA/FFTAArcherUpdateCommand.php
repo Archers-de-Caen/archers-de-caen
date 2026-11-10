@@ -15,9 +15,6 @@ use App\Infrastructure\Service\ArcheryService;
 use App\Infrastructure\Service\FFTA\FFTADirigeantService;
 use App\Infrastructure\Service\FFTA\LicenseDTO;
 use Doctrine\ORM\EntityManagerInterface;
-
-use function Sentry\captureMessage;
-
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -47,7 +44,7 @@ final readonly class FFTAArcherUpdateCommand
         $season = ArcheryService::getCurrentSeason();
 
         // On se connecte à l'espace dirigeant
-        $io->info('Connexion à l\'espace dirigeant');
+        $io->info("Connexion à l'espace dirigeant");
 
         try {
             $this->fftaDirigeantService->connect();
@@ -60,8 +57,6 @@ final readonly class FFTAArcherUpdateCommand
         } catch (HttpExceptionInterface|TransportExceptionInterface $httpException) {
             $io->error($httpException->getMessage());
 
-            captureMessage($httpException->getMessage());
-
             return Command::FAILURE;
         }
 
@@ -72,8 +67,6 @@ final readonly class FFTAArcherUpdateCommand
                 $archer = $this->getArcher($archers, $licenseFromFFTA);
             } catch (\RuntimeException $e) {
                 $io->error($e->getMessage());
-
-                captureMessage($e->getMessage());
 
                 break;
             }
@@ -90,8 +83,6 @@ final readonly class FFTAArcherUpdateCommand
                     $msg = 'License not found for '.$licenseType;
 
                     $io->error($msg);
-
-                    captureMessage($msg);
 
                     return Command::FAILURE;
                 }
@@ -113,8 +104,6 @@ final readonly class FFTAArcherUpdateCommand
                     $category = Category::createFromString($category.' '.$gender);
                 } catch (\ValueError $e) {
                     $io->error($e->getMessage());
-
-                    captureMessage($e->getMessage());
 
                     $category = null;
                 }

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Infrastructure\DataFixtures\Processor;
 
 use App\Domain\File\Model\Photo;
-use GuzzleHttp\Psr7\MimeType;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mime\MimeTypesInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -19,6 +19,7 @@ readonly class GenerateRandomPhotoService
         private HttpClientInterface $httpClient,
         private Filesystem $filesystem,
         private LoggerInterface $logger,
+        private MimeTypesInterface $mimeTypes,
     ) {
     }
 
@@ -69,7 +70,7 @@ readonly class GenerateRandomPhotoService
         return new UploadedFile(
             path: $tempFile,
             originalName: basename($tempFile),
-            mimeType: MimeType::fromFilename($tempFile),
+            mimeType: $this->mimeTypes->guessMimeType($tempFile),
             test: true
         );
     }
@@ -83,14 +84,14 @@ readonly class GenerateRandomPhotoService
         return new UploadedFile(
             path: $tempFile,
             originalName: basename($tempFile),
-            mimeType: MimeType::fromFilename($tempFile),
+            mimeType: $this->mimeTypes->guessMimeType($tempFile),
             test: true
         );
     }
 
     private function createPhoto(UploadedFile $uploadedFile): Photo
     {
-        return (new Photo())
+        return new Photo()
             ->setImageFile($uploadedFile)
         ;
     }

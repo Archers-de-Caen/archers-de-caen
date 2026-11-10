@@ -15,8 +15,9 @@ use Doctrine\ORM\EntityManagerInterface;
 
 final class ResultCompetitionManager
 {
-    public function __construct(private readonly EntityManagerInterface $em)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+    ) {
     }
 
     public function awardingBadges(ResultCompetition $resultCompetition): void
@@ -100,11 +101,11 @@ final class ResultCompetitionManager
                 return 0;
             }
 
-            return $first->getConditions()['score'] < $second->getConditions()['score'] ? -1 : 1;
+            return ($first->getConditions()['score'] ?? 0) < ($second->getConditions()['score'] ?? 0) ? -1 : 1;
         });
 
         foreach ($badges as $badge) {
-            if ($badge->getConditions() && $resultCompetition->getScore() > $badge->getConditions()['score']) {
+            if ($badge->getConditions() && $resultCompetition->getScore() > ($badge->getConditions()['score'] ?? 0)) {
                 if (!$bestResultBadge || $badge !== $bestResultBadge->getBadge()) {
                     $resultBadge = new ResultBadge();
 

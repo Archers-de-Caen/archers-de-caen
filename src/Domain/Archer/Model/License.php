@@ -22,7 +22,7 @@ class License
     /**
      * @var Collection<int, ArcherLicense>
      */
-    #[ORM\OneToMany(mappedBy: 'license', targetEntity: ArcherLicense::class, orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ArcherLicense::class, mappedBy: 'license', orphanRemoval: true)]
     private Collection $archerLicenses;
 
     #[ORM\Column(type: Types::STRING, length: 191)]

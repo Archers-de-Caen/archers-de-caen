@@ -92,7 +92,7 @@ final class InternalCompetitionController extends AbstractController
             $competition = $this->competitionRepository->findOneBy(['slug' => self::COMPETITION_SLUG]);
 
             if (!$competition instanceof Competition) {
-                $this->addFlash('danger', 'La compétition n\'existe pas.');
+                $this->addFlash('danger', "La compétition n'existe pas.");
 
                 return $this->redirectToRoute(self::ROUTE_RESULT);
             }

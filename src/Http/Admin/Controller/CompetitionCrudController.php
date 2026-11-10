@@ -163,10 +163,10 @@ final class CompetitionCrudController extends AbstractCrudController
 
         $resultsTeams = CollectionField::new('resultsTeams')
             ->setEntryType(ResultTeamForm::class)
-            ->setLabel('Résultat d\'équipe');
+            ->setLabel("Résultat d'équipe");
 
         $autoCreateActuality = BooleanField::new('autoCreateActuality')
-            ->setLabel('Créer automatiquement l\'article ?')
+            ->setLabel("Créer automatiquement l'article ?")
             ->setFormTypeOption('mapped', false)
             ->setFormTypeOption('attr', ['checked' => true]);
 

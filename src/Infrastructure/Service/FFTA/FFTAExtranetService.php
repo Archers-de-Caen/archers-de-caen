@@ -108,8 +108,8 @@ final class FFTAExtranetService
                         'Pers' => 'CLU',
                         'oldPers' => 'CLU',
                         'Struc' => self::STRUCTURE_ID,
-                        'Date_dbt' => $search->getDateStart() ? $search->getDateStart()->format('d/m/Y') : '01/01/'.($search->getSeason() - 1),
-                        'Date_fin' => $search->getDateEnd() ? $search->getDateEnd()->format('d/m/Y') : '31/12/'.($search->getSeason() + 1),
+                        'Date_dbt' => $search->getDateStart() instanceof \DateTimeInterface ? $search->getDateStart()->format('d/m/Y') : '01/01/'.($search->getSeason() - 1),
+                        'Date_fin' => $search->getDateEnd() instanceof \DateTimeInterface ? $search->getDateEnd()->format('d/m/Y') : '31/12/'.($search->getSeason() + 1),
                     ],
                     'StartGen' => 'Générer les documents',
                 ],
@@ -120,7 +120,7 @@ final class FFTAExtranetService
 
         $nodes = $pageConnexion->getElementById('exports_container')?->getElementsByTagName('a');
 
-        if (!$nodes) {
+        if (!$nodes instanceof \DOMNodeList) {
             throw new \RuntimeException('CSV download link not found');
         }
 

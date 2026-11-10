@@ -27,7 +27,7 @@ enum NewsletterType: string
         return match ($this) {
             self::ACTUALITY_NEW => 'Une nouvelle actualité est en ligne !',
             self::GALLERY_NEW => 'Un nouvel album photos est en ligne !',
-            self::COMPETITION_RESULTS_NEW => 'Les résultats d\'une compétition sont en ligne !',
+            self::COMPETITION_RESULTS_NEW => "Les résultats d'une compétition sont en ligne !",
         };
     }
 }

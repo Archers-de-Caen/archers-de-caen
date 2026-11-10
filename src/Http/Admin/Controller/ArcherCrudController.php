@@ -113,7 +113,7 @@ final class ArcherCrudController extends AbstractCrudController
                 'choices' => NewsletterType::cases(),
                 'multiple' => true,
             ])
-            ->setTranslatableChoices(function (Archer $archer): array {
+            ->setTranslatableChoices(static function (Archer $archer): array {
                 return array_reduce(
                     $archer->getNewsletters(),
                     static fn (array $carry, NewsletterType $choice): array => $carry + [$choice->value => t($choice->name, domain: 'newsletter')],
@@ -194,7 +194,7 @@ final class ArcherCrudController extends AbstractCrudController
             $toMerge = $this->archerRepository->find($toMerge);
 
             if (null === $toMerge) {
-                throw new \InvalidArgumentException('L\'archer à fusionner n\'existe pas');
+                throw new \InvalidArgumentException("L'archer à fusionner n'existe pas");
             }
 
             $this->archerService->merge($base, $toMerge);

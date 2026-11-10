@@ -12,7 +12,6 @@ use App\Domain\File\Admin\Field\PhotoField;
 use App\Domain\File\Form\PhotoFormType;
 use App\Domain\File\Model\Photo;
 use App\Domain\Newsletter\NewsletterType;
-use App\Http\Admin\Controller\DashboardController;
 use App\Infrastructure\LiipImagine\CacheResolveMessage;
 use App\Infrastructure\Mailing\ActualityNewsletterMessage;
 use Doctrine\ORM\EntityManagerInterface;
@@ -34,14 +33,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGeneratorInterface;
-use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
-
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use function Symfony\Component\Translation\t;
-
-use Symfony\Component\Translation\TranslatableMessage;
 
 abstract class AbstractPageCrudController extends AbstractCrudController
 {
@@ -75,8 +69,8 @@ abstract class AbstractPageCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setHelp(Crud::PAGE_NEW, 'Le rendu final peut-être différent de l\'éditeur')
-            ->setHelp(Crud::PAGE_EDIT, 'Le rendu final peut-être différent de l\'éditeur')
+            ->setHelp(Crud::PAGE_NEW, "Le rendu final peut-être différent de l'éditeur")
+            ->setHelp(Crud::PAGE_EDIT, "Le rendu final peut-être différent de l'éditeur")
 
             ->setPageTitle(Crud::PAGE_DETAIL, static fn (Page $page): string => (string) $page)
 

@@ -29,16 +29,14 @@ final class PageCrudController extends AbstractPageCrudController
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, 'Liste des pages du site')
             ->setPageTitle(Crud::PAGE_NEW, 'Ajouter une page au site')
-            ->setPageTitle(Crud::PAGE_EDIT, static fn (Page $page): string => \sprintf('Edition de la page <b>%s</b>', $page))
-        ;
+            ->setPageTitle(Crud::PAGE_EDIT, static fn (Page $page): string => \sprintf('Edition de la page <b>%s</b>', $page));
     }
 
     #[\Override]
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
         return parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters)
-            ->where(\sprintf("entity.category = '%s'", Category::PAGE->value))
-        ;
+            ->where(\sprintf("entity.category = '%s'", Category::PAGE->value));
     }
 
     #[\Override]
@@ -54,7 +52,8 @@ final class PageCrudController extends AbstractPageCrudController
                     parameters: [
                         'slug' => $page->getSlug(),
                     ],
-                    referenceType: UrlGeneratorInterface::ABSOLUTE_URL);
+                    referenceType: UrlGeneratorInterface::ABSOLUTE_URL
+                );
             })
         ;
 
@@ -67,8 +66,7 @@ final class PageCrudController extends AbstractPageCrudController
     {
         $tags = AssociationField::new('tags')
             ->setLabel('Tags')
-            ->formatValue(static fn ($value, Page $page): string => implode(',', $page->getTags()->toArray()))
-        ;
+            ->formatValue(static fn ($value, Page $page): string => implode(',', $page->getTags()->toArray()));
 
         $fields = (array) parent::configureFields($pageName);
 

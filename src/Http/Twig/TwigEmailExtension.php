@@ -11,10 +11,8 @@ use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
 
-final class TwigEmailExtension extends AbstractExtension
+final class TwigEmailExtension
 {
     /**
      * @param string $baseHost auto-inject from services.yaml
@@ -25,22 +23,10 @@ final class TwigEmailExtension extends AbstractExtension
     ) {
     }
 
-    #[\Override]
-    public function getFilters(): array
-    {
-        return [
-            new TwigFilter('markdown_email', [$this, 'markdownEmail'], [
-                'needs_context' => true,
-                'is_safe' => ['html'],
-            ]),
-            new TwigFilter('text_email', [$this, 'formatText']),
-            new TwigFilter('replace_iframes', [$this, 'replaceIframesWithContent'], ['is_safe' => ['html']]),
-        ];
-    }
-
     /**
      * Convertit le contenu markdown en HTML.
      */
+    #[\Twig\Attribute\AsTwigFilter(name: 'markdown_email', needsContext: true, isSafe: ['html'])]
     public function markdownEmail(array $context, string $content): string
     {
         if (($context['format'] ?? 'text') === 'text') {
@@ -52,6 +38,7 @@ final class TwigEmailExtension extends AbstractExtension
         return (new \Parsedown())->setSafeMode(false)->text($content);
     }
 
+    #[\Twig\Attribute\AsTwigFilter(name: 'text_email')]
     public function formatText(string $content): string
     {
         $content = strip_tags($content);
@@ -60,6 +47,7 @@ final class TwigEmailExtension extends AbstractExtension
         return preg_replace("/([\r\n] *){3,}/", "\n\n", $content) ?: '';
     }
 
+    #[\Twig\Attribute\AsTwigFilter(name: 'replace_iframes', isSafe: ['html'])]
     public function replaceIframesWithContent(string $content): string
     {
         $urls = $this->extractIframeUrls($content);

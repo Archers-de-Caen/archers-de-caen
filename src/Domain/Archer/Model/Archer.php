@@ -155,7 +155,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
 
     public function addRole(?string $role): self
     {
-        if ($role && !\in_array($role, $this->roles, true) && \in_array($role, self::ROLES)) {
+        if ($role && !\in_array($role, $this->roles, true) && \in_array($role, self::ROLES, true)) {
             $this->roles[] = $role;
         }
 
@@ -195,7 +195,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
             return $this->getEmail();
         }
 
-        throw new \RuntimeException('L\'utilisateur doit avoir au moins son numéro de licence ou un email');
+        throw new \RuntimeException("L'utilisateur doit avoir au moins son numéro de licence ou un email");
     }
 
     #[\Override]
@@ -380,10 +380,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
      */
     public function getResultsProgressArrow(): Collection
     {
-        /** @var Collection $results */
-        $results = $this->results->filter(static fn (Result $result): bool => $result instanceof ResultBadge && Badge::PROGRESS_ARROW === $result->getBadge()?->getType());
-
-        return $results;
+        return $this->results->filter(static fn (Result $result): bool => $result instanceof ResultBadge && Badge::PROGRESS_ARROW === $result->getBadge()?->getType());
     }
 
     public function getBestProgressArrowObtained(): ?ResultBadge
@@ -404,10 +401,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
      */
     public function getResultsCompetition(): Collection
     {
-        /** @var Collection $results */
-        $results = $this->results->filter(static fn (Result $result): bool => $result instanceof ResultCompetition);
-
-        return $results;
+        return $this->results->filter(static fn (Result $result): bool => $result instanceof ResultCompetition);
     }
 
     /**
@@ -415,10 +409,7 @@ class Archer implements UserInterface, PasswordAuthenticatedUserInterface, Equat
      */
     public function getResultsBadge(): Collection
     {
-        /** @var Collection $results */
-        $results = $this->results->filter(static fn (Result $result): bool => $result instanceof ResultBadge);
-
-        return $results;
+        return $this->results->filter(static fn (Result $result): bool => $result instanceof ResultBadge);
     }
 
     public function addResult(Result $result): self

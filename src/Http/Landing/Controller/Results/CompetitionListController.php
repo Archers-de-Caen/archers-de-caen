@@ -90,7 +90,7 @@ final class CompetitionListController extends AbstractController
         $competitions = $queryBuilder
             ->select('competition')
 
-            ->setFirstResult($pagination?->page * $pagination?->limit ?: 0)
+            ->setFirstResult($pagination?->page * $pagination?->limit)
             ->setMaxResults($pagination?->limit ?: 10)
 
             ->orderBy('competition.dateStart', 'DESC')

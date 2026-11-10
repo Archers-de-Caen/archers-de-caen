@@ -9,9 +9,6 @@ use App\Infrastructure\Service\FFTA\CompetitionResultDTO;
 use App\Infrastructure\Service\FFTA\CompetitionResultImporter;
 use App\Infrastructure\Service\FFTA\CompetitionResultSearchDTO;
 use App\Infrastructure\Service\FFTA\FFTAExtranetService;
-
-use function Sentry\captureMessage;
-
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -41,14 +38,12 @@ final readonly class FFTACompetitionUpdateCommand
     public function __invoke(SymfonyStyle $io): int
     {
         $io->info('Run '.self::COMMAND_NAME);
-        $io->info('Connexion à l\'espace extranet');
+        $io->info("Connexion à l'espace extranet");
 
         try {
             $competitionResults = $this->getCompetitionResults($io);
         } catch (HttpExceptionInterface|TransportExceptionInterface|\Exception $httpException) {
             $io->error($httpException->getMessage());
-
-            captureMessage($httpException->getMessage());
 
             return Command::FAILURE;
         }
