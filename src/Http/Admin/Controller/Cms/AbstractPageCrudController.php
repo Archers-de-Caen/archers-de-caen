@@ -33,11 +33,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGeneratorInterface;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use function Symfony\Component\Translation\t;
 
 use Symfony\Component\Translation\TranslatableMessage;
@@ -46,6 +47,7 @@ abstract class AbstractPageCrudController extends AbstractCrudController
 {
     public function __construct(
         protected readonly UrlGeneratorInterface $urlGenerator,
+        protected readonly AdminUrlGeneratorInterface $adminUrlGenerator,
         protected readonly MessageBusInterface $bus,
     ) {
     }
@@ -97,14 +99,11 @@ abstract class AbstractPageCrudController extends AbstractCrudController
 
         $status = ChoiceField::new('status')
             ->setLabel('Statut')
-            ->setFormType(EnumType::class)
-            ->setFormTypeOptions([
-                'class' => Status::class,
-                'choice_label' => static fn (Status $choice): TranslatableMessage => t($choice->value, domain: 'page'),
-                'choices' => Status::cases(),
-            ])
-            ->formatValue(static fn ($value, ?Page $entity): TranslatableMessage|string => !$value || !$entity instanceof Page || !$entity->getStatus() instanceof Status ? '' : t($entity->getStatus()->value, domain: 'page'))
-        ;
+            ->renderAsBadges([
+                Status::DRAFT->name => 'warning',
+                Status::PUBLISH->name => 'success',
+                Status::DELETE->name => 'danger',
+            ]);
 
         $image = PhotoField::new('image')
             ->setLabel('Image')
@@ -140,8 +139,7 @@ abstract class AbstractPageCrudController extends AbstractCrudController
         $publish = Action::new('publish')
             ->setLabel('Publier')
             ->linkToCrudAction('publish')
-            ->displayIf(static fn (Page $page): bool => Status::DRAFT === $page->getStatus())
-        ;
+            ->displayIf(static fn (Page $page): bool => Status::DRAFT === $page->getStatus());
 
         return $actions
             ->add(Crud::PAGE_INDEX, $publish);
@@ -155,7 +153,6 @@ abstract class AbstractPageCrudController extends AbstractCrudController
         MessageBusInterface $messageBus,
         AdminContext $context,
         EntityManagerInterface $em,
-        UrlGeneratorInterface $urlGenerator
     ): Response {
         /** @var Page $entity */
         $entity = $context->getEntity()->getInstance();
@@ -168,7 +165,7 @@ abstract class AbstractPageCrudController extends AbstractCrudController
             $messageBus->dispatch(new ActualityNewsletterMessage($entity->getId(), NewsletterType::ACTUALITY_NEW));
         }
 
-        return $this->redirect($context->getReferrer() ?: $urlGenerator->generate(DashboardController::ROUTE));
+        return $this->redirect($this->adminUrlGenerator->setController(self::class)->setAction(Action::INDEX)->generateUrl());
     }
 
     protected function dispatchCache(Page $entityInstance): void

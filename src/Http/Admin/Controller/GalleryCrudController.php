@@ -23,6 +23,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGeneratorInterface;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
@@ -37,6 +38,7 @@ final class GalleryCrudController extends AbstractCrudController
 {
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly AdminUrlGeneratorInterface $adminUrlGenerator,
         private readonly MessageBusInterface $messageBus,
         private readonly EntityManagerInterface $em,
     ) {
@@ -188,7 +190,7 @@ final class GalleryCrudController extends AbstractCrudController
             $this->messageBus->dispatch(new GalleryNewsletterMessage($entity->getId(), NewsletterType::GALLERY_NEW));
         }
 
-        return $this->redirect($context->getReferrer() ?: $this->urlGenerator->generate(DashboardController::ROUTE));
+        return $this->redirect($this->adminUrlGenerator->setController(self::class)->setAction(Action::INDEX)->generateUrl());
     }
 
     #[AdminRoute(
@@ -204,6 +206,6 @@ final class GalleryCrudController extends AbstractCrudController
 
         $this->em->flush();
 
-        return $this->redirect($context->getReferrer() ?: $this->urlGenerator->generate(DashboardController::ROUTE));
+        return $this->redirect($this->adminUrlGenerator->setController(self::class)->setAction(Action::INDEX)->generateUrl());
     }
 }

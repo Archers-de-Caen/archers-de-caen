@@ -49,9 +49,12 @@ final class PageCrudController extends AbstractPageCrudController
         $publicLink = Action::new('public-link')
             ->setLabel('Lien public')
             ->linkToUrl(function (Page $page): string {
-                return $this->urlGenerator->generate(PageController::ROUTE, [
-                    'slug' => $page->getSlug(),
-                ], UrlGeneratorInterface::ABSOLUTE_URL);
+                return $this->urlGenerator->generate(
+                    name: PageController::ROUTE,
+                    parameters: [
+                        'slug' => $page->getSlug(),
+                    ],
+                    referenceType: UrlGeneratorInterface::ABSOLUTE_URL);
             })
         ;
 

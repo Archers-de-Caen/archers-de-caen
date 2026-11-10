@@ -145,9 +145,9 @@ final class ArcherCrudController extends AbstractCrudController
         $impersonation = Action::new('Se connecter')->linkToUrl(
             function (Archer $archer): string {
                 return $this->urlGenerator->generate(
-                    IndexController::ROUTE,
-                    ['_switch_user' => $archer->getEmail()],
-                    UrlGeneratorInterface::ABSOLUTE_URL
+                    name: IndexController::ROUTE,
+                    parameters: ['_switch_user' => $archer->getEmail()],
+                    referenceType: UrlGeneratorInterface::ABSOLUTE_URL
                 );
             }
         );
@@ -226,7 +226,7 @@ final class ArcherCrudController extends AbstractCrudController
     public function downloadContactFromFfta(AdminContext $context): Response
     {
         $season = ArcheryService::getCurrentSeason();
-        $referer = $context->getReferrer() ?: $this->adminUrlGenerator->setController(self::class)->setAction(Action::INDEX)->generateUrl();
+        $referer = $this->adminUrlGenerator->setController(self::class)->setAction(Action::INDEX)->generateUrl();
 
         try {
             $this->fftaDirigeantService->connect();

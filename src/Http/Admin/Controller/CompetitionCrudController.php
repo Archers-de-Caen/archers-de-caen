@@ -264,14 +264,10 @@ final class CompetitionCrudController extends AbstractCrudController
     )]
     public function sendNewsletter(AdminContext $context): RedirectResponse
     {
-        $referer = $context->getReferrer();
-
-        if (null === $referer) {
-            $referer = $this->adminUrlGenerator
-                ->setController(__CLASS__)
-                ->setAction(Action::INDEX)
-                ->generateUrl();
-        }
+        $referer = $this->adminUrlGenerator
+            ->setController(__CLASS__)
+            ->setAction(Action::INDEX)
+            ->generateUrl();
 
         $entity = $context->getEntity()->getInstance();
 
@@ -299,10 +295,9 @@ final class CompetitionCrudController extends AbstractCrudController
     /**
      * Import des résultats depuis un CSV "Résultats individuels" de l'extranet FFTA.
      *
-     * @internal
-     *
      * @throws ExceptionInterface
      */
+    #[AdminRoute]
     public function importFftaCsv(AdminContext $context): Response
     {
         $request = $context->getRequest();

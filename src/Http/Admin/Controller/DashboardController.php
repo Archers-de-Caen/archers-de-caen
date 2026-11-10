@@ -15,12 +15,16 @@ use App\Domain\Competition\Model\Competition;
 use App\Domain\File\Model\Document;
 use App\Domain\File\Model\Photo;
 use App\Domain\Result\Model\ResultBadge;
+use App\Http\Admin\Controller\Badge\BadgeCrudController;
 use App\Http\Admin\Controller\Badge\ResultBadgeFederalHonorCrudController;
 use App\Http\Admin\Controller\Badge\ResultBadgeProgressArrowCrudController;
 use App\Http\Admin\Controller\Cms\ActualityCrudControllerAbstract;
+use App\Http\Admin\Controller\Cms\DataCrudController;
 use App\Http\Admin\Controller\Cms\PageCrudController;
+use App\Http\Admin\Controller\Cms\TagCrudController;
 use App\Http\Admin\Controller\File\DocumentCrudController;
 use App\Http\Admin\Controller\File\NewspaperCrudControllerAbstract;
+use App\Http\Admin\Controller\File\PhotoCrudController;
 use App\Http\Landing\Controller\IndexController;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
@@ -73,37 +77,31 @@ final class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard("Page d'accueil", 'fa fa-home');
 
         yield MenuItem::section();
-        yield MenuItem::linkToCrud('Actualité', 'fas fa-newspaper', Page::class)
-            ->setController(ActualityCrudControllerAbstract::class);
-        yield MenuItem::linkToCrud('Page', 'fas fa-pager', Page::class)
-            ->setController(PageCrudController::class);
-        yield MenuItem::linkToCrud('Element de page', 'fas fa-database', Data::class);
-        yield MenuItem::linkToCrud('Tags', 'fas fa-tags', Tag::class)
+        yield MenuItem::linkTo(ActualityCrudControllerAbstract::class, 'Actualité', 'fas fa-newspaper');
+        yield MenuItem::linkTo(PageCrudController::class, 'Page', 'fas fa-pager');
+        yield MenuItem::linkTo(DataCrudController::class, 'Element de page', 'fas fa-database');
+        yield MenuItem::linkTo(TagCrudController::class, 'Tags', 'fas fa-tags')
             ->setPermission(Archer::ROLE_DEVELOPER);
 
         yield MenuItem::section();
-        yield MenuItem::linkToCrud('Archer', 'fas fa-running', Archer::class);
-        yield MenuItem::linkToCrud('Licence', 'fas fa-id-badge', License::class);
+        yield MenuItem::linkTo(ArcherCrudController::class, 'Archer', 'fas fa-running');
+        yield MenuItem::linkTo(LicenseCrudController::class, 'Licence', 'fas fa-id-badge');
 
         yield MenuItem::section();
-        yield MenuItem::linkToCrud('Competition', 'fas fa-star', Competition::class);
-        yield MenuItem::linkToCrud('Flèche de progression', 'fas fa-bullseye', ResultBadge::class)
-            ->setController(ResultBadgeProgressArrowCrudController::class);
+        yield MenuItem::linkTo(CompetitionCrudController::class, 'Competition', 'fas fa-star');
+        yield MenuItem::linkTo(ResultBadgeProgressArrowCrudController::class, 'Flèche de progression', 'fas fa-bullseye');
 
         yield MenuItem::section();
-        yield MenuItem::linkToCrud('Badge', 'fas fa-bullseye', Badge::class)
+        yield MenuItem::linkTo(BadgeCrudController::class, 'Badge', 'fas fa-bullseye')
             ->setPermission(Archer::ROLE_DEVELOPER);
-        yield MenuItem::linkToCrud('Distinction fédéral', 'fas fa-bullseye', ResultBadge::class)
-            ->setController(ResultBadgeFederalHonorCrudController::class)
+        yield MenuItem::linkTo(ResultBadgeFederalHonorCrudController::class, 'Distinction fédéral', 'fas fa-bullseye')
             ->setPermission(Archer::ROLE_DEVELOPER);
 
         yield MenuItem::section();
-        yield MenuItem::linkToCrud('Galerie', 'fas fa-images', Gallery::class);
-        yield MenuItem::linkToCrud('Photo', 'fas fa-image', Photo::class);
-        yield MenuItem::linkToCrud('Document', 'fas fa-file', Document::class)
-            ->setController(DocumentCrudController::class);
-        yield MenuItem::linkToCrud('Gazette', 'fas fa-newspaper', Document::class)
-            ->setController(NewspaperCrudControllerAbstract::class);
+        yield MenuItem::linkTo(GalleryCrudController::class, 'Galerie', 'fas fa-images');
+        yield MenuItem::linkTo(PhotoCrudController::class, 'Photo', 'fas fa-image');
+        yield MenuItem::linkTo(DocumentCrudController::class, 'Document', 'fas fa-file');
+        yield MenuItem::linkTo(NewspaperCrudControllerAbstract::class, 'Gazette', 'fas fa-newspaper');
 
         yield MenuItem::section();
         yield MenuItem::linkToRoute('Revenir au site', 'fas fa-left-long', IndexController::ROUTE);
