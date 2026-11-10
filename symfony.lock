@@ -1,13 +1,4 @@
 {
-    "doctrine/annotations": {
-        "version": "2.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "1.10",
-            "ref": "64d8583af5ea57b7afa4aba4b159907f3a148b05"
-        }
-    },
     "doctrine/deprecations": {
         "version": "1.1",
         "recipe": {
@@ -146,18 +137,6 @@
     },
     "presta/sitemap-bundle": {
         "version": "v4.2.0"
-    },
-    "sentry/sentry-symfony": {
-        "version": "5.6",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "main",
-            "version": "5.0",
-            "ref": "b6cb4b34429dadecd7187852123be19d628fa37a"
-        },
-        "files": [
-            "config/packages/sentry.yaml"
-        ]
     },
     "symfony/asset-mapper": {
         "version": "7.3",
