@@ -17,9 +17,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-/**
- * @Vich\Uploadable() // For easyadmin bug with new annotation
- */
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: DocumentRepository::class)]
 class Document implements UploadableInterface
@@ -34,15 +31,6 @@ class Document implements UploadableInterface
     #[Groups(['Document'])]
     private ?string $displayText = null;
 
-    /**
-     * @Vich\UploadableField(
-     *     mapping="document",
-     *     fileNameProperty="documentName",
-     *     size="documentSize",
-     *     mimeType="documentMimeType",
-     *     originalName="documentOriginalName",
-     * ) // For easyadmin bug with new annotation
-     */
     #[Vich\UploadableField(
         mapping: 'document',
         fileNameProperty: 'documentName',

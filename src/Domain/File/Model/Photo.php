@@ -19,9 +19,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-/**
- * @Vich\Uploadable() // For easyadmin bug with new annotation
- */
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: PhotoRepository::class)]
 class Photo implements UploadableInterface
@@ -32,16 +29,6 @@ class Photo implements UploadableInterface
 
     public const PREFIX_TOKEN = 'pho';
 
-    /**
-     * @Vich\UploadableField(
-     *     mapping="photo",
-     *     fileNameProperty="imageName",
-     *     size="imageSize",
-     *     mimeType="imageMimeType",
-     *     originalName="imageOriginalName",
-     *     dimensions="imageDimension",
-     * ) // For easyadmin bug with new annotation
-     */
     #[Vich\UploadableField(
         mapping: 'photo',
         fileNameProperty: 'imageName',
