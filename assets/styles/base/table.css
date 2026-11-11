@@ -1,0 +1,68 @@
+.table-container {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  margin: 25px 0;
+  background-color: var(--color-white);
+}
+.table .highlighted {
+  background-color: var(--color-yellow-light);
+  font-weight: bold;
+}
+.table .highlighted td, .table .highlighted th {
+  font-weight: bold;
+}
+.table thead {
+  background-color: var(--color-white);
+}
+.table thead th {
+  font-weight: bold;
+}
+.table tr td, .table tr th {
+  padding: 10px 20px;
+  border: 1px solid var(--color-yellow);
+  vertical-align: middle;
+}
+.table.list thead.--header-sticky {
+  position: sticky;
+  top: 50px;
+  z-index: 100;
+}
+.table.list tbody tr:nth-child(odd) td {
+  background-color: var(--color-yellow-lighter);
+}
+.table.list tbody tr:nth-child(even) td {
+  background-color: var(--color-white);
+}
+.table.list tbody tr:hover {
+  background-color: var(--color-yellow-light);
+}
+.table.list tbody tr:hover td {
+  background-color: unset;
+}
+.table.list tbody tr:hover td:first-child {
+  background-color: var(--color-yellow-light);
+}
+.table.list tr {
+  border-bottom: 1px solid #FDD20E;
+}
+.table.list tr td, .table.list tr th {
+  border-top: unset;
+  border-left: unset;
+  border-right: unset;
+}
+.table.list tr td:first-child, .table.list tr th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 99;
+}
+.table.list tr th:first-child {
+  z-index: 101;
+  background-color: var(--color-white);
+}
+.table.--center td, .table.--center th {
+  text-align: center;
+  vertical-align: middle;
+}

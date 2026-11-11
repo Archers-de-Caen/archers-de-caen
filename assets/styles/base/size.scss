@@ -1,4 +1,0 @@
-@for $i from 1 through 100 {
-  .w-#{$i} { width: 1%*$i }
-  .h-#{$i} { height: 1%*$i }
-}

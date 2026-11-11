@@ -1,0 +1,99 @@
+.actuality-container {
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1000px;
+  margin: auto;
+}
+.actuality-container .actuality-container-header {
+  width: 80%;
+}
+.actuality-container .actuality-container-header .actuality-main-image {
+  min-height: 300px;
+  max-height: 600px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 0 0 var(--border-radius-normal) var(--border-radius-normal);
+  box-shadow: var(--box-shadow);
+}
+.actuality-container .actuality-container-content {
+  width: 70%;
+  max-width: 1000px;
+  padding: 20px 50px;
+  margin-top: -200px;
+  border-radius: var(--border-radius-normal) var(--border-radius-normal) 0 0;
+  background-color: var(--color-white);
+}
+.actuality-container .actuality-container-content .actuality-title .actuality-info {
+  font-size: 0.8em;
+  color: var(--color-grey);
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-top: 10px;
+}
+.actuality-container .actuality-container-content .actuality-title .actuality-info .separator {
+  display: block;
+  border-bottom: 2px solid var(--color-grey);
+  width: 15px;
+  height: 1px;
+  margin: 0 5px;
+}
+.actuality-container .actuality-container-content .actuality-title h1 {
+  color: var(--color-grey);
+}
+.actuality-container .actuality-container-content .actuality-content {
+  overflow: auto;
+}
+.actuality-container .actuality-container-content .actuality-content img {
+  margin: 20px 0;
+}
+.actuality-container .actuality-container-footer {
+  width: 70%;
+  text-align: right;
+  padding: 20px 50px;
+  background-color: var(--color-white);
+  border-radius: 0 0 var(--border-radius-normal) var(--border-radius-normal);
+}
+.actuality-container .actuality-container-footer a {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  color: var(--color-yellow);
+  text-decoration: underline;
+}
+.actuality-container .actuality-container-footer a svg {
+  margin-left: 10px;
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+  .actuality-container .actuality-container-header {
+    width: 90%;
+  }
+  .actuality-container .actuality-container-content, .actuality-container .actuality-container-footer {
+    width: 80%;
+  }
+}
+@media (min-width: 576px) and (max-width: 768px) {
+  .actuality-container .actuality-container-header {
+    width: 95%;
+  }
+  .actuality-container .actuality-container-content, .actuality-container .actuality-container-footer {
+    width: 85%;
+  }
+}
+@media (max-width: 576px) {
+  .actuality-container .actuality-container-header {
+    width: 100%;
+  }
+  .actuality-container .actuality-container-content {
+    width: 100%;
+    margin-top: -100px;
+    padding: 20px 25px;
+    border-radius: unset;
+  }
+  .actuality-container .actuality-container-footer {
+    width: 100%;
+  }
+}

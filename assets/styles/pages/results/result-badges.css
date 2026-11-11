@@ -1,0 +1,39 @@
+.result-badges-page {
+  min-height: 1000px;
+}
+.result-badges-page .thumbnail {
+  text-align: center;
+  cursor: pointer;
+}
+.result-badges-page .thumbnail img {
+  object-fit: none;
+}
+.result-badges-page .weapons .thumbnails .weapon, .result-badges-page .weapons .thumbnails .competition-type, .result-badges-page .weapons .thumbnails .badge, .result-badges-page .competition-types .thumbnails .weapon, .result-badges-page .competition-types .thumbnails .competition-type, .result-badges-page .competition-types .thumbnails .badge, .result-badges-page .badges .thumbnails .weapon, .result-badges-page .badges .thumbnails .competition-type, .result-badges-page .badges .thumbnails .badge {
+  width: 200px;
+  height: 100px;
+}
+.result-badges-page .weapons .thumbnails .weapon label, .result-badges-page .weapons .thumbnails .competition-type label, .result-badges-page .weapons .thumbnails .badge label, .result-badges-page .competition-types .thumbnails .weapon label, .result-badges-page .competition-types .thumbnails .competition-type label, .result-badges-page .competition-types .thumbnails .badge label, .result-badges-page .badges .thumbnails .weapon label, .result-badges-page .badges .thumbnails .competition-type label, .result-badges-page .badges .thumbnails .badge label {
+  font-size: xx-large;
+  display: block;
+}
+.result-badges-page .weapons .thumbnails .competition-type, .result-badges-page .competition-types .thumbnails .competition-type, .result-badges-page .badges .thumbnails .competition-type {
+  height: 75px;
+}
+.result-badges-page .weapons .thumbnails .competition-type label, .result-badges-page .competition-types .thumbnails .competition-type label, .result-badges-page .badges .thumbnails .competition-type label {
+  font-size: x-large;
+}
+.result-badges-page .weapons .thumbnails .badge, .result-badges-page .competition-types .thumbnails .badge, .result-badges-page .badges .thumbnails .badge {
+  height: 100px;
+}
+.result-badges-page .weapons .thumbnails .badge label, .result-badges-page .competition-types .thumbnails .badge label, .result-badges-page .badges .thumbnails .badge label {
+  font-size: large;
+}
+.result-badges-page .weapons .thumbnails .badge label img, .result-badges-page .competition-types .thumbnails .badge label img, .result-badges-page .badges .thumbnails .badge label img {
+  height: 100%;
+}
+.result-badges-page .form-groups .form-group {
+  margin: 5px;
+}
+.result-badges-page .form-groups .form-group p {
+  vertical-align: middle;
+}

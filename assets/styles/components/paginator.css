@@ -1,0 +1,32 @@
+.paginator-container {
+  display: flex;
+  align-items: center;
+  overflow: auto;
+  background-color: var(--color-white);
+  width: fit-content;
+  margin: auto;
+  border-radius: var(--border-radius-big);
+  padding: 0.5rem;
+}
+.paginator-container .paginator-prev, .paginator-container .paginator-next, .paginator-container .paginator-page {
+  padding: 10px 15px;
+}
+.paginator-container .paginator-prev:not([disabled]).active, .paginator-container .paginator-prev:not([disabled]):hover, .paginator-container .paginator-next:not([disabled]).active, .paginator-container .paginator-next:not([disabled]):hover, .paginator-container .paginator-page:not([disabled]).active, .paginator-container .paginator-page:not([disabled]):hover {
+  border: var(--color-yellow) 1px solid;
+  border-radius: var(--border-radius-big);
+}
+.paginator-container .paginator-prev.active, .paginator-container .paginator-next.active, .paginator-container .paginator-page.active {
+  background-color: var(--color-yellow);
+  color: var(--color-white);
+}
+.paginator-container .paginator-prev {
+  margin-left: auto;
+  margin-right: 10px;
+}
+.paginator-container .paginator-next {
+  margin-left: 10px;
+  margin-right: auto;
+}
+.paginator-container .paginator-page {
+  margin: 0 5px;
+}

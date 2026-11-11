@@ -1,0 +1,24 @@
+.bg-primary {
+  background-color: var(--color-primary-purple) !important;
+}
+.bg-yellow {
+  background-color: var(--color-yellow) !important;
+}
+.bg-secondary {
+  background-color: var(--color-secondary) !important;
+}
+.bg-grey {
+  background-color: var(--color-grey) !important;
+}
+.bg-red {
+  background-color: var(--color-red) !important;
+}
+.bg-blue {
+  background-color: var(--color-blue) !important;
+}
+.bg-black {
+  background-color: var(--color-black) !important;
+}
+.bg-white {
+  background-color: var(--color-white) !important;
+}

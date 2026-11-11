@@ -1,0 +1,9 @@
+.alert {
+  border-radius: var(--border-radius-normal);
+  border: 1px solid;
+  padding: 10px 15px;
+}
+.alert-danger {
+  background-color: var(--color-red-light) !important;
+  border-color: var(--color-red);
+}

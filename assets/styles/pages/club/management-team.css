@@ -1,0 +1,25 @@
+#management-team-page h2 {
+  margin-top: 2.5rem;
+}
+#management-team-page .management-team-team {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+#management-team-page .management-team-team .management-team-mate {
+  width: 254px;
+}
+#management-team-page .management-team-team .management-team-mate main img {
+  width: 100%;
+  height: 254px;
+  object-fit: cover;
+  border-radius: var(--border-radius-normal);
+}
+#management-team-page .management-team-team .management-team-mate footer {
+  text-wrap: wrap;
+}
+#management-team-page .management-team-team .management-team-mate footer p {
+  font-weight: 700;
+  font-size: x-large;
+}

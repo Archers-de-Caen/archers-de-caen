@@ -1,0 +1,10 @@
+.border {
+  border: 2px solid var(--color-yellow);
+}
+.border.--rounded {
+  border-radius: var(--border-radius-normal);
+}
+
+.rounded {
+  border-radius: var(--border-radius-normal);
+}

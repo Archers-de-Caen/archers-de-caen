@@ -1,0 +1,13 @@
+.social-networks {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.social-networks-vertical {
+  flex-direction: column;
+  width: inherit;
+  align-items: start;
+}
+.social-networks-vertical a {
+  margin-top: 0.5rem;
+}

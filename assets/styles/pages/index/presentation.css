@@ -1,0 +1,227 @@
+.index-page .presentations {
+  margin-top: 25px;
+}
+.index-page .presentations .presentation {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin: auto;
+  width: 100%;
+}
+.index-page .presentations .presentation h3, .index-page .presentations .presentation p {
+  margin: 30px 0;
+  color: var(--color-grey);
+}
+.index-page .presentations .presentation h3 {
+  font-size: x-large;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.index-page .presentations .presentation p {
+  font-size: large;
+  letter-spacing: 1.5px;
+  line-height: 1.5;
+}
+.index-page .presentations .presentation img {
+  object-fit: cover;
+  border-radius: var(--border-radius-small);
+  box-shadow: var(--box-shadow);
+}
+.index-page .presentations .presentation .content .call-to-action {
+  display: flex;
+  justify-content: end;
+}
+.index-page .presentations .presentation:nth-child(1) {
+  margin-top: 75px;
+}
+.index-page .presentations .presentation:nth-child(1) .content {
+  margin-left: 100px;
+  margin-top: 25px;
+  width: 400px;
+}
+.index-page .presentations .presentation:nth-child(1) img {
+  width: 600px;
+  height: 500px;
+}
+.index-page .presentations .presentation:nth-child(2) {
+  margin-top: 100px;
+  flex-direction: row-reverse;
+}
+.index-page .presentations .presentation:nth-child(2) .content {
+  margin-right: 150px;
+  margin-top: 250px;
+  width: 400px;
+}
+.index-page .presentations .presentation:nth-child(2) img {
+  width: 400px;
+  height: 750px;
+  margin-left: 50px;
+}
+.index-page .presentations .presentation:nth-child(3) {
+  margin: 100px auto auto;
+}
+.index-page .presentations .presentation:nth-child(3) img {
+  width: 450px;
+  height: 400px;
+  margin-right: 100px;
+}
+.index-page .presentations .presentation:nth-child(3) .content {
+  width: 450px;
+}
+.index-page .presentations .presentation:nth-child(4) {
+  margin: 100px auto auto;
+}
+.index-page .presentations .presentation:nth-child(4) .content {
+  width: 650px;
+}
+
+@media (min-width: 1200px) and (max-width: 1400px) {
+  .index-page .presentations .presentation:nth-child(1) {
+    margin-top: 75px;
+  }
+  .index-page .presentations .presentation:nth-child(1) .content {
+    margin-top: 10px;
+    width: 300px;
+  }
+  .index-page .presentations .presentation:nth-child(1) img {
+    height: 500px;
+  }
+  .index-page .presentations .presentation:nth-child(2) {
+    margin-top: 100px;
+  }
+  .index-page .presentations .presentation:nth-child(2) .content {
+    width: 400px;
+    margin-top: 180px;
+    margin-right: 100px;
+  }
+  .index-page .presentations .presentation:nth-child(2) img {
+    height: 500px;
+  }
+  .index-page .presentations .presentation:nth-child(3) .content {
+    width: 400px;
+    max-width: 400px;
+  }
+  .index-page .presentations .presentation:nth-child(3) img {
+    width: 450px;
+    height: 400px;
+  }
+}
+@media (min-width: 992px) and (max-width: 1200px) {
+  .index-page .presentations .presentation:nth-child(1) {
+    margin-top: 75px;
+  }
+  .index-page .presentations .presentation:nth-child(1) .content {
+    margin-top: 0;
+    width: 275px;
+  }
+  .index-page .presentations .presentation:nth-child(1) img {
+    height: 500px;
+    width: 450px;
+  }
+  .index-page .presentations .presentation:nth-child(2) {
+    margin-top: 200px;
+  }
+  .index-page .presentations .presentation:nth-child(2) .content {
+    width: 350px;
+    margin-right: 75px;
+    margin-top: 75px;
+  }
+  .index-page .presentations .presentation:nth-child(2) img {
+    height: 450px;
+  }
+  .index-page .presentations .presentation:nth-child(3) .content {
+    width: 350px;
+  }
+  .index-page .presentations .presentation:nth-child(3) img {
+    height: 400px;
+    width: 400px;
+  }
+}
+@media (min-width: 768px) and (max-width: 992px) {
+  .index-page .bg-target {
+    display: none;
+  }
+  .index-page .presentations .presentation:nth-child(1) {
+    margin-top: 50px;
+  }
+  .index-page .presentations .presentation:nth-child(1) .content {
+    margin-top: 0;
+    margin-left: 25px;
+  }
+  .index-page .presentations .presentation:nth-child(1) img {
+    height: 300px;
+    width: 300px;
+  }
+  .index-page .presentations .presentation:nth-child(2) {
+    margin-top: 75px;
+  }
+  .index-page .presentations .presentation:nth-child(2) .content {
+    width: 300px;
+    margin-top: 25px;
+    margin-right: 50px;
+  }
+  .index-page .presentations .presentation:nth-child(2) img {
+    height: 450px;
+    width: 300px;
+  }
+  .index-page .presentations .presentation:nth-child(3) .content {
+    width: 300px;
+  }
+  .index-page .presentations .presentation:nth-child(3) img {
+    width: 350px;
+    height: 450px;
+  }
+}
+@media (max-width: 768px) {
+  .index-page .bg-target {
+    display: none;
+  }
+  .index-page .presentations {
+    width: 90%;
+    margin: auto;
+  }
+  .index-page .presentations .presentation {
+    width: 100% !important;
+  }
+  .index-page .presentations .presentation img {
+    width: 100%;
+    margin-top: 30px;
+  }
+  .index-page .presentations .presentation .content {
+    width: 100%;
+  }
+  .index-page .presentations .presentation:nth-child(1) {
+    flex-direction: column-reverse;
+    margin-top: 25px;
+  }
+  .index-page .presentations .presentation:nth-child(1) .content {
+    margin: 0 auto auto;
+    width: 100%;
+  }
+  .index-page .presentations .presentation:nth-child(1) img {
+    width: 100%;
+  }
+  .index-page .presentations .presentation:nth-child(2) {
+    margin-top: 30px;
+    flex-direction: column-reverse;
+  }
+  .index-page .presentations .presentation:nth-child(2) .content {
+    margin: 0 auto auto;
+    width: 100%;
+  }
+  .index-page .presentations .presentation:nth-child(2) img {
+    margin: 40px 0;
+    width: 100%;
+  }
+  .index-page .presentations .presentation:nth-child(3) {
+    margin-top: 30px;
+    flex-direction: column-reverse;
+  }
+  .index-page .presentations .presentation:nth-child(3) .content {
+    width: 100%;
+  }
+  .index-page .presentations .presentation:nth-child(3) img {
+    margin: 40px 0;
+    width: 100%;
+  }
+}

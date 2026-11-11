@@ -1,0 +1,76 @@
+.contact-page {
+  width: 80%;
+  max-width: 800px;
+  margin: auto;
+}
+.contact-page header {
+  text-align: center;
+  margin-top: 30px;
+}
+.contact-page header .contact-items {
+  display: flex;
+  justify-content: space-between;
+  margin: 50px 0;
+}
+.contact-page header .contact-items .contact-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 30%;
+  height: 100px;
+  padding: 10px 0;
+  border-radius: var(--border-radius-normal);
+  background-color: var(--color-yellow);
+}
+.contact-page header .contact-items .contact-item:hover {
+  color: unset;
+}
+.contact-page form .row {
+  display: flex;
+  width: 100%;
+  margin-top: 30px;
+}
+.contact-page form .row .col {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.contact-page form .row .col:not(:last-child) {
+  margin-right: 50px;
+}
+.contact-page form .row .col textarea {
+  height: 200px;
+}
+.contact-page form .row .col .choice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
+}
+.contact-page form .row .col .choice .form-group {
+  flex: 1;
+  min-width: 125px;
+}
+
+@media (max-width: 768px) {
+  .contact-page {
+    width: 90%;
+  }
+}
+@media (max-width: 576px) {
+  .contact-page header .contact-items {
+    flex-direction: column;
+  }
+  .contact-page header .contact-items .contact-item {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .contact-page form .row {
+    flex-direction: column;
+  }
+  .contact-page form .row .col {
+    margin-right: 0;
+  }
+}

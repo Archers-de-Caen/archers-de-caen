@@ -1,0 +1,63 @@
+.btn {
+  border-radius: var(--border-radius-big);
+  border: 2px solid var(--color-yellow);
+  padding: 10px 30px;
+  cursor: pointer;
+  font-weight: bold;
+  color: var(--color-yellow);
+  box-shadow: var(--box-shadow);
+  text-decoration: none;
+}
+.btn:disabled {
+  background-color: var(--color-grey-light) !important;
+  color: var(--color-grey-lightest) !important;
+  border: unset !important;
+  cursor: not-allowed;
+}
+.btn:hover {
+  background-color: var(--color-yellow);
+  color: var(--color-white);
+}
+.btn.-primary {
+  background-color: var(--color-yellow);
+  color: var(--color-grey);
+}
+.btn.-primary:hover, .btn.-primary.-outline {
+  background-color: unset;
+  color: var(--color-grey) !important;
+}
+.btn.-primary.-outline:hover {
+  background-color: var(--color-yellow);
+  color: var(--color-white);
+}
+.btn.-secondary {
+  background-color: var(--color-grey);
+  color: var(--color-white);
+  border-color: var(--color-grey);
+}
+.btn.-secondary:hover, .btn.-secondary.-outline {
+  background-color: unset;
+  color: var(--color-grey);
+}
+.btn.-secondary.-outline:hover {
+  background-color: var(--color-grey);
+  color: var(--color-white);
+}
+.btn.-danger {
+  background-color: var(--color-red);
+  color: var(--color-white);
+  border-color: var(--color-red);
+}
+.btn.-danger:hover, .btn.-danger.-outline {
+  background-color: unset;
+  color: var(--color-red);
+}
+.btn.-success {
+  background-color: var(--color-blue);
+  color: var(--color-white);
+  border-color: var(--color-blue);
+}
+.btn.-success:hover, .btn.-success.-outline {
+  background-color: unset;
+  color: var(--color-blue);
+}

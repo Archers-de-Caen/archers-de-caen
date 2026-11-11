@@ -1,0 +1,48 @@
+.shape-target {
+  width: 100%;
+  background-color: var(--color-yellow);
+  position: relative;
+}
+.shape-target::after {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  background-image: url("../../images/shape/target-curve-large.svg");
+  height: 815px;
+  bottom: -745px;
+  left: 0;
+}
+.shape-target.-normal::after {
+  background-image: url("../../images/shape/target-curve-normal.svg");
+  height: 333px;
+  bottom: -333px;
+}
+.shape-target.-small::after {
+  background-image: url("../../images/shape/target-curve-small.svg");
+  height: 173px;
+  bottom: -173px;
+}
+.shape-target.bg-target {
+  height: 200px;
+  z-index: -1;
+  position: absolute;
+  width: 100%;
+}
+.shape-target.bg-target.-small {
+  height: 20px;
+}
+
+@media (min-width: 1921px) {
+  .shape-target::after {
+    height: 1080px;
+    min-height: 815px;
+    background-size: cover;
+  }
+  .shape-target.-small {
+    background-color: unset;
+  }
+  .shape-target.-small::after {
+    display: none;
+  }
+}

@@ -1,0 +1,139 @@
+@charset "UTF-8";
+.style-guide-page .logos {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.style-guide-page .logos .logo {
+  width: 250px;
+  height: 100px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  background-color: var(--color-secondary-light);
+}
+.style-guide-page .logos .logo:before {
+  content: "Télécharger";
+  opacity: 0;
+  transition: opacity 0.2s linear;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  font-size: 1.5rem;
+  color: #383230;
+  text-transform: uppercase;
+  font-weight: 800;
+  z-index: 10;
+}
+.style-guide-page .logos .logo:hover {
+  background-color: rgba(255, 192, 0, 0.2);
+}
+.style-guide-page .logos .logo:hover img {
+  opacity: 0.2;
+}
+.style-guide-page .logos .logo:hover:before {
+  opacity: 1;
+}
+.style-guide-page .logos .logo img {
+  height: 100%;
+}
+.style-guide-page .colors {
+  display: grid;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+}
+.style-guide-page .colors.-primary {
+  grid-template-columns: repeat(2, 1fr);
+}
+.style-guide-page .colors.-secondary {
+  grid-template-columns: repeat(5, 1fr);
+}
+.style-guide-page .colors .color {
+  width: 100%;
+  height: 100%;
+}
+.style-guide-page .colors .color:hover::before {
+  content: attr(data-hover);
+  position: relative;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  text-transform: uppercase;
+  font-size: x-large;
+  color: var(--color-white);
+  background-color: var(--color-grey-transparent);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.style-guide-page .colors .color.-primary-purple {
+  background-color: var(--color-primary-purple);
+}
+.style-guide-page .colors .color.-primary-blue {
+  background-color: var(--color-primary-blue);
+}
+.style-guide-page .colors .color.-yellow {
+  background-color: var(--color-yellow);
+}
+.style-guide-page .colors .color.-red {
+  background-color: var(--color-red);
+}
+.style-guide-page .colors .color.-blue {
+  background-color: var(--color-blue);
+}
+.style-guide-page .colors .color.-grey {
+  background-color: var(--color-grey);
+}
+.style-guide-page .colors .color.-white {
+  background-color: var(--color-white);
+}
+.style-guide-page .colors .color.-logo-yellow {
+  background-color: var(--color-yellow-logo);
+}
+.style-guide-page .colors .color.-logo-red {
+  background-color: var(--color-red-logo);
+}
+.style-guide-page .colors .color.-logo-blue {
+  background-color: var(--color-blue-logo);
+}
+.style-guide-page .colors .color.-logo-grey {
+  background-color: var(--color-black-logo);
+}
+.style-guide-page .gradiant {
+  width: 100%;
+  height: 50px;
+  background: var(--linear-gradient-target);
+}
+.style-guide-page .gradiant-logo {
+  width: 100%;
+  height: 50px;
+  background: var(--linear-gradient-target-logo);
+}
+.style-guide-page .typography-container .typography-elements {
+  display: flex;
+  gap: 3rem;
+}
+.style-guide-page .typography-container .typography-elements .typography-element {
+  width: 100%;
+}
+.style-guide-page .font-container .font-elements {
+  display: flex;
+  gap: 3rem;
+}
+.style-guide-page .font-container .font-elements .font-element {
+  width: 100%;
+}
+.style-guide-page .font-container .font-elements .font-element .font-roboto * {
+  font-family: "Roboto", sans-serif;
+}
+.style-guide-page .font-container .font-elements .font-element .font-galaxy * {
+  font-family: "Galaxy BT", sans-serif;
+}

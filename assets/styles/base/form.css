@@ -1,0 +1,170 @@
+@charset "UTF-8";
+.form-groups {
+  color: var(--color-grey);
+}
+.form-groups .form-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  margin: 10px 0;
+  width: 100%;
+}
+.form-groups .form-group.--check {
+  flex-direction: row-reverse;
+  align-items: center;
+}
+.form-groups .form-group.--check label {
+  cursor: pointer;
+}
+.form-groups .form-group.--check input {
+  margin-right: 10px;
+}
+.form-groups .form-group.--btn input[type=radio], .form-groups .form-group.--btn input[type=checkbox] {
+  display: none;
+}
+.form-groups .form-group.--btn input[type=radio]:checked + label, .form-groups .form-group.--btn input[type=checkbox]:checked + label {
+  box-shadow: 0 0 0 3px var(--color-yellow) inset;
+}
+.form-groups .form-group.--btn label {
+  width: 100%;
+  height: 100%;
+  padding: 10px 20px;
+  border-radius: var(--border-radius-normal);
+  border: 2px solid var(--color-yellow);
+  box-shadow: 0 0 0 0 var(--color-yellow) inset;
+  transition: box-shadow 0.5s ease;
+  text-align: center;
+  cursor: pointer;
+}
+.form-groups .form-group.--white label {
+  background-color: var(--color-white);
+}
+.form-groups .form-group label {
+  font-weight: bold;
+}
+.form-groups .form-group input, .form-groups .form-group textarea, .form-groups .form-group select {
+  border: 2px solid var(--color-yellow);
+  border-radius: var(--border-radius-normal);
+  margin: 5px 0;
+  background-color: var(--color-white);
+  width: 100%;
+  min-width: 200px;
+  height: 50px;
+  padding: 10px 20px;
+}
+.form-groups .form-group input[type=checkbox], .form-groups .form-group input[type=radio], .form-groups .form-group textarea[type=checkbox], .form-groups .form-group textarea[type=radio], .form-groups .form-group select[type=checkbox], .form-groups .form-group select[type=radio] {
+  min-width: unset;
+  height: 25px;
+  width: 25px;
+  box-shadow: 0 0 0 0 var(--color-yellow) inset;
+  padding: 10px;
+  cursor: pointer;
+  transition: box-shadow 0.5s ease;
+}
+.form-groups .form-group input[type=radio], .form-groups .form-group textarea[type=radio], .form-groups .form-group select[type=radio] {
+  border-radius: 100%;
+}
+.form-groups .form-group input[type=radio]:checked, .form-groups .form-group textarea[type=radio]:checked, .form-groups .form-group select[type=radio]:checked {
+  box-shadow: 0 0 0 6px var(--color-yellow) inset;
+}
+.form-groups .form-group input[type=checkbox]:checked, .form-groups .form-group textarea[type=checkbox]:checked, .form-groups .form-group select[type=checkbox]:checked {
+  box-shadow: 0 0 0 15px var(--color-yellow) inset;
+  position: relative;
+}
+.form-groups .form-group input[type=checkbox]:checked::before, .form-groups .form-group textarea[type=checkbox]:checked::before, .form-groups .form-group select[type=checkbox]:checked::before {
+  content: "✓";
+  color: var(--color-white);
+  position: absolute;
+  top: -2px;
+  left: 4px;
+  font-size: large;
+  font-weight: bold;
+}
+.form-groups .form-group input:disabled, .form-groups .form-group textarea:disabled, .form-groups .form-group select:disabled {
+  border-color: var(--color-grey-lightest);
+  cursor: not-allowed;
+}
+.form-groups .form-group input:disabled + label, .form-groups .form-group textarea:disabled + label, .form-groups .form-group select:disabled + label {
+  color: var(--color-grey-lightest);
+  cursor: not-allowed;
+}
+.form-groups .form-group select {
+  position: relative;
+  cursor: pointer;
+  display: block;
+  appearance: auto;
+  padding: 12px 15px;
+}
+.form-groups .form-group select::before {
+  display: block;
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: url("../../images/symbole/down-arrow.svg") no-repeat right;
+  background-size: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.form-groups .form-group textarea {
+  min-height: 150px;
+}
+.form-groups .form-group.-error input, .form-groups .form-group.-error textarea {
+  border-color: var(--color-red);
+  background-color: var(--color-red-lighter);
+}
+.form-groups .form-group.-error .error {
+  display: block;
+}
+.form-groups .form-group .error {
+  display: none;
+  color: var(--color-red);
+}
+
+.ts-wrapper {
+  width: 100%;
+  border-radius: var(--border-radius-normal) !important;
+  border: 2px solid var(--color-yellow) !important;
+}
+.ts-wrapper .ts-control {
+  border-color: inherit !important;
+  box-shadow: inherit !important;
+  background-color: inherit !important;
+  background-image: inherit !important;
+}
+.ts-wrapper .ts-control input {
+  border: 2px solid var(--color-yellow) !important;
+  border-radius: var(--border-radius-normal) !important;
+  padding: 10px 20px !important;
+  background-color: var(--color-white) !important;
+  color: var(--color-grey) !important;
+  margin-top: 1rem !important;
+}
+.ts-wrapper .ts-control input::placeholder {
+  color: var(--color-grey) !important;
+}
+.ts-wrapper .ts-control .ts-clear {
+  color: var(--color-grey) !important;
+}
+.ts-wrapper .ts-dropdown {
+  border-bottom-left-radius: var(--border-radius-normal) !important;
+  border-bottom-right-radius: var(--border-radius-normal) !important;
+  border-bottom: 2px solid var(--color-yellow) !important;
+  background-color: var(--color-white) !important;
+}
+.ts-wrapper .ts-dropdown .option {
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--color-yellow);
+}
+.ts-wrapper .ts-dropdown .option:last-child {
+  border-bottom: none;
+}
+.ts-wrapper .ts-dropdown .option:hover {
+  background-color: var(--color-yellow);
+  color: var(--color-white);
+}
+
+.vich-file {
+  width: 100%;
+}

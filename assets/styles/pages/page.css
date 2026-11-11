@@ -1,0 +1,12 @@
+.page-container {
+  width: 80%;
+  max-width: 1000px;
+  margin: auto;
+  padding-top: 50px;
+}
+.page-container .title {
+  margin-bottom: 50px;
+}
+.page-container .title h1 {
+  margin: 0;
+}

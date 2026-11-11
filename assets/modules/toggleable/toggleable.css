@@ -1,0 +1,47 @@
+.toggleables .toggleable {
+  background-color: var(--color-white);
+  position: relative;
+  box-shadow: var(--box-shadow);
+  transition: margin ease-in-out 0.25s;
+}
+.toggleables .toggleable.--active {
+  border-radius: var(--border-radius-normal);
+  margin: 1rem 0;
+}
+.toggleables .toggleable.--active .toggleable-summary {
+  border-bottom: 1px solid var(--color-light-grey);
+}
+.toggleables .toggleable.--active .toggleable-summary:before {
+  transform: rotate(-180deg) translateY(50%);
+}
+.toggleables .toggleable.--active .toggleable-content {
+  display: block;
+}
+.toggleables .toggleable:first-child {
+  border-radius: var(--border-radius-normal) var(--border-radius-normal) 0 0;
+}
+.toggleables .toggleable:last-child {
+  border-radius: 0 0 var(--border-radius-normal) var(--border-radius-normal);
+}
+.toggleables .toggleable .toggleable-summary {
+  cursor: pointer;
+  position: relative;
+  padding: 0.8rem 4rem 0.8rem 2rem;
+}
+.toggleables .toggleable .toggleable-summary:before {
+  content: url("../../images/symbole/down-arrow-grey.svg");
+  width: 20px;
+  height: 25px;
+  position: absolute;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform ease-in-out 0.25s;
+}
+.toggleables .toggleable .toggleable-content {
+  display: none;
+  padding: 2rem 3rem;
+}
+.toggleables p {
+  margin: 0;
+}

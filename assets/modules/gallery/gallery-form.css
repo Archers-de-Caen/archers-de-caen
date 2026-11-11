@@ -1,0 +1,30 @@
+.gallery-form {
+  margin-bottom: 150px;
+}
+.gallery-form .gallery-photo-previews {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.gallery-form .gallery-photo-previews td, .gallery-form .gallery-photo-previews th {
+  color: var(--text-primary-color);
+}
+.gallery-form .gallery-photo-previews .gallery-photo-preview .fa {
+  margin: 5px;
+  cursor: pointer;
+}
+.gallery-form .gallery-photo-previews .gallery-photo-preview .fa:hover {
+  color: var(--color-red);
+}
+.gallery-form .gallery-photo-previews .gallery-photo-preview .photo-preview img {
+  display: none;
+}
+.gallery-form .gallery-photo-previews .gallery-photo-preview .photo-preview a:hover + img {
+  display: block;
+  width: 150px;
+  max-width: 150px;
+  height: 150px;
+  max-height: 150px;
+  object-fit: contain;
+  position: absolute;
+}

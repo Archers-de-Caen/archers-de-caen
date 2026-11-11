@@ -1,0 +1,43 @@
+.footer {
+  width: 100%;
+  background-color: var(--color-grey);
+  color: var(--color-white);
+  position: relative;
+  margin-top: 200px;
+}
+.footer::before {
+  content: "";
+  background-image: url("../../images/shape/black-curve.svg");
+  width: 100%;
+  height: 174px;
+  top: -174px;
+  position: absolute;
+}
+.footer .footer-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 25px;
+}
+.footer .footer-container .menu p {
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: large;
+}
+.footer .footer-container .menu ul {
+  list-style: none;
+  padding: 0;
+}
+.footer .footer-container .menu ul li {
+  margin-bottom: 5px;
+}
+.footer .footer-container .logo {
+  height: 300px;
+  width: 300px;
+}
+
+@media (max-width: 768px) {
+  .footer .footer-container .logo {
+    display: none;
+  }
+}
