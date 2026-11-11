@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Cms\Form\Data;
 
-use App\Domain\Cms\Type\CKEditorType;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,7 +21,7 @@ final class FaqForm extends AbstractType
             ->add('question', TextType::class, [
                 'label' => 'Question',
             ])
-            ->add('answer', CKEditorType::class, [
+            ->add('answer', TextEditorField::class, [
                 'label' => 'Réponse',
             ])
         ;

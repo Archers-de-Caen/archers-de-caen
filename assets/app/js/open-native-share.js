@@ -1,5 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll( '.open-native-share' ).forEach( element => {
+    if (navigator.share === undefined) {
+        document.querySelectorAll( '.open-native-share').forEach( share => {
+            share.remove();
+        })
+    }
+
+    document.querySelectorAll( '.open-native-share').forEach( element => {
         element.addEventListener('click', function (e) {
             const target = e.currentTarget
             e.preventDefault()

@@ -49,4 +49,4 @@ function copyToClipboard(href)
     }
 }
 
-global.copyToClipboard = copyToClipboard;
+window.copyToClipboard = copyToClipboard;

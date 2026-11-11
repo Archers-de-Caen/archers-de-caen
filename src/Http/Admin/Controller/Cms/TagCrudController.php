@@ -28,7 +28,6 @@ final class TagCrudController extends AbstractCrudController
             ->setPageTitle(Crud::PAGE_NEW, 'Ajouter un tag de page au site')
             ->setPageTitle(Crud::PAGE_EDIT, static fn (Tag $tag): string => \sprintf('Edition du tag <b>%s</b>', $tag))
 
-            ->addFormTheme('form/ckeditor.html.twig')
             ->setDefaultSort(['createdAt' => 'DESC'])
 
             ->setEntityPermission(Archer::ROLE_DEVELOPER)

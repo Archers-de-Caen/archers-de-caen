@@ -35,9 +35,15 @@ services:
       MP_SMTP_AUTH_ALLOW_INSECURE: 1
 ###< symfony/mailer ###
 
-  encore:
+  vite:
     build:
       context: .
-      target: encore
+      target: vite
+    image: archers-caen-vite
+    depends_on:
+      - php
+    restart: unless-stopped
     volumes:
       - ./:/app
+    ports:
+      - "127.0.0.1:${VITE_PORT:-5173}:5173"

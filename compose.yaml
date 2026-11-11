@@ -59,21 +59,6 @@ services:
       TRUSTED_PROXIES: 127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
       TRUSTED_HOSTS: ^example\.com|localhost|caddy$$
 
-  encore:
-    build:
-      context: .
-      target: encore
-    image: encore
-    depends_on:
-      - php
-    restart: unless-stopped
-    volumes:
-      - ./:/app
-    ports:
-      - target: 8080
-        published: ${ENCORE_PORT:-8080}
-        protocol: tcp
-
 volumes:
   caddy_data:
   caddy_config:

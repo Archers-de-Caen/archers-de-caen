@@ -10,14 +10,14 @@
         {{ include('landing/_link.html.twig') }}
 
         <!-- Permet d'afficher des preview de média, ajouté via ckeditor -->
-        <script async charset="utf-8" src="//cdn.embedly.com/widgets/platform.js"></script>
+        <script async src="//cdn.embedly.com/widgets/platform.js"></script>
 
         {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
+            {{ reprise_entry_link_tags('app/style') }}
         {% endblock %}
 
         {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
+            {{ reprise_entry_script_tags('app/script') }}
         {% endblock %}
     </head>
 

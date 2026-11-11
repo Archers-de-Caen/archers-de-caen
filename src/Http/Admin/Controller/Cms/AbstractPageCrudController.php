@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\Cms;
 
-use App\Domain\Cms\Admin\Field\CKEditorField;
 use App\Domain\Cms\Config\Category;
 use App\Domain\Cms\Config\Status;
 use App\Domain\Cms\Model\Page;
@@ -30,6 +29,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGeneratorInterface;
@@ -89,7 +89,7 @@ abstract class AbstractPageCrudController extends AbstractCrudController
         $title = TextField::new('title')
             ->setLabel('Titre');
 
-        $content = CKEditorField::new('content');
+        $content = TextEditorField::new('content');
 
         $status = ChoiceField::new('status')
             ->setLabel('Statut')

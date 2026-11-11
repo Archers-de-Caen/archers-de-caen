@@ -22,6 +22,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -32,8 +33,10 @@ final class DashboardController extends AbstractDashboardController
 {
     public const string ROUTE = 'admin_index';
 
-    public function __construct(private readonly ParameterBagInterface $parameterBag)
-    {
+    public function __construct(
+        #[Autowire(param: 'app.version')]
+        private string $version
+    ) {
     }
 
     #[Route('/', name: self::ROUTE)]
@@ -50,14 +53,6 @@ final class DashboardController extends AbstractDashboardController
     {
         return Dashboard::new()
             ->setTitle('Archers De Caen V3')
-        ;
-    }
-
-    #[\Override]
-    public function configureCrud(): Crud
-    {
-        return parent::configureCrud()
-            ->addFormTheme('form/ckeditor.html.twig')
         ;
     }
 
@@ -103,17 +98,15 @@ final class DashboardController extends AbstractDashboardController
 
         yield MenuItem::linkToLogout('Déconnexion', 'fas fa-arrow-right-from-bracket');
 
-        /** @var string $version */
-        $version = $this->parameterBag->get('app.version');
-        yield MenuItem::section($version);
+        yield MenuItem::section($this->version);
     }
 
     #[\Override]
     public function configureAssets(): Assets
     {
         return Assets::new()
-            /* TODO: maybe un jour ->addJsFile('https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js') */
-            ->addWebpackEncoreEntry('admin')
+            ->addRepriseEntry('admin/script')
+            ->addRepriseEntry('admin/style')
         ;
     }
 }

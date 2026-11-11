@@ -5,4 +5,4 @@ function openInNewTab(href) {
     window.open(href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,width=' + width + ',height=' + height)
 }
 
-global.openInNewTab = openInNewTab
+window.openInNewTab = openInNewTab

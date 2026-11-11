@@ -107,14 +107,15 @@ RUN docker-php-ext-install -j"$(nproc)" pdo pdo_mysql
 
 CMD [ "bin/console", "messenger:consume", "async", "-vv" ]
 
-FROM node:lts-alpine3.18 AS encore
+FROM node:24-alpine AS vite
 
 WORKDIR /app
 
 COPY package.json ./
 COPY package-lock.json ./
 
-COPY --link --chmod=755 tools/encore/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
-ENTRYPOINT ["docker-entrypoint"]
+RUN npm install
 
-CMD [ "npm", "run", "dev-server" ]
+EXPOSE 5173
+
+CMD [ "npm", "run", "dev" ]

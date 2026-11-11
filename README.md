@@ -36,9 +36,9 @@ autorisé !
 
 ### Pré-requis
 
-- PHP >= 8.1
-- Node >= 16.17
-- NPM >= 9.6
+- PHP >= 8.4
+- Node >= 24.0
+- NPM >= 11.0
 - Mysql / Mariadb
 
 ### Lancer le projet

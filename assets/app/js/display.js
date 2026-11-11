@@ -14,5 +14,5 @@ export function show(element, type = 'block') {
     })
 }
 
-global.hide = window.hide = hide
-global.show = window.show = show
+window.hide = hide
+window.show = show

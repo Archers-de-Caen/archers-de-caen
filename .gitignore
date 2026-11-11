@@ -7,40 +7,20 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
-/.idea
-###> symfony/webpack-encore-bundle ###
-/node_modules/
-/public/build/
-/public/images/
-npm-debug.log
-yarn-error.log
-###< symfony/webpack-encore-bundle ###
 
 ###> friendsofphp/php-cs-fixer ###
 /.php-cs-fixer.php
 /.php-cs-fixer.cache
 ###< friendsofphp/php-cs-fixer ###
 
-public/document/
-
 ###> liip/imagine-bundle ###
 /public/media/cache/
 ###< liip/imagine-bundle ###
-
-tools/php-cs-fixer/.php-cs-fixer.cache
-public/sitemap.*
-
-.DS_Store
 
 ###> symfony/phpunit-bridge ###
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
-
-###> phpunit/phpunit ###
-/phpunit.xml
-.phpunit.result.cache
-###< phpunit/phpunit ###
 
 ###> symfony/asset-mapper ###
 /public/assets/
@@ -50,3 +30,16 @@ public/sitemap.*
 ###> phpstan/phpstan ###
 phpstan.neon
 ###< phpstan/phpstan ###
+
+###> symfony/reprise ###
+/node_modules/
+/public/build/
+/public/images/
+###< symfony/reprise ###
+
+public/document/
+tools/php-cs-fixer/.php-cs-fixer.cache
+public/sitemap.*
+
+.DS_Store
+/.idea
