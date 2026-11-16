@@ -18,15 +18,15 @@ export default defineConfig({
             copy: [
                 {
                     from: './assets/app/images',
-                    to: 'images/[path][name].[ext]',
+                    to: 'images/',
                 },
                 {
                     from: './assets/app/fonts',
-                    to: 'fonts/[path][name].[ext]',
+                    to: 'fonts/',
                 },
                 {
                     from: './assets/app/documents',
-                    to: 'documents/[path][name].[ext]',
+                    to: 'documents/',
                 }
             ],
         }),
