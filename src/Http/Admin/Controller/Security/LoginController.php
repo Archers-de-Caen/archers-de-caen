@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Admin\Controller\Security;
 
 use App\Http\Admin\Controller\DashboardController;
-use App\Http\App\Controller\Security\LoginController as AppLoginController;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,8 +38,31 @@ final class LoginController extends AbstractController
         return $this->render('@EasyAdmin/page/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
-            'action' => $router->generate(AppLoginController::ROUTE),
+            'csrf_token_intention' => 'authenticate',
             'target_path' => $adminUrlGenerator->setDashboard(DashboardController::class)->generateUrl(),
+            'devUsers' => [
+                [
+                    'username' => 'archer@archers-caen.fr',
+                    'password' => 'Pwd123',
+                    'label' => 'Archer',
+                ],
+                [
+                    'username' => 'editor@archers-caen.fr',
+                    'password' => 'Pwd123',
+                    'label' => 'Editor',
+                ],
+                [
+                    'username' => 'admin@archers-caen.fr',
+                    'password' => 'Pwd123',
+                    'label' => 'Admin',
+                ],
+                [
+                    'username' => 'dev@archers-caen.fr',
+                    'password' => 'Pwd123',
+                    'label' => 'Dev',
+                ]
+            ],
+            'page_title' => 'Archers de Caen - Admin',
         ]);
     }
 }

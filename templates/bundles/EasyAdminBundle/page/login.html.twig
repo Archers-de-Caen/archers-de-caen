@@ -1,0 +1,33 @@
+{% extends '@!EasyAdmin/page/login.html.twig' %}
+
+{% set favicon_path = '/favicon.ico' %}
+
+{% block login_form_footer %}
+    {% if 'dev' == app.environment %}
+        <div class="d-flex justify-content-between mt-3">
+            {% for user in devUsers %}
+                <twig:ea:Button
+                    type="submit"
+                    class="auto-connect"
+                    data-username="{{ user.username }}"
+                    data-password="{{ user.password }}"
+                >
+                    {{ user.label }}
+                </twig:ea:Button>
+            {% endfor %}
+        </div>
+
+        <script>
+            document.querySelectorAll('.auto-connect').forEach((element) => {
+                element.addEventListener('click', (event) => {
+                    const target = event.currentTarget
+
+                    document.querySelector('#username').value = target.dataset.username
+                    document.querySelector('#password').value = target.dataset.password
+
+                    document.querySelector('form').submit()
+                })
+            })
+        </script>
+    {% endif %}
+{% endblock login_form_footer %}

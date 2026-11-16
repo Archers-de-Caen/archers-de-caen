@@ -3,11 +3,6 @@ controllers_landing:
     type: attribute
     prefix: '/'
 
-controllers_app:
-    resource: ../src/Http/App/Controller
-    type: attribute
-    prefix: '/app'
-
 controllers_admin:
     resource: ../src/Http/Admin/Controller
     type: attribute

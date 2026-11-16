@@ -33,7 +33,7 @@ final class DashboardController extends AbstractDashboardController
 
     public function __construct(
         #[Autowire(param: 'app.version')]
-        private string $version
+        private readonly string $version
     ) {
     }
 
@@ -41,9 +41,7 @@ final class DashboardController extends AbstractDashboardController
     #[\Override]
     public function index(): Response
     {
-        return $this->render('@EasyAdmin/page/index.html.twig', [
-            'dashboard_controller_filepath' => (new \ReflectionClass(self::class))->getFileName(),
-        ]);
+        return $this->render('@EasyAdmin/page/index.html.twig');
     }
 
     #[\Override]
@@ -51,7 +49,7 @@ final class DashboardController extends AbstractDashboardController
     {
         return Dashboard::new()
             ->setTitle('Archers De Caen V3')
-        ;
+            ->setFaviconPath('/favicon.ico');
     }
 
     #[\Override]
@@ -104,7 +102,6 @@ final class DashboardController extends AbstractDashboardController
     {
         return Assets::new()
             ->addRepriseEntry('admin/script')
-            ->addRepriseEntry('admin/style')
-        ;
+            ->addRepriseEntry('admin/style');
     }
 }
